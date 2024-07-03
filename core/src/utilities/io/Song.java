@@ -26,7 +26,7 @@ public class Song {
     }
 
     public void playIntro(boolean loop) {
-        intro.setLooping(loop);
+        setIntroLooping(loop);
         playIntro();
     }
 
@@ -35,7 +35,7 @@ public class Song {
     }
 
     public void playMusic(boolean loop) {
-        music.setLooping(loop);
+        setMusicLooping(loop);
         playMusic();
     }
 
