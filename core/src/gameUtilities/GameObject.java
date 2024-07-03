@@ -33,7 +33,6 @@ public abstract class GameObject {
 
     public void setPosition(float x, float y) {
         setX(x);
-
         setY(y);
     }
 
