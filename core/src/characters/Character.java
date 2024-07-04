@@ -14,7 +14,7 @@ public abstract class Character extends GameAnimation {
         super(FilePaths.CHARACTERS + texture, x, y, WIDTH, HEIGHT, 2, 4, 0.5f);
         velocity = WIDTH / 12;
     }
-
+//ksdjskjdskjdlsdjfldskfjdslkfd
     public void move() {
         int moveIndex = 0;
         float x = getX();
