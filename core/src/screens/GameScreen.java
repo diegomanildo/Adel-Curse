@@ -1,6 +1,7 @@
-package com.ac;
+package screens;
 
 import characters.Adel;
+import utilities.Render;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 
@@ -20,12 +21,12 @@ public class GameScreen implements Screen {
     @Override
     public void render(float delta) {
         Render.clear();
-        Render.batch.begin();
+        Render.b.begin();
 
         adel.move();
         adel.draw();
 
-        Render.batch.end();
+        Render.b.end();
     }
 
     @Override

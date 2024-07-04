@@ -9,9 +9,6 @@ public abstract class GameAnimation extends GameObject {
     private int index;
     private float frameDuration;
 
-    private float width;
-    private float height;
-
     private int columns;
     private int rows;
 
@@ -55,11 +52,6 @@ public abstract class GameAnimation extends GameObject {
         return frames;
     }
 
-    public void setSize(float width, float height) {
-        this.width = width;
-        this.height = height;
-    }
-
     public void setAnimation(int index) {
         if (index < 0) {
             throw new NegativeArraySizeException("Index " + index + " must be greather than 0");
@@ -81,26 +73,13 @@ public abstract class GameAnimation extends GameObject {
 
         TextureRegion currentFrame = frames[index + frameNumber];
 
+        float width = getWidth();
+        float height = getHeight();
+
         if (width == -1 && height == -1) {
             batch.draw(currentFrame, getX(), getY());
         } else {
             batch.draw(currentFrame, getX(), getY(), width, height);
         }
-    }
-
-    public float getWidth() {
-        return width;
-    }
-
-    public float getHeight() {
-        return height;
-    }
-
-    public void setWidth(float width) {
-        this.width = width;
-    }
-
-    public void setHeight(float height) {
-        this.height = height;
     }
 }

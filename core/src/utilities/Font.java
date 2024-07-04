@@ -1,6 +1,5 @@
 package utilities;
 
-import com.ac.Render;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -34,12 +33,12 @@ public class Font {
     }
 
     public void draw(Batch batch, String text, float x, float y) {
-        layout.setText(font, text);
+        setText(text);
         font.draw(batch, text, x, y);
     }
 
     public void draw(String text, float x, float y) {
-        draw(Render.batch, text, x, y);
+        draw(Render.b, text, x, y);
     }
 
     public int getSize() {
@@ -64,5 +63,9 @@ public class Font {
 
     public void setFontColor(Color color) {
         font.setColor(color);
+    }
+
+    public void setText(String text) {
+        layout.setText(font, text);
     }
 }

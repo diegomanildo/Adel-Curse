@@ -3,6 +3,8 @@ package com.ac;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import screens.MenuScreen;
+import utilities.Render;
 import utilities.io.IOProcessor;
 
 public class Juego extends Game {
@@ -12,7 +14,7 @@ public class Juego extends Game {
 		Gdx.input.setInputProcessor(Render.io);
 
 		Render.app = this;
-		Render.batch = new SpriteBatch();
+		Render.b = new SpriteBatch();
 
 		setScreen(new MenuScreen());
 	}

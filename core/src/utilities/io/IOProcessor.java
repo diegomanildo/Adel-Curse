@@ -1,10 +1,13 @@
 package utilities.io;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import utilities.exceptions.NotValidKeyException;
 
 public class IOProcessor implements InputProcessor {
     private boolean[] keysPressed;
+    private int mouseX;
+    private int mouseY;
 
     public IOProcessor() {
         keysPressed = new boolean[256];
@@ -55,6 +58,8 @@ public class IOProcessor implements InputProcessor {
 
     @Override
     public boolean mouseMoved(int screenX, int screenY) {
+        mouseX = screenX;
+        mouseY = Gdx.graphics.getHeight() - screenY;
         return false;
     }
 
@@ -75,5 +80,13 @@ public class IOProcessor implements InputProcessor {
         }
 
         throw new NotValidKeyException(keycode);
+    }
+
+    public int getMouseX() {
+        return mouseX;
+    }
+
+    public int getMouseY() {
+        return mouseY;
     }
 }

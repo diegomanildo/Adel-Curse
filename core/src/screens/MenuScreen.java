@@ -1,4 +1,4 @@
-package com.ac;
+package screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -8,7 +8,6 @@ import utilities.*;
 
 public class MenuScreen implements Screen {
     private Image background;
-    private Font gohuFont;
     private float space;
     private int optionSelected;
 
@@ -18,16 +17,17 @@ public class MenuScreen implements Screen {
 
     public MenuScreen() {
         background = new Image(FilePaths.BACKGROUNDS + "loadingScreen.png");
-        gohuFont = new Font("Gohu.ttf", 12, Color.WHITE, 4);
-        space = gohuFont.getSize() * 8;
+        Render.gohuFont = new Font("Gohu.ttf", 12, Color.WHITE, 4);
+        space = Render.gohuFont.getSize() * 8;
         optionSelected = 0;
         menuOptions = new Button[] {
-                new Button(gohuFont, "1 PLAYER", () -> Render.app.setScreen(new GameScreen())),
-                new Button(gohuFont, "2 PLAYER", () -> Render.app.setScreen(new GameScreen())),
-                new Button(gohuFont, "OPTIONS", () -> {}),
-                new Button(gohuFont, "QUIT", () -> Gdx.app.exit())
+                new Button(Render.gohuFont, "1 PLAYER", () -> Render.app.setScreen(new GameScreen())),
+                new Button(Render.gohuFont, "2 PLAYER", () -> Render.app.setScreen(new GameScreen())),
+                new Button(Render.gohuFont, "OPTIONS", () -> {}),
+                new Button(Render.gohuFont, "QUIT", () -> Gdx.app.exit())
         };
         time = 0f;
+        Render.debug.setPosition(100, 100);
     }
 
     @Override
@@ -37,14 +37,33 @@ public class MenuScreen implements Screen {
 
     @Override
     public void render(float delta) {
+        final float middleX = Render.getMiddleX() - Render.gohuFont.getWidth() / 2;
+        final float middleY = Render.getMiddleY() + Render.gohuFont.getHeight() / 2;
 
-        final float middleX = Render.getMiddleX() - gohuFont.getWidth() / 2;
-        final float middleY = Render.getMiddleY() + gohuFont.getHeight() / 2;
+        catchInput(delta);
 
-        Render.batch.begin();
+        Render.b.begin();
 
         background.draw();
 
+        for (int i = 0; i < menuOptions.length; i++) {
+            menuOptions[i].setPosition(middleX, middleY - space * i);
+            menuOptions[i].font.setFontColor(i == optionSelected ? Color.YELLOW : Color.WHITE);
+            menuOptions[i].draw();
+
+            if (Render.io.getMouseX() >= menuOptions[i].getX() && Render.io.getMouseX() <= menuOptions[i].getX() + menuOptions[i].getWidth()
+            && Render.io.getMouseY() >= menuOptions[i].getY() && Render.io.getMouseY() <= menuOptions[i].getY() + menuOptions[i].getHeight()) {
+                Render.debug.setText("Is Touching " + menuOptions[i].getText());
+            } else {
+                Render.debug.setText("Nothing");
+            }
+            Render.debug.draw();
+        }
+
+        Render.b.end();
+    }
+
+    private void catchInput(float delta) {
         time += delta;
 
         if (time > WAIT_TIME) {
@@ -67,14 +86,6 @@ public class MenuScreen implements Screen {
         if (Render.io.isKeyPressed(Input.Keys.ENTER)) {
             menuOptions[optionSelected].execute();
         }
-
-        for (int i = 0; i < menuOptions.length; i++) {
-            menuOptions[i].setPosition(middleX, middleY - space * i);
-            menuOptions[i].font.setFontColor(i == optionSelected ? Color.YELLOW : Color.WHITE);
-            menuOptions[i].draw();
-        }
-
-        Render.batch.end();
     }
 
     @Override

@@ -1,5 +1,6 @@
-package com.ac;
+package screens;
 
+import utilities.Render;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import utilities.FilePaths;
@@ -32,9 +33,9 @@ public class LoadingScreen implements Screen {
     public void render(float delta) {
         Render.clear();
 
-        Render.batch.begin();
+        Render.b.begin();
         background.draw();
-        Render.batch.end();
+        Render.b.end();
 
         displayMenu();
     }

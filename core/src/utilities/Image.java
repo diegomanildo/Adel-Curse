@@ -1,6 +1,5 @@
 package utilities;
 
-import com.ac.Render;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
@@ -10,6 +9,6 @@ public class Image extends Sprite {
     }
 
     public void draw() {
-        super.draw(Render.batch);
+        super.draw(Render.b);
     }
 }
