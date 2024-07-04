@@ -7,9 +7,7 @@ public class Song {
     private Audio music;
 
     public Song(String introPath, String musicPath) {
-        if (introPath == null) {
-            intro = null;
-        }
+        intro = introPath == null ? null : new Audio(introPath);
         music = new Audio(musicPath);
     }
 
