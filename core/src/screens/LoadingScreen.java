@@ -37,10 +37,10 @@ public class LoadingScreen implements Screen {
         background.draw();
         Render.b.end();
 
-        displayMenu();
+        fadeIn();
     }
 
-    private void displayMenu() {
+    private void fadeIn() {
         if (!fadeInFinished) {
             alpha += INCREMENT;
             if (alpha > 1f) {
