@@ -14,8 +14,6 @@ public class Render {
 
     public static Font gohuFont = new Font("Gohu.ttf", 12, Color.WHITE, 4);
 
-    public static Text debug = new Text(gohuFont);
-
     public static void clear(float r, float g, float b, float a) {
         ScreenUtils.clear(r, g, b, a);
     }

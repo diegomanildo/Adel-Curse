@@ -10,6 +10,7 @@ public class Text extends GameObject {
     public Text(Font font, String text, float x, float y) {
         super(x, y);
         this.font = font;
+        this.font.setText(text);
         this.text = text;
 
         setSize(this.font.getWidth(), this.font.getHeight());

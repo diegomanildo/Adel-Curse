@@ -42,7 +42,7 @@ public abstract class GameObject {
     }
 
     public float getHeight() {
-        return height;
+        return height + 5f;
     }
 
     public void setHeight(float height) {

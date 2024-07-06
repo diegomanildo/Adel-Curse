@@ -1,6 +1,7 @@
 package utilities.io;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import utilities.exceptions.NotValidKeyException;
 
@@ -88,5 +89,13 @@ public class IOProcessor implements InputProcessor {
 
     public int getMouseY() {
         return mouseY;
+    }
+
+    public boolean isRightPressed() {
+        return Gdx.input.isButtonPressed(Input.Buttons.RIGHT);
+    }
+
+    public boolean isLeftPressed() {
+        return Gdx.input.isButtonPressed(Input.Buttons.LEFT);
     }
 }
