@@ -7,12 +7,20 @@ import utilities.FilePaths;
 public class Audio implements Music {
     private Music music;
 
-    public Audio(String musicPath) {
+    public Audio(String musicPath, float volume) {
         music = Gdx.audio.newMusic(Gdx.files.internal(FilePaths.AUDIO + musicPath));
+        setVolume(volume);
+    }
+
+    public Audio(String musicPath) {
+        this(musicPath, 1f);
     }
 
     @Override
     public void play() {
+        if (music.isPlaying()) {
+            music.stop();
+        }
         music.play();
     }
 
@@ -47,8 +55,8 @@ public class Audio implements Music {
     }
 
     @Override
-    public void setVolume(float v) {
-        music.setVolume(v);
+    public void setVolume(float volume) {
+        music.setVolume(volume);
     }
 
     @Override
@@ -73,7 +81,7 @@ public class Audio implements Music {
 
     @Override
     public void dispose() {
-        music.dispose();
+        music.stop();
     }
 
     @Override

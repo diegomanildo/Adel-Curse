@@ -11,11 +11,9 @@ public class Juego extends Game {
 	@Override
 	public void create() {
 		Render.io = new IOProcessor();
-		Gdx.input.setInputProcessor(Render.io);
-
-		Render.app = this;
 		Render.b = new SpriteBatch();
-
-		setScreen(new MenuScreen());
+		Render.app = this;
+		Render.app.setScreen(new MenuScreen());
+		Gdx.input.setInputProcessor(Render.io);
 	}
 }

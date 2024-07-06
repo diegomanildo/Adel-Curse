@@ -8,30 +8,38 @@ import gameUtilities.GameAnimation;
 public abstract class Character extends GameAnimation {
     private static final float WIDTH = 150f;
     private static final float HEIGHT = WIDTH;
+
+    protected static final int DOWN = 0;
+    protected static final int UP = 1;
+    protected static final int RIGHT = 2;
+    protected static final int LEFT = 3;
+
     private final float velocity;
 
     public Character(String texture, float x, float y) {
         super(FilePaths.CHARACTERS + texture, x, y, WIDTH, HEIGHT, 2, 4, 0.5f);
         velocity = WIDTH / 12;
     }
-//ksdjskjdskjdlsdjfldskfjdslkfd
+
     public void move() {
-        int moveIndex = 0;
+        // Down is the default movement
+        int moveIndex = DOWN;
+
         float x = getX();
         float y = getY();
 
         if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-            moveIndex = 1;
+            moveIndex = UP;
             y += velocity;
         }
 
         if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-            moveIndex = 2;
+            moveIndex = RIGHT;
             x += velocity;
         }
 
         if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-            moveIndex = 3;
+            moveIndex = LEFT;
             x -= velocity;
         }
 
