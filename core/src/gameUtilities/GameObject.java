@@ -59,9 +59,14 @@ public abstract class GameObject {
         setHeight(height);
     }
 
-    public boolean isInBounds(float pointX, float pointY) {
+    public boolean collidesIn(float pointX, float pointY) {
         return pointX >= x && pointX <= x + width
             && pointY >= y && pointY <= y + height;
+    }
+
+    public boolean collidesWith(GameObject other) {
+        return x < other.x + other.width && x + width > other.x &&
+                y < other.y + other.height && y + height > other.y;
     }
 
     public abstract void draw(Batch batch);

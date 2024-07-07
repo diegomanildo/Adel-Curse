@@ -21,7 +21,7 @@ public class Button extends Text {
     }
 
     public boolean isHovered(float x, float y) {
-        return x >= getX() && x <= getX() + getWidth()
-                && y >= getY() - getHeight() && y <= getY();
+        return x >= getX() && x <= getX() + getWidth() // verify on x
+                && y >= getY() - getHeight() && y <= getY(); // verify on y
     }
 }
