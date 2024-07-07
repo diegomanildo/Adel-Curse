@@ -2,7 +2,6 @@ package utilities;
 
 import com.ac.Juego;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
 import utilities.io.IOProcessor;
@@ -11,8 +10,6 @@ public class Render {
     public static SpriteBatch b;
     public static Juego app;
     public static IOProcessor io;
-
-    public static Font gohuFont = new Font("Gohu.ttf", 12, Color.WHITE, 4);
 
     public static void clear(float r, float g, float b, float a) {
         ScreenUtils.clear(r, g, b, a);

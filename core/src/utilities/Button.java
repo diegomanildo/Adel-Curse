@@ -19,4 +19,9 @@ public class Button extends Text {
         ON_PRESSED_SOUND.play();
         action.onPressed();
     }
+
+    public boolean isHovered(float x, float y) {
+        return x >= getX() && x <= getX() + getWidth()
+                && y >= getY() - getHeight() && y <= getY();
+    }
 }

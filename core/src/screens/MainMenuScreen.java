@@ -7,41 +7,48 @@ import utilities.*;
 import utilities.io.Audio;
 import utilities.io.Song;
 
-public class MenuScreen implements Screen {
+public class MainMenuScreen implements Screen {
     private Image background;
-    private float space;
     private int optionSelected;
     private int previousOptionSelected;
-
-    private final static Song MENU_SONG = new Song("menuMusic.mp3", 0.1f);
-    private final static Audio MOUSE_HOVER = new Audio("mouseHover.mp3");
-
     private Button[] menuOptions;
 
+    private static final Song MENU_SONG = new Song("menuMusic.mp3", 0.1f);
+    private static final Audio MOUSE_HOVER = new Audio("mouseHover.mp3");
     private static final int NONE = -1;
     private static final int NONE_PREVIOUS = -2;
 
-    public MenuScreen() {
+    public MainMenuScreen() {
         background = new Image(FilePaths.BACKGROUNDS + "loadingScreen.png");
-        Render.gohuFont = new Font("Gohu.ttf", 12, Color.WHITE, 4);
-        space = Render.gohuFont.getSize() * 8;
         optionSelected = NONE;
         previousOptionSelected = NONE_PREVIOUS;
         menuOptions = new Button[] {
-                new Button(Render.gohuFont, "1 PLAYER", () -> Render.app.setScreen(new GameScreen())),
-                new Button(Render.gohuFont, "2 PLAYER", () -> Render.app.setScreen(new GameScreen())),
-                new Button(Render.gohuFont, "OPTIONS", () -> {}),
-                new Button(Render.gohuFont, "QUIT", () -> Gdx.app.exit())
+                new Button(Fonts.GOHU_FONT, "1 PLAYER", () -> Render.app.setScreen(new GameScreen())),
+                new Button(Fonts.GOHU_FONT, "2 PLAYER", () -> Render.app.setScreen(new GameScreen())),
+                new Button(Fonts.GOHU_FONT, "OPTIONS",  () -> {}),
+                new Button(Fonts.GOHU_FONT, "QUIT",     () -> Gdx.app.exit())
         };
     }
 
     @Override
     public void show() {
-        background.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        background.setSize(true);
+
+        float menuWidth = 0f;
+        float menuHeight = 0f;
 
         // Get middle point in screen
-        final float middleX = Render.getMiddleX() - Render.gohuFont.getWidth() / 2;
-        final float middleY = Render.getMiddleY() + Render.gohuFont.getHeight() / 2;
+        final float middleX = Render.getMiddleX() - Fonts.GOHU_FONT.getWidth() / 2f;
+        final float middleY = Render.getMiddleY() + Fonts.GOHU_FONT.getHeight() / 2f;
+        final float space = Fonts.GOHU_FONT.getSize() * 8;
+
+        // Get middle point options
+        for (int i = 0; i < menuOptions.length; i++) {
+            menuHeight -= menuOptions[i].getHeight() - (space * i);
+            if (i == 0 || menuOptions[i].getWidth() > menuWidth) {
+                menuWidth = menuOptions[i].getWidth();
+            }
+        }
 
         // Set position for buttons
         for (int i = 0; i < menuOptions.length; i++) {
@@ -52,16 +59,12 @@ public class MenuScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        drawMenu();
-    }
-
-    private void drawMenu() {
         Render.b.begin();
 
         background.draw();
         for (int i = 0; i < menuOptions.length; i++) {
-            if (Render.io.getMouseX() >= menuOptions[i].getX() && Render.io.getMouseX() <= menuOptions[i].getX() + menuOptions[i].getWidth()
-                    && Render.io.getMouseY() >= menuOptions[i].getY() - menuOptions[i].getHeight() && Render.io.getMouseY() <= menuOptions[i].getY()) {
+            // If is in mouse is in any option paint it of yellow and play the hover sound
+            if (menuOptions[i].isHovered(Render.io.getMouseX(), Render.io.getMouseY())) {
                 optionSelected = i;
                 if (optionSelected != previousOptionSelected) {
                     MOUSE_HOVER.play();
@@ -73,6 +76,7 @@ public class MenuScreen implements Screen {
                 optionSelected = NONE;
             }
 
+            // LeftClick pressed and is any option selected
             if (Render.io.isLeftPressed() && optionSelected != NONE) {
                 menuOptions[optionSelected].execute();
             }

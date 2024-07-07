@@ -63,7 +63,7 @@ public class LoadingScreen implements Screen {
         if (finish) {
             finishTimer += 0.04f;
             if (finishTimer > WAIT_TIME) {
-                Render.app.setScreen(new MenuScreen());
+                Render.app.setScreen(new MainMenuScreen());
             }
         }
     }

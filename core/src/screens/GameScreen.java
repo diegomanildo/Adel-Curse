@@ -1,6 +1,7 @@
 package screens;
 
 import characters.Adel;
+import com.badlogic.gdx.Input;
 import utilities.Render;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -20,6 +21,10 @@ public class GameScreen implements Screen {
 
     @Override
     public void render(float delta) {
+        if (Render.io.isKeyPressed(Input.Keys.ESCAPE)) {
+            Render.app.setScreen(new MainMenuScreen());
+        }
+
         Render.clear();
         Render.b.begin();
 
