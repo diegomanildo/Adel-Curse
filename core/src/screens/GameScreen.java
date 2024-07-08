@@ -1,18 +1,18 @@
 package screens;
 
 import characters.Adel;
-import com.badlogic.gdx.Input;
-import utilities.Render;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import utilities.Render;
 
 public class GameScreen implements Screen {
     private Adel adel;
 
     public GameScreen() {
         adel = new Adel(0f, 0f);
-        float middleX = (float) Gdx.graphics.getWidth() / 2 - adel.getWidth() / 2;
-        float middleY = (float) Gdx.graphics.getHeight() / 2 - adel.getHeight() / 2;
+        float middleX = Gdx.graphics.getWidth() / 2f - adel.getWidth() / 2f;
+        float middleY = Gdx.graphics.getHeight() / 2f - adel.getHeight() / 2f;
         adel = new Adel(middleX, middleY);
     }
 
