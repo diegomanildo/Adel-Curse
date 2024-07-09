@@ -9,18 +9,23 @@ import utilities.Image;
 public class LoadingScreen implements Screen {
     private Image background;
 
-    private boolean fadeInFinished = false;
-    private boolean finish = false;
+    private boolean fadeInFinished;
+    private boolean finish;
 
-    private float alpha = 0;
-    private float time = 0f;
-    private float finishTimer = 0f;
+    private float alpha;
+    private float time;
+    private float finishTimer;
 
     private static final float WAIT_TIME = 1f;
     private static final float INCREMENT = 0.007f;
 
     public LoadingScreen() {
         background = new Image(FilePaths.BACKGROUNDS + "loadingScreen.png");
+        fadeInFinished = false;
+        finish = false;
+        alpha = 0f;
+        time = 0f;
+        finishTimer = 0f;
     }
 
     @Override
@@ -31,13 +36,15 @@ public class LoadingScreen implements Screen {
 
     @Override
     public void render(float delta) {
+        fadeIn();
+
         Render.clear();
 
         Render.b.begin();
         background.draw();
         Render.b.end();
 
-        fadeIn();
+        fadeOut();
     }
 
     private void fadeIn() {
@@ -59,7 +66,9 @@ public class LoadingScreen implements Screen {
         }
 
         background.setAlpha(alpha);
+    }
 
+    private void fadeOut() {
         if (finish) {
             finishTimer += 0.04f;
             if (finishTimer > WAIT_TIME) {

@@ -1,8 +1,10 @@
 package screens;
 
+import com.ac.GameState;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import utilities.*;
 import utilities.io.Audio;
 import utilities.io.Song;
@@ -13,8 +15,9 @@ public class MainMenuScreen implements Screen {
     private int previousOptionSelected;
     private Button[] menuOptions;
 
-    private static final Song MENU_SONG = new Song("menuMusic.mp3", 0.1f);
-    private static final Audio MOUSE_HOVER = new Audio("mouseHover.mp3");
+    private Song menuSong = new Song("menuMusic.mp3", 0.1f);
+    private Audio mouseHover = new Audio("mouseHover.mp3");
+
     private static final int NONE = -1;
     private static final int NONE_PREVIOUS = -2;
 
@@ -34,6 +37,11 @@ public class MainMenuScreen implements Screen {
     public void show() {
         background.setSize(true);
 
+        centerButtons();
+        menuSong.playSong(true);
+    }
+
+    private void centerButtons() {
         float menuWidth = 0f;
         float menuHeight = 0f;
 
@@ -54,12 +62,16 @@ public class MainMenuScreen implements Screen {
         for (int i = 0; i < menuOptions.length; i++) {
             menuOptions[i].setPosition(middleX, middleY - space * i);
         }
-        MENU_SONG.playSong(true);
     }
 
     @Override
     public void render(float delta) {
+        centerButtons();
         Render.b.begin();
+
+        ShapeRenderer sr = new ShapeRenderer();
+
+        sr.begin(ShapeRenderer.ShapeType.Line);
 
         background.draw();
         for (int i = 0; i < menuOptions.length; i++) {
@@ -67,7 +79,7 @@ public class MainMenuScreen implements Screen {
             if (menuOptions[i].isHovered(Render.io.getMouseX(), Render.io.getMouseY())) {
                 optionSelected = i;
                 if (optionSelected != previousOptionSelected) {
-                    MOUSE_HOVER.play();
+                    mouseHover.play();
                 }
             } else {
                 if (optionSelected != NONE || previousOptionSelected == NONE_PREVIOUS) {
@@ -82,14 +94,20 @@ public class MainMenuScreen implements Screen {
             }
 
             menuOptions[i].font.setFontColor(i == optionSelected ? Color.YELLOW : Color.WHITE);
-            menuOptions[i].draw();
+            menuOptions[i].draw(Render.b);
+            sr.rect(menuOptions[i].getX(), menuOptions[i].getY() - Fonts.GOHU_FONT.getHeight(), menuOptions[i].getWidth(), menuOptions[i].getHeight());
         }
 
+
         Render.b.end();
+        sr.end();
+        GameState.camera.update();
     }
 
     @Override
-    public void resize(int width, int height) {}
+    public void resize(int w, int h) {
+        GameState.viewport.update(w, h);
+    }
     @Override
     public void pause() {}
     @Override

@@ -20,10 +20,10 @@ public class Render {
     }
 
     public static float getMiddleX() {
-        return (float) Gdx.graphics.getWidth() / 2;
+        return Gdx.graphics.getWidth() / 2f;
     }
 
     public static float getMiddleY() {
-        return (float) Gdx.graphics.getHeight() / 2;
+        return Gdx.graphics.getHeight() / 2f;
     }
 }
