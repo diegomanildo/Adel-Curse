@@ -14,9 +14,9 @@ public abstract class GameAnimation extends GameObject {
 
     private final TextureRegion[] frames;
 
-    public GameAnimation(String textureAtlasPath, float x, float y, float width, float height, int columns, int rows, float frameDuration) {
+    public GameAnimation(String texturePath, float x, float y, float width, float height, int columns, int rows, float frameDuration) {
         super(x, y);
-        frames = getFrames(textureAtlasPath, columns, rows);
+        frames = getFrames(texturePath, columns, rows);
         this.frameDuration = frameDuration;
 
         setSize(width, height);
@@ -28,16 +28,16 @@ public abstract class GameAnimation extends GameObject {
         setAnimation(0);
     }
 
-    public GameAnimation(String textureAtlasPath, float x, float y, int columns, int rows, float frameDuration) {
-        this(textureAtlasPath, x, y, -1f, -1f, columns, rows, frameDuration);
+    public GameAnimation(String texturePath, float x, float y, int columns, int rows, float frameDuration) {
+        this(texturePath, x, y, -1f, -1f, columns, rows, frameDuration);
     }
 
-    public GameAnimation(String textureAtlasPath, int columns, int rows, float frameDuration) {
-        this(textureAtlasPath, 0f, 0f, columns, rows, frameDuration);
+    public GameAnimation(String texturePath, int columns, int rows, float frameDuration) {
+        this(texturePath, 0f, 0f, columns, rows, frameDuration);
     }
 
-    private static TextureRegion[] getFrames(String textureAtlasPath, int columns, int rows) {
-        Texture texture = new Texture(textureAtlasPath);
+    private static TextureRegion[] getFrames(String texturePath, int columns, int rows) {
+        Texture texture = new Texture(texturePath);
 
         TextureRegion[][] tmp = TextureRegion.split(texture, texture.getWidth() / columns, texture.getHeight() / rows);
         TextureRegion[] frames = new TextureRegion[columns * rows];
