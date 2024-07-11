@@ -1,6 +1,7 @@
 package characters;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import gameUtilities.Bullet;
 import utilities.Direction;
 import utilities.FilePaths;
@@ -17,13 +18,15 @@ public abstract class Character extends GameAnimation {
     private final float velocity;
     private final ArrayList<Bullet> bullets;
     private final Audio shootSound;
+    private final String bulletTexturePath;
 
 
-    public Character(String texture, float x, float y) {
-        super(FilePaths.CHARACTERS + texture, x, y, WIDTH, HEIGHT, 2, 8, 0.5f);
+    public Character(String texturePath, String bulletTexturePath, float x, float y) {
+        super(FilePaths.CHARACTERS + texturePath, x, y, WIDTH, HEIGHT, 2, 8, 0.5f);
         velocity = WIDTH / 12;
         bullets = new ArrayList<>();
         shootSound = new Audio("shoot.mp3", 0.1f);
+        this.bulletTexturePath = bulletTexturePath;
     }
 
     protected void move(Direction direction) {
@@ -57,8 +60,6 @@ public abstract class Character extends GameAnimation {
 
         setAnimation(moveIndex);
         setPosition(x, y);
-
-        updateBullets();
     }
 
     protected void shoot(Direction bulletDirection) {
@@ -90,7 +91,7 @@ public abstract class Character extends GameAnimation {
     }
 
     private void createShoot(int animationIndex, Direction bulletDirection) {
-        Bullet b = new Bullet(FilePaths.CHARACTERS + "adel/bullet.png", bulletDirection, getX(), getY(), WIDTH, HEIGHT, 0.5f);
+        Bullet b = new Bullet(FilePaths.CHARACTERS + bulletTexturePath, bulletDirection, getX(), getY(), WIDTH/2, HEIGHT/2, 0.5f);
         b.setAnimation(animationIndex);
         bullets.add(b);
         shootSound.play();
@@ -105,5 +106,12 @@ public abstract class Character extends GameAnimation {
                 bullets.remove(i);
             }
         }
+    }
+
+    @Override
+    public void draw(Batch batch) {
+        super.draw(batch);
+        updateBullets();
+        System.out.println("Bullets " + bullets.size());
     }
 }

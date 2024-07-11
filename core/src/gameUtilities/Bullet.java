@@ -38,6 +38,6 @@ public class Bullet extends GameAnimation {
     }
 
     public boolean outOfBounds() {
-        return getX() > Gdx.graphics.getWidth() || getY()  > Gdx.graphics.getHeight();
+        return getX() > Gdx.graphics.getWidth() || getX() < 0f || getY()  > Gdx.graphics.getHeight() || getY() < 0f;
     }
 }
