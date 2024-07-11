@@ -23,7 +23,7 @@ public abstract class Character extends GameAnimation {
         super(FilePaths.CHARACTERS + texture, x, y, WIDTH, HEIGHT, 2, 8, 0.5f);
         velocity = WIDTH / 12;
         bullets = new ArrayList<>();
-        shootSound = new Audio("shoot.mp3");
+        shootSound = new Audio("shoot.mp3", 0.1f);
     }
 
     protected void move(Direction direction) {
