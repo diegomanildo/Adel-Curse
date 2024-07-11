@@ -31,6 +31,7 @@ public abstract class Character extends GameAnimation {
         this.bulletTexturePath = bulletTexturePath;
     }
 
+    // Move character with a direction chosen
     protected void move(Direction direction) {
         int moveIndex;
         float x = getX();
@@ -64,6 +65,7 @@ public abstract class Character extends GameAnimation {
         setPosition(x, y);
     }
 
+    // Creates a bullet and then shoots it
     protected void shoot(Direction bulletDirection) {
         int moveIndex;
 
@@ -92,8 +94,9 @@ public abstract class Character extends GameAnimation {
         }
     }
 
+    // Creates a shoot
     private void createShoot(int animationIndex, Direction bulletDirection) {
-        Bullet b = new Bullet(FilePaths.CHARACTERS + bulletTexturePath, bulletDirection, getX(), getY(), WIDTH/2, HEIGHT/2, 0.5f);
+        Bullet b = new Bullet(FilePaths.CHARACTERS + bulletTexturePath, bulletDirection, getMiddleX(), getMiddleY(), WIDTH/2, HEIGHT/2, 0.5f);
         b.setAnimation(animationIndex);
         bullets.add(b);
         shootSound.play();

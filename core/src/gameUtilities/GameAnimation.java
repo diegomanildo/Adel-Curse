@@ -77,9 +77,9 @@ public abstract class GameAnimation extends GameObject {
         float height = getHeight();
 
         if (width == -1 && height == -1) {
-            batch.draw(currentFrame, getX(), getY());
-        } else {
-            batch.draw(currentFrame, getX(), getY(), width, height);
+            throw new NullPointerException("Width and height are null, you can not draw it");
         }
+
+        batch.draw(currentFrame, getX(), getY(), width, height);
     }
 }

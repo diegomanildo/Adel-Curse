@@ -1,6 +1,7 @@
 package gameUtilities;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import utilities.Direction;
 import utilities.exceptions.DirectionNotValidException;
 
@@ -13,6 +14,7 @@ public class Bullet extends GameAnimation {
         this.bulletDirection = bulletDirection;
     }
 
+    // Update bullet position
     public void update(float deltaTime) {
         float x = getX();
         float y = getY();
@@ -37,6 +39,7 @@ public class Bullet extends GameAnimation {
         setPosition(x, y);
     }
 
+    // Bullet is no more in the screen, and you should have not render it
     public boolean outOfBounds() {
         return getX() > Gdx.graphics.getWidth() || getX() < 0f || getY()  > Gdx.graphics.getHeight() || getY() < 0f;
     }
