@@ -3,7 +3,7 @@ package utilities;
 import utilities.io.Audio;
 
 public class Button extends Text {
-    private ButtonAction action;
+    private final ButtonAction action;
     private static final Audio ON_PRESSED_SOUND = new Audio("buttonClicked.mp3");
 
     public Button(Font font, String text, float x, float y, ButtonAction action) {

@@ -5,8 +5,7 @@ import com.badlogic.gdx.audio.Music;
 import utilities.FilePaths;
 
 public class Audio implements Music {
-    private Music music;
-    private boolean isPlaying;
+    private final Music music;
 
     public Audio(String musicPath, float volume) {
         music = Gdx.audio.newMusic(Gdx.files.internal(FilePaths.AUDIO + musicPath));
@@ -29,19 +28,17 @@ public class Audio implements Music {
 
     @Override
     public void pause() {
-        isPlaying = false;
         music.pause();
     }
 
     @Override
     public void stop() {
-        isPlaying = false;
         music.stop();
     }
 
     @Override
     public boolean isPlaying() {
-        return isPlaying;
+        return music.isPlaying();
     }
 
     @Override

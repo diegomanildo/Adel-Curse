@@ -4,27 +4,27 @@ import com.ac.GameState;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import utilities.*;
 import utilities.io.Audio;
 import utilities.io.Song;
 
 public class MainMenuScreen implements Screen {
-    private Image background;
-    private int optionSelected;
-    private int previousOptionSelected;
-    private Button[] menuOptions;
-
-    private Song menuSong = new Song("menuMusic.mp3", 0.1f);
-    private Audio mouseHover = new Audio("mouseHover.mp3");
-
     private static final int NONE = -1;
     private static final int NONE_PREVIOUS = -2;
 
+    private final Image background;
+    private final Song menuSong;
+    private final Audio mouseHover;
+    private final Button[] menuOptions;
+
+    private int optionSelected;
+    private int previousOptionSelected;
+
     public MainMenuScreen() {
         background = new Image(FilePaths.BACKGROUNDS + "loadingScreen.png");
-        optionSelected = NONE;
-        previousOptionSelected = NONE_PREVIOUS;
+        menuSong = new Song("menuMusic.mp3", 0.1f);
+        mouseHover = new Audio("mouseHover.mp3");
+
         menuOptions = new Button[] {
                 new Button(Fonts.GOHU_FONT, "1 PLAYER", () -> {
                     Render.app.setScreen(new GameScreen());
@@ -34,9 +34,12 @@ public class MainMenuScreen implements Screen {
                     Render.app.setScreen(new GameScreen());
                     menuSong.stopSong();
                 }),
-                new Button(Fonts.GOHU_FONT, "OPTIONS",  () -> {}),
-                new Button(Fonts.GOHU_FONT, "QUIT",     () -> Gdx.app.exit())
+                new Button(Fonts.GOHU_FONT, "OPTIONS", () -> {}),
+                new Button(Fonts.GOHU_FONT, "QUIT", () -> Gdx.app.exit())
         };
+
+        optionSelected = NONE;
+        previousOptionSelected = NONE_PREVIOUS;
     }
 
     @Override

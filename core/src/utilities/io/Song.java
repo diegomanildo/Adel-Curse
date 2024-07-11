@@ -3,8 +3,8 @@ package utilities.io;
 import utilities.exceptions.NullAudioException;
 
 public class Song {
-    private Audio intro;
-    private Audio song;
+    private final Audio intro;
+    private final Audio song;
 
     public Song(String introPath, String songPath, float volumeIntro, float volumeSong) {
         intro = introPath == null ? null : new Audio(introPath, volumeIntro);

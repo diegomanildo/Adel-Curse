@@ -7,7 +7,7 @@ import utilities.FilePaths;
 import utilities.Image;
 
 public class LoadingScreen implements Screen {
-    private Image background;
+    private final Image background;
 
     private boolean fadeInFinished;
     private boolean finish;

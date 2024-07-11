@@ -7,12 +7,12 @@ import com.badlogic.gdx.graphics.g2d.*;
 public abstract class GameAnimation extends GameObject {
     private float stateTime;
     private int index;
-    private float frameDuration;
+    private final float frameDuration;
 
-    private int columns;
-    private int rows;
+    private final int columns;
+    private final int rows;
 
-    private TextureRegion[] frames;
+    private final TextureRegion[] frames;
 
     public GameAnimation(String textureAtlasPath, float x, float y, float width, float height, int columns, int rows, float frameDuration) {
         super(x, y);

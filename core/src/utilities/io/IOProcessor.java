@@ -6,7 +6,7 @@ import com.badlogic.gdx.InputProcessor;
 import utilities.exceptions.NotValidKeyException;
 
 public class IOProcessor implements InputProcessor {
-    private boolean[] keysPressed;
+    private final boolean[] keysPressed;
     private int mouseX;
     private int mouseY;
 

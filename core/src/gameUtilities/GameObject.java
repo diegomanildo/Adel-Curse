@@ -10,7 +10,7 @@ public abstract class GameObject {
     private float width;
     private float height;
     private boolean showHitbox = true;
-    private static ShapeRenderer shapeRenderer = new ShapeRenderer();
+    private static final ShapeRenderer SR = new ShapeRenderer();
 
     protected GameObject(float x, float y) {
         setPosition(x, y);
@@ -96,8 +96,8 @@ public abstract class GameObject {
     }
 
     protected static void drawRectangle(float x, float y, float width, float height) {
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-        shapeRenderer.rect(x, y, width, height);
-        shapeRenderer.end();
+        SR.begin(ShapeRenderer.ShapeType.Line);
+        SR.rect(x, y, width, height);
+        SR.end();
     }
 }

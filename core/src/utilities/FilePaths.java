@@ -7,7 +7,7 @@ public enum FilePaths {
     BACKGROUNDS(IMAGES + "backgrounds/"),
     CHARACTERS(IMAGES + "characters/");
 
-    private String filePath;
+    private final String filePath;
 
     FilePaths(String filePath) {
         this.filePath = filePath;
