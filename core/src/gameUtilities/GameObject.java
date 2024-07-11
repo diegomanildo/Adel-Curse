@@ -1,5 +1,6 @@
 package gameUtilities;
 
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import utilities.Render;
 import com.badlogic.gdx.graphics.g2d.Batch;
 
@@ -8,6 +9,8 @@ public abstract class GameObject {
     private float y;
     private float width;
     private float height;
+    private boolean showHitbox = true;
+    private static ShapeRenderer shapeRenderer = new ShapeRenderer();
 
     protected GameObject(float x, float y) {
         setPosition(x, y);
@@ -59,6 +62,14 @@ public abstract class GameObject {
         setHeight(height);
     }
 
+    public boolean isShowingHitbox() {
+        return showHitbox;
+    }
+
+    public void setShowHitbox(boolean showHitbox) {
+        this.showHitbox = showHitbox;
+    }
+
     public boolean collidesIn(float pointX, float pointY) {
         return pointX >= x && pointX <= x + width
             && pointY >= y && pointY <= y + height;
@@ -73,5 +84,20 @@ public abstract class GameObject {
 
     public void draw() {
         draw(Render.b);
+        if (showHitbox) {
+            Render.b.end();
+            drawHitbox();
+            Render.b.begin();
+        }
+    }
+
+    protected void drawHitbox() {
+        drawRectangle(x, y, width, height);
+    }
+
+    protected static void drawRectangle(float x, float y, float width, float height) {
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+        shapeRenderer.rect(x, y, width, height);
+        shapeRenderer.end();
     }
 }

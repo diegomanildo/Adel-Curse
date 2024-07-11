@@ -26,8 +26,14 @@ public class MainMenuScreen implements Screen {
         optionSelected = NONE;
         previousOptionSelected = NONE_PREVIOUS;
         menuOptions = new Button[] {
-                new Button(Fonts.GOHU_FONT, "1 PLAYER", () -> Render.app.setScreen(new GameScreen())),
-                new Button(Fonts.GOHU_FONT, "2 PLAYER", () -> Render.app.setScreen(new GameScreen())),
+                new Button(Fonts.GOHU_FONT, "1 PLAYER", () -> {
+                    Render.app.setScreen(new GameScreen());
+                    menuSong.stopSong();
+                }),
+                new Button(Fonts.GOHU_FONT, "2 PLAYER", () -> {
+                    Render.app.setScreen(new GameScreen());
+                    menuSong.stopSong();
+                }),
                 new Button(Fonts.GOHU_FONT, "OPTIONS",  () -> {}),
                 new Button(Fonts.GOHU_FONT, "QUIT",     () -> Gdx.app.exit())
         };
@@ -36,7 +42,6 @@ public class MainMenuScreen implements Screen {
     @Override
     public void show() {
         background.setSize(true);
-
         centerButtons();
         menuSong.playSong(true);
     }
@@ -69,10 +74,6 @@ public class MainMenuScreen implements Screen {
         centerButtons();
         Render.b.begin();
 
-        ShapeRenderer sr = new ShapeRenderer();
-
-        sr.begin(ShapeRenderer.ShapeType.Line);
-
         background.draw();
         for (int i = 0; i < menuOptions.length; i++) {
             // If is in mouse is in any option paint it of yellow and play the hover sound
@@ -94,13 +95,11 @@ public class MainMenuScreen implements Screen {
             }
 
             menuOptions[i].font.setFontColor(i == optionSelected ? Color.YELLOW : Color.WHITE);
-            menuOptions[i].draw(Render.b);
-            sr.rect(menuOptions[i].getX(), menuOptions[i].getY() - Fonts.GOHU_FONT.getHeight(), menuOptions[i].getWidth(), menuOptions[i].getHeight());
+            menuOptions[i].draw();
         }
 
 
         Render.b.end();
-        sr.end();
         GameState.camera.update();
     }
 

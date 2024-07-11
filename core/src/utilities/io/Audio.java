@@ -6,6 +6,7 @@ import utilities.FilePaths;
 
 public class Audio implements Music {
     private Music music;
+    private boolean isPlaying;
 
     public Audio(String musicPath, float volume) {
         music = Gdx.audio.newMusic(Gdx.files.internal(FilePaths.AUDIO + musicPath));
@@ -18,9 +19,6 @@ public class Audio implements Music {
 
     @Override
     public void play() {
-        if (music.isPlaying()) {
-            music.stop();
-        }
         music.play();
     }
 
@@ -31,17 +29,19 @@ public class Audio implements Music {
 
     @Override
     public void pause() {
+        isPlaying = false;
         music.pause();
     }
 
     @Override
     public void stop() {
+        isPlaying = false;
         music.stop();
     }
 
     @Override
     public boolean isPlaying() {
-        return music.isPlaying();
+        return isPlaying;
     }
 
     @Override

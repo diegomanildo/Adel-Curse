@@ -15,10 +15,10 @@ public abstract class GameAnimation extends GameObject {
     private TextureRegion[] frames;
 
     public GameAnimation(String textureAtlasPath, float x, float y, float width, float height, int columns, int rows, float frameDuration) {
+        super(x, y);
         frames = getFrames(textureAtlasPath, columns, rows);
         this.frameDuration = frameDuration;
 
-        setPosition(x, y);
         setSize(width, height);
 
         this.columns = columns;

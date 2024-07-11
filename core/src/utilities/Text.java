@@ -41,4 +41,9 @@ public class Text extends GameObject {
         this.text = text;
         font.setText(text);
     }
+
+    @Override
+    protected void drawHitbox() {
+        drawRectangle(getX(), getY() - getHeight(), getWidth(), getHeight());
+    }
 }
