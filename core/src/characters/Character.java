@@ -13,11 +13,9 @@ import java.util.ArrayList;
 public abstract class Character extends GameAnimation {
     private static final float WIDTH = 150f;
     private static final float HEIGHT = WIDTH;
-    private static final float BULLET_COOLDOWN = 10000f;
 
     private final float velocity;
     private final ArrayList<Bullet> bullets;
-    private float bulletCooldownTimer;
     private final Audio shootSound;
 
 
@@ -25,7 +23,6 @@ public abstract class Character extends GameAnimation {
         super(FilePaths.CHARACTERS + texture, x, y, WIDTH, HEIGHT, 2, 8, 0.5f);
         velocity = WIDTH / 12;
         bullets = new ArrayList<>();
-        bulletCooldownTimer = 0f;
         shootSound = new Audio("shoot.mp3");
     }
 
