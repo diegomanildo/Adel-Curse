@@ -20,6 +20,8 @@ public abstract class Character extends GameAnimation {
     private final Audio shootSound;
     private final String bulletTexturePath;
 
+//    public long time = 0L;
+//    public long times = 0L;
 
     public Character(String texturePath, String bulletTexturePath, float x, float y) {
         super(FilePaths.CHARACTERS + texturePath, x, y, WIDTH, HEIGHT, 2, 8, 0.5f);
@@ -111,7 +113,15 @@ public abstract class Character extends GameAnimation {
     @Override
     public void draw(Batch batch) {
         super.draw(batch);
-        updateBullets();
-        System.out.println("Bullets " + bullets.size());
+
+        if (!bullets.isEmpty()) {
+//            long startTime = System.nanoTime();
+            updateBullets();
+//            long endTime = System.nanoTime();
+//            long duration = endTime - startTime;
+//            time += duration;
+//            times++;
+//            System.out.println("AVG updateBullets() time: " + (time / times) + "ns");
+        }
     }
 }
