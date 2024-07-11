@@ -5,12 +5,15 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import utilities.FilePaths;
+import utilities.Image;
 import utilities.Render;
 
 public class GameScreen implements Screen {
     private Adel adel;
 
     private OrthographicCamera camera;
+    private Image background;
 
     public GameScreen() {
         adel = new Adel(0f, 0f);
@@ -19,10 +22,12 @@ public class GameScreen implements Screen {
         adel = new Adel(middleX, middleY);
 
         camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        background = new Image(FilePaths.BACKGROUNDS + "backgroundsAux.png");
     }
 //a
     @Override
-    public void show() {}
+    public void show() {
+    }
 
     @Override
     public void render(float delta) {
@@ -37,6 +42,7 @@ public class GameScreen implements Screen {
         Render.clear();
         Render.b.begin();
 
+        background.draw();
         adel.move();
         adel.draw();
 
