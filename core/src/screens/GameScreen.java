@@ -20,7 +20,7 @@ public class GameScreen implements Screen {
 
         camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
     }
-
+//a
     @Override
     public void show() {}
 
