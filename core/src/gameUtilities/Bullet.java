@@ -41,6 +41,6 @@ public class Bullet extends GameAnimation {
 
     // Bullet is no more in the screen, and you should have not render it
     public boolean outOfBounds() {
-        return getX() > Gdx.graphics.getWidth() || getX() < 0f || getY()  > Gdx.graphics.getHeight() || getY() < 0f;
+        return getX() > Gdx.graphics.getWidth() || getX() < -100f || getY()  > Gdx.graphics.getHeight() || getY() < -100f;
     }
 }

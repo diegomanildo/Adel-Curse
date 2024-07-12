@@ -112,7 +112,7 @@ public abstract class GameObject {
 
         SR.begin(ShapeRenderer.ShapeType.Filled);
         SR.setColor(Color.RED);
-        SR.circle(middleX, middleY, 10f);
+        SR.circle(middleX, middleY, 5f);
         SR.end();
     }
 }
