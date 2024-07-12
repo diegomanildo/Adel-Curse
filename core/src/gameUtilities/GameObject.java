@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import utilities.Render;
 import com.badlogic.gdx.graphics.g2d.Batch;
 
-public abstract class GameObject {
+public abstract class GameObject implements Hitbox {
     private float x;
     private float y;
     private float width;
@@ -63,14 +63,6 @@ public abstract class GameObject {
         setHeight(height);
     }
 
-    public float getMiddleX() {
-        return getX() + getWidth() / 2f;
-    }
-
-    public float getMiddleY() {
-        return getY() + getHeight() / 2f;
-    }
-
     public boolean isShowingHitbox() {
         return showHitbox;
     }
@@ -79,14 +71,8 @@ public abstract class GameObject {
         this.showHitbox = showHitbox;
     }
 
-    public boolean collidesIn(float pointX, float pointY) {
-        return pointX >= getX() && pointX <= getX() + getWidth()
-            && pointY >= getY() && pointY <= getY() + getHeight();
-    }
-
     public boolean collidesWith(GameObject other) {
-        return getX() < other.getX() + other.getWidth() && getX() + getWidth() > other.getX() &&
-                getY() < other.getY() + other.getHeight() && getY() + getHeight() > other.getY();
+        return collidesIn(other.getX(), other.getY());
     }
 
     public abstract void draw(Batch batch);

@@ -11,22 +11,16 @@ import utilities.Render;
 
 public class GameScreen implements Screen {
     private Adel adel;
-
-    private OrthographicCamera camera;
     private Image background;
 
     public GameScreen() {
         adel = new Adel(0f, 0f);
         adel.setPosition(Render.getMiddleX(), Render.getMiddleY());
-
-        camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         background = new Image(FilePaths.BACKGROUNDS + "backgroundsAux.png");
     }
 
     @Override
-    public void show() {
-
-    }
+    public void show() {}
 
     @Override
     public void render(float delta) {
@@ -35,11 +29,6 @@ public class GameScreen implements Screen {
         if (Render.io.isKeyPressed(Input.Keys.ESCAPE)) {
             Render.app.setScreen(new MainMenuScreen());
         }
-
-        camera.position.set(adel.getX(), adel.getY(), 0f);
-        camera.update();
-
-        Render.b.setProjectionMatrix(camera.combined);
 
         Render.b.begin();
 
@@ -52,9 +41,7 @@ public class GameScreen implements Screen {
     }
 
     @Override
-    public void resize(int width, int height) {
-        camera.setToOrtho(false, width, height);
-    }
+    public void resize(int width, int height) {}
     @Override
     public void pause() {}
     @Override

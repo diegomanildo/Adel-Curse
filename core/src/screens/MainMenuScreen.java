@@ -49,24 +49,12 @@ public class MainMenuScreen implements Screen {
     }
 
     private void centerButtons() {
-        float menuWidth = 0f;
-        float menuHeight = 0f;
-
-        // Get middle point in screen
-        final float middleX = Render.getMiddleX() - Fonts.GOHU_FONT.getWidth() / 2f;
-        final float middleY = Render.getMiddleY() + Fonts.GOHU_FONT.getHeight() / 2f;
-        final float space = Fonts.GOHU_FONT.getSize() * 8;
-
-        // Get middle point options
-        for (int i = 0; i < menuOptions.length; i++) {
-            menuHeight -= menuOptions[i].getHeight() - (space * i);
-            if (i == 0 || menuOptions[i].getWidth() > menuWidth) {
-                menuWidth = menuOptions[i].getWidth();
-            }
-        }
+        final int space = Fonts.GOHU_FONT.getSize() * 8;
 
         // Set position for buttons
         for (int i = 0; i < menuOptions.length; i++) {
+            final float middleX = Render.getMiddleX() - Fonts.GOHU_FONT.getWidth() / 2f;
+            final float middleY = Render.getMiddleY() + Fonts.GOHU_FONT.getHeight() / 2f;
             menuOptions[i].setPosition(middleX, middleY - space * i);
         }
     }
