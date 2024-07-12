@@ -4,14 +4,14 @@ public interface Hitbox {
     float getX();
     float getY();
 
-    void setX();
-    void setY();
+    void setX(float x);
+    void setY(float y);
 
     float getWidth();
     float getHeight();
 
-    void setWidth();
-    void setHeight();
+    void setWidth(float width);
+    void setHeight(float height);
 
     void setPosition(float x, float y);
     void setSize(float x, float y);
