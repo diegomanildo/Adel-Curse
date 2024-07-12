@@ -96,8 +96,9 @@ public abstract class Character extends GameAnimation {
 
     // Creates a shoot
     private void createShoot(int animationIndex, Direction bulletDirection) {
-        Bullet b = new Bullet(FilePaths.CHARACTERS + bulletTexturePath, bulletDirection, getX(), getY(), WIDTH/2, HEIGHT/2, 0.5f);
+        Bullet b = new Bullet(FilePaths.CHARACTERS + bulletTexturePath, bulletDirection, WIDTH/2f, HEIGHT/2f, 0.5f);
         b.setAnimation(animationIndex);
+        b.setPosition(getMiddleX() - b.getWidth() / 2f, getMiddleY() - b.getHeight() / 2f);
         bullets.add(b);
         shootSound.play();
     }

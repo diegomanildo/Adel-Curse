@@ -35,21 +35,19 @@ public class GameScreen implements Screen {
             Render.app.setScreen(new MainMenuScreen());
         }
 
-        camera.position.set(adel.getX(), adel.getY(), 0);
+        camera.position.set(adel.getX(), adel.getY(), 0f);
         camera.update();
 
         Render.clear();
 
-        Render.b.setProjectionMatrix(camera.combined);
+//        Render.b.setProjectionMatrix(camera.combined);
 
         Render.b.begin();
 
         background.draw();
         adel.move();
 
-
         adel.draw();
-
 
         Render.b.end();
     }

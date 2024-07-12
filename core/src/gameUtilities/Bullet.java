@@ -9,8 +9,8 @@ public class Bullet extends GameAnimation {
     private static final float SPEED = 500f;
     private final Direction bulletDirection;
 
-    public Bullet(String texturePath, Direction bulletDirection, float x, float y, float width, float height, float frameDuration) {
-        super(texturePath, x, y, width, height, 2, 4, frameDuration);
+    public Bullet(String texturePath, Direction bulletDirection, float width, float height, float frameDuration) {
+        super(texturePath, 0f, 0f, width, height, 2, 4, frameDuration);
         this.bulletDirection = bulletDirection;
     }
 

@@ -1,5 +1,6 @@
 package gameUtilities;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import utilities.Render;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -62,6 +63,14 @@ public abstract class GameObject {
         setHeight(height);
     }
 
+    public float getMiddleX() {
+        return getX() + getWidth() / 2f;
+    }
+
+    public float getMiddleY() {
+        return getY() + getHeight() / 2f;
+    }
+
     public boolean isShowingHitbox() {
         return showHitbox;
     }
@@ -92,12 +101,18 @@ public abstract class GameObject {
     }
 
     protected void drawHitbox() {
-        drawRectangle(x, y, width, height);
+        drawRectangle(getX(), getY(), getMiddleX(), getMiddleY(), getWidth(), getHeight());
     }
 
-    protected static void drawRectangle(float x, float y, float width, float height) {
+    protected static void drawRectangle(float x, float y, float middleX, float middleY, float width, float height) {
         SR.begin(ShapeRenderer.ShapeType.Line);
+        SR.setColor(Color.WHITE);
         SR.rect(x, y, width, height);
+        SR.end();
+
+        SR.begin(ShapeRenderer.ShapeType.Filled);
+        SR.setColor(Color.RED);
+        SR.circle(middleX, middleY, 10f);
         SR.end();
     }
 }
