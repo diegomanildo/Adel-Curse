@@ -17,20 +17,21 @@ public class GameScreen implements Screen {
 
     public GameScreen() {
         adel = new Adel(0f, 0f);
-        float middleX = Render.getMiddleX() - adel.getWidth() / 2f;
-        float middleY = Render.getMiddleY() - adel.getHeight() / 2f;
-        adel.setPosition(middleX, middleY);
+        adel.setPosition(Render.getMiddleX(), Render.getMiddleY());
 
         camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         background = new Image(FilePaths.BACKGROUNDS + "backgroundsAux.png");
     }
-//a
+
     @Override
     public void show() {
+
     }
 
     @Override
     public void render(float delta) {
+        Render.clear();
+        // Come back to menu
         if (Render.io.isKeyPressed(Input.Keys.ESCAPE)) {
             Render.app.setScreen(new MainMenuScreen());
         }
@@ -38,9 +39,7 @@ public class GameScreen implements Screen {
         camera.position.set(adel.getX(), adel.getY(), 0f);
         camera.update();
 
-        Render.clear();
-
-//        Render.b.setProjectionMatrix(camera.combined);
+        Render.b.setProjectionMatrix(camera.combined);
 
         Render.b.begin();
 

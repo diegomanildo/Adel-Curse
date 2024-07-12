@@ -119,13 +119,7 @@ public abstract class Character extends GameAnimation {
         super.draw(batch);
 
         if (!bullets.isEmpty()) {
-//            long startTime = System.nanoTime();
             updateBullets();
-//            long endTime = System.nanoTime();
-//            long duration = endTime - startTime;
-//            time += duration;
-//            times++;
-//            System.out.println("AVG updateBullets() time: " + (time / times) + "ns");
         }
     }
 }

@@ -46,7 +46,7 @@ public abstract class GameObject {
     }
 
     public float getHeight() {
-        return height + 5f;
+        return height;
     }
 
     public void setHeight(float height) {
@@ -80,13 +80,13 @@ public abstract class GameObject {
     }
 
     public boolean collidesIn(float pointX, float pointY) {
-        return pointX >= x && pointX <= x + width
-            && pointY >= y && pointY <= y + height;
+        return pointX >= getX() && pointX <= getX() + getWidth()
+            && pointY >= getY() && pointY <= getY() + getHeight();
     }
 
     public boolean collidesWith(GameObject other) {
-        return x < other.x + other.width && x + width > other.x &&
-                y < other.y + other.height && y + height > other.y;
+        return getX() < other.getX() + other.getWidth() && getX() + getWidth() > other.getX() &&
+                getY() < other.getY() + other.getHeight() && getY() + getHeight() > other.getY();
     }
 
     public abstract void draw(Batch batch);

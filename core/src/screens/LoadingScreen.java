@@ -36,9 +36,8 @@ public class LoadingScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        fadeIn();
-
         Render.clear();
+        fadeIn();
 
         Render.b.begin();
         background.draw();

@@ -54,7 +54,7 @@ public class Font {
     }
 
     public float getHeight() {
-        return layout.height;
+        return layout.height + 7f;
     }
 
     public Color getFontColor() {

@@ -1,6 +1,5 @@
 package screens;
 
-import com.ac.GameState;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
@@ -80,7 +79,7 @@ public class MainMenuScreen implements Screen {
         background.draw();
         for (int i = 0; i < menuOptions.length; i++) {
             // If is in mouse is in any option paint it of yellow and play the hover sound
-            if (menuOptions[i].isHovered(Render.io.getMouseX(), Render.io.getMouseY())) {
+            if (menuOptions[i].isHovered()) {
                 optionSelected = i;
                 if (optionSelected != previousOptionSelected) {
                     mouseHover.play();
@@ -101,15 +100,11 @@ public class MainMenuScreen implements Screen {
             menuOptions[i].draw();
         }
 
-
         Render.b.end();
-        GameState.camera.update();
     }
 
     @Override
-    public void resize(int w, int h) {
-        GameState.viewport.update(w, h);
-    }
+    public void resize(int w, int h) {}
     @Override
     public void pause() {}
     @Override

@@ -1,5 +1,6 @@
 package utilities;
 
+import com.badlogic.gdx.Gdx;
 import utilities.io.Audio;
 
 public class Button extends Text {
@@ -20,8 +21,10 @@ public class Button extends Text {
         action.onPressed();
     }
 
-    public boolean isHovered(float x, float y) {
-        return x >= getX() && x <= getX() + getWidth() // verify on x
-                && y >= getY() - getHeight() && y <= getY(); // verify on y
+    public boolean isHovered() {
+        float x = Render.io.getMouseX();
+        float y = Render.io.getMouseY();
+
+        return collidesIn(x, y);
     }
 }

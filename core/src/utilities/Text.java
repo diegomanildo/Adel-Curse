@@ -46,4 +46,10 @@ public class Text extends GameObject {
     protected void drawHitbox() {
         drawRectangle(getX(), getY() - getHeight(), getMiddleX(), getMiddleY() - font.getHeight(), getWidth(), getHeight());
     }
+
+    @Override
+    public boolean collidesIn(float pointX, float pointY) {
+        return pointX >= getX() && pointX <= getX() + getWidth() // verify on x
+                && pointY >= getY() - getHeight() && pointY <= getY(); // verify on y
+    }
 }
