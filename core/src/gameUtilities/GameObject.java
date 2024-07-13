@@ -91,13 +91,15 @@ public abstract class GameObject implements Hitbox {
     }
 
     protected static void drawRectangle(float x, float y, float middleX, float middleY, float width, float height) {
+        // Draw the hitbox
         SR.begin(ShapeRenderer.ShapeType.Line);
         SR.setColor(Color.WHITE);
         SR.rect(x, y, width, height);
         SR.end();
 
+        // Draw the cirlce in the middle
         SR.begin(ShapeRenderer.ShapeType.Filled);
-        SR.setColor(Color.RED);
+        SR.setColor(new Color(0f, 0f, 255f, 255f));
         SR.circle(middleX, middleY, 5f);
         SR.end();
     }

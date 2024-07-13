@@ -25,44 +25,51 @@ public class MainMenuScreen implements Screen {
         mouseHover = new Audio("mouseHover.mp3");
 
         menuOptions = new Button[] {
-                new Button(Fonts.GOHU_FONT, "1 PLAYER", () -> {
-                    Render.app.setScreen(new GameScreen());
-                    menuSong.stopSong();
-                }),
-                new Button(Fonts.GOHU_FONT, "2 PLAYER", () -> {
-                    Render.app.setScreen(new GameScreen());
-                    menuSong.stopSong();
-                }),
-                new Button(Fonts.GOHU_FONT, "OPTIONS", () -> {}),
-                new Button(Fonts.GOHU_FONT, "QUIT", () -> Gdx.app.exit())
+                new Button(Fonts.GOHU_FONT, "1 PLAYER", this::onePlayer),
+                new Button(Fonts.GOHU_FONT, "2 PLAYER", this::onePlayer),
+                new Button(Fonts.GOHU_FONT, "OPTIONS", this::options),
+                new Button(Fonts.GOHU_FONT, "QUIT", this::quit)
         };
 
         optionSelected = NONE;
         previousOptionSelected = NONE_PREVIOUS;
     }
 
+    private void onePlayer() {
+        Render.app.setScreen(new GameScreen());
+        menuSong.stopSong();
+    }
+
+    private void options() {
+    }
+
+    private void quit() {
+        Gdx.app.exit();
+    }
+
     @Override
     public void show() {
-        background.setSize(true);
         centerButtons();
+        background.setSize(true);
         menuSong.playSong(true);
     }
 
     private void centerButtons() {
         final int space = Fonts.GOHU_FONT.getSize() * 8;
 
-        // Set position for buttons
+        final float startY = (Gdx.graphics.getHeight() + (menuOptions.length - 1) * space) / 2f;
+
         for (int i = 0; i < menuOptions.length; i++) {
-            final float middleX = Render.getMiddleX() - Fonts.GOHU_FONT.getWidth() / 2f;
-            final float middleY = Render.getMiddleY() + Fonts.GOHU_FONT.getHeight() / 2f;
-            menuOptions[i].setPosition(middleX, middleY - space * i);
+            menuOptions[i].setPosition((Gdx.graphics.getWidth() - Fonts.GOHU_FONT.getWidth()) / 2f, startY - i * space);
         }
+
+        System.out.println("Button x: " + menuOptions[0].getX());
     }
 
     @Override
     public void render(float delta) {
-        centerButtons();
         Render.b.begin();
+        centerButtons();
 
         background.draw();
         for (int i = 0; i < menuOptions.length; i++) {

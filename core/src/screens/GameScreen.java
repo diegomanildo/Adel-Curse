@@ -20,7 +20,9 @@ public class GameScreen implements Screen {
     }
 
     @Override
-    public void show() {}
+    public void show() {
+        background.setSize(true);
+    }
 
     @Override
     public void render(float delta) {
