@@ -5,32 +5,33 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import utilities.Direction;
 import utilities.exceptions.DirectionNotValidException;
 
-public class Bullet extends GameAnimation {
-    private static final float SPEED = 500f;
+public class Bullet extends MovableObject {
     private final Direction bulletDirection;
 
     public Bullet(String texturePath, Direction bulletDirection, float width, float height, float frameDuration) {
         super(texturePath, 0f, 0f, width, height, 2, 4, frameDuration);
         this.bulletDirection = bulletDirection;
+        setVelocity(1000f);
     }
 
     // Update bullet position
     public void update(float deltaTime) {
         float x = getX();
         float y = getY();
+        float velocity = getVelocity();
 
         switch (bulletDirection) {
             case Down:
-                y -= SPEED * deltaTime;
+                y -= velocity * deltaTime;
                 break;
             case Up:
-                y += SPEED * deltaTime;
+                y += velocity * deltaTime;
                 break;
             case Right:
-                x += SPEED * deltaTime;
+                x += velocity * deltaTime;
                 break;
             case Left:
-                x -= SPEED * deltaTime;
+                x -= velocity * deltaTime;
                 break;
             default:
                 throw new DirectionNotValidException("The direction " + bulletDirection + " is not valid");
@@ -41,6 +42,7 @@ public class Bullet extends GameAnimation {
 
     // Bullet is no more in the screen, and you should have not render it
     public boolean outOfBounds() {
-        return getX() > Gdx.graphics.getWidth() || getX() < -100f || getY()  > Gdx.graphics.getHeight() || getY() < -100f;
+        return getX() > Gdx.graphics.getWidth() || getX() < -100f
+            || getY()  > Gdx.graphics.getHeight() || getY() < -100f;
     }
 }
