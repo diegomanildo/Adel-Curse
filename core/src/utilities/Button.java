@@ -1,6 +1,5 @@
 package utilities;
 
-import com.badlogic.gdx.Gdx;
 import utilities.io.Audio;
 
 public class Button extends Text {

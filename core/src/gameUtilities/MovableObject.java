@@ -3,7 +3,7 @@ package gameUtilities;
 import utilities.Direction;
 import utilities.exceptions.DirectionNotValidException;
 
-public class MovableObject extends GameAnimation {
+public abstract class MovableObject extends GameAnimation {
     private float velocity;
 
     public MovableObject(String texturePath, int columns, int rows, float frameDuration) {

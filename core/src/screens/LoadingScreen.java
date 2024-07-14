@@ -6,7 +6,7 @@ import com.badlogic.gdx.Screen;
 import utilities.FilePaths;
 import utilities.Image;
 
-public class LoadingScreen implements Screen {
+public final class LoadingScreen implements Screen {
     private final Image background;
 
     private boolean fadeInFinished;

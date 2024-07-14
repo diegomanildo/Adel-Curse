@@ -2,15 +2,13 @@ package com.ac;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.bullet.Bullet;
 import screens.MainMenuScreen;
 import utilities.Render;
 import utilities.io.IOProcessor;
 
-public class Juego extends Game {
+public final class Juego extends Game {
 
 	@Override
 	public void create() {

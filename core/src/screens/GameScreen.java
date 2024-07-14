@@ -9,7 +9,7 @@ import utilities.FilePaths;
 import utilities.Image;
 import utilities.Render;
 
-public class GameScreen implements Screen {
+public final class GameScreen implements Screen {
     private Adel adel;
     private Image background;
 

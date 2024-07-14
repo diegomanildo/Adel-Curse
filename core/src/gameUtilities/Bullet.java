@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import utilities.Direction;
 import utilities.exceptions.DirectionNotValidException;
 
-public class Bullet extends MovableObject {
+public final class Bullet extends MovableObject {
     private final Direction bulletDirection;
 
     public Bullet(String texturePath, Direction bulletDirection, float width, float height, float frameDuration) {
