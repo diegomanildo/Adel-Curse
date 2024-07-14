@@ -19,6 +19,7 @@ public final class LoadingScreen extends Screen {
     private static final float INCREMENT = 0.007f;
 
     public LoadingScreen() {
+        super();
         background = new Image(FilePaths.BACKGROUNDS + "loadingScreen.png");
         fadeInFinished = false;
         finish = false;
@@ -31,6 +32,7 @@ public final class LoadingScreen extends Screen {
 
     @Override
     public void render(float delta) {
+        super.render(delta);
         Render.clear();
         fadeIn();
 

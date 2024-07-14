@@ -11,6 +11,7 @@ public final class GameScreen extends Screen {
     private Image background;
 
     public GameScreen() {
+        super();
         adel = new Adel(0f, 0f);
         adel.setPosition(Render.getMiddleX(), Render.getMiddleY());
         background = new Image(FilePaths.BACKGROUNDS + "backgroundsAux.png");
@@ -19,6 +20,7 @@ public final class GameScreen extends Screen {
 
     @Override
     public void render(float delta) {
+        super.render(delta);
         Render.clear();
         // Come back to menu
         if (Render.io.isKeyPressed(Input.Keys.ESCAPE)) {

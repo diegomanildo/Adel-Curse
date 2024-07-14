@@ -11,6 +11,7 @@ public final class MainMenuScreen extends Screen {
     private final Options options;
 
     public MainMenuScreen() {
+        super();
         background = new Image(FilePaths.BACKGROUNDS + "loadingScreen.png");
         menuSong = new Song("menuMusic.mp3", 0.1f);
 
@@ -38,6 +39,7 @@ public final class MainMenuScreen extends Screen {
 
     @Override
     public void render(float delta) {
+        super.render(delta);
         Render.b.begin();
 
         background.draw();
