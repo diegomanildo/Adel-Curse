@@ -10,6 +10,7 @@ import utilities.io.Audio;
 public final class Options extends GameObject {
     private final Button[] buttons;
     private final Audio mouseHover;
+    private final int buttonsSpace;
 
     public static final int NONE = -1;
     public static final int NONE_PREVIOUS = -2;
@@ -17,18 +18,16 @@ public final class Options extends GameObject {
     private int optionSelected;
     private int previousOptionSelected;
 
-    public Options(Audio mouseHover, Button... buttons) {
+    public Options(Button... buttons) {
         this.buttons = buttons;
-        this.mouseHover = mouseHover;
+        this.mouseHover = new Audio("mouseHover.mp3");
         optionSelected = NONE;
         previousOptionSelected = NONE_PREVIOUS;
 
-        final int space = this.buttons[0].font.getSize() * 8;
-
-        final float startY = (Gdx.graphics.getHeight() + (this.buttons.length - 1) * space) / 2f;
+        buttonsSpace = this.buttons[0].font.getSize() * 8;
 
         for (int i = 0; i < this.buttons.length; i++) {
-            this.buttons[i].setPosition((Gdx.graphics.getWidth() - this.buttons[i].font.getWidth()) / 2f, startY - i * space);
+            this.buttons[i].setPosition(Gdx.graphics.getWidth() / 2f, (Gdx.graphics.getHeight() / 2f) - i * buttonsSpace);
         }
 
         super.setPosition(this.buttons[0].getX(), this.buttons[0].getY());
@@ -39,8 +38,8 @@ public final class Options extends GameObject {
         float maxWidth = 0f;
 
         for (int i = 0; i < buttons.length; i++) {
-            if (i == 0 || maxWidth > buttons[i].font.getWidth()) {
-                maxWidth = buttons[i].font.getWidth();
+            if (i == 0 || buttons[i].getWidth() > maxWidth) {
+                maxWidth = buttons[i].getWidth();
             }
         }
 
@@ -49,14 +48,14 @@ public final class Options extends GameObject {
 
     @Override
     public float getHeight() {
-        final int space = buttons[0].font.getSize() * 8;
+        final float buttonHeight = buttons[0].getHeight();
         float height = 0f;
 
         for (int i = 0; i < buttons.length; i++) {
-            height += buttons[i].getHeight() - i * space;
+            height -= buttonHeight - i * buttonsSpace;
         }
 
-        return height;
+        return -height;
     }
 
     @Override

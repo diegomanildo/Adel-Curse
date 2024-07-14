@@ -1,15 +1,12 @@
 package screens;
 
 import characters.Adel;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import utilities.FilePaths;
 import utilities.Image;
 import utilities.Render;
 
-public final class GameScreen implements Screen {
+public final class GameScreen extends Screen {
     private Adel adel;
     private Image background;
 
@@ -17,10 +14,6 @@ public final class GameScreen implements Screen {
         adel = new Adel(0f, 0f);
         adel.setPosition(Render.getMiddleX(), Render.getMiddleY());
         background = new Image(FilePaths.BACKGROUNDS + "backgroundsAux.png");
-    }
-
-    @Override
-    public void show() {
         background.setSize(true);
     }
 
@@ -41,15 +34,4 @@ public final class GameScreen implements Screen {
 
         Render.b.end();
     }
-
-    @Override
-    public void resize(int width, int height) {}
-    @Override
-    public void pause() {}
-    @Override
-    public void resume() {}
-    @Override
-    public void hide() {}
-    @Override
-    public void dispose() {}
 }

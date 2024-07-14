@@ -2,11 +2,10 @@ package screens;
 
 import utilities.Render;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import utilities.FilePaths;
 import utilities.Image;
 
-public final class LoadingScreen implements Screen {
+public final class LoadingScreen extends Screen {
     private final Image background;
 
     private boolean fadeInFinished;
@@ -26,10 +25,6 @@ public final class LoadingScreen implements Screen {
         alpha = 0f;
         time = 0f;
         finishTimer = 0f;
-    }
-
-    @Override
-    public void show() {
         background.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         background.setAlpha(alpha);
     }
@@ -75,15 +70,4 @@ public final class LoadingScreen implements Screen {
             }
         }
     }
-
-    @Override
-    public void resize(int i, int i1) {}
-    @Override
-    public void pause() {}
-    @Override
-    public void resume() {}
-    @Override
-    public void hide() {}
-    @Override
-    public void dispose() {}
 }
