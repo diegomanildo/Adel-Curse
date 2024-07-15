@@ -5,6 +5,8 @@ import utilities.Render;
 import utilities.exceptions.DirectionNotValidException;
 
 public final class Bullet extends MovableObject {
+    private static final float PIXELS_DELAY = 100f;
+
     private final Direction bulletDirection;
 
     public Bullet(String texturePath, Direction bulletDirection, float width, float height, float frameDuration) {
@@ -41,7 +43,7 @@ public final class Bullet extends MovableObject {
 
     // Bullet is no more in the screen, and you should have not render it
     public boolean outOfBounds() {
-        return getX() > Render.screenSize.width || getX() < -100f
-            || getY()  > Render.screenSize.height || getY() < -100f;
+        return getX() > Render.screenSize.width + PIXELS_DELAY || getX() < -PIXELS_DELAY
+            || getY()  > Render.screenSize.height + PIXELS_DELAY || getY() < -PIXELS_DELAY;
     }
 }

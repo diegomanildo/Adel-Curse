@@ -1,15 +1,14 @@
-package gameUtilities;
+package utilities;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import utilities.Button;
-import utilities.Render;
+import gameUtilities.GameObject;
 import utilities.io.Audio;
 
 public final class Options extends GameObject {
     private final Button[] buttons;
-    private final Audio mouseHover;
-    private final int buttonsSpace;
+    private static final Audio MOUSE_HOVER = new Audio("mouseHover.mp3");
+    private final float buttonsSpace;
 
     public static final int NONE = -1;
     public static final int NONE_PREVIOUS = -2;
@@ -17,19 +16,36 @@ public final class Options extends GameObject {
     private int optionSelected;
     private int previousOptionSelected;
 
-    public Options(Button... buttons) {
+    public Options(float buttonsSpace, Button... buttons) {
         this.buttons = buttons;
-        this.mouseHover = new Audio("mouseHover.mp3");
+        this.buttonsSpace = buttonsSpace;
         optionSelected = NONE;
         previousOptionSelected = NONE_PREVIOUS;
+        setPosition(Render.getMiddleX(), Render.getMiddleY());
+    }
 
-        buttonsSpace = this.buttons[0].font.getSize() * 8;
+    public Options(Button... buttons) {
+        this(0f, buttons);
+    }
 
-        for (int i = 0; i < this.buttons.length; i++) {
-            this.buttons[i].setPosition(Render.screenSize.width / 2f, (Render.screenSize.height / 2f) - i * buttonsSpace);
+    @Override
+    public void setX(float x) {
+        super.setX(x);
+        if (buttons != null) {
+            for (int i = 0; i < buttons.length; i++) {
+                buttons[i].setX(x);
+            }
         }
+    }
 
-        super.setPosition(this.buttons[0].getX(), this.buttons[0].getY());
+    @Override
+    public void setY(float y) {
+        super.setY(y);
+        if (buttons != null) {
+            for (int i = 0; i < buttons.length; i++) {
+                buttons[i].setY(y - i * (buttons[i].getHeight() + buttonsSpace));
+            }
+        }
     }
 
     @Override
@@ -47,21 +63,14 @@ public final class Options extends GameObject {
 
     @Override
     public float getHeight() {
-        final float buttonHeight = buttons[0].getHeight();
-        float height = 0f;
-
-        for (int i = 0; i < buttons.length; i++) {
-            height -= buttonHeight - i * buttonsSpace;
-        }
-
-        return -height;
+        return buttons[buttons.length - 1].getY() - buttons[0].getY() - buttons[buttons.length - 1].getHeight();
     }
 
     @Override
     public void draw(Batch batch) {
         isAnyHovered();
-        for (Button b : buttons) {
-            b.draw(batch);
+        for (Button button : buttons) {
+            button.draw(batch);
         }
     }
 
@@ -79,7 +88,7 @@ public final class Options extends GameObject {
     public void dispose() {
         super.dispose();
         for (Button button : buttons) button.dispose();
-        mouseHover.dispose();
+        MOUSE_HOVER.dispose();
     }
 
     private void isAnyHovered() {
@@ -87,10 +96,12 @@ public final class Options extends GameObject {
             // If is in mouse is in any option paint it of yellow and play the hover sound
             if (buttons[i].isHovered()) {
                 optionSelected = i;
+                buttons[i].font.setFontColor(Color.YELLOW);
                 if (optionSelected != previousOptionSelected) {
-                    mouseHover.play();
+                    MOUSE_HOVER.play();
                 }
             } else {
+                buttons[i].font.setFontColor(Color.WHITE);
                 if (optionSelected != NONE || previousOptionSelected == NONE_PREVIOUS) {
                     previousOptionSelected = optionSelected;
                 }
@@ -101,8 +112,6 @@ public final class Options extends GameObject {
             if (Render.io.isLeftPressed() && optionSelected != NONE) {
                 buttons[optionSelected].execute();
             }
-
-            buttons[i].font.setFontColor(i == optionSelected ? Color.YELLOW : Color.WHITE);
         }
     }
 

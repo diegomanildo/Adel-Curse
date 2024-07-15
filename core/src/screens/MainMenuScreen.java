@@ -1,7 +1,7 @@
 package screens;
 
 import com.badlogic.gdx.Gdx;
-import gameUtilities.Options;
+import utilities.Options;
 import utilities.*;
 import utilities.io.Song;
 
@@ -17,6 +17,7 @@ public final class MainMenuScreen extends Screen {
         menuSong = new Song("menuMusic.mp3", 0.1f);
 
         options = new Options(
+                20f,
                 new Button(Fonts.GOHU_FONT, "1 PLAYER", this::onePlayer),
                 new Button(Fonts.GOHU_FONT, "2 PLAYER", this::onePlayer),
                 new Button(Fonts.GOHU_FONT, "OPTIONS", this::options),

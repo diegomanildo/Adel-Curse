@@ -22,11 +22,11 @@ public class Render {
     }
 
     public static float getMiddleX() {
-        return Gdx.graphics.getWidth() / 2f;
+        return screenSize.width / 2f;
     }
 
     public static float getMiddleY() {
-        return Gdx.graphics.getHeight() / 2f;
+        return screenSize.height / 2f;
     }
 
     public static void setScreen(Screen s) {

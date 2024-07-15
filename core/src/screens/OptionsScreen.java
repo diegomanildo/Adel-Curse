@@ -1,6 +1,6 @@
 package screens;
 
-import gameUtilities.Options;
+import utilities.Options;
 
 public final class OptionsScreen extends Screen {
     private Options options;
