@@ -25,6 +25,7 @@ public abstract class Screen implements com.badlogic.gdx.Screen {
 
     public void render(float delta) {
         Render.clear();
+        viewport.apply();
     }
 
     public void pause() {}

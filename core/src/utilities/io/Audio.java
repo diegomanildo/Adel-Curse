@@ -78,7 +78,7 @@ public class Audio implements Music {
 
     @Override
     public void dispose() {
-        music.stop();
+        music.dispose();
     }
 
     @Override

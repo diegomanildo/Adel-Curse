@@ -19,7 +19,8 @@ public final class MainMenuScreen extends Screen {
         options = new Options(
                 new Button(Fonts.GOHU_FONT, "1 PLAYER", this::onePlayer),
                 new Button(Fonts.GOHU_FONT, "2 PLAYER", this::onePlayer),
-                new Button(Fonts.GOHU_FONT, "OPTIONS", this::options)
+                new Button(Fonts.GOHU_FONT, "OPTIONS", this::options),
+                new Button(Fonts.GOHU_FONT, "QUIT" , this::quit)
         );
 
         background.setSize(true);
@@ -48,5 +49,12 @@ public final class MainMenuScreen extends Screen {
         options.draw();
 
         Render.b.end();
+    }
+
+    @Override
+    public void dispose() {
+        super.dispose();
+        menuSong.dispose();
+        options.dispose();
     }
 }

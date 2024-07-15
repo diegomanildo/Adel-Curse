@@ -30,7 +30,7 @@ public class Render {
     }
 
     public static void setScreen(Screen s) {
-        s.dispose();
+        app.getScreen().dispose();
         app.setScreen(s);
     }
 }

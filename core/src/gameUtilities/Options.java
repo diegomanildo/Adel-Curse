@@ -65,6 +65,23 @@ public final class Options extends GameObject {
         }
     }
 
+    @Override
+    public void draw() {
+        super.draw();
+        if (isShowingHitbox()) {
+            for (Button button : buttons) {
+                button.drawHitbox();
+            }
+        }
+    }
+
+    @Override
+    public void dispose() {
+        super.dispose();
+        for (Button button : buttons) button.dispose();
+        mouseHover.dispose();
+    }
+
     private void isAnyHovered() {
         for (int i = 0; i < buttons.length; i++) {
             // If is in mouse is in any option paint it of yellow and play the hover sound

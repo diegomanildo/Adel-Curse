@@ -103,4 +103,6 @@ public abstract class GameObject implements Hitbox {
         SR.circle(middleX, middleY, 5f);
         SR.end();
     }
+
+    public void dispose() {}
 }

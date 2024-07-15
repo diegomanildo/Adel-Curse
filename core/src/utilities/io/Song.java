@@ -130,7 +130,9 @@ public class Song {
     }
 
     public void dispose() {
-        intro.dispose();
+        if (intro != null) {
+            intro.dispose();
+        }
         song.dispose();
     }
 }
