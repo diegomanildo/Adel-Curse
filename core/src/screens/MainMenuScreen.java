@@ -34,6 +34,7 @@ public final class MainMenuScreen extends Screen {
     }
 
     private void options() {
+        Render.setScreen(new OptionsScreen());
     }
 
     private void quit() {
