@@ -2,6 +2,7 @@ package screens;
 
 import com.badlogic.gdx.Input;
 import utilities.Button;
+import utilities.Fonts;
 import utilities.Options;
 import utilities.Render;
 

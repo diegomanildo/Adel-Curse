@@ -2,16 +2,20 @@ package utilities;
 
 import com.ac.Juego;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
 import screens.Screen;
 import utilities.io.IOProcessor;
 
 public class Render {
-    public static SpriteBatch b;
-    public static Juego app;
-    public static IOProcessor io;
+    public static SpriteBatch b = new SpriteBatch();
+    public static IOProcessor io = new IOProcessor();
     public static Size screenSize = new Size(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+
+    public static Juego app;
+    public static AssetManager manager = new AssetManager();
+
 
     public static void clear(float r, float g, float b, float a) {
         ScreenUtils.clear(r, g, b, a);
