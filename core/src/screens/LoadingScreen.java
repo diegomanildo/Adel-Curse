@@ -1,12 +1,11 @@
 package screens;
 
 import utilities.Render;
-import com.badlogic.gdx.Gdx;
 import utilities.FilePaths;
 import utilities.Image;
 
 public final class LoadingScreen extends Screen {
-    private final Image background;
+    private Image background;
 
     private boolean fadeInFinished;
     private boolean finish;
@@ -18,15 +17,16 @@ public final class LoadingScreen extends Screen {
     private static final float WAIT_TIME = 1f;
     private static final float INCREMENT = 0.007f;
 
-    public LoadingScreen() {
-        super();
+    @Override
+    public void show() {
+        super.show();
         background = new Image(FilePaths.BACKGROUNDS + "loadingScreen.png");
         fadeInFinished = false;
         finish = false;
         alpha = 0f;
         time = 0f;
         finishTimer = 0f;
-        background.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        background.setSize(Render.screenSize.width, Render.screenSize.height);
         background.setAlpha(alpha);
     }
 
@@ -68,7 +68,7 @@ public final class LoadingScreen extends Screen {
         if (finish) {
             finishTimer += 0.04f;
             if (finishTimer > WAIT_TIME) {
-                Render.app.setScreen(new MainMenuScreen());
+                Render.setScreen(new MainMenuScreen());
             }
         }
     }

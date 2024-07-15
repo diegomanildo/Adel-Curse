@@ -3,6 +3,7 @@ package utilities.io;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import utilities.Render;
 import utilities.exceptions.NotValidKeyException;
 
 public class IOProcessor implements InputProcessor {
@@ -60,7 +61,7 @@ public class IOProcessor implements InputProcessor {
     @Override
     public boolean mouseMoved(int screenX, int screenY) {
         mouseX = screenX;
-        mouseY = Gdx.graphics.getHeight() - screenY;
+        mouseY = (int) (Render.screenSize.height - screenY);
         return false;
     }
 

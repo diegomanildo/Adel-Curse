@@ -3,6 +3,7 @@ package gameUtilities;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import utilities.Direction;
+import utilities.Render;
 import utilities.exceptions.DirectionNotValidException;
 
 public final class Bullet extends MovableObject {
@@ -42,7 +43,7 @@ public final class Bullet extends MovableObject {
 
     // Bullet is no more in the screen, and you should have not render it
     public boolean outOfBounds() {
-        return getX() > Gdx.graphics.getWidth() || getX() < -100f
-            || getY()  > Gdx.graphics.getHeight() || getY() < -100f;
+        return getX() > Render.screenSize.width || getX() < -100f
+            || getY()  > Render.screenSize.height || getY() < -100f;
     }
 }

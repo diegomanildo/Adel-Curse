@@ -1,6 +1,5 @@
 package gameUtilities;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import utilities.Button;
@@ -27,7 +26,7 @@ public final class Options extends GameObject {
         buttonsSpace = this.buttons[0].font.getSize() * 8;
 
         for (int i = 0; i < this.buttons.length; i++) {
-            this.buttons[i].setPosition(Gdx.graphics.getWidth() / 2f, (Gdx.graphics.getHeight() / 2f) - i * buttonsSpace);
+            this.buttons[i].setPosition(Render.screenSize.width / 2f, (Render.screenSize.height / 2f) - i * buttonsSpace);
         }
 
         super.setPosition(this.buttons[0].getX(), this.buttons[0].getY());

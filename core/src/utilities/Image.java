@@ -15,7 +15,7 @@ public class Image extends Sprite {
 
     public void setSize(boolean fullScreen) {
         if (fullScreen) {
-            setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+            setSize(Render.screenSize.width, Render.screenSize.height);
         }
     }
 }

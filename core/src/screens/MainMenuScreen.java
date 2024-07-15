@@ -6,12 +6,13 @@ import utilities.*;
 import utilities.io.Song;
 
 public final class MainMenuScreen extends Screen {
-    private final Image background;
-    private final Song menuSong;
-    private final Options options;
+    private Image background;
+    private Song menuSong;
+    private Options options;
 
-    public MainMenuScreen() {
-        super();
+    @Override
+    public void show() {
+        super.show();
         background = new Image(FilePaths.BACKGROUNDS + "loadingScreen.png");
         menuSong = new Song("menuMusic.mp3", 0.1f);
 
@@ -26,7 +27,7 @@ public final class MainMenuScreen extends Screen {
     }
 
     private void onePlayer() {
-        Render.app.setScreen(new GameScreen());
+        Render.setScreen(new GameScreen());
         menuSong.stopSong();
     }
 
