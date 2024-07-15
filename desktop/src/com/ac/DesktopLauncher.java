@@ -3,7 +3,6 @@ package com.ac;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 
-// Please note that on macOS your application needs to be started with the -XstartOnFirstThread JVM argument
 public class DesktopLauncher {
 	public static void main(String[] args) {
 		try {
@@ -11,7 +10,8 @@ public class DesktopLauncher {
 			config.setForegroundFPS(60);
 			config.setTitle("Adel's Curse");
 			config.setMaximized(true);
-			config.setResizable(true);
+			config.setResizable(false);
+			config.setWindowedMode(1600, 900);
 			new Lwjgl3Application(new Juego(), config);
 		} catch (Exception e) {
 			e.printStackTrace();

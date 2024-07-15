@@ -1,7 +1,5 @@
 package gameUtilities;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import utilities.Direction;
 import utilities.Render;
 import utilities.exceptions.DirectionNotValidException;
