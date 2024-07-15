@@ -16,6 +16,9 @@ public final class GameScreen extends Screen {
         adel.setPosition(Render.getMiddleX(), Render.getMiddleY());
         background = new Image(FilePaths.BACKGROUNDS + "backgroundsAux.png");
         background.setSize(true);
+
+        camera.position.set(adel.getX(), adel.getY(), 0);
+        camera.update();
     }
 
     @Override
@@ -26,14 +29,20 @@ public final class GameScreen extends Screen {
         if (Render.io.isKeyPressed(Input.Keys.ESCAPE)) {
             Render.app.setScreen(new MainMenuScreen());
         }
+        camera.position.set(adel.getX(), adel.getY(), 0);
+        camera.update();
+
+        Render.b.setProjectionMatrix(camera.combined);
 
         Render.b.begin();
-
         background.draw();
         adel.move();
-
         adel.draw();
-
         Render.b.end();
+    }
+
+    @Override
+    public void resize(int w, int h) {
+        super.resize(w, h);
     }
 }
