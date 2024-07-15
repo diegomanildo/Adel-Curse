@@ -68,30 +68,6 @@ public final class Options extends GameObject {
 
     @Override
     public void draw(Batch batch) {
-        isAnyHovered();
-        for (Button button : buttons) {
-            button.draw(batch);
-        }
-    }
-
-    @Override
-    public void draw() {
-        super.draw();
-        if (isShowingHitbox()) {
-            for (Button button : buttons) {
-                button.drawHitbox();
-            }
-        }
-    }
-
-    @Override
-    public void dispose() {
-        super.dispose();
-        for (Button button : buttons) button.dispose();
-        MOUSE_HOVER.dispose();
-    }
-
-    private void isAnyHovered() {
         for (int i = 0; i < buttons.length; i++) {
             // If is in mouse is in any option paint it of yellow and play the hover sound
             if (buttons[i].isHovered()) {
@@ -112,7 +88,24 @@ public final class Options extends GameObject {
             if (Render.io.isLeftPressed() && optionSelected != NONE) {
                 buttons[optionSelected].execute();
             }
+            buttons[i].draw(batch);
         }
+    }
+
+    @Override
+    public void draw() {
+        super.draw();
+        if (isShowingHitbox()) {
+            for (Button button : buttons) {
+                button.drawHitbox();
+            }
+        }
+    }
+
+    @Override
+    public void dispose() {
+        super.dispose();
+        for (Button button : buttons) button.dispose();
     }
 
     public int getOptionSelected() {

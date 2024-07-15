@@ -25,12 +25,10 @@ public final class MainMenuScreen extends Screen {
         );
 
         background.setSize(true);
-        menuSong.playSong(true);
     }
 
     private void onePlayer() {
         Render.setScreen(new GameScreen());
-        menuSong.stopSong();
     }
 
     private void options() {
@@ -45,11 +43,8 @@ public final class MainMenuScreen extends Screen {
     public void render(float delta) {
         super.render(delta);
         Render.b.begin();
-
         background.draw();
-
         options.draw();
-
         Render.b.end();
     }
 

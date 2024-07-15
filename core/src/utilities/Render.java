@@ -16,7 +16,6 @@ public class Render {
     public static Juego app;
     public static AssetManager manager = new AssetManager();
 
-
     public static void clear(float r, float g, float b, float a) {
         ScreenUtils.clear(r, g, b, a);
     }
