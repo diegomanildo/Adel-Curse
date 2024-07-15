@@ -1,8 +1,8 @@
 package screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.badlogic.gdx.utils.viewport.FitViewport;
 
 public abstract class Screen implements com.badlogic.gdx.Screen {
     protected Viewport viewport;
@@ -10,7 +10,7 @@ public abstract class Screen implements com.badlogic.gdx.Screen {
 
     public Screen() {
         camera = new OrthographicCamera();
-        viewport = new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), camera);
+        viewport = new ExtendViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), camera);
     }
 
     public void show() {}
