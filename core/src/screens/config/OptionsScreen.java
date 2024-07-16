@@ -1,12 +1,12 @@
 package screens.config;
 
-import com.badlogic.gdx.Input;
 import screens.MainMenuScreen;
 import screens.Screen;
 import utilities.*;
 
 public final class OptionsScreen extends Screen {
     private Options options;
+    private Button backBtn;
 
     @Override
     public void show() {
@@ -19,6 +19,9 @@ public final class OptionsScreen extends Screen {
 
         options.setAlign(AlignMode.CENTERED);
         options.center();
+        backBtn = new Button(Fonts.GOHU_FONT, "VOLVER", () -> Render.setScreen(new MainMenuScreen()));
+        backBtn.centerX();
+        backBtn.setY(backBtn.getHeight() + 10f);
     }
 
     private void controles() {
@@ -31,11 +34,9 @@ public final class OptionsScreen extends Screen {
     @Override
     public void render(float delta) {
         super.render(delta);
-        if (Render.io.isKeyPressed(Input.Keys.ESCAPE)) {
-            Render.setScreen(new MainMenuScreen());
-        }
 
         Render.b.begin();
+        backBtn.draw();
         options.draw();
         Render.b.end();
     }

@@ -1,7 +1,6 @@
 package screens.config;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import screens.Screen;
 import utilities.*;
@@ -9,7 +8,7 @@ import utilities.*;
 public class ResolutionScreen extends Screen {
     private Text screenTitle;
     private Options options;
-    private Button volver;
+    private Button backBtn;
 
     @Override
     public void show() {
@@ -29,23 +28,19 @@ public class ResolutionScreen extends Screen {
         options.setAlign(AlignMode.CENTERED);
         options.center();
 
-        volver = new Button(Fonts.GOHU_FONT, "VOLVER", () -> Render.setScreen(new OptionsScreen()));
-        volver.centerX();
-        volver.setY(volver.getHeight() + 10f);
+        backBtn = new Button(Fonts.GOHU_FONT, "VOLVER", () -> Render.setScreen(new OptionsScreen()));
+        backBtn.centerX();
+        backBtn.setY(backBtn.getHeight() + 10f);
     }
 
     @Override
     public void render(float delta) {
         super.render(delta);
-        if (Render.io.isKeyPressed(Input.Keys.ESCAPE)) {
-            Render.setScreen(new OptionsScreen());
-        }
 
         Render.b.begin();
+        backBtn.draw();
         screenTitle.draw();
         options.draw();
-
-        volver.draw();
         Render.b.end();
     }
 
