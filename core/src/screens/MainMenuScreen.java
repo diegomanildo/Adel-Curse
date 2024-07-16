@@ -24,6 +24,9 @@ public final class MainMenuScreen extends Screen {
                 new Button(Fonts.GOHU_FONT, "QUIT" , this::quit)
         );
 
+        options.setAlign(AlignMode.CENTERED);
+        options.center();
+
         background.setSize(true);
     }
 

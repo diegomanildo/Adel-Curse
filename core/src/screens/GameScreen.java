@@ -14,7 +14,7 @@ public final class GameScreen extends Screen {
     public void show() {
         super.show();
         adel = new Adel(0f, 0f);
-        adel.setPosition(Render.getMiddleX(), Render.getMiddleY());
+        adel.center();
         background = new Image(FilePaths.BACKGROUNDS + "backgroundsAux.png");
         background.setSize(true);
     }

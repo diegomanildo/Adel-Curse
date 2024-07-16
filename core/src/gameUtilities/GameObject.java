@@ -93,15 +93,30 @@ public abstract class GameObject implements Hitbox {
     protected static void drawRectangle(float x, float y, float middleX, float middleY, float width, float height) {
         // Draw the hitbox
         SR.begin(ShapeRenderer.ShapeType.Line);
-        SR.setColor(Color.WHITE);
+        SR.setColor(Color.GREEN);
         SR.rect(x, y, width, height);
-        SR.end();
 
         // Draw the cirlce in the middle
-        SR.begin(ShapeRenderer.ShapeType.Filled);
-        SR.setColor(new Color(0f, 0f, 255f, 255f));
         SR.circle(middleX, middleY, 5f);
+
+        // Draw middle of screen
+        SR.line(Render.screenSize.width / 2, 0, Render.screenSize.width / 2, Render.screenSize.height);
+        SR.line(0, Render.screenSize.height / 2, Render.screenSize.width, Render.screenSize.height / 2);
+
         SR.end();
+    }
+
+    public void centerX() {
+        setX((Render.screenSize.width - getWidth()) / 2f);
+    }
+
+    public void centerY() {
+        setY((Render.screenSize.height - getHeight()) / 2f);
+    }
+
+    public void center() {
+        centerX();
+        centerY();
     }
 
     public void dispose() {}

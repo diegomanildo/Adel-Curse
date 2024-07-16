@@ -1,10 +1,7 @@
 package screens;
 
 import com.badlogic.gdx.Input;
-import utilities.Button;
-import utilities.Fonts;
-import utilities.Options;
-import utilities.Render;
+import utilities.*;
 
 public final class OptionsScreen extends Screen {
     private Options options;
@@ -17,6 +14,9 @@ public final class OptionsScreen extends Screen {
                 new Button(Fonts.GOHU_FONT, "CONTROLS", this::controles),
                 new Button(Fonts.GOHU_FONT, "RESOLUTION", this::resolution)
         );
+
+        options.setAlign(AlignMode.CENTERED);
+        options.center();
     }
 
     private void controles() {
