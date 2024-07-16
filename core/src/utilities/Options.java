@@ -1,12 +1,10 @@
 package utilities;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import gameUtilities.GameObject;
-import utilities.io.Audio;
 
 public final class Options extends GameObject {
-    private final Button[] buttons;
+    public final Button[] buttons;
     private final float buttonsSpace;
 
     private AlignMode align;
@@ -26,6 +24,14 @@ public final class Options extends GameObject {
         this.align = align;
     }
 
+    public Button getLastButton() {
+        return buttons[buttons.length - 1];
+    }
+
+    public float getButtonsSpace() {
+        return buttonsSpace;
+    }
+
     @Override
     public void setX(float x) {
         super.setX(x);
@@ -34,26 +40,24 @@ public final class Options extends GameObject {
             return;
         }
 
-        for (Button button : buttons) {
+        for (int i = 0; i < buttons.length; i++) {
             float posX;
             switch (align) {
                 case LEFT:
                     posX = x;
                     break;
                 case CENTERED:
-                    posX = getX() + (getWidth() - button.getWidth()) / 2f;
+                    posX = getX() + (getWidth() - buttons[i].getWidth()) / 2f;
                     break;
                 case RIGHT:
-                    posX = getX() + getWidth() - button.getWidth();
+                    posX = getX() + getWidth() - buttons[i].getWidth();
                     break;
                 default:
                     throw new RuntimeException("Invalid align mode: " + align);
             }
 
-            button.setX(posX);
+            buttons[i].setX(posX);
         }
-
-
     }
 
     @Override
@@ -89,8 +93,8 @@ public final class Options extends GameObject {
 
     @Override
     public void draw(Batch batch) {
-        for (int i = 0; i < buttons.length; i++) {
-            buttons[i].draw(batch);
+        for (Button button : buttons) {
+            button.draw(batch);
         }
     }
 

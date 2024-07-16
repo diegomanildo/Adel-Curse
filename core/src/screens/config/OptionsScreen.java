@@ -19,8 +19,8 @@ public final class OptionsScreen extends Screen {
 
         options.setAlign(AlignMode.CENTERED);
         options.center();
-        backBtn = new Button(Fonts.GOHU_FONT, "VOLVER", () -> Render.setScreen(new MainMenuScreen()));
-        backBtn.centerX();
+        backBtn = new Button(Fonts.GOHU_FONT, "BACK", () -> Render.setScreen(new MainMenuScreen()));
+        backBtn.setX(10f);
         backBtn.setY(backBtn.getHeight() + 10f);
     }
 

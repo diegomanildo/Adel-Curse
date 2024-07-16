@@ -40,6 +40,7 @@ public class Text extends GameObject {
     public void setText(String text) {
         this.text = text;
         font.setText(text);
+        setSize(this.font.getWidth(), this.font.getHeight());
     }
 
     @Override

@@ -11,7 +11,7 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFont
 public class Font {
     private final BitmapFont font;
     private int size;
-    private final GlyphLayout layout;
+    private GlyphLayout layout;
 
     public Font(String path, int size, Color fontColor, int shadowOffset) {
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal(FilePaths.FONTS + path));

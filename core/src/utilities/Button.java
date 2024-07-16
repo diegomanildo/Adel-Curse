@@ -32,11 +32,13 @@ public class Button extends Text {
         return collidesIn(x, y);
     }
 
+    public boolean isClicked() {
+        return Render.io.isLeftPressed() && isHovered();
+    }
+
     @Override
     public void draw(Batch batch) {
-        boolean hovered = isHovered();
-
-        if (hovered) {
+        if (isHovered()) {
             font.setColor(Color.YELLOW);
             if (!previouslyHovered) {
                 Button.MOUSE_HOVER.play();
@@ -47,7 +49,7 @@ public class Button extends Text {
             previouslyHovered = false;
         }
 
-        if (Render.io.isLeftPressed() && hovered) {
+        if (isClicked()) {
             execute();
         }
         super.draw(batch);
