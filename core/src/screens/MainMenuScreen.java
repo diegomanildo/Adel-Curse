@@ -7,14 +7,12 @@ import utilities.*;
 import utilities.io.Song;
 
 public final class MainMenuScreen extends Screen {
-    private Image background;
     private Song menuSong;
     private Options options;
 
     @Override
     public void show() {
         super.show();
-        background = new Image(FilePaths.BACKGROUNDS + "loadingScreen.png");
         menuSong = new Song("menuMusic.mp3", 0.1f);
 
         options = new Options(
@@ -27,8 +25,6 @@ public final class MainMenuScreen extends Screen {
 
         options.setAlign(AlignMode.CENTERED);
         options.center();
-
-        background.setSize(true);
     }
 
     private void onePlayer() {
@@ -47,7 +43,6 @@ public final class MainMenuScreen extends Screen {
     public void render(float delta) {
         super.render(delta);
         Render.b.begin();
-        background.draw();
         options.draw();
         Render.b.end();
     }
