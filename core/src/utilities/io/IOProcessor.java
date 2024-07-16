@@ -3,7 +3,8 @@ package utilities.io;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
-import utilities.Render;
+import com.badlogic.gdx.math.Vector3;
+import screens.Screen;
 import utilities.exceptions.NotValidKeyException;
 
 public class IOProcessor implements InputProcessor {
@@ -60,8 +61,9 @@ public class IOProcessor implements InputProcessor {
 
     @Override
     public boolean mouseMoved(int screenX, int screenY) {
-        mouseX = screenX;
-        mouseY = (int) (Render.screenSize.height - screenY);
+        Vector3 worldCoordinates = Screen.camera.unproject(new Vector3(screenX, screenY, 0));
+        mouseX = (int) worldCoordinates.x;
+        mouseY = (int) worldCoordinates.y;
         return false;
     }
 

@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.Color;
 import screens.Screen;
 import utilities.*;
 
-public class ResolutionScreen extends Screen {
+public final class ResolutionScreen extends Screen {
     private Text screenTitle;
     private Options options;
     private Button backBtn;
