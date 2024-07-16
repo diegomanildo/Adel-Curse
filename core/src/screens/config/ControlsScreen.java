@@ -19,6 +19,7 @@ public final class ControlsScreen extends BasicOptionsScreen {
         for (int i = 0; i < buttons.length; i++) {
             Control c = Controls.at(i);
             buttons[i] = new Button(Fonts.DEFAULT2, Input.Keys.toString(c.getKey()), () -> setButton(c));
+            buttons[i].showBackground(false);
             texts[i] = new Text(Fonts.DEFAULT2, c.getAction() + ": ");
         }
 

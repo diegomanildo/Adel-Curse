@@ -9,8 +9,8 @@ import utilities.Fonts;
 import utilities.Render;
 import utilities.Text;
 
-public class PressAKeyScreen extends Screen {
-    protected Text pressAnyKey;
+public final class PressAKeyScreen extends Screen {
+    private Text pressAnyKey;
     private final Control control;
 
     public PressAKeyScreen(Control control) {
