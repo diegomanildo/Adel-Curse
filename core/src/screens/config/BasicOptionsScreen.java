@@ -21,7 +21,6 @@ public abstract class BasicOptionsScreen extends Screen {
         title = new Text(Fonts.DEFAULT, getTitleScreen());
         title.centerX();
         title.setY(Render.screenSize.height - 10f);
-        title.font.setColor(Color.RED);
     }
 
     @Override

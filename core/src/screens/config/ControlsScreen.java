@@ -6,7 +6,7 @@ import gameUtilities.Controls;
 import screens.Screen;
 import utilities.*;
 
-public class ControlsScreen extends BasicOptionsScreen {
+public final class ControlsScreen extends BasicOptionsScreen {
     private Options keys;
     private Texts actions;
 

@@ -26,6 +26,9 @@ public final class ResolutionScreen extends BasicOptionsScreen {
         );
 
         options.setAlign(AlignMode.CENTERED);
+        for (int i = 0; i < options.buttons.length; i++) {
+            options.buttons[i].showBackground(false);
+        }
 
         applyBtn = new Button(Fonts.DEFAULT, "APPLY", () -> setWindowSize(textSave));
 
