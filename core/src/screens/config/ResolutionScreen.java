@@ -17,19 +17,19 @@ public class ResolutionScreen extends Screen {
     @Override
     public void show() {
         super.show();
-        screenTitle = new Text(Fonts.GOHU_FONT, "RESOLUTIONS");
+        screenTitle = new Text(Fonts.DEFAULT, "RESOLUTIONS");
 
         options = new Options(
                 20f,
-                new Button(Fonts.GOHU_FONT, "1920x1080", () -> {}),
-                new Button(Fonts.GOHU_FONT, "1680x1050", () -> {}),
-                new Button(Fonts.GOHU_FONT, "1280x720", () -> {})
+                new Button(Fonts.DEFAULT, "1920x1080", () -> {}),
+                new Button(Fonts.DEFAULT, "1680x1050", () -> {}),
+                new Button(Fonts.DEFAULT, "1280x720", () -> {})
         );
 
         options.setAlign(AlignMode.CENTERED);
 
-        backBtn = new Button(Fonts.GOHU_FONT, "BACK", () -> Render.setScreen(new OptionsScreen()));
-        applyBtn = new Button(Fonts.GOHU_FONT, "APPLY", () -> setWindowSize(textSave));
+        backBtn = new Button(Fonts.DEFAULT, "BACK", () -> Render.setScreen(new OptionsScreen()));
+        applyBtn = new Button(Fonts.DEFAULT, "APPLY", () -> setWindowSize(textSave));
 
         configureResolution();
     }

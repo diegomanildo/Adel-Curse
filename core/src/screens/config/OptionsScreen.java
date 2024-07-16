@@ -13,13 +13,13 @@ public final class OptionsScreen extends Screen {
         super.show();
         options = new Options(
                 20f,
-                new Button(Fonts.GOHU_FONT, "CONTROLS", this::controles),
-                new Button(Fonts.GOHU_FONT, "RESOLUTION", this::resolution)
+                new Button(Fonts.DEFAULT, "CONTROLS", this::controles),
+                new Button(Fonts.DEFAULT, "RESOLUTION", this::resolution)
         );
 
         options.setAlign(AlignMode.CENTERED);
         options.center();
-        backBtn = new Button(Fonts.GOHU_FONT, "BACK", () -> Render.setScreen(new MainMenuScreen()));
+        backBtn = new Button(Fonts.DEFAULT, "BACK", () -> Render.setScreen(new MainMenuScreen()));
         backBtn.setX(10f);
         backBtn.setY(backBtn.getHeight() + 10f);
     }

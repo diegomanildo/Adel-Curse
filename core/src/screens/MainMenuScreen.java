@@ -19,10 +19,10 @@ public final class MainMenuScreen extends Screen {
 
         options = new Options(
                 20f,
-                new Button(Fonts.GOHU_FONT, "1 PLAYER", this::onePlayer),
-                new Button(Fonts.GOHU_FONT, "2 PLAYER", this::onePlayer),
-                new Button(Fonts.GOHU_FONT, "OPTIONS", this::options),
-                new Button(Fonts.GOHU_FONT, "QUIT" , this::quit)
+                new Button(Fonts.DEFAULT, "1 PLAYER", this::onePlayer),
+                new Button(Fonts.DEFAULT, "2 PLAYER", this::onePlayer),
+                new Button(Fonts.DEFAULT, "OPTIONS", this::options),
+                new Button(Fonts.DEFAULT, "QUIT" , this::quit)
         );
 
         options.setAlign(AlignMode.CENTERED);
