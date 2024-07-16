@@ -11,7 +11,7 @@ public class DesktopLauncher {
 			config.setTitle("Adel's Curse");
 			config.setMaximized(false);
 			config.setResizable(false);
-			config.setWindowedMode(1600, 900);
+			config.setWindowedMode(1280, 720);
 			new Lwjgl3Application(new Juego(), config);
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -1,6 +1,8 @@
-package screens;
+package screens.config;
 
 import com.badlogic.gdx.Input;
+import screens.MainMenuScreen;
+import screens.Screen;
 import utilities.*;
 
 public final class OptionsScreen extends Screen {
@@ -23,6 +25,7 @@ public final class OptionsScreen extends Screen {
     }
 
     private void resolution() {
+        Render.setScreen(new ResolutionScreen());
     }
 
     @Override

@@ -9,6 +9,7 @@ import utilities.Size;
 public abstract class Screen implements com.badlogic.gdx.Screen {
     protected Viewport viewport;
     protected OrthographicCamera camera;
+    public static boolean delay;
 
     public void show() {
         camera = new OrthographicCamera();

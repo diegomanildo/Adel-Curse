@@ -102,12 +102,12 @@ public final class Options extends GameObject {
             // If is in mouse is in any option paint it of yellow and play the hover sound
             if (buttons[i].isHovered()) {
                 optionSelected = i;
-                buttons[i].font.setFontColor(Color.YELLOW);
+                buttons[i].font.setColor(Color.YELLOW);
                 if (optionSelected != previousOptionSelected) {
                     MOUSE_HOVER.play();
                 }
             } else {
-                buttons[i].font.setFontColor(Color.WHITE);
+                buttons[i].font.setColor(Color.WHITE);
                 if (optionSelected != NONE || previousOptionSelected == NONE_PREVIOUS) {
                     previousOptionSelected = optionSelected;
                 }

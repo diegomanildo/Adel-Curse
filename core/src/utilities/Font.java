@@ -61,7 +61,7 @@ public class Font {
         return font.getColor();
     }
 
-    public void setFontColor(Color color) {
+    public void setColor(Color color) {
         font.setColor(color);
     }
 
