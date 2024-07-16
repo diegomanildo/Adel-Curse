@@ -20,10 +20,13 @@ public class ResolutionScreen extends Screen {
         screenTitle = new Text(Fonts.DEFAULT, "RESOLUTIONS");
 
         options = new Options(
-                20f,
-                new Button(Fonts.DEFAULT, "1920x1080", () -> {}),
-                new Button(Fonts.DEFAULT, "1680x1050", () -> {}),
-                new Button(Fonts.DEFAULT, "1280x720", () -> {})
+                10f,
+                new Button(Fonts.DEFAULT, "1920x1080"),
+                new Button(Fonts.DEFAULT, "1600x900"),
+                new Button(Fonts.DEFAULT, "1366x768"),
+                new Button(Fonts.DEFAULT, "1360x768"),
+                new Button(Fonts.DEFAULT, "1280x720"),
+                new Button(Fonts.DEFAULT, "1176x664")
         );
 
         options.setAlign(AlignMode.CENTERED);
@@ -74,7 +77,7 @@ public class ResolutionScreen extends Screen {
         backBtn.setY(backBtn.getHeight() + 10f);
 
         applyBtn.centerX();
-        applyBtn.setY(options.getLastButton().getY() - options.getLastButton().getHeight() - options.getButtonsSpace());
+        applyBtn.setY(options.getLastButton().getY() - options.getLastButton().getHeight() - (options.getButtonsSpace() * 4f));
 
         Render.b.begin();
         backBtn.draw();

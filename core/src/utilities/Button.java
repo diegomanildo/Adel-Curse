@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import utilities.io.Audio;
 
-public class Button extends Text {
+public final class Button extends Text {
     private final ButtonAction action;
     private static final Audio ON_PRESSED_SOUND = new Audio("buttonClicked.mp3");
     private static final Audio MOUSE_HOVER = new Audio("mouseHover.mp3");
@@ -18,6 +18,10 @@ public class Button extends Text {
 
     public Button(Font font, String text, ButtonAction action) {
         this(font, text, 0f, 0f, action);
+    }
+
+    public Button(Font font, String text) {
+        this(font, text, () -> {});
     }
 
     public void execute() {

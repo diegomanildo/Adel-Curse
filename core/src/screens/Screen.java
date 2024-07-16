@@ -1,19 +1,17 @@
 package screens;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.utils.viewport.FillViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
+import com.badlogic.gdx.utils.viewport.*;
 import utilities.Render;
 import utilities.Size;
 
 public abstract class Screen implements com.badlogic.gdx.Screen {
     protected Viewport viewport;
     protected OrthographicCamera camera;
-    public static boolean delay;
 
     public void show() {
         camera = new OrthographicCamera();
-        viewport = new FillViewport(Render.screenSize.width, Render.screenSize.height, camera);
+        viewport = new FitViewport(Render.screenSize.width, Render.screenSize.height, camera);
     }
 
     public void resize(int w, int h) {
