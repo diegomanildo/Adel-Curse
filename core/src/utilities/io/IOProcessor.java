@@ -86,6 +86,16 @@ public class IOProcessor implements InputProcessor {
         throw new NotValidKeyException(keycode);
     }
 
+    public int getKeyPressed() {
+        for (int i = 0; i < keysPressed.length; i++) {
+            if (keysPressed[i]) {
+                return i;
+            }
+        }
+
+        return -1;
+    }
+
     public int getMouseX() {
         return mouseX;
     }
@@ -100,5 +110,15 @@ public class IOProcessor implements InputProcessor {
 
     public boolean isLeftPressed() {
         return Gdx.input.isButtonPressed(Input.Buttons.LEFT);
+    }
+
+    public boolean isAnyKeyPressed() {
+        for (boolean b : keysPressed) {
+            if (b) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

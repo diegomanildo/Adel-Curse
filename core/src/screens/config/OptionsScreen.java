@@ -4,7 +4,7 @@ import screens.MainMenuScreen;
 import screens.Screen;
 import utilities.*;
 
-public final class OptionsScreen extends Screen {
+public final class OptionsScreen extends BasicOptionsScreen {
     private Options options;
     private Button backBtn;
 
@@ -25,6 +25,7 @@ public final class OptionsScreen extends Screen {
     }
 
     private void controles() {
+        Render.setScreen(new ControlsScreen());
     }
 
     private void resolution() {
@@ -39,5 +40,15 @@ public final class OptionsScreen extends Screen {
         backBtn.draw();
         options.draw();
         Render.b.end();
+    }
+
+    @Override
+    protected Screen getBackScreen() {
+        return new MainMenuScreen();
+    }
+
+    @Override
+    protected String getTitleScreen() {
+        return "OPTIONS";
     }
 }

@@ -10,7 +10,7 @@ public abstract class GameObject implements Hitbox {
     private float y;
     private float width;
     private float height;
-    private boolean showHitbox = true;
+    private boolean showHitbox = false;
     private static final ShapeRenderer SR = new ShapeRenderer();
 
     protected GameObject(float x, float y) {
@@ -86,7 +86,7 @@ public abstract class GameObject implements Hitbox {
         SR.setColor(Color.GREEN);
         SR.rect(x, y, width, height);
 
-        // Draw the cirlce in the middle
+        // Draw the circle in the middle
         SR.circle(middleX, middleY, 5f);
 
         // Draw middle of screen

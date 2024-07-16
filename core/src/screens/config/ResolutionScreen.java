@@ -1,14 +1,11 @@
 package screens.config;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import screens.Screen;
 import utilities.*;
 
-public final class ResolutionScreen extends Screen {
-    private Text screenTitle;
+public final class ResolutionScreen extends BasicOptionsScreen {
     private Options options;
-    private Button backBtn;
     private Button applyBtn;
 
     private String textSave;
@@ -17,7 +14,6 @@ public final class ResolutionScreen extends Screen {
     @Override
     public void show() {
         super.show();
-        screenTitle = new Text(Fonts.DEFAULT, "RESOLUTIONS");
 
         options = new Options(
                 10f,
@@ -31,7 +27,6 @@ public final class ResolutionScreen extends Screen {
 
         options.setAlign(AlignMode.CENTERED);
 
-        backBtn = new Button(Fonts.DEFAULT, "BACK", () -> Render.setScreen(new OptionsScreen()));
         applyBtn = new Button(Fonts.DEFAULT, "APPLY", () -> setWindowSize(textSave));
 
         configureResolution();
@@ -67,21 +62,12 @@ public final class ResolutionScreen extends Screen {
 
         selectResolution();
 
-        screenTitle.centerX();
-        screenTitle.setY(Render.screenSize.height - 10f);
-        screenTitle.font.setColor(Color.RED);
-
         options.center();
-
-        backBtn.setX(10f);
-        backBtn.setY(backBtn.getHeight() + 10f);
 
         applyBtn.centerX();
         applyBtn.setY(options.getLastButton().getY() - options.getLastButton().getHeight() - (options.getButtonsSpace() * 4f));
 
         Render.b.begin();
-        backBtn.draw();
-        screenTitle.draw();
         applyBtn.draw();
         options.draw();
         Render.b.end();
@@ -96,5 +82,15 @@ public final class ResolutionScreen extends Screen {
                 options.buttons[i].setText(">" + textSave + "<");
             }
         }
+    }
+
+    @Override
+    protected Screen getBackScreen() {
+        return new OptionsScreen();
+    }
+
+    @Override
+    protected String getTitleScreen() {
+        return "RESOLUTION";
     }
 }
