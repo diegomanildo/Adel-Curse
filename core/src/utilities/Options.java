@@ -7,22 +7,13 @@ import utilities.io.Audio;
 
 public final class Options extends GameObject {
     private final Button[] buttons;
-    private static final Audio MOUSE_HOVER = new Audio("mouseHover.mp3");
     private final float buttonsSpace;
-
-    public static final int NONE = -1;
-    public static final int NONE_PREVIOUS = -2;
-
-    private int optionSelected;
-    private int previousOptionSelected;
 
     private AlignMode align;
 
     public Options(float buttonsSpace, Button... buttons) {
         this.buttons = buttons;
         this.buttonsSpace = buttonsSpace;
-        optionSelected = NONE;
-        previousOptionSelected = NONE_PREVIOUS;
         align = AlignMode.LEFT;
         setPosition(Render.getMiddleX(), Render.getMiddleY());
     }
@@ -99,25 +90,6 @@ public final class Options extends GameObject {
     @Override
     public void draw(Batch batch) {
         for (int i = 0; i < buttons.length; i++) {
-            // If is in mouse is in any option paint it of yellow and play the hover sound
-            if (buttons[i].isHovered()) {
-                optionSelected = i;
-                buttons[i].font.setColor(Color.YELLOW);
-                if (optionSelected != previousOptionSelected) {
-                    MOUSE_HOVER.play();
-                }
-            } else {
-                buttons[i].font.setColor(Color.WHITE);
-                if (optionSelected != NONE || previousOptionSelected == NONE_PREVIOUS) {
-                    previousOptionSelected = optionSelected;
-                }
-                optionSelected = NONE;
-            }
-
-            // LeftClick pressed and is any option selected
-            if (Render.io.isLeftPressed() && optionSelected != NONE) {
-                buttons[optionSelected].execute();
-            }
             buttons[i].draw(batch);
         }
     }
@@ -136,21 +108,5 @@ public final class Options extends GameObject {
     public void dispose() {
         super.dispose();
         for (Button button : buttons) button.dispose();
-    }
-
-    public int getOptionSelected() {
-        return optionSelected;
-    }
-
-    public void setOptionSelected(int optionSelected) {
-        this.optionSelected = optionSelected;
-    }
-
-    public int getPreviousOptionSelected() {
-        return previousOptionSelected;
-    }
-
-    public void setPreviousOptionSelected(int previousOptionSelected) {
-        this.previousOptionSelected = previousOptionSelected;
     }
 }

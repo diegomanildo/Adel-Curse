@@ -3,13 +3,13 @@ package screens.config;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
-import screens.MainMenuScreen;
 import screens.Screen;
 import utilities.*;
 
 public class ResolutionScreen extends Screen {
     private Text screenTitle;
     private Options options;
+    private Button volver;
 
     @Override
     public void show() {
@@ -28,6 +28,10 @@ public class ResolutionScreen extends Screen {
 
         options.setAlign(AlignMode.CENTERED);
         options.center();
+
+        volver = new Button(Fonts.GOHU_FONT, "VOLVER", () -> Render.setScreen(new OptionsScreen()));
+        volver.centerX();
+        volver.setY(volver.getHeight() + 10f);
     }
 
     @Override
@@ -40,6 +44,12 @@ public class ResolutionScreen extends Screen {
         Render.b.begin();
         screenTitle.draw();
         options.draw();
+
+        if (volver.isHovered()) {
+
+        }
+
+        volver.draw();
         Render.b.end();
     }
 
