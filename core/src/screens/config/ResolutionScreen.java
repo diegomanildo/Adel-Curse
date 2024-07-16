@@ -45,10 +45,6 @@ public class ResolutionScreen extends Screen {
         screenTitle.draw();
         options.draw();
 
-        if (volver.isHovered()) {
-
-        }
-
         volver.draw();
         Render.b.end();
     }
