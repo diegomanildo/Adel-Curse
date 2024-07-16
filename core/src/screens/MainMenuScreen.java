@@ -53,6 +53,12 @@ public final class MainMenuScreen extends Screen {
     }
 
     @Override
+    public void resize(int w, int h) {
+        super.resize(w, h);
+
+    }
+
+    @Override
     public void dispose() {
         super.dispose();
         menuSong.dispose();

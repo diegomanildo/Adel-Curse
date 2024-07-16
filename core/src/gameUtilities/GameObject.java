@@ -53,16 +53,6 @@ public abstract class GameObject implements Hitbox {
         this.height = height;
     }
 
-    public void setPosition(float x, float y) {
-        setX(x);
-        setY(y);
-    }
-
-    public void setSize(float width, float height) {
-        setWidth(width);
-        setHeight(height);
-    }
-
     public boolean isShowingHitbox() {
         return showHitbox;
     }
@@ -87,10 +77,10 @@ public abstract class GameObject implements Hitbox {
     }
 
     protected void drawHitbox() {
-        drawRectangle(getX(), getY(), getMiddleX(), getMiddleY(), getWidth(), getHeight());
+        drawHitbox(getX(), getY(), getMiddleX(), getMiddleY(), getWidth(), getHeight());
     }
 
-    protected static void drawRectangle(float x, float y, float middleX, float middleY, float width, float height) {
+    protected static void drawHitbox(float x, float y, float middleX, float middleY, float width, float height) {
         // Draw the hitbox
         SR.begin(ShapeRenderer.ShapeType.Line);
         SR.setColor(Color.GREEN);
@@ -100,23 +90,10 @@ public abstract class GameObject implements Hitbox {
         SR.circle(middleX, middleY, 5f);
 
         // Draw middle of screen
-        SR.line(Render.screenSize.width / 2, 0, Render.screenSize.width / 2, Render.screenSize.height);
-        SR.line(0, Render.screenSize.height / 2, Render.screenSize.width, Render.screenSize.height / 2);
+        SR.line(Render.screenSize.width / 2f, 0f, Render.screenSize.width / 2f, Render.screenSize.height);
+        SR.line(0f, Render.screenSize.height / 2f, Render.screenSize.width, Render.screenSize.height / 2f);
 
         SR.end();
-    }
-
-    public void centerX() {
-        setX((Render.screenSize.width - getWidth()) / 2f);
-    }
-
-    public void centerY() {
-        setY((Render.screenSize.height - getHeight()) / 2f);
-    }
-
-    public void center() {
-        centerX();
-        centerY();
     }
 
     public void dispose() {}
