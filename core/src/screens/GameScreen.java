@@ -13,8 +13,10 @@ public final class GameScreen extends Screen {
     @Override
     public void show() {
         super.show();
-        adel = new Adel(0f, 0f);
+
+        adel = new Adel();
         adel.center();
+
         background = new Image(FilePaths.BACKGROUNDS + "backgroundsAux.png");
         background.setSize(true);
     }

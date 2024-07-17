@@ -9,8 +9,8 @@ public final class Bullet extends MovableObject {
 
     private final Direction bulletDirection;
 
-    public Bullet(String texturePath, Direction bulletDirection, float width, float height, float frameDuration) {
-        super(texturePath, 0f, 0f, width, height, 2, 4, frameDuration);
+    public Bullet(String texturePath, Direction bulletDirection, float frameDuration) {
+        super(texturePath, 2, 4, frameDuration);
         this.bulletDirection = bulletDirection;
         setVelocity(1000f);
     }

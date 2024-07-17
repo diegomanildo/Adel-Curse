@@ -17,14 +17,10 @@ public final class Button extends Text {
 
     private boolean showBackground;
 
-    public Button(Font font, String text, float x, float y, ButtonAction action) {
-        super(font, text, x, y);
+    public Button(Font font, String text, ButtonAction action) {
+        super(font, text);
         this.action = action;
         showBackground = true;
-    }
-
-    public Button(Font font, String text, ButtonAction action) {
-        this(font, text, 0f, 0f, action);
     }
 
     public Button(Font font, String text) {
@@ -59,14 +55,14 @@ public final class Button extends Text {
     public void draw(Batch batch) {
         if (isHovered()) {
             SR.setColor(Color.DARK_GRAY);
-            font.setColor(Color.YELLOW);
+            setTextColor(Color.YELLOW);
             if (!previouslyHovered) {
                 Button.MOUSE_HOVER.play();
                 previouslyHovered = true;
             }
         } else {
             SR.setColor(Color.GRAY);
-            font.setColor(Color.WHITE);
+            setTextColor(Color.WHITE);
             previouslyHovered = false;
         }
 
@@ -93,5 +89,9 @@ public final class Button extends Text {
         }
 
         super.draw(batch);
+    }
+
+    private void setTextColor(Color color) {
+
     }
 }

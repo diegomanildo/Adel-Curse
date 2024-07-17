@@ -57,15 +57,11 @@ public class Font {
         return layout.height + 7f;
     }
 
-    public Color getFontColor() {
-        return font.getColor();
+    public void setText(String text) {
+        layout.setText(font, text);
     }
 
     public void setColor(Color color) {
         font.setColor(color);
-    }
-
-    public void setText(String text) {
-        layout.setText(font, text);
     }
 }

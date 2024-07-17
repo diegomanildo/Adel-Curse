@@ -1,7 +1,9 @@
 package screens;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.utils.viewport.*;
+import gameUtilities.Hitbox;
 import utilities.Render;
 import utilities.Size;
 
@@ -9,9 +11,12 @@ public abstract class Screen implements com.badlogic.gdx.Screen {
     protected Viewport viewport;
     public static OrthographicCamera camera;
 
+    private static final int INIT_WIDTH = Gdx.graphics.getWidth();
+    private static final int INIT_HEIGHT = Gdx.graphics.getHeight();
+
     public void show() {
         camera = new OrthographicCamera();
-        viewport = new ExtendViewport(Render.screenSize.width, Render.screenSize.height, camera);
+        viewport = new ExtendViewport(INIT_WIDTH, INIT_HEIGHT, camera);
     }
 
     public void resize(int w, int h) {

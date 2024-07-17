@@ -10,14 +10,6 @@ public abstract class MovableObject extends GameAnimation {
         super(texturePath, columns, rows, frameDuration);
     }
 
-    public MovableObject(String texturePath, float x, float y, int columns, int rows, float frameDuration) {
-        super(texturePath, x, y, columns, rows, frameDuration);
-    }
-
-    public MovableObject(String texturePath, float x, float y, float width, float height, int columns, int rows, float frameDuration) {
-        super(texturePath, x, y, width, height, columns, rows, frameDuration);
-    }
-
     public float getVelocity() {
         return velocity;
     }

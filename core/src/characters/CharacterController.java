@@ -5,8 +5,8 @@ import utilities.Direction;
 import utilities.Render;
 
 public abstract class CharacterController extends Character {
-    public CharacterController(String texturePath, String bulletTexturePath, float x, float y) {
-        super(texturePath, bulletTexturePath, x, y);
+    public CharacterController(String texturePath, String bulletTexturePath) {
+        super(texturePath, bulletTexturePath);
     }
 
     public void move() {

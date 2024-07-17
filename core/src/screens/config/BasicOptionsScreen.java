@@ -1,6 +1,5 @@
 package screens.config;
 
-import com.badlogic.gdx.graphics.Color;
 import screens.Screen;
 import utilities.Button;
 import utilities.Fonts;
@@ -15,17 +14,19 @@ public abstract class BasicOptionsScreen extends Screen {
     public void show() {
         super.show();
         backButton = new Button(Fonts.DEFAULT, "BACK", () -> Render.setScreen(getBackScreen()));
-        backButton.setX(10f);
-        backButton.setY(backButton.getHeight() + 10f);
 
         title = new Text(Fonts.DEFAULT, getTitleScreen());
-        title.centerX();
-        title.setY(Render.screenSize.height - 10f);
     }
 
     @Override
     public void render(float delta) {
         super.render(delta);
+
+        backButton.setX(10f);
+        backButton.setY(backButton.getHeight() + 10f);
+
+        title.centerX();
+        title.setY(Render.screenSize.height - 10f);
 
         Render.b.begin();
         backButton.draw();

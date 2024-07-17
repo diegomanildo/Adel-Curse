@@ -16,8 +16,9 @@ public abstract class Character extends MovableObject {
     private final Audio shootSound;
     private final String bulletTexturePath;
 
-    public Character(String texturePath, String bulletTexturePath, float x, float y) {
-        super(FilePaths.CHARACTERS + texturePath, x, y, 150f, 150f, 2, 8, 0.5f);
+    public Character(String texturePath, String bulletTexturePath) {
+        super(FilePaths.CHARACTERS + texturePath, 2, 8, 0.5f);
+        setSize(150f, 150f);
         setVelocity(getWidth() / 12f);
         bullets = new ArrayList<>();
         shootSound = new Audio("shoot.mp3", 0.1f);
@@ -55,8 +56,9 @@ public abstract class Character extends MovableObject {
 
     // Creates a shoot
     private void createShoot(int animationIndex, Direction bulletDirection) {
-        Bullet b = new Bullet(FilePaths.CHARACTERS + bulletTexturePath, bulletDirection, getWidth()/2f, getHeight()/2f, 0.5f);
+        Bullet b = new Bullet(FilePaths.CHARACTERS + bulletTexturePath, bulletDirection, 0.5f);
         b.setAnimation(animationIndex);
+        b.setSize(getWidth() / 2f, getHeight() / 2f);
         b.setPosition(getMiddleX() - b.getWidth() / 2f, getMiddleY() - b.getHeight() / 2f);
         bullets.add(b);
         shootSound.play();
