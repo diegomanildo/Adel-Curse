@@ -33,6 +33,12 @@ public final class ControlsScreen extends BasicOptionsScreen {
         keys.setX(actions.getX() + actions.getWidth());
     }
 
+    @Override
+    public void render(float delta) {
+        super.render(delta);
+        keys.update();
+    }
+
     private void setButton(Control c) {
         Render.setScreen(new PressAKeyScreen(c));
     }

@@ -43,9 +43,7 @@ public final class ResolutionScreen extends BasicOptionsScreen {
         int w = Integer.parseInt(parts[0]);
         int h = Integer.parseInt(parts[1]);
 
-        Render.b.end();
         Gdx.graphics.setWindowedMode(w, h);
-        Render.b.begin();
     }
 
     private void configureResolution() {
@@ -67,6 +65,7 @@ public final class ResolutionScreen extends BasicOptionsScreen {
         super.render(delta);
         selectResolution();
         options.center();
+        applyBtn.update();
     }
 
     private void selectResolution() {

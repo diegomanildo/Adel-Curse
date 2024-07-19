@@ -113,4 +113,10 @@ public final class Options extends GameObject {
         super.dispose();
         for (Button button : buttons) button.dispose();
     }
+
+    public void update() {
+        for (Button button : buttons) {
+            button.update();
+        }
+    }
 }

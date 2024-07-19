@@ -22,6 +22,14 @@ public abstract class BasicOptionsScreen extends Screen {
         title.setY(Render.screenSize.height - 10f);
     }
 
+    @Override
+    public void render(float delta) {
+        super.render(delta);
+        if (backButton.isClicked()){
+            backButton.execute();
+        }
+    }
+
     protected abstract Screen getBackScreen();
     protected abstract String getTitleScreen();
 }

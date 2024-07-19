@@ -12,7 +12,7 @@ public abstract class GameObject implements Hitbox {
     private float width;
     private float height;
 
-    public GameObject() {
+    protected GameObject() {
         ObjectsManager.register(this);
     }
 

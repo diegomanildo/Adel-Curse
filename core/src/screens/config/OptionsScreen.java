@@ -6,7 +6,6 @@ import utilities.*;
 
 public final class OptionsScreen extends BasicOptionsScreen {
     private Options options;
-    private Button backBtn;
 
     @Override
     public void show() {
@@ -19,9 +18,12 @@ public final class OptionsScreen extends BasicOptionsScreen {
 
         options.setAlign(AlignMode.CENTERED);
         options.center();
-        backBtn = new Button(Fonts.DEFAULT, "BACK", () -> Render.setScreen(new MainMenuScreen()));
-        backBtn.setX(10f);
-        backBtn.setY(backBtn.getHeight() + 10f);
+    }
+
+    @Override
+    public void render(float delta) {
+        super.render(delta);
+        options.update();
     }
 
     private void controles() {

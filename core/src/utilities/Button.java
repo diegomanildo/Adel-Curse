@@ -6,21 +6,22 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import utilities.io.Audio;
 
 public final class Button extends Text {
-    private static final Audio ON_PRESSED_SOUND = new Audio("buttonClicked.mp3");
-    private static final Audio MOUSE_HOVER = new Audio("mouseHover.mp3");
-
     private static final float OFFSET = 5f;
     private static final ShapeRenderer SR = new ShapeRenderer();
 
+    private final Audio onPressedSound;
+    private final Audio mouseHovered;
     private final ButtonAction action;
-    private boolean previouslyHovered = false;
 
+    private boolean previouslyHovered = false;
     private boolean showBackground;
 
     public Button(Font font, String text, ButtonAction action) {
         super(font, text);
         this.action = action;
         showBackground = true;
+        onPressedSound = new Audio("buttonClicked.mp3");
+        mouseHovered = new Audio("mouseHover.mp3");
     }
 
     public Button(Font font, String text) {
@@ -36,7 +37,7 @@ public final class Button extends Text {
     }
 
     public void execute() {
-        ON_PRESSED_SOUND.play();
+        onPressedSound.play();
         action.onPressed();
     }
 
@@ -57,7 +58,7 @@ public final class Button extends Text {
             SR.setColor(Color.DARK_GRAY);
             setTextColor(Color.YELLOW);
             if (!previouslyHovered) {
-                Button.MOUSE_HOVER.play();
+                mouseHovered.play();
                 previouslyHovered = true;
             }
         } else {
@@ -84,14 +85,16 @@ public final class Button extends Text {
             batch.begin();
         }
 
-        if (isClicked()) {
-            execute();
-        }
-
         super.draw(batch);
     }
 
     private void setTextColor(Color color) {
 
+    }
+
+    public void update() {
+        if (isClicked()) {
+            execute();
+        }
     }
 }

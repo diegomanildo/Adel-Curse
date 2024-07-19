@@ -17,30 +17,18 @@ public final class MainMenuScreen extends Screen {
 
         options = new Options(
                 20f,
-                new Button(Fonts.DEFAULT, "1 PLAYER", this::onePlayer),
-                new Button(Fonts.DEFAULT, "2 PLAYER", this::onePlayer),
-                new Button(Fonts.DEFAULT, "OPTIONS", this::options),
-                new Button(Fonts.DEFAULT, "QUIT" , this::quit)
+                new Button(Fonts.DEFAULT, "PLAY", () -> Render.setScreen(new GameScreen())),
+                new Button(Fonts.DEFAULT, "OPTIONS", () -> Render.setScreen(new OptionsScreen())),
+                new Button(Fonts.DEFAULT, "QUIT" , () -> Gdx.app.exit())
         );
 
         options.setAlign(AlignMode.CENTERED);
         options.center();
     }
 
-    private void onePlayer() {
-        Render.setScreen(new GameScreen());
-    }
-
-    private void options() {
-        Render.setScreen(new OptionsScreen());
-    }
-
-    private void quit() {
-        Gdx.app.exit();
-    }
-
     @Override
     public void render(float delta) {
         super.render(delta);
+        options.update();
     }
 }
