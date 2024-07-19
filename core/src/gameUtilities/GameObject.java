@@ -6,7 +6,7 @@ import managers.ObjectsManager;
 import utilities.Render;
 import com.badlogic.gdx.graphics.g2d.Batch;
 
-public abstract class GameObject implements Hitbox {
+public abstract class GameObject implements Hitbox, ObjectFunctions {
     private float x;
     private float y;
     private float width;
