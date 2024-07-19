@@ -1,12 +1,13 @@
 package screens.config;
 
+import screens.MainMenuScreenBasic;
 import screens.Screen;
 import utilities.Button;
 import utilities.Fonts;
 import utilities.Render;
 import utilities.Text;
 
-public abstract class BasicOptionsScreen extends Screen {
+public abstract class BasicOptionsScreen extends MainMenuScreenBasic {
     private Button backButton;
     private Text title;
 

@@ -1,20 +1,22 @@
 package utilities;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import gameUtilities.GameObject;
 
-public class Image extends Sprite {
+public class Image extends GameObject {
+    private final Texture texture;
+
     public Image(String filePath) {
-        super(new Texture(filePath));
+        texture = new Texture(filePath);
     }
 
-    public void draw() {
-        super.draw(Render.b);
+    @Override
+    public void draw(Batch batch) {
+        batch.draw(texture, getX(), getY(), getWidth(), getHeight());
     }
 
-    public void setSize(boolean fullScreen) {
-        if (fullScreen) {
-            setSize(Render.screenSize.width, Render.screenSize.height);
-        }
+    public void setFullScreen() {
+        setSize(Render.screenSize.width, Render.screenSize.height);
     }
 }

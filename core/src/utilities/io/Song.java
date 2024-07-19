@@ -1,17 +1,14 @@
 package utilities.io;
 
-import gameUtilities.ObjectFunctions;
-import managers.ObjectsManager;
 import utilities.exceptions.NullAudioException;
 
-public class Song implements ObjectFunctions {
+public class Song {
     private final Audio intro;
     private final Audio song;
 
     public Song(String introPath, String songPath, float volumeIntro, float volumeSong) {
         intro = introPath == null ? null : new Audio(introPath, volumeIntro);
         song = new Audio(songPath, volumeSong);
-        ObjectsManager.register(this);
     }
 
     public Song(String introPath, String songPath) {
@@ -138,7 +135,4 @@ public class Song implements ObjectFunctions {
         }
         song.dispose();
     }
-
-    @Override
-    public void draw() {}
 }

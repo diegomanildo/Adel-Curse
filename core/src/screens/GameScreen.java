@@ -9,7 +9,6 @@ import utilities.io.Song;
 
 public final class GameScreen extends Screen {
     private Adel adel;
-    private Image background;
     private Song song;
 
     @Override
@@ -18,9 +17,7 @@ public final class GameScreen extends Screen {
 
         adel = new Adel();
         adel.center();
-
-        background = new Image(FilePaths.BACKGROUNDS + "backgroundsAux.png");
-        background.setSize(true);
+        adel.setSize(100f, 100f);
 
         song = new Song("GameMusic/Undead.mp3", 0.1f);
         song.playSong(true);
@@ -35,5 +32,11 @@ public final class GameScreen extends Screen {
         }
 
         adel.move();
+    }
+
+    @Override
+    public void dispose() {
+        super.dispose();
+        song.dispose();
     }
 }
