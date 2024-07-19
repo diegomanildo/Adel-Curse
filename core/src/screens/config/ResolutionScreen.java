@@ -26,11 +26,14 @@ public final class ResolutionScreen extends BasicOptionsScreen {
         );
 
         options.setAlign(AlignMode.CENTERED);
+        options.center();
         for (int i = 0; i < options.buttons.length; i++) {
             options.buttons[i].showBackground(false);
         }
 
         applyBtn = new Button(Fonts.DEFAULT, "APPLY", () -> setWindowSize(textSave));
+        applyBtn.centerX();
+        applyBtn.setY(options.getLastButton().getY() - options.getLastButton().getHeight() - (options.getButtonsSpace() * 4f));
 
         configureResolution();
     }
@@ -62,18 +65,8 @@ public final class ResolutionScreen extends BasicOptionsScreen {
     @Override
     public void render(float delta) {
         super.render(delta);
-
         selectResolution();
-
         options.center();
-
-        applyBtn.centerX();
-        applyBtn.setY(options.getLastButton().getY() - options.getLastButton().getHeight() - (options.getButtonsSpace() * 4f));
-
-        Render.b.begin();
-        applyBtn.draw();
-        options.draw();
-        Render.b.end();
     }
 
     private void selectResolution() {

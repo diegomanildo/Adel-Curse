@@ -2,6 +2,7 @@ package gameUtilities;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import managers.ObjectsManager;
 import utilities.Render;
 import com.badlogic.gdx.graphics.g2d.Batch;
 
@@ -10,6 +11,10 @@ public abstract class GameObject implements Hitbox {
     private float y;
     private float width;
     private float height;
+
+    public GameObject() {
+        ObjectsManager.register(this);
+    }
 
     public float getX() {
         return x;

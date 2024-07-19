@@ -14,24 +14,12 @@ public abstract class BasicOptionsScreen extends Screen {
     public void show() {
         super.show();
         backButton = new Button(Fonts.DEFAULT, "BACK", () -> Render.setScreen(getBackScreen()));
-
-        title = new Text(Fonts.DEFAULT, getTitleScreen());
-    }
-
-    @Override
-    public void render(float delta) {
-        super.render(delta);
-
         backButton.setX(10f);
         backButton.setY(backButton.getHeight() + 10f);
 
+        title = new Text(Fonts.DEFAULT, getTitleScreen());
         title.centerX();
         title.setY(Render.screenSize.height - 10f);
-
-        Render.b.begin();
-        backButton.draw();
-        title.draw();
-        Render.b.end();
     }
 
     protected abstract Screen getBackScreen();

@@ -42,21 +42,5 @@ public final class MainMenuScreen extends Screen {
     @Override
     public void render(float delta) {
         super.render(delta);
-        Render.b.begin();
-        options.draw();
-        Render.b.end();
-    }
-
-    @Override
-    public void resize(int w, int h) {
-        super.resize(w, h);
-
-    }
-
-    @Override
-    public void dispose() {
-        super.dispose();
-        menuSong.dispose();
-        options.dispose();
     }
 }

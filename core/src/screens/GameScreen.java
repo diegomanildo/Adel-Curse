@@ -24,16 +24,11 @@ public final class GameScreen extends Screen {
     @Override
     public void render(float delta) {
         super.render(delta);
-        Render.clear();
-        // Come back to menu
+
         if (Render.io.isKeyPressed(Input.Keys.ESCAPE)) {
             Render.setScreen(new MainMenuScreen());
         }
 
-        Render.b.begin();
-        background.draw();
         adel.move();
-        adel.draw();
-        Render.b.end();
     }
 }

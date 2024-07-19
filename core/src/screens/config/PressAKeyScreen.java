@@ -22,12 +22,12 @@ public final class PressAKeyScreen extends Screen {
     public void show() {
         super.show();
         pressAnyKey = new Text(Fonts.DEFAULT2, "Press a key for " + control.getAction() + "...");
+        pressAnyKey.center();
     }
 
     @Override
     public void render(float delta) {
         super.render(delta);
-        pressAnyKey.center();
 
         if (Render.io.isKeyPressed(Input.Keys.ESCAPE)) {
             Render.setScreen(new ControlsScreen());
@@ -37,10 +37,6 @@ public final class PressAKeyScreen extends Screen {
         if (Render.io.isAnyKeyPressed()) {
             setControl();
         }
-
-        Render.b.begin();
-        pressAnyKey.draw();
-        Render.b.end();
     }
 
     private void setControl() {

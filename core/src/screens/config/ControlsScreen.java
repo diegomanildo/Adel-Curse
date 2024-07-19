@@ -25,26 +25,16 @@ public final class ControlsScreen extends BasicOptionsScreen {
 
         keys = new Options(buttons);
         actions = new Texts(texts);
-    }
-
-    private void setButton(Control c) {
-        Render.setScreen(new PressAKeyScreen(c));
-    }
-
-    @Override
-    public void render(float delta) {
-        super.render(delta);
 
         actions.centerY();
         actions.setX(10f);
 
         keys.center();
         keys.setX(actions.getX() + actions.getWidth());
+    }
 
-        Render.b.begin();
-        keys.draw();
-        actions.draw();
-        Render.b.end();
+    private void setButton(Control c) {
+        Render.setScreen(new PressAKeyScreen(c));
     }
 
     @Override

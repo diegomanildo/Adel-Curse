@@ -33,16 +33,6 @@ public final class OptionsScreen extends BasicOptionsScreen {
     }
 
     @Override
-    public void render(float delta) {
-        super.render(delta);
-
-        Render.b.begin();
-        backBtn.draw();
-        options.draw();
-        Render.b.end();
-    }
-
-    @Override
     protected Screen getBackScreen() {
         return new MainMenuScreen();
     }
