@@ -1,7 +1,7 @@
 package menu.config;
 
 import menu.BasicMainMenuScreen;
-import menu.Screen;
+import utilities.Screen;
 import utilities.Button;
 import utilities.Fonts;
 import utilities.Render;

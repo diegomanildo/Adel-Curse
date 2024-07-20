@@ -4,7 +4,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import gameUtilities.Control;
 import gameUtilities.Controls;
-import menu.Screen;
+import utilities.Screen;
 import utilities.Fonts;
 import utilities.Render;
 import utilities.Text;

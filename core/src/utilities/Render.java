@@ -5,7 +5,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
-import menu.Screen;
 import utilities.io.IOProcessor;
 
 public class Render {
@@ -34,13 +33,23 @@ public class Render {
         return screenSize.height / 2f;
     }
 
-    public static void setScreen(Screen s) {
-        app.getScreen().dispose();
-        app.setScreen(s);
-        try {
-            Thread.sleep(200);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+    public static void setScreen(Screen s, boolean firstTime) {
+        if (!firstTime) {
+            app.getScreen().dispose();
         }
+        app.setScreen(s);
+        s.initializeManagers();
+
+        if (!firstTime) {
+            try {
+                Thread.sleep(200);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+    public static void setScreen(Screen s) {
+        setScreen(s, false);
     }
 }

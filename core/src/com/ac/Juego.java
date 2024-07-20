@@ -9,7 +9,7 @@ public final class Juego extends Game {
 	@Override
 	public void create() {
 		Render.app = this;
-		Render.app.setScreen(new MainMenuScreen());
+		Render.setScreen(new MainMenuScreen(), true);
 		Gdx.input.setInputProcessor(Render.io);
 	}
 }

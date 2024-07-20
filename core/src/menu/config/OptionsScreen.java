@@ -1,7 +1,7 @@
 package menu.config;
 
 import menu.MainMenuScreen;
-import menu.Screen;
+import utilities.Screen;
 import utilities.*;
 
 public final class OptionsScreen extends BasicOptionsScreen {

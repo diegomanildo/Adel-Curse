@@ -21,7 +21,8 @@ public abstract class Character extends MovableObject {
         setSize(150f, 150f);
         setVelocity(getWidth() / 12f);
         bullets = new ArrayList<>();
-        shootSound = new Audio("shoot.mp3", 0.1f);
+        shootSound = new Audio("shoot.mp3");
+        shootSound.setVolume(0.1f);
         this.bulletTexturePath = bulletTexturePath;
     }
 
@@ -77,10 +78,9 @@ public abstract class Character extends MovableObject {
 
     @Override
     public void draw(Batch batch) {
-        super.draw(batch);
-
         if (!bullets.isEmpty()) {
             updateBullets();
         }
+        super.draw(batch);
     }
 }

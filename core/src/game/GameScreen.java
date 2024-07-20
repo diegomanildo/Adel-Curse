@@ -3,7 +3,7 @@ package game;
 import com.badlogic.gdx.Input;
 import game.characters.Adel;
 import menu.MainMenuScreen;
-import menu.Screen;
+import utilities.Screen;
 import utilities.Render;
 import utilities.io.Song;
 
@@ -19,8 +19,8 @@ public final class GameScreen extends Screen {
         adel.setSize(100f, 100f);
         adel.center();
 
-        song = new Song("gameMusic/Undead.mp3", 0.1f);
-        song.playSong(true);
+        song = new Song("gameMusic/Undead.mp3");
+        song.play(true);
     }
 
     @Override

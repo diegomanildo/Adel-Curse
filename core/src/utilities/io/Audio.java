@@ -7,13 +7,8 @@ import utilities.FilePaths;
 public class Audio implements Music {
     private final Music music;
 
-    public Audio(String musicPath, float volume) {
-        music = Gdx.audio.newMusic(Gdx.files.internal(FilePaths.AUDIO + musicPath));
-        setVolume(volume);
-    }
-
     public Audio(String musicPath) {
-        this(musicPath, 1f);
+        music = Gdx.audio.newMusic(Gdx.files.internal(FilePaths.AUDIO + musicPath));
     }
 
     @Override
@@ -42,8 +37,8 @@ public class Audio implements Music {
     }
 
     @Override
-    public void setLooping(boolean b) {
-        music.setLooping(b);
+    public void setLooping(boolean loop) {
+        music.setLooping(loop);
     }
 
     @Override

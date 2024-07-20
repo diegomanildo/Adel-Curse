@@ -2,11 +2,11 @@ package gameUtilities;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import managers.ObjectsManager;
+import com.badlogic.gdx.utils.Disposable;
 import utilities.Render;
 import com.badlogic.gdx.graphics.g2d.Batch;
 
-public abstract class GameObject implements Hitbox, ObjectFunctions {
+public abstract class GameObject implements Hitbox, Disposable {
     private float x;
     private float y;
     private float width;

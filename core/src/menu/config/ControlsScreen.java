@@ -3,7 +3,7 @@ package menu.config;
 import com.badlogic.gdx.Input;
 import gameUtilities.Control;
 import gameUtilities.Controls;
-import menu.Screen;
+import utilities.Screen;
 import utilities.*;
 
 public final class ControlsScreen extends BasicOptionsScreen {

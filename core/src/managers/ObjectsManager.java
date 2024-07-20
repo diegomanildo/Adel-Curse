@@ -1,13 +1,9 @@
 package managers;
 
-import gameUtilities.ObjectFunctions;
+import gameUtilities.GameObject;
 
-public class ObjectsManager extends Manager<ObjectFunctions> {
+public class ObjectsManager extends Manager<GameObject> {
     public void draw() {
-        for (ObjectFunctions object : objects) {
-            if (object != null) {
-                object.draw();
-            }
-        }
+        objects.forEach(GameObject::draw);
     }
 }

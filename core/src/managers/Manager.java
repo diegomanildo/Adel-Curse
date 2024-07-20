@@ -20,11 +20,7 @@ public abstract class Manager<T extends Disposable> {
     }
 
     public void dispose() {
-        for (T object : objects) {
-            if (object != null) {
-                object.dispose();
-            }
-        }
+        objects.forEach(Disposable::dispose);
     }
 
     public boolean isEmpty() {

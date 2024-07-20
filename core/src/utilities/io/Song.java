@@ -1,138 +1,155 @@
 package utilities.io;
 
-import utilities.exceptions.NullAudioException;
+import com.badlogic.gdx.audio.Music;
 
-public class Song {
+public class Song implements Music {
     private final Audio intro;
     private final Audio song;
+    private final Audio outro;
 
-    public Song(String introPath, String songPath, float volumeIntro, float volumeSong) {
-        intro = introPath == null ? null : new Audio(introPath, volumeIntro);
-        song = new Audio(songPath, volumeSong);
-    }
+    public Song(String introFilePath, String songFilePath, String outroFilePath) {
+        song = new Audio(songFilePath);
 
-    public Song(String introPath, String songPath) {
-        this(introPath, songPath, 1f, 1f);
-    }
-
-    public Song(String songPath, float volumeSong) {
-        this(null, songPath, 1f, volumeSong);
-    }
-
-    public Song(String songPath) {
-        this(songPath, 1f);
-    }
-
-    public boolean hasIntro() {
-        return intro != null;
-    }
-
-    public void playIntro() {
-        if (hasIntro()) {
-            intro.play();
+        if (introFilePath == null) {
+            intro = null;
         } else {
-            throw new NullAudioException("This song has not intro");
+            intro = new Audio(introFilePath);
+            intro.setOnCompletionListener(music -> {
+                intro.stop();
+                song.play();
+            });
+        }
+
+        if (outroFilePath == null) {
+            outro = null;
+        } else {
+            outro = new Audio(outroFilePath);
         }
     }
 
-    public void playIntro(boolean loop) {
-        setIntroLooping(loop);
-        playIntro();
+    public Song(String songFilePath) {
+        this(null, songFilePath, null);
     }
 
-    public void playSong() {
-        song.play();
+    @Override
+    public void play() {
+        play(false);
     }
 
-    public void playSong(boolean loop) {
-        setSongLooping(loop);
-        playSong();
+    public void play(boolean loop) {
+        if (intro != null) {
+            intro.play(loop);
+        } else {
+            song.play(loop);
+        }
     }
 
-    public void pauseIntro() {
-        intro.pause();
+    @Override
+    public void pause() {
+        if (intro.isPlaying()) {
+            intro.pause();
+        } else if (song.isPlaying()) {
+            song.pause();
+        } else {
+            outro.pause();
+        }
     }
 
-    public void pauseSong() {
-        song.pause();
+    @Override
+    public void stop() {
+        if (intro != null && intro.isPlaying()) {
+            intro.stop();
+        } else if (outro != null && outro.isPlaying()) {
+            outro.stop();
+        } else {
+            song.stop();
+        }
     }
 
-    public void stopIntro() {
-        intro.stop();
+    @Override
+    public boolean isPlaying() {
+        if (intro == null && outro == null) {
+            return song.isPlaying();
+        } else {
+            return intro.isPlaying() || song.isPlaying() || outro.isPlaying();
+        }
     }
 
-    public void stopSong() {
-        song.stop();
+    @Override
+    public void setLooping(boolean loop) {
+        song.setLooping(loop);
     }
 
-    public boolean isPlayingIntro() {
-        return intro.isPlaying();
-    }
-
-    public boolean isPlayingSong() {
-        return song.isPlaying();
-    }
-
-    public void setIntroLooping(boolean b) {
-        intro.setLooping(b);
-    }
-
-    public void setSongLooping(boolean b) {
-        song.setLooping(b);
-    }
-
-    public boolean isIntroLooping() {
-        return intro.isLooping();
-    }
-
-    public boolean isSongLooping() {
+    @Override
+    public boolean isLooping() {
         return song.isLooping();
     }
 
-    public void setIntroVolume(float v) {
-        intro.setVolume(v);
+    @Override
+    public void setVolume(float volume) {
+        if (intro != null || outro != null) {
+            intro.setVolume(volume);
+            outro.setVolume(volume);
+        }
+
+        song.setVolume(volume);
     }
 
-    public void setSongVolume(float v) {
-        song.setVolume(v);
+    @Override
+    public float getVolume() {
+        if (intro.isPlaying()) {
+            return intro.getVolume();
+        } else if (outro.isPlaying()) {
+            return outro.getVolume();
+        } else {
+            return song.getVolume();
+        }
     }
 
-    public float getIntroVolume() {
-        return intro.getVolume();
-    }
-
-    public float getSongVolume() {
-        return song.getVolume();
-    }
-
-    public void setIntroPan(float v, float v1) {
+    @Override
+    public void setPan(float v, float v1) {
         intro.setPan(v, v1);
-    }
-
-    public void setSongPan(float v, float v1) {
         song.setPan(v, v1);
+        outro.setPan(v, v1);
     }
 
-    public void setIntroPosition(float v) {
-        intro.setPosition(v);
+    @Override
+    public void setPosition(float position) {
+        intro.setPosition(position);
+        song.setPosition(position);
+        outro.setPosition(position);
     }
 
-    public void setSongPosition(float v) {
-        song.setPosition(v);
+    @Override
+    public float getPosition() {
+        if (intro.isPlaying()) {
+            return intro.getPosition();
+        } else if (outro.isPlaying()) {
+            return outro.getPosition();
+        } else {
+            return song.getPosition();
+        }
     }
 
-    public float getIntroPosition() {
-        return intro.getPosition();
-    }
-
-    public float getSongPosition() {
-        return song.getPosition();
-    }
-
+    @Override
     public void dispose() {
         if (intro != null) {
             intro.dispose();
         }
+
         song.dispose();
+
+        if (outro != null) {
+            outro.dispose();
+        }
+    }
+
+    @Override
+    public void setOnCompletionListener(OnCompletionListener onCompletionListener) {
+        if (outro == null) {
+            song.setOnCompletionListener(onCompletionListener);
+        } else {
+            outro.setOnCompletionListener(onCompletionListener);
+        }
     }
 }

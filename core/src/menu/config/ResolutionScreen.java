@@ -1,7 +1,7 @@
 package menu.config;
 
 import com.badlogic.gdx.Gdx;
-import menu.Screen;
+import utilities.Screen;
 import utilities.*;
 
 public final class ResolutionScreen extends BasicOptionsScreen {

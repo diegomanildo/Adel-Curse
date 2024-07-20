@@ -8,13 +8,11 @@ import utilities.*;
 import utilities.io.Song;
 
 public final class MainMenuScreen extends BasicMainMenuScreen {
-    private Song menuSong;
     private Options options;
 
     @Override
     public void show() {
         super.show();
-        menuSong = new Song("menuMusic.mp3", 0.1f);
 
         options = new Options(
                 20f,
@@ -29,7 +27,7 @@ public final class MainMenuScreen extends BasicMainMenuScreen {
 
     private void play() {
         Render.setScreen(new GameScreen());
-        backgroundSong.stopSong();
+        backgroundSong.stop();
     }
 
     @Override
@@ -41,6 +39,5 @@ public final class MainMenuScreen extends BasicMainMenuScreen {
     @Override
     public void dispose() {
         super.dispose();
-        menuSong.dispose();
     }
 }
