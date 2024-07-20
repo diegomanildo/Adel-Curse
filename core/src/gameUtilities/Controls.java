@@ -4,22 +4,22 @@ import com.badlogic.gdx.Input.Keys;
 
 public class Controls {
     private static final Control[] CONTROLS = new Control[] {
-            new Control(CAction.UP, Keys.W),
-            new Control(CAction.DOWN, Keys.S),
-            new Control(CAction.LEFT, Keys.A),
-            new Control(CAction.RIGHT, Keys.D),
+            new Control(GameAction.UP, Keys.W),
+            new Control(GameAction.DOWN, Keys.S),
+            new Control(GameAction.LEFT, Keys.A),
+            new Control(GameAction.RIGHT, Keys.D),
 
-            new Control(CAction.SHOOT_UP, Keys.UP),
-            new Control(CAction.SHOOT_DOWN, Keys.DOWN),
-            new Control(CAction.SHOOT_LEFT, Keys.LEFT),
-            new Control(CAction.SHOOT_RIGHT, Keys.RIGHT)
+            new Control(GameAction.SHOOT_UP, Keys.UP),
+            new Control(GameAction.SHOOT_DOWN, Keys.DOWN),
+            new Control(GameAction.SHOOT_LEFT, Keys.LEFT),
+            new Control(GameAction.SHOOT_RIGHT, Keys.RIGHT)
     };
 
     public static int size() {
         return CONTROLS.length;
     }
 
-    public static int get(CAction action) {
+    public static int get(GameAction action) {
         int i = 0;
         int index = -1;
 
@@ -40,7 +40,7 @@ public class Controls {
         return CONTROLS[i];
     }
 
-    public static void set(CAction action, int value) {
+    public static void set(GameAction action, int value) {
         int i = 0;
         int index = -1;
 

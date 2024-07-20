@@ -1,15 +1,15 @@
 package gameUtilities;
 
 public class Control {
-    private final CAction action;
+    private final GameAction action;
     private int key;
 
-    public Control(CAction action, int key) {
+    public Control(GameAction action, int key) {
         this.action = action;
         this.key = key;
     }
 
-    public CAction getAction() {
+    public GameAction getAction() {
         return action;
     }
 

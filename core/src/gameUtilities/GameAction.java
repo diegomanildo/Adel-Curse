@@ -1,7 +1,6 @@
 package gameUtilities;
 
-// Game Action
-public enum CAction {
+public enum GameAction {
     UP,
     DOWN,
     LEFT,
