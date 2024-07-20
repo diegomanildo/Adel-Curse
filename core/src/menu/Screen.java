@@ -32,7 +32,7 @@ public abstract class Screen implements com.badlogic.gdx.Screen {
     }
 
     public void render(float delta) {
-        if (objectsManager.empty()) {
+        if (objectsManager.isEmpty()) {
             initializeObjectManager();
         }
         Render.clear();
