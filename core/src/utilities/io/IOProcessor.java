@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector3;
-import screens.Screen;
+import menu.Screen;
 import utilities.exceptions.NotValidKeyException;
 
 public class IOProcessor implements InputProcessor {

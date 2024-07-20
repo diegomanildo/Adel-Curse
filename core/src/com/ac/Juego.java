@@ -2,7 +2,7 @@ package com.ac;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import screens.MainMenuScreen;
+import menu.MainMenuScreen;
 import utilities.Render;
 
 public final class Juego extends Game {

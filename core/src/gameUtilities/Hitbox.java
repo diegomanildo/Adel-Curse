@@ -1,11 +1,10 @@
 package gameUtilities;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import utilities.Render;
 
 public interface Hitbox {
-    static final ShapeRenderer SR = new ShapeRenderer();
+    ShapeRenderer SR = new ShapeRenderer();
 
     float getX();
     float getY();

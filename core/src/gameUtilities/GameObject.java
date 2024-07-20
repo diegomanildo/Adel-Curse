@@ -12,10 +12,6 @@ public abstract class GameObject implements Hitbox, ObjectFunctions {
     private float width;
     private float height;
 
-    protected GameObject() {
-        ObjectsManager.register(this);
-    }
-
     public float getX() {
         return x;
     }
@@ -49,7 +45,7 @@ public abstract class GameObject implements Hitbox, ObjectFunctions {
     }
 
     public boolean isShowingHitbox() {
-        return Render.debugMode;
+        return Render.DEBUG_MODE;
     }
 
     public boolean collidesWith(GameObject other) {

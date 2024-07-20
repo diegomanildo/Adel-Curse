@@ -5,7 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
-import screens.Screen;
+import menu.Screen;
 import utilities.io.IOProcessor;
 
 public class Render {
@@ -16,7 +16,7 @@ public class Render {
     public static Juego app;
     public static AssetManager manager = new AssetManager();
 
-    public static boolean debugMode = true;
+    public final static boolean DEBUG_MODE = false;
 
     public static void clear(float r, float g, float b, float a) {
         ScreenUtils.clear(r, g, b, a);

@@ -12,7 +12,7 @@ public final class Bullet extends MovableObject {
     public Bullet(String texturePath, Direction bulletDirection, float frameDuration) {
         super(texturePath, 2, 4, frameDuration);
         this.bulletDirection = bulletDirection;
-        setVelocity(1000f);
+        setVelocity(500f);
     }
 
     // Update bullet position

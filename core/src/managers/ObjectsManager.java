@@ -6,9 +6,13 @@ public class ObjectsManager {
     private static final int INIT_SIZE = 10;
     private static final int EXPAND_MULTIPLIER = 2;
 
-    private static ObjectFunctions[] objects = new ObjectFunctions[INIT_SIZE];
+    private ObjectFunctions[] objects;
 
-    public static void register(ObjectFunctions newObject) {
+    public ObjectsManager() {
+        objects = new ObjectFunctions[INIT_SIZE];
+    }
+
+    public void register(ObjectFunctions newObject) {
         int i = 0;
         boolean registered = false;
 
@@ -26,17 +30,17 @@ public class ObjectsManager {
         }
     }
 
-    public static void reset() {
+    public void reset() {
         objects = new ObjectFunctions[INIT_SIZE];
     }
 
-    private static void expandArray() {
+    private void expandArray() {
         ObjectFunctions[] newObjects = new ObjectFunctions[objects.length * EXPAND_MULTIPLIER];
         System.arraycopy(objects, 0, newObjects, 0, objects.length);
         objects = newObjects;
     }
 
-    public static void draw() {
+    public void draw() {
         for (ObjectFunctions object : objects) {
             if (object != null) {
                 object.draw();
@@ -44,11 +48,21 @@ public class ObjectsManager {
         }
     }
 
-    public static void dispose() {
+    public void dispose() {
         for (ObjectFunctions object : objects) {
             if (object != null) {
                 object.dispose();
             }
         }
+    }
+
+    public boolean empty() {
+        for (ObjectFunctions object : objects) {
+            if (object != null) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }
