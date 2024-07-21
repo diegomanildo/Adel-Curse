@@ -22,7 +22,6 @@ public final class MainMenuScreen extends BasicMainMenuScreen {
         );
 
         options.setAlign(AlignMode.CENTERED);
-        options.center();
     }
 
     private void play() {
@@ -37,7 +36,8 @@ public final class MainMenuScreen extends BasicMainMenuScreen {
     }
 
     @Override
-    public void dispose() {
-        super.dispose();
+    public void resize(int w, int h) {
+        super.resize(w, h);
+        options.center();
     }
 }

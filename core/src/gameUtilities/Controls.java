@@ -40,7 +40,7 @@ public class Controls {
         return CONTROLS[i];
     }
 
-    public static void set(GameAction action, int value) {
+    public static void set(GameAction action, int newKey) {
         int i = 0;
         int index = -1;
 
@@ -54,7 +54,7 @@ public class Controls {
             throw new RuntimeException("Action not found: " + action);
         }
 
-        CONTROLS[index] = new Control(action, value);
+        CONTROLS[index].setKey(newKey);
     }
 
     public static boolean exists(int keyPressed) {

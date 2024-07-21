@@ -42,10 +42,7 @@ public final class Button extends Text {
     }
 
     public boolean isHovered() {
-        float x = Render.io.getMouseX();
-        float y = Render.io.getMouseY();
-
-        return collidesIn(x, y);
+        return collidesIn(Render.io.getMouseX(), Render.io.getMouseY());
     }
 
     public boolean isClicked() {

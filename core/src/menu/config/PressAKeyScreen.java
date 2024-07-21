@@ -22,7 +22,6 @@ public final class PressAKeyScreen extends Screen {
     public void show() {
         super.show();
         pressAnyKey = new Text(Fonts.DEFAULT2, "Press a key for " + control.getAction() + "...");
-        pressAnyKey.center();
     }
 
     @Override
@@ -44,10 +43,15 @@ public final class PressAKeyScreen extends Screen {
 
         if (Controls.exists(keyPressed)) {
             pressAnyKey.setText("Key \"" + Input.Keys.toString(keyPressed) + "\" is already assigned\nPress another key for " + control.getAction() + "...");
-            pressAnyKey.font.setColor(Color.RED);
         } else {
             Controls.set(control.getAction(), keyPressed);
             Render.setScreen(new ControlsScreen());
         }
+    }
+
+    @Override
+    public void resize(int w, int h) {
+        super.resize(w, h);
+        pressAnyKey.center();
     }
 }

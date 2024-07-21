@@ -26,14 +26,11 @@ public final class ResolutionScreen extends BasicOptionsScreen {
         );
 
         options.setAlign(AlignMode.CENTERED);
-        options.center();
         for (int i = 0; i < options.buttons.length; i++) {
             options.buttons[i].showBackground(false);
         }
 
         applyBtn = new Button(Fonts.DEFAULT, "APPLY", () -> setWindowSize(textSave));
-        applyBtn.centerX();
-        applyBtn.setY(options.getLastButton().getY() - options.getLastButton().getHeight() - (options.getButtonsSpace() * 4f));
 
         configureResolution();
     }
@@ -47,8 +44,10 @@ public final class ResolutionScreen extends BasicOptionsScreen {
     }
 
     private void configureResolution() {
+        String resolution = (int)Render.screenSize.width + "x" + (int)Render.screenSize.height;
+
         for (int i = 0; i < options.buttons.length; i++) {
-            if (options.buttons[i].getText().equals((int)Render.screenSize.width + "x" + (int)Render.screenSize.height)) {
+            if (options.buttons[i].getText().equals(resolution)) {
                 optionSelected = i;
                 textSave = options.buttons[i].getText();
                 options.buttons[i].setText(">" + textSave + "<");
@@ -56,7 +55,7 @@ public final class ResolutionScreen extends BasicOptionsScreen {
         }
 
         if (textSave == null) {
-            throw new RuntimeException("Code error resolution not found");
+            throw new RuntimeException("Code error resolution not found: " + resolution);
         }
     }
 
@@ -78,6 +77,15 @@ public final class ResolutionScreen extends BasicOptionsScreen {
                 options.buttons[i].setText(">" + textSave + "<");
             }
         }
+    }
+
+    @Override
+    public void resize(int w, int h) {
+        super.resize(w, h);
+        options.center();
+
+        applyBtn.centerX();
+        applyBtn.setY(options.getLastButton().getY() - options.getLastButton().getHeight() - (options.getButtonsSpace() * 4f));
     }
 
     @Override

@@ -25,12 +25,10 @@ public final class ControlsScreen extends BasicOptionsScreen {
 
         keys = new Options(buttons);
         actions = new Texts(texts);
+    }
 
-        actions.centerY();
-        actions.setX(10f);
-
-        keys.center();
-        keys.setX(actions.getX() + actions.getWidth());
+    private void setButton(Control c) {
+        Render.setScreen(new PressAKeyScreen(c));
     }
 
     @Override
@@ -39,8 +37,14 @@ public final class ControlsScreen extends BasicOptionsScreen {
         keys.update();
     }
 
-    private void setButton(Control c) {
-        Render.setScreen(new PressAKeyScreen(c));
+    @Override
+    public void resize(int w, int h) {
+        super.resize(w, h);
+        actions.centerY();
+        actions.setX(10f);
+
+        keys.center();
+        keys.setX(actions.getX() + actions.getWidth());
     }
 
     @Override

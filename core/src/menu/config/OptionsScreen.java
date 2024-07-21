@@ -17,13 +17,6 @@ public final class OptionsScreen extends BasicOptionsScreen {
         );
 
         options.setAlign(AlignMode.CENTERED);
-        options.center();
-    }
-
-    @Override
-    public void render(float delta) {
-        super.render(delta);
-        options.update();
     }
 
     private void controles() {
@@ -32,6 +25,18 @@ public final class OptionsScreen extends BasicOptionsScreen {
 
     private void resolution() {
         Render.setScreen(new ResolutionScreen());
+    }
+
+    @Override
+    public void render(float delta) {
+        super.render(delta);
+        options.update();
+    }
+
+    @Override
+    public void resize(int w, int h) {
+        super.resize(w, h);
+        options.center();
     }
 
     @Override

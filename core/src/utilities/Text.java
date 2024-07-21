@@ -2,10 +2,9 @@ package utilities;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import gameUtilities.GameObject;
-import gameUtilities.Hitbox;
 
 public class Text extends GameObject {
-    public Font font;
+    private final Font font;
     private String text;
 
     public Text(Font font, String text) {
