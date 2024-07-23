@@ -14,7 +14,7 @@ public abstract class BasicOptionsScreen extends BasicMainMenuScreen {
 
     public BasicOptionsScreen() {
         super();
-        backButton = new Button(Fonts.DEFAULT, "<", () -> Render.setScreen(getBackScreen()));
+        backButton = new Button(Fonts.DEFAULT, "X", () -> Render.setScreen(getBackScreen()));
         title = new Text(Fonts.DEFAULT, getTitleScreen());
     }
 
@@ -29,8 +29,8 @@ public abstract class BasicOptionsScreen extends BasicMainMenuScreen {
     @Override
     public void resize(int w, int h) {
         super.resize(w, h);
-        backButton.setX(Render.screenSize.width - backButton.getWidth() - 40f);
-        backButton.setY(Render.screenSize.height - 40f);
+        backButton.setX(Render.screenSize.width - backButton.getWidth() - 20f);
+        backButton.setY(Render.screenSize.height - 20f);
 
         title.centerX();
         title.setY(Render.screenSize.height - 40f);

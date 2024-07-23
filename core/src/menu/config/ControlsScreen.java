@@ -7,8 +7,8 @@ import utilities.Screen;
 import utilities.*;
 
 public final class ControlsScreen extends BasicOptionsScreen {
-    private Options keys;
-    private Texts actions;
+    private final Options keys;
+    private final Texts actions;
 
     public ControlsScreen() {
         super();

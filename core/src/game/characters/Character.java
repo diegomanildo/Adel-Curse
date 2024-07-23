@@ -10,7 +10,6 @@ import utilities.exceptions.DirectionNotValidException;
 import utilities.io.Audio;
 
 import java.util.ArrayList;
-import java.util.stream.Stream;
 
 public abstract class Character extends MovableObject {
     private final ArrayList<Bullet> bullets;
