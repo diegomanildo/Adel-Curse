@@ -47,21 +47,21 @@ public final class GameScreen extends Screen {
         adel.move();
 
         if (!adel.collidesWith(camera.getHitbox())) {
-            fixCamera();
+            moveCamera();
         }
     }
 
-    private void fixCamera() {
+    private void moveCamera() {
         if (adel.getX() < camera.getLeft()) {
-            camera.transitionCamera(camera.position.x - camera.viewportWidth, camera.position.y, FADE_TIME / 2f);
+            camera.moveTo(camera.position.x - camera.viewportWidth, camera.position.y, FADE_TIME / 2f);
         } else if (adel.getX() > camera.getRight()) {
-            camera.transitionCamera(camera.position.x + camera.viewportWidth, camera.position.y, FADE_TIME / 2f);
+            camera.moveTo(camera.position.x + camera.viewportWidth, camera.position.y, FADE_TIME / 2f);
         }
 
         if (adel.getY() < camera.getBottom()) {
-            camera.transitionCamera(camera.position.x, camera.position.y - camera.viewportHeight, FADE_TIME / 2f);
+            camera.moveTo(camera.position.x, camera.position.y - camera.viewportHeight, FADE_TIME / 2f);
         } else if (adel.getY() > camera.getTop()) {
-            camera.transitionCamera(camera.position.x, camera.position.y + camera.viewportHeight, FADE_TIME / 2f);
+            camera.moveTo(camera.position.x, camera.position.y + camera.viewportHeight, FADE_TIME / 2f);
         }
     }
 

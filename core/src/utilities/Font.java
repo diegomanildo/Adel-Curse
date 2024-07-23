@@ -10,10 +10,12 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFont
 
 public class Font {
     private final BitmapFont font;
+    private final Color defaultColor;
     private int size;
     private GlyphLayout layout;
 
     public Font(String path, int size, Color fontColor, int shadowOffset) {
+        defaultColor = fontColor;
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal(FilePaths.FONTS + path));
         FreeTypeFontParameter parameters = new FreeTypeFontParameter();
 
@@ -63,5 +65,9 @@ public class Font {
 
     public void setColor(Color color) {
         font.setColor(color);
+    }
+
+    public void resetColor() {
+        setColor(defaultColor);
     }
 }

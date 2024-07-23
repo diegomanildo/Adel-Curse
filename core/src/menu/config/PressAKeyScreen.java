@@ -1,6 +1,7 @@
 package menu.config;
 
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Color;
 import game.utilities.Control;
 import game.utilities.Controls;
 import utilities.Screen;
@@ -35,9 +36,12 @@ public final class PressAKeyScreen extends Screen {
     private void setControl() {
         int keyPressed = Render.io.getKeyPressed();
 
-        if (Controls.exists(keyPressed)) {
+        if (Controls.exists(keyPressed) && control.getKey() != keyPressed) {
+            pressAnyKey.setColor(Color.RED);
             pressAnyKey.setText("Key \"" + Input.Keys.toString(keyPressed) + "\" is already assigned\nPress another key for " + control.getAction() + "...");
+            pressAnyKey.center();
         } else {
+            pressAnyKey.resetColor();
             Controls.set(control.getAction(), keyPressed);
             Render.setScreen(new ControlsScreen());
         }

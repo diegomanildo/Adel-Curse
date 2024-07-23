@@ -48,4 +48,8 @@ public class Text extends GameObject {
     public void setColor(Color color) {
         font.setColor(color);
     }
+
+    public void resetColor() {
+        font.resetColor();
+    }
 }

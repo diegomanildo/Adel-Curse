@@ -13,7 +13,7 @@ public class Camera2D extends OrthographicCamera {
         position.set(x, y, 0f);
     }
 
-    public void transitionCamera(float targetX, float targetY, float transitionTime) {
+    public void moveTo(float targetX, float targetY, float transitionTime) {
         // TODO: Thread is interrupted sometimes and the camera doesn't move correctly
 
         Thread transitionThread = new Thread(() -> {
