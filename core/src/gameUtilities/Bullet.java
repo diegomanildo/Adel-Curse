@@ -7,11 +7,11 @@ import utilities.exceptions.DirectionNotValidException;
 public final class Bullet extends MovableObject {
     private static final float PIXELS_DELAY = 100f;
 
-    private final Direction bulletDirection;
+    private final Direction direction;
 
-    public Bullet(String texturePath, Direction bulletDirection, float frameDuration) {
+    public Bullet(String texturePath, Direction direction, float frameDuration) {
         super(texturePath, 2, 4, frameDuration);
-        this.bulletDirection = bulletDirection;
+        this.direction = direction;
         setVelocity(500f);
     }
 
@@ -21,7 +21,7 @@ public final class Bullet extends MovableObject {
         float y = getY();
         float velocity = getVelocity();
 
-        switch (bulletDirection) {
+        switch (direction) {
             case Down:
                 y -= velocity * deltaTime;
                 break;
@@ -35,7 +35,7 @@ public final class Bullet extends MovableObject {
                 x -= velocity * deltaTime;
                 break;
             default:
-                throw new DirectionNotValidException("The direction " + bulletDirection + " is not valid");
+                throw new DirectionNotValidException("The direction " + direction + " is not valid");
         }
 
         setPosition(x, y);
@@ -45,5 +45,9 @@ public final class Bullet extends MovableObject {
     public boolean outOfBounds() {
         return getX() > Render.screenSize.width + PIXELS_DELAY || getX() < -PIXELS_DELAY
             || getY()  > Render.screenSize.height + PIXELS_DELAY || getY() < -PIXELS_DELAY;
+    }
+
+    public Direction getDirection() {
+        return direction;
     }
 }

@@ -10,6 +10,7 @@ import utilities.exceptions.DirectionNotValidException;
 import utilities.io.Audio;
 
 import java.util.ArrayList;
+import java.util.stream.Stream;
 
 public abstract class Character extends MovableObject {
     private final ArrayList<Bullet> bullets;
@@ -68,7 +69,6 @@ public abstract class Character extends MovableObject {
     private void updateBullets() {
         for (int i = 0; i < bullets.size(); i++) {
             bullets.get(i).update(Gdx.graphics.getDeltaTime());
-            bullets.get(i).draw();
 
             if (bullets.get(i).outOfBounds()) {
                 bullets.remove(i);
@@ -80,7 +80,10 @@ public abstract class Character extends MovableObject {
     public void draw(Batch batch) {
         if (!bullets.isEmpty()) {
             updateBullets();
+            bullets.stream().filter(b -> b.getDirection() != Direction.Down).forEach(b -> b.draw(batch));
         }
         super.draw(batch);
+
+        bullets.stream().filter(b -> b.getDirection() == Direction.Down).forEach(b -> b.draw(batch));
     }
 }

@@ -5,7 +5,6 @@ import game.characters.Adel;
 import menu.MainMenuScreen;
 import utilities.Screen;
 import utilities.Render;
-import utilities.io.Audio;
 import utilities.io.Song;
 
 public final class GameScreen extends Screen {

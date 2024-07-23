@@ -21,7 +21,7 @@ public class Render {
 
     public static OrthographicCamera camera = new OrthographicCamera();
 
-    public final static boolean DEBUG_MODE = false;
+    public final static boolean DEBUG_MODE = true;
 
     public static void clear(float r, float g, float b, float a) {
         ScreenUtils.clear(r, g, b, a);
