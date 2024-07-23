@@ -1,8 +1,8 @@
 package menu.config;
 
 import com.badlogic.gdx.Input;
-import gameUtilities.Control;
-import gameUtilities.Controls;
+import game.utilities.Control;
+import game.utilities.Controls;
 import utilities.Screen;
 import utilities.*;
 

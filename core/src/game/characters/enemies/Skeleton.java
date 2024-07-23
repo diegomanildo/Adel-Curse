@@ -1,4 +1,4 @@
-package game.enemies;
+package game.characters.enemies;
 
 public final class Skeleton extends Enemy {
     public Skeleton(float x, float y) {

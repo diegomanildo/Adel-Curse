@@ -1,4 +1,4 @@
-package game.characters;
+package game.characters.playable;
 
 import com.badlogic.gdx.Input;
 import utilities.Direction;

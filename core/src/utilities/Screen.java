@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import gameUtilities.GameObject;
+import game.utilities.GameObject;
 import managers.AudioManager;
 import managers.ObjectsManager;
 import com.badlogic.gdx.audio.Music;

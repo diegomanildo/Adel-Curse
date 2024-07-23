@@ -2,7 +2,7 @@ package utilities;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import gameUtilities.GameObject;
+import game.utilities.GameObject;
 
 public class Image extends GameObject {
     private final Texture texture;

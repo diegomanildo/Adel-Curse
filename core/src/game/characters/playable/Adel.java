@@ -1,4 +1,4 @@
-package game.characters;
+package game.characters.playable;
 
 public final class Adel extends CharacterController {
     public Adel() {

@@ -1,8 +1,8 @@
 package game;
 
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.math.Matrix4;
-import game.characters.Adel;
+import game.characters.playable.Adel;
+import game.utilities.Camera2D;
 import menu.MainMenuScreen;
 import utilities.Screen;
 import utilities.Render;
@@ -65,18 +65,10 @@ public final class GameScreen extends Screen {
         }
     }
 
-
     @Override
     public void resize(int w, int h) {
         super.resize(w, h);
         adel.setSize(100f, 100f);
         adel.center();
-    }
-
-    @Override
-    public void dispose() {
-        super.dispose();
-        Render.b.setProjectionMatrix(new Matrix4());
-        Render.sr.setProjectionMatrix(new Matrix4());
     }
 }

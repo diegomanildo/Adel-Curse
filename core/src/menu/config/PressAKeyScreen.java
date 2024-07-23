@@ -1,9 +1,8 @@
 package menu.config;
 
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Color;
-import gameUtilities.Control;
-import gameUtilities.Controls;
+import game.utilities.Control;
+import game.utilities.Controls;
 import utilities.Screen;
 import utilities.Fonts;
 import utilities.Render;

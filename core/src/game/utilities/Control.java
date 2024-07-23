@@ -1,4 +1,4 @@
-package gameUtilities;
+package game.utilities;
 
 public class Control {
     private final GameAction action;

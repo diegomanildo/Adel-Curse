@@ -1,7 +1,7 @@
 package utilities;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
-import gameUtilities.GameObject;
+import game.utilities.GameObject;
 
 public final class Options extends GameObject {
     public final Button[] buttons;

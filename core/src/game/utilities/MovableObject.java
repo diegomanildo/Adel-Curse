@@ -1,4 +1,4 @@
-package gameUtilities;
+package game.utilities;
 
 import utilities.Direction;
 import utilities.exceptions.DirectionNotValidException;

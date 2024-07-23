@@ -1,10 +1,10 @@
-package game.characters;
+package game.characters.playable;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import gameUtilities.Bullet;
-import gameUtilities.GameObject;
-import gameUtilities.MovableObject;
+import game.utilities.Bullet;
+import game.utilities.GameObject;
+import game.utilities.MovableObject;
 import utilities.Direction;
 import utilities.FilePaths;
 import utilities.exceptions.DirectionNotValidException;

@@ -1,6 +1,6 @@
 package managers;
 
-import gameUtilities.GameObject;
+import game.utilities.GameObject;
 import utilities.Render;
 
 public class ObjectsManager extends Manager<GameObject> {

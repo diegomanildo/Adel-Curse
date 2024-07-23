@@ -1,4 +1,4 @@
-package game;
+package game.utilities;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
