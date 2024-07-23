@@ -82,13 +82,17 @@ public class Audio implements Music {
     }
 
     public void fadeIn(float duration) {
+        fadeIn(duration, false);
+    }
+
+    public void fadeIn(float duration, boolean loop) {
         new Thread(() -> {
             float startVolume = 0.0f;
             float endVolume = getVolume();
             float step = 0.01f;
             float stepTime = duration / ((endVolume - startVolume) / step);
             float currentVolume = startVolume;
-            play(true);
+            play(loop);
             while (currentVolume < endVolume) {
                 currentVolume += step;
                 if (currentVolume > endVolume) {
