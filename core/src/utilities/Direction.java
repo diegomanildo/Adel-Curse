@@ -7,7 +7,7 @@ public enum Direction {
     Down,
     Up,
     Right,
-    Left;
+    Left, UpRight, UpLeft, DownRight, DownLeft;
 
     public int toInt() {
         switch (this) {

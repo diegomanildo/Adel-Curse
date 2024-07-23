@@ -7,7 +7,6 @@ import utilities.io.Audio;
 
 public final class Button extends Text {
     private static final float OFFSET = 5f;
-    private static final ShapeRenderer SR = new ShapeRenderer();
 
     private final Audio onPressedSound;
     private final Audio mouseHovered;
@@ -52,14 +51,14 @@ public final class Button extends Text {
     @Override
     public void draw(Batch batch) {
         if (isHovered()) {
-            SR.setColor(Color.DARK_GRAY);
+            Render.sr.setColor(Color.DARK_GRAY);
             setTextColor(Color.YELLOW);
             if (!previouslyHovered) {
                 mouseHovered.play();
                 previouslyHovered = true;
             }
         } else {
-            SR.setColor(Color.GRAY);
+            Render.sr.setColor(Color.GRAY);
             setTextColor(Color.WHITE);
             previouslyHovered = false;
         }
@@ -71,14 +70,14 @@ public final class Button extends Text {
             float width = getWidth() + (OFFSET * 2f);
             float height = getHeight() + (OFFSET * 2f);
 
-            SR.begin(ShapeRenderer.ShapeType.Filled);
-            SR.rect(x, y, width, height);
-            SR.end();
+            Render.sr.begin(ShapeRenderer.ShapeType.Filled);
+            Render.sr.rect(x, y, width, height);
+            Render.sr.end();
 
-            SR.begin(ShapeRenderer.ShapeType.Line);
-            SR.setColor(Color.WHITE);
-            SR.rect(x, y, width, height);
-            SR.end();
+            Render.sr.begin(ShapeRenderer.ShapeType.Line);
+            Render.sr.setColor(Color.WHITE);
+            Render.sr.rect(x, y, width, height);
+            Render.sr.end();
             batch.begin();
         }
 

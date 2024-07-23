@@ -23,6 +23,7 @@ public abstract class MovableObject extends GameAnimation {
         int moveIndex;
         float x = getX();
         float y = getY();
+        float diagonalVelocity = (float) (velocity / Math.sqrt(2));
 
         switch (direction) {
             case None:
@@ -43,6 +44,26 @@ public abstract class MovableObject extends GameAnimation {
             case Left:
                 moveIndex = 3;
                 x -= velocity;
+                break;
+            case DownRight:
+                moveIndex = 0;
+                x += diagonalVelocity;
+                y -= diagonalVelocity;
+                break;
+            case DownLeft:
+                moveIndex = 0;
+                x -= diagonalVelocity;
+                y -= diagonalVelocity;
+                break;
+            case UpRight:
+                moveIndex = 1;
+                x += diagonalVelocity;
+                y += diagonalVelocity;
+                break;
+            case UpLeft:
+                moveIndex = 1;
+                x -= diagonalVelocity;
+                y += diagonalVelocity;
                 break;
             default:
                 throw new DirectionNotValidException("The direction " + direction + " is not valid");

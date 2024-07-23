@@ -3,6 +3,7 @@ package game.characters;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import gameUtilities.Bullet;
+import gameUtilities.GameObject;
 import gameUtilities.MovableObject;
 import utilities.Direction;
 import utilities.FilePaths;
@@ -19,7 +20,7 @@ public abstract class Character extends MovableObject {
     public Character(String texturePath, String bulletTexturePath) {
         super(FilePaths.CHARACTERS + texturePath, 2, 8, 0.5f);
         setSize(150f, 150f);
-        setVelocity(getWidth() / 12f);
+        setVelocity(7f);
         bullets = new ArrayList<>();
         shootSound = new Audio("game/shoot.mp3");
         shootSound.setVolume(0.1f);
@@ -79,10 +80,10 @@ public abstract class Character extends MovableObject {
     public void draw(Batch batch) {
         if (!bullets.isEmpty()) {
             updateBullets();
-            bullets.stream().filter(b -> b.getDirection() != Direction.Down).forEach(b -> b.draw(batch));
+            bullets.stream().filter(b -> b.getDirection() != Direction.Down).forEach(GameObject::draw);
         }
         super.draw(batch);
 
-        bullets.stream().filter(b -> b.getDirection() == Direction.Down).forEach(b -> b.draw(batch));
+        bullets.stream().filter(b -> b.getDirection() == Direction.Down).forEach(GameObject::draw);
     }
 }

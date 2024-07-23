@@ -40,9 +40,21 @@ public abstract class CharacterController extends Character {
         Direction direction = Direction.None;
 
         if (Render.io.isKeyPressed(Input.Keys.W)) {
-            direction = Direction.Up;
+            if (Render.io.isKeyPressed(Input.Keys.A)) {
+                direction = Direction.UpLeft;
+            } else if (Render.io.isKeyPressed(Input.Keys.D)) {
+                direction = Direction.UpRight;
+            } else {
+                direction = Direction.Up;
+            }
         } else if (Render.io.isKeyPressed(Input.Keys.S)) {
-            direction = Direction.Down;
+            if (Render.io.isKeyPressed(Input.Keys.A)) {
+                direction = Direction.DownLeft;
+            } else if (Render.io.isKeyPressed(Input.Keys.D)) {
+                direction = Direction.DownRight;
+            } else {
+                direction = Direction.Down;
+            }
         } else if (Render.io.isKeyPressed(Input.Keys.D)) {
             direction = Direction.Right;
         } else if (Render.io.isKeyPressed(Input.Keys.A)) {

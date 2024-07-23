@@ -4,7 +4,7 @@ import utilities.Screen;
 import utilities.io.Song;
 
 public abstract class BasicMainMenuScreen extends Screen {
-    protected static Song backgroundSong;
+    public static Song backgroundSong;
 
     static {
         backgroundSong = new Song("mainTheme.mp3");

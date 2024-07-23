@@ -73,7 +73,6 @@ public class Audio implements Music {
 
     @Override
     public void dispose() {
-        music.stop();
         music.dispose();
     }
 
@@ -125,6 +124,7 @@ public class Audio implements Music {
                 }
             }
             stop();
+            setVolume(startVolume);
         }).start();
     }
 }
