@@ -14,7 +14,9 @@ public class Camera2D extends OrthographicCamera {
     }
 
     public void transitionCamera(float targetX, float targetY, float transitionTime) {
-        new Thread(() -> {
+        // TODO: Thread is interrupted sometimes and the camera doesn't move correctly
+
+        Thread transitionThread = new Thread(() -> {
             final float startX = position.x;
             final float startY = position.y;
             final float deltaX = targetX - startX;
@@ -34,7 +36,8 @@ public class Camera2D extends OrthographicCamera {
                     e.printStackTrace();
                 }
             }
-        }).start();
+        });
+        transitionThread.start();
     }
 
     public float getLeft() {
