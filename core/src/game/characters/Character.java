@@ -1,8 +1,7 @@
-package game.characters.playable;
+package game.characters;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import game.GameScreen;
 import game.utilities.Bullet;
 import game.utilities.GameObject;
 import game.utilities.MovableObject;
@@ -19,7 +18,7 @@ public abstract class Character extends MovableObject {
     private final String bulletTexturePath;
 
     public Character(String texturePath, String bulletTexturePath) {
-        super(FilePaths.CHARACTERS + texturePath, 2, 8, 0.5f);
+        super(FilePaths.CHARACTERS + texturePath, 2, 8, 0.4f);
         setSize(150f, 150f);
         setVelocity(7f);
         bullets = new ArrayList<>();
@@ -59,7 +58,7 @@ public abstract class Character extends MovableObject {
 
     // Creates a shoot
     private void createShoot(int animationIndex, Direction bulletDirection) {
-        Bullet b = new Bullet(FilePaths.CHARACTERS + bulletTexturePath, bulletDirection, 0.5f);
+        Bullet b = new Bullet(FilePaths.CHARACTERS + bulletTexturePath, bulletDirection, 0.2f);
         b.setAnimation(animationIndex);
         b.setSize(getWidth() / 2f, getHeight() / 2f);
         b.setPosition(getMiddleX() - b.getWidth() / 2f, getMiddleY() - b.getHeight() / 2f);
@@ -81,10 +80,12 @@ public abstract class Character extends MovableObject {
     public void draw(Batch batch) {
         if (!bullets.isEmpty()) {
             updateBullets();
+            // First draw down bullets
             bullets.stream().filter(b -> b.getDirection() != Direction.Down).forEach(GameObject::draw);
         }
         super.draw(batch);
 
+        // Then others
         bullets.stream().filter(b -> b.getDirection() == Direction.Down).forEach(GameObject::draw);
     }
 }

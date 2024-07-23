@@ -1,6 +1,7 @@
 package game.characters.playable;
 
 import com.badlogic.gdx.Input;
+import game.characters.Character;
 import utilities.Direction;
 import utilities.Render;
 

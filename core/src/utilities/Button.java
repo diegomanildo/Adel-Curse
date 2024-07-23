@@ -82,10 +82,11 @@ public final class Button extends Text {
         }
 
         super.draw(batch);
+        setColor(Color.WHITE);
     }
 
     private void setTextColor(Color color) {
-
+        setColor(color);
     }
 
     public void update() {

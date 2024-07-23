@@ -1,5 +1,6 @@
 package utilities;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import game.utilities.GameObject;
 
@@ -42,5 +43,9 @@ public class Text extends GameObject {
     public boolean collidesIn(float pointX, float pointY) {
         return pointX >= getX() && pointX <= getX() + getWidth() // verify on x
                 && pointY >= getY() - getHeight() && pointY <= getY(); // verify on y
+    }
+
+    public void setColor(Color color) {
+        font.setColor(color);
     }
 }
