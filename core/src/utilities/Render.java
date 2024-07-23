@@ -6,6 +6,7 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.utils.ScreenUtils;
 import utilities.io.IOProcessor;
 
@@ -21,7 +22,7 @@ public class Render {
 
     public static OrthographicCamera camera = new OrthographicCamera();
 
-    public final static boolean DEBUG_MODE = true;
+    public final static boolean DEBUG_MODE = false;
 
     public static void clear(float r, float g, float b, float a) {
         ScreenUtils.clear(r, g, b, a);

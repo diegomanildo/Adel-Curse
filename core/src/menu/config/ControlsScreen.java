@@ -10,9 +10,8 @@ public final class ControlsScreen extends BasicOptionsScreen {
     private Options keys;
     private Texts actions;
 
-    @Override
-    public void show() {
-        super.show();
+    public ControlsScreen() {
+        super();
         Button[] buttons = new Button[Controls.size()];
         Text[] texts = new Text[buttons.length];
 

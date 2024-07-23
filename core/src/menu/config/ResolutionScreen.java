@@ -5,16 +5,14 @@ import utilities.Screen;
 import utilities.*;
 
 public final class ResolutionScreen extends BasicOptionsScreen {
-    private Options options;
-    private Button applyBtn;
+    private final Options options;
+    private final Button applyBtn;
 
     private String textSave;
     private int optionSelected;
 
-    @Override
-    public void show() {
-        super.show();
-
+    public ResolutionScreen() {
+        super();
         options = new Options(
                 10f,
                 new Button(Fonts.DEFAULT, "1920x1080"),
@@ -31,6 +29,11 @@ public final class ResolutionScreen extends BasicOptionsScreen {
         }
 
         applyBtn = new Button(Fonts.DEFAULT, "APPLY", () -> setWindowSize(textSave));
+    }
+
+    @Override
+    public void show() {
+        super.show();
 
         configureResolution();
     }

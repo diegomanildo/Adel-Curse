@@ -10,17 +10,12 @@ import utilities.Render;
 import utilities.Text;
 
 public final class PressAKeyScreen extends Screen {
-    private Text pressAnyKey;
+    private final Text pressAnyKey;
     private final Control control;
 
     public PressAKeyScreen(Control control) {
         super();
         this.control = control;
-    }
-
-    @Override
-    public void show() {
-        super.show();
         pressAnyKey = new Text(Fonts.DEFAULT2, "Press a key for " + control.getAction() + "...");
     }
 

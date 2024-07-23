@@ -1,6 +1,8 @@
 package utilities;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.utils.viewport.*;
 import gameUtilities.GameObject;
@@ -11,7 +13,7 @@ import com.badlogic.gdx.audio.Music;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 
-public abstract class Screen implements com.badlogic.gdx.Screen {
+public abstract class Screen extends ScreenAdapter {
     private static final int INIT_WIDTH = Gdx.graphics.getWidth();
     private static final int INIT_HEIGHT = Gdx.graphics.getHeight();
 
@@ -19,9 +21,9 @@ public abstract class Screen implements com.badlogic.gdx.Screen {
     private static ObjectsManager objectsManager;
     private static AudioManager audioManager;
 
-    protected Viewport viewport;
+    protected final Viewport viewport;
 
-    public void show() {
+    protected Screen() {
         objectsManager = new ObjectsManager();
         audioManager = new AudioManager();
         camera = new OrthographicCamera();
@@ -37,14 +39,8 @@ public abstract class Screen implements com.badlogic.gdx.Screen {
 
     public void render(float delta) {
         viewport.apply();
-        draw();
-    }
-
-    private void draw() {
-        Render.clear();
-        Render.b.begin();
+        Render.clear(new Color(0x800000FF));
         objectsManager.draw();
-        Render.b.end();
     }
 
     public void initializeManagers() {
@@ -78,10 +74,6 @@ public abstract class Screen implements com.badlogic.gdx.Screen {
 
         audioManager.setVolume(0.1f);
     }
-
-    public void pause() {}
-    public void resume() {}
-    public void hide() {}
 
     public void dispose() {
         objectsManager.dispose();

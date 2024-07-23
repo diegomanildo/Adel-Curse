@@ -5,17 +5,20 @@ import utilities.Screen;
 import utilities.*;
 
 public final class OptionsScreen extends BasicOptionsScreen {
-    private Options options;
+    private final Options options;
 
-    @Override
-    public void show() {
-        super.show();
+    public OptionsScreen() {
+        super();
         options = new Options(
                 20f,
                 new Button(Fonts.DEFAULT, "CONTROLS", this::controles),
                 new Button(Fonts.DEFAULT, "RESOLUTION", this::resolution)
         );
+    }
 
+    @Override
+    public void show() {
+        super.show();
         options.setAlign(AlignMode.CENTERED);
     }
 

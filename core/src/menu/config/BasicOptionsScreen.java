@@ -1,5 +1,6 @@
 package menu.config;
 
+import com.badlogic.gdx.Input;
 import menu.BasicMainMenuScreen;
 import utilities.Screen;
 import utilities.Button;
@@ -8,21 +9,19 @@ import utilities.Render;
 import utilities.Text;
 
 public abstract class BasicOptionsScreen extends BasicMainMenuScreen {
-    private Button backButton;
-    private Text title;
+    private final Button backButton;
+    private final Text title;
 
-    @Override
-    public void show() {
-        super.show();
-        backButton = new Button(Fonts.DEFAULT, "BACK", () -> Render.setScreen(getBackScreen()));
-
+    public BasicOptionsScreen() {
+        super();
+        backButton = new Button(Fonts.DEFAULT, "<", () -> Render.setScreen(getBackScreen()));
         title = new Text(Fonts.DEFAULT, getTitleScreen());
     }
 
     @Override
     public void render(float delta) {
         super.render(delta);
-        if (backButton.isClicked()){
+        if (backButton.isClicked() || Render.io.isKeyPressed(Input.Keys.ESCAPE)){
             backButton.execute();
         }
     }
@@ -30,8 +29,8 @@ public abstract class BasicOptionsScreen extends BasicMainMenuScreen {
     @Override
     public void resize(int w, int h) {
         super.resize(w, h);
-        backButton.setX(10f);
-        backButton.setY(backButton.getHeight() + 10f);
+        backButton.setX(Render.screenSize.width - backButton.getWidth() - 40f);
+        backButton.setY(Render.screenSize.height - 40f);
 
         title.centerX();
         title.setY(Render.screenSize.height - 40f);

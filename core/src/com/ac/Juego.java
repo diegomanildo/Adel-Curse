@@ -2,7 +2,6 @@ package com.ac;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import gameUtilities.GameObject;
 import menu.MainMenuScreen;
 import utilities.Render;
 
