@@ -2,6 +2,7 @@ package game.characters.playable;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import game.GameScreen;
 import game.utilities.Bullet;
 import game.utilities.GameObject;
 import game.utilities.MovableObject;

@@ -12,7 +12,7 @@ public final class GameScreen extends Screen {
     private final Adel adel;
     private final Song song;
 
-    private final Camera2D camera;
+    private static Camera2D camera;
 
     public GameScreen() {
         adel = new Adel();
@@ -70,5 +70,9 @@ public final class GameScreen extends Screen {
         super.resize(w, h);
         adel.setSize(100f, 100f);
         adel.center();
+    }
+
+    public static Camera2D getCamera() {
+        return camera;
     }
 }

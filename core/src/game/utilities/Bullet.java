@@ -1,7 +1,8 @@
 package game.utilities;
 
+import com.badlogic.gdx.graphics.Camera;
+import game.GameScreen;
 import utilities.Direction;
-import utilities.Render;
 import utilities.exceptions.DirectionNotValidException;
 
 public final class Bullet extends MovableObject {
@@ -43,8 +44,9 @@ public final class Bullet extends MovableObject {
 
     // Bullet is no more in the screen, and you should have not render it
     public boolean outOfBounds() {
-        return getX() > Render.screenSize.width + PIXELS_DELAY || getX() < -PIXELS_DELAY
-            || getY()  > Render.screenSize.height + PIXELS_DELAY || getY() < -PIXELS_DELAY;
+        Camera2D camera = GameScreen.getCamera();
+        return (getX() < camera.getLeft() - PIXELS_DELAY || getX() > camera.getRight() + PIXELS_DELAY
+                || getY() < camera.getBottom() - PIXELS_DELAY || getY() > camera.getTop() + PIXELS_DELAY);
     }
 
     public Direction getDirection() {
