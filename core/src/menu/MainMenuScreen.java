@@ -21,23 +21,20 @@ public final class MainMenuScreen extends BasicMainMenuScreen {
         );
     }
 
+    private void play() {
+        backgroundSong.fadeOut(FADE_TIME);
+        Render.setScreen(new GameScreen());
+    }
+
     @Override
     public void show() {
         super.show();
         options.setAlign(AlignMode.CENTERED);
     }
 
-    private void play() {
-        Render.setScreen(new GameScreen());
-        backgroundSong.stop();
-    }
-
     @Override
     public void render(float delta) {
         super.render(delta);
-        if (Render.io.isKeyPressed(Input.Keys.L)) {
-            backgroundSong.stop();
-        }
         options.update();
     }
 

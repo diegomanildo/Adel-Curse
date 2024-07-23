@@ -21,7 +21,7 @@ public abstract class Character extends MovableObject {
         setSize(150f, 150f);
         setVelocity(getWidth() / 12f);
         bullets = new ArrayList<>();
-        shootSound = new Audio("shoot.mp3");
+        shootSound = new Audio("game/shoot.mp3");
         shootSound.setVolume(0.1f);
         this.bulletTexturePath = bulletTexturePath;
     }

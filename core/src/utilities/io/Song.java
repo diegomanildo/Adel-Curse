@@ -1,10 +1,12 @@
 package utilities.io;
 
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.utils.Timer;
 
 import java.util.function.Consumer;
 
 public class Song implements Music {
+
     private static class SongSaver {
         private final Audio intro;
         private final Audio song;
@@ -30,7 +32,7 @@ public class Song implements Music {
             }
         }
 
-        public void forEach(Consumer<? super Audio> action) {
+        public void forEach(Consumer<Audio> action) {
             if (intro != null) {
                 action.accept(intro);
             }
@@ -131,5 +133,13 @@ public class Song implements Music {
     @Override
     public void setOnCompletionListener(OnCompletionListener onCompletionListener) {
         songSaver.song.setOnCompletionListener(onCompletionListener);
+    }
+
+    public void fadeIn(float duration) {
+        songSaver.getNotNull().fadeIn(duration);
+    }
+
+    public void fadeOut(float duration) {
+        songSaver.getPlaying().fadeOut(duration);
     }
 }

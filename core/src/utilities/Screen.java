@@ -17,6 +17,8 @@ public abstract class Screen extends ScreenAdapter {
     private static final int INIT_WIDTH = Gdx.graphics.getWidth();
     private static final int INIT_HEIGHT = Gdx.graphics.getHeight();
 
+    protected static final float FADE_TIME = 2f;
+
     public static OrthographicCamera camera;
     private static ObjectsManager objectsManager;
     private static AudioManager audioManager;

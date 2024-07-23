@@ -20,8 +20,8 @@ public final class Button extends Text {
         super(font, text);
         this.action = action;
         showBackground = true;
-        onPressedSound = new Audio("buttonClicked.mp3");
-        mouseHovered = new Audio("mouseHover.mp3");
+        onPressedSound = new Audio("button/buttonClicked.mp3");
+        mouseHovered = new Audio("button/mouseHover.mp3");
     }
 
     public Button(Font font, String text) {

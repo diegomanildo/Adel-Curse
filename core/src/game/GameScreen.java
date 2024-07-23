@@ -5,6 +5,7 @@ import game.characters.Adel;
 import menu.MainMenuScreen;
 import utilities.Screen;
 import utilities.Render;
+import utilities.io.Audio;
 import utilities.io.Song;
 
 public final class GameScreen extends Screen {
@@ -19,8 +20,9 @@ public final class GameScreen extends Screen {
         adel.setSize(100f, 100f);
         adel.center();
 
-        song = new Song("gameMusic/Undead.mp3");
-        song.play(true);
+        song = new Song("game/music/UndeadIntro.mp3", "game/music/Undead.mp3");
+        song.setVolume(0.1f);
+        song.fadeIn(FADE_TIME);
     }
 
     @Override
