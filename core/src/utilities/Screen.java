@@ -3,7 +3,6 @@ package utilities;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import game.utilities.GameObject;
 import managers.AudioManager;
 import managers.ObjectsManager;
@@ -70,19 +69,5 @@ public abstract class Screen extends ScreenAdapter {
     public void dispose() {
         objectsManager.dispose();
         audioManager.dispose();
-    }
-
-    protected static GameObject getScreenHitbox() {
-        GameObject screen = new GameObject() {
-            @Override
-            public void draw(Batch batch) {}
-        };
-
-        screen.setX(0f);
-        screen.setY(0f);
-        screen.setWidth(Render.screenSize.width);
-        screen.setHeight(Render.screenSize.height);
-
-        return screen;
     }
 }

@@ -4,48 +4,37 @@ import com.badlogic.gdx.audio.Music;
 
 import java.util.function.Consumer;
 
-public class Song implements Music {
+public final class Song implements Music {
+    private final Audio intro;
+    private final Audio song;
 
-    private static class SongSaver {
-        private final Audio intro;
-        private final Audio song;
-
-        public SongSaver(Audio intro, Audio song) {
-            this.intro = intro;
-            this.song = song;
-        }
-
-        public Audio getNotNull() {
-            if (intro != null) {
-                return intro;
-            } else {
-                return song;
-            }
-        }
-
-        public Audio getPlaying() {
-            if (intro != null && intro.isPlaying()) {
-                return intro;
-            } else {
-                return song;
-            }
-        }
-
-        public void forEach(Consumer<Audio> action) {
-            if (intro != null) {
-                action.accept(intro);
-            }
-            if (song != null) {
-                action.accept(song);
-            }
+    private Audio getNotNull() {
+        if (intro != null) {
+            return intro;
+        } else {
+            return song;
         }
     }
 
-    private final SongSaver songSaver;
+    private Audio getPlaying() {
+        if (intro != null && intro.isPlaying()) {
+            return intro;
+        } else {
+            return song;
+        }
+    }
+
+    private void forEach(Consumer<Audio> action) {
+        if (intro != null) {
+            action.accept(intro);
+        }
+        if (song != null) {
+            action.accept(song);
+        }
+    }
 
     public Song(String introFilePath, String songFilePath) {
-        Audio song = new Audio(songFilePath);
-        Audio intro;
+        song = new Audio(songFilePath);
 
         if (introFilePath != null) {
             intro = new Audio(introFilePath);
@@ -56,8 +45,6 @@ public class Song implements Music {
         } else {
             intro = null;
         }
-
-        songSaver = new SongSaver(intro, song);
     }
 
     public Song(String songFilePath) {
@@ -70,80 +57,80 @@ public class Song implements Music {
     }
 
     public void play(boolean loop) {
-        songSaver.getNotNull().play();
-        songSaver.song.setLooping(loop);
+        getNotNull().play();
+        song.setLooping(loop);
     }
 
     @Override
     public void pause() {
-        songSaver.getPlaying().pause();
+        getPlaying().pause();
     }
 
     @Override
     public void stop() {
-        songSaver.getPlaying().stop();
+        getPlaying().stop();
     }
 
     @Override
     public boolean isPlaying() {
-        return songSaver.getPlaying().isPlaying();
+        return getPlaying().isPlaying();
     }
 
     @Override
     public void setLooping(boolean loop) {
-        songSaver.song.setLooping(loop);
+        song.setLooping(loop);
     }
 
     @Override
     public boolean isLooping() {
-        return songSaver.song.isLooping();
+        return song.isLooping();
     }
 
     @Override
     public void setVolume(float volume) {
-        songSaver.forEach(s -> s.setVolume(volume));
+        forEach(s -> s.setVolume(volume));
     }
 
     @Override
     public float getVolume() {
-        return songSaver.getPlaying().getVolume();
+        return getPlaying().getVolume();
     }
 
     @Override
     public void setPan(float v, float v1) {
-        songSaver.forEach(s -> s.setPan(v, v1));
+        forEach(s -> s.setPan(v, v1));
     }
 
     @Override
     public void setPosition(float position) {
-        songSaver.forEach(s -> s.setPosition(position));
+        forEach(s -> s.setPosition(position));
     }
 
     @Override
     public float getPosition() {
-        return songSaver.getPlaying().getPosition();
+        return getPlaying().getPosition();
     }
 
     @Override
     public void dispose() {
-        songSaver.forEach(Audio::dispose);
+        forEach(Audio::dispose);
     }
 
     @Override
     public void setOnCompletionListener(OnCompletionListener onCompletionListener) {
-        songSaver.song.setOnCompletionListener(onCompletionListener);
+        song.setOnCompletionListener(onCompletionListener);
     }
 
     public void fadeIn(float duration) {
-        songSaver.getNotNull().fadeIn(duration, false);
+        getNotNull().fadeIn(duration, false);
     }
 
     public void fadeIn(float duration, boolean loop) {
         setLooping(loop);
-        songSaver.getNotNull().fadeIn(duration);
+        getNotNull().fadeIn(duration);
     }
 
     public void fadeOut(float duration) {
-        songSaver.getPlaying().fadeOut(duration);
+        getPlaying().fadeOut(duration);
     }
 }

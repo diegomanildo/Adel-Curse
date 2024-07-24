@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import utilities.FilePaths;
 
-public class Audio implements Music {
+public final class Audio implements Music {
     private final Music music;
 
     public Audio(String musicPath) {
