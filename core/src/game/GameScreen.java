@@ -2,10 +2,11 @@ package game;
 
 import com.badlogic.gdx.Input;
 import game.characters.playable.Adel;
+import game.rooms.StoneRoom;
 import game.utilities.Camera2D;
 import menu.MainMenuScreen;
-import utilities.Screen;
 import utilities.Render;
+import utilities.Screen;
 import utilities.io.Song;
 
 public final class GameScreen extends Screen {
@@ -13,26 +14,23 @@ public final class GameScreen extends Screen {
     private final Song song;
 
     private static Camera2D camera;
+    private final StoneRoom room;
 
     public GameScreen() {
         adel = new Adel();
-        song = new Song("game/music/UndeadIntro.mp3", "game/music/Undead.mp3");
+        song = new Song("Music", "game/music/UndeadIntro.mp3", "game/music/Undead.mp3");
         camera = new Camera2D(Render.screenSize.width, Render.screenSize.height);
+        room = new StoneRoom(camera);
     }
 
     @Override
     public void show() {
         super.show();
-        camera.setPosition(camera.viewportWidth / 2f, camera.viewportHeight / 2f);
-        camera.update();
     }
 
     @Override
     public void render(float delta) {
         super.render(delta);
-
-        Render.b.setProjectionMatrix(camera.combined);
-        Render.sr.setProjectionMatrix(camera.combined);
 
         if (!song.isPlaying()) {
             song.fadeIn(FADE_TIME);
@@ -45,10 +43,6 @@ public final class GameScreen extends Screen {
         }
 
         adel.move();
-
-        if (!adel.collidesWith(camera.getHitbox())) {
-            moveCamera();
-        }
     }
 
     private void moveCamera() {
