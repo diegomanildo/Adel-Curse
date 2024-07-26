@@ -3,34 +3,29 @@ package game;
 import com.badlogic.gdx.Input;
 import game.characters.playable.Adel;
 import game.rooms.StoneRoom;
-import game.utilities.Camera2D;
 import menu.MainMenuScreen;
 import utilities.Render;
 import utilities.Screen;
 import utilities.io.Song;
 
 public final class GameScreen extends Screen {
+    private final StoneRoom room;
+
     private final Adel adel;
     private final Song song;
 
-    private static Camera2D camera;
-    private final StoneRoom room;
-
     public GameScreen() {
+        room = new StoneRoom();
         adel = new Adel();
         song = new Song("Music", "game/music/UndeadIntro.mp3", "game/music/Undead.mp3");
-        camera = new Camera2D();
-        room = new StoneRoom(camera);
-    }
-
-    @Override
-    public void show() {
-        super.show();
     }
 
     @Override
     public void render(float delta) {
         super.render(delta);
+
+        Render.b.setProjectionMatrix(Render.camera.combined);
+        Render.sr.setProjectionMatrix(Render.camera.combined);
 
         if (!song.isPlaying()) {
             song.fadeIn(FADE_TIME);
@@ -44,32 +39,29 @@ public final class GameScreen extends Screen {
 
         adel.move();
 
-        if (!adel.collidesWith(camera.getHitbox())) {
+        if (!adel.collidesWith(Render.camera.getHitbox())) {
             moveCamera();
         }
     }
 
     private void moveCamera() {
-        if (adel.getX() < camera.getLeft()) {
-            camera.moveTo(camera.position.x - camera.viewportWidth, camera.position.y, FADE_TIME / 2f);
-        } else if (adel.getX() > camera.getRight()) {
-            camera.moveTo(camera.position.x + camera.viewportWidth, camera.position.y, FADE_TIME / 2f);
+        if (adel.getX() < Render.camera.getLeft()) {
+            Render.camera.moveTo(Render.camera.position.x - Render.camera.viewportWidth, Render.camera.position.y, FADE_TIME / 2f);
+        } else if (adel.getX() > Render.camera.getRight()) {
+            Render.camera.moveTo(Render.camera.position.x + Render.camera.viewportWidth, Render.camera.position.y, FADE_TIME / 2f);
         }
 
-        if (adel.getY() < camera.getBottom()) {
-            camera.moveTo(camera.position.x, camera.position.y - camera.viewportHeight, FADE_TIME / 2f);
-        } else if (adel.getY() > camera.getTop()) {
-            camera.moveTo(camera.position.x, camera.position.y + camera.viewportHeight, FADE_TIME / 2f);
+        if (adel.getY() < Render.camera.getBottom()) {
+            Render.camera.moveTo(Render.camera.position.x, Render.camera.position.y - Render.camera.viewportHeight, FADE_TIME / 2f);
+        } else if (adel.getY() > Render.camera.getTop()) {
+            Render.camera.moveTo(Render.camera.position.x, Render.camera.position.y + Render.camera.viewportHeight, FADE_TIME / 2f);
         }
     }
 
     @Override
     public void resize(int w, int h) {
         super.resize(w, h);
-        adel.setPosition(room.getX(), room.getY());
-    }
-
-    public static Camera2D getCamera() {
-        return camera;
+        adel.setX((room.getWidth() - adel.getWidth()) / 2f);
+        adel.setY((room.getHeight() - adel.getHeight()) / 2f);
     }
 }

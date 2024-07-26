@@ -1,8 +1,6 @@
 package utilities.io;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.utils.Timer;
 
 public abstract class Audio implements Music {
     protected Audio(String channel) {
@@ -17,7 +15,7 @@ public abstract class Audio implements Music {
 
     protected void update(String channel) {
         if (channel != null) {
-            Channels.setChannelVolume(channel, Channels.getChannelVolume(channel));
+            Channels.updateVolume(channel);
         }
     }
 

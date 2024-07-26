@@ -1,11 +1,11 @@
 package game.utilities;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Disposable;
 import utilities.Render;
-import com.badlogic.gdx.graphics.g2d.Batch;
 
 public abstract class GameObject implements Hitbox, Disposable {
     private float x;
@@ -87,7 +87,7 @@ public abstract class GameObject implements Hitbox, Disposable {
 
         // Draw the circle in the middle
         Render.sr.begin(ShapeRenderer.ShapeType.Filled);
-        Render.sr.circle(middleX, middleY, 5f);
+        Render.sr.circle(middleX, middleY, 2f);
         Render.sr.end();
 
         Render.b.begin();

@@ -1,10 +1,8 @@
 package utilities;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
 import game.utilities.GameObject;
-import managers.AudioManager;
 import managers.ObjectsManager;
 import utilities.io.Channels;
 
@@ -12,17 +10,14 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 
 public abstract class Screen extends ScreenAdapter {
-    private static final int INIT_WIDTH = Gdx.graphics.getWidth();
-    private static final int INIT_HEIGHT = Gdx.graphics.getHeight();
-
     protected static final float FADE_TIME = 1f;
 
     private static ObjectsManager objectsManager;
 
     protected Screen() {
         objectsManager = new ObjectsManager();
-        Channels.setChannelVolume("Sfx", 1f);
-        Channels.setChannelVolume("Music", 0.1f);
+        Channels.setChannelVolume("Sfx", 0.5f);
+        Channels.setChannelVolume("Music", 0f);
     }
 
     public void resize(int w, int h) {

@@ -6,6 +6,7 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import game.utilities.Camera2D;
 import game.utilities.GameObject;
+import utilities.Render;
 
 public abstract class Room extends GameObject {
     private final TiledMap map;
@@ -16,14 +17,19 @@ public abstract class Room extends GameObject {
 
     protected Room(String fileMap, Camera2D camera) {
         this.map = new TmxMapLoader().load(fileMap);
-        this.renderer = new OrthogonalTiledMapRenderer(map);
         this.camera = camera;
+        this.renderer = new OrthogonalTiledMapRenderer(map);
 
         float w = map.getProperties().get("width", Integer.class) * getTileWidth();
         float h = map.getProperties().get("height", Integer.class) * getTileHeight();
 
         setSize(w - (OFFSET * 2f), h - (OFFSET * 2f));
-        setPosition(getX() + w / 2f, getY() + h / 2f);
+
+        this.camera.setPosition(getMiddleX(), getMiddleY());
+    }
+
+    protected Room(String fileMap) {
+        this(fileMap, Render.camera);
     }
 
     @Override

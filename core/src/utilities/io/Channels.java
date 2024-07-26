@@ -2,37 +2,41 @@ package utilities.io;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
-public class Channels {
+public final class Channels {
     public static final String DEFAULT_CHANNEL = "@__DEFAULT_CHANNEL__";
+    public static final String GLOBAL_CHANNEL = "@__GLOBAL__";
 
-    private static final HashMap<String, Set<Audio>> channels = new HashMap<>();
+    private static final Map<String, Set<Audio>> audioChannels = new HashMap<>();
+    private static final Map<String, Float> volumeChannels = new HashMap<>();
 
-    public static void register(String channel, Audio audio) {
-        channels.computeIfAbsent(channel, k -> new HashSet<>()).add(audio);
+    static {
+        volumeChannels.put(GLOBAL_CHANNEL, 1.0f);
     }
 
-    public static float getChannelVolume(String channel) {
-        if (channels.containsKey(channel)) {
-            Object[] audios = channels.get(channel).toArray();
-            if (audios.length == 0) {
-                return 1f;
-            } else {
-                Audio first = (Audio) audios[0];
-                return first.isNull() ? 1f : first.getVolume();
-            }
-        } else {
-            throw new RuntimeException("Channel \"" + channel + "\" doesn't exists.");
-        }
+    public static void register(String channel, Audio audio) {
+        audioChannels.computeIfAbsent(channel, k -> new HashSet<>()).add(audio);
     }
 
     public static void setChannelVolume(String channel, float volume) {
-        if (!channels.containsKey(channel)) {
-            channels.computeIfAbsent(channel, k -> new HashSet<>());
+        if (volume < 0f || volume > 1f) {
+            throw new RuntimeException("Volume " + volume + " is invalid, range: (0.0 - 1.0)");
+        } else {
+            volumeChannels.put(channel, volume);
+            updateVolume(channel);
         }
+    }
 
-        Set<Audio> audios = channels.get(channel);
-        audios.forEach(a -> a.setVolume(volume));
+    public static void updateVolume(String channel) {
+        float volume = volumeChannels.getOrDefault(channel, 1.0f) * volumeChannels.get(GLOBAL_CHANNEL);
+
+        Set<Audio> audios = audioChannels.get(channel);
+        if (audios != null) {
+            for (Audio audio : audios) {
+                audio.setVolume(volume);
+            }
+        }
     }
 }
