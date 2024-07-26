@@ -19,7 +19,7 @@ public final class GameScreen extends Screen {
     public GameScreen() {
         adel = new Adel();
         song = new Song("Music", "game/music/UndeadIntro.mp3", "game/music/Undead.mp3");
-        camera = new Camera2D(Render.screenSize.width, Render.screenSize.height);
+        camera = new Camera2D();
         room = new StoneRoom(camera);
     }
 
@@ -43,6 +43,10 @@ public final class GameScreen extends Screen {
         }
 
         adel.move();
+
+        if (!adel.collidesWith(camera.getHitbox())) {
+            moveCamera();
+        }
     }
 
     private void moveCamera() {
@@ -62,8 +66,7 @@ public final class GameScreen extends Screen {
     @Override
     public void resize(int w, int h) {
         super.resize(w, h);
-        adel.setSize(100f, 100f);
-        adel.center();
+        adel.setPosition(room.getX(), room.getY());
     }
 
     public static Camera2D getCamera() {

@@ -1,6 +1,5 @@
 package game.utilities;
 
-import com.badlogic.gdx.graphics.Camera;
 import game.GameScreen;
 import utilities.Direction;
 import utilities.exceptions.DirectionNotValidException;
@@ -13,7 +12,6 @@ public final class Bullet extends MovableObject {
     public Bullet(String texturePath, Direction direction, float frameDuration) {
         super(texturePath, 2, 4, frameDuration);
         this.direction = direction;
-        setVelocity(500f);
     }
 
     // Update bullet position

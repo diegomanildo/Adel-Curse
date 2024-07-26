@@ -8,9 +8,6 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.ScreenUtils;
 import utilities.io.IOProcessor;
 
-import java.lang.management.ManagementFactory;
-import java.lang.management.RuntimeMXBean;
-
 public class Render {
     public static final int MIN_WIDTH = 800;
     public static final int MIN_HEIGHT = 600;
@@ -22,12 +19,13 @@ public class Render {
     public static Juego app;
 
     public static boolean isDebugging() {
-        RuntimeMXBean runtimeMXBean = ManagementFactory.getRuntimeMXBean();
-        for (String arg : runtimeMXBean.getInputArguments()) {
-            if (arg.contains("-agentlib:jdwp")) {
-                return true;
-            }
-        }
+//        RuntimeMXBean runtimeMXBean = ManagementFactory.getRuntimeMXBean();
+//        for (String arg : runtimeMXBean.getInputArguments()) {
+//            if (arg.contains("-agentlib:jdwp")) {
+//                return true;
+//            }
+//        }
+//        return false;
         return false;
     }
 

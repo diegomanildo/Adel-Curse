@@ -17,6 +17,11 @@ public class Camera2D extends OrthographicCamera {
         position.set(x, y, 0f);
     }
 
+    public void setSize(float width, float height) {
+        setToOrtho(false, width, height);
+        setPosition(width / 2f, height / 2f);
+    }
+
     public void moveTo(float targetX, float targetY, float transitionTime) {
         // TODO: Thread is interrupted sometimes and the camera doesn't move correctly
 
