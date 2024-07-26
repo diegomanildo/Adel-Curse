@@ -25,7 +25,7 @@ public abstract class Room extends GameObject {
 
         setSize(w - (OFFSET * 2f), h - (OFFSET * 2f));
 
-        this.camera.setPosition(getMiddleX(), getMiddleY());
+        this.camera.setPosition(getMiddleX() + OFFSET, getMiddleY() + OFFSET);
     }
 
     protected Room(String fileMap) {

@@ -15,6 +15,7 @@ public class Camera2D extends OrthographicCamera {
 
     public void setPosition(float x, float y) {
         position.set(x, y, 0f);
+        update();
     }
 
     public void setSize(float width, float height) {

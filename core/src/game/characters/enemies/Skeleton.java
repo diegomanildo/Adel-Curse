@@ -1,7 +1,7 @@
 package game.characters.enemies;
 
 public final class Skeleton extends Enemy {
-    public Skeleton(float x, float y) {
+    public Skeleton() {
         super("skeleton/skeleton.png", "skeleton/skeleton.png");
     }
 }

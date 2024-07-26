@@ -21,11 +21,15 @@ public final class GameScreen extends Screen {
     }
 
     @Override
-    public void render(float delta) {
-        super.render(delta);
-
+    public void show() {
+        super.show();
         Render.b.setProjectionMatrix(Render.camera.combined);
         Render.sr.setProjectionMatrix(Render.camera.combined);
+    }
+
+    @Override
+    public void render(float delta) {
+        super.render(delta);
 
         if (!song.isPlaying()) {
             song.fadeIn(FADE_TIME);
