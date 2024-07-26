@@ -3,13 +3,13 @@ package utilities;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import utilities.io.Audio;
+import utilities.io.Sound;
 
 public final class Button extends Text {
     private static final float OFFSET = 5f;
 
-    private final Audio onPressedSound;
-    private final Audio mouseHovered;
+    private final Sound onPressedSound;
+    private final Sound mouseHovered;
     private final ButtonAction action;
 
     private boolean previouslyHovered = false;
@@ -19,8 +19,8 @@ public final class Button extends Text {
         super(font, text);
         this.action = action;
         showBackground = true;
-        onPressedSound = new Audio("button/buttonClicked.mp3");
-        mouseHovered = new Audio("button/mouseHover.mp3");
+        onPressedSound = new Sound("Sfx", "button/buttonClicked.mp3");
+        mouseHovered = new Sound("Sfx", "button/mouseHover.mp3");
     }
 
     public Button(Font font, String text) {

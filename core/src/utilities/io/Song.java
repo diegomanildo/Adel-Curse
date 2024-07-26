@@ -1,30 +1,20 @@
 package utilities.io;
 
-import com.badlogic.gdx.audio.Music;
-
 import java.util.function.Consumer;
 
-public final class Song implements Music {
-    private final Audio intro;
-    private final Audio song;
+public final class Song extends Audio {
+    private final Sound intro;
+    private final Sound song;
 
-    private Audio getNotNull() {
-        if (intro != null) {
-            return intro;
-        } else {
-            return song;
-        }
+    private Sound getNotNull() {
+        return intro != null ? intro : song;
     }
 
-    private Audio getPlaying() {
-        if (intro != null && intro.isPlaying()) {
-            return intro;
-        } else {
-            return song;
-        }
+    private Sound getPlaying() {
+        return intro != null && intro.isPlaying() ? intro : song;
     }
 
-    private void forEach(Consumer<Audio> action) {
+    private void forEach(Consumer<Sound> action) {
         if (intro != null) {
             action.accept(intro);
         }
@@ -33,22 +23,29 @@ public final class Song implements Music {
         }
     }
 
-    public Song(String introFilePath, String songFilePath) {
-        song = new Audio(songFilePath);
+    public Song(String channel, String introFilePath, String songFilePath) {
+        super(channel);
+        song = new Sound(null, songFilePath);
 
-        if (introFilePath != null) {
-            intro = new Audio(introFilePath);
+        if (introFilePath == null) {
+            intro = null;
+        } else {
+            intro = new Sound(null, introFilePath);
             intro.setOnCompletionListener(music -> {
                 intro.stop();
                 song.play();
             });
-        } else {
-            intro = null;
         }
+
+        update(channel);
+    }
+
+    public Song(String channel, String songFilePath) {
+        this(channel, null, songFilePath);
     }
 
     public Song(String songFilePath) {
-        this(null, songFilePath);
+        this(Channels.DEFAULT_CHANNEL, songFilePath);
     }
 
     @Override
@@ -113,7 +110,7 @@ public final class Song implements Music {
 
     @Override
     public void dispose() {
-        forEach(Audio::dispose);
+        forEach(Sound::dispose);
     }
 
     @Override
@@ -121,15 +118,23 @@ public final class Song implements Music {
         song.setOnCompletionListener(onCompletionListener);
     }
 
+    @Override
+    public boolean isNull() {
+        return intro == null && song == null;
+    }
+
+    @Override
     public void fadeIn(float duration) {
         getNotNull().fadeIn(duration, false);
     }
 
+    @Override
     public void fadeIn(float duration, boolean loop) {
         setLooping(loop);
         getNotNull().fadeIn(duration);
     }
 
+    @Override
     public void fadeOut(float duration) {
         getPlaying().fadeOut(duration);
     }

@@ -2,83 +2,23 @@ package utilities.io;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
-import utilities.FilePaths;
+import com.badlogic.gdx.utils.Timer;
 
-public final class Audio implements Music {
-    private final Music music;
-
-    public Audio(String musicPath) {
-        music = Gdx.audio.newMusic(Gdx.files.internal(FilePaths.AUDIO + musicPath));
+public abstract class Audio implements Music {
+    protected Audio(String channel) {
+        if (channel != null) {
+            Channels.register(channel, this);
+        }
     }
 
-    @Override
-    public void play() {
-        music.play();
-    }
+    public abstract boolean isNull();
 
-    public void play(boolean loop) {
-        setLooping(loop);
-        play();
-    }
+    public abstract void play(boolean loop);
 
-    @Override
-    public void pause() {
-        music.pause();
-    }
-
-    @Override
-    public void stop() {
-        music.stop();
-    }
-
-    @Override
-    public boolean isPlaying() {
-        return music.isPlaying();
-    }
-
-    @Override
-    public void setLooping(boolean loop) {
-        music.setLooping(loop);
-    }
-
-    @Override
-    public boolean isLooping() {
-        return music.isLooping();
-    }
-
-    @Override
-    public void setVolume(float volume) {
-        music.setVolume(volume);
-    }
-
-    @Override
-    public float getVolume() {
-        return music.getVolume();
-    }
-
-    @Override
-    public void setPan(float v, float v1) {
-        music.setPan(v, v1);
-    }
-
-    @Override
-    public void setPosition(float v) {
-        music.setPosition(v);
-    }
-
-    @Override
-    public float getPosition() {
-        return music.getPosition();
-    }
-
-    @Override
-    public void dispose() {
-        music.dispose();
-    }
-
-    @Override
-    public void setOnCompletionListener(OnCompletionListener onCompletionListener) {
-        music.setOnCompletionListener(onCompletionListener);
+    protected void update(String channel) {
+        if (channel != null) {
+            Channels.setChannelVolume(channel, Channels.getChannelVolume(channel));
+        }
     }
 
     public void fadeIn(float duration) {

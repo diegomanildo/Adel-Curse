@@ -8,22 +8,21 @@ import game.utilities.MovableObject;
 import utilities.Direction;
 import utilities.FilePaths;
 import utilities.exceptions.DirectionNotValidException;
-import utilities.io.Audio;
+import utilities.io.Sound;
 
 import java.util.ArrayList;
 
 public abstract class Character extends MovableObject {
     private final ArrayList<Bullet> bullets;
-    private final Audio shootSound;
+    private final Sound shootSound;
     private final String bulletTexturePath;
 
     public Character(String texturePath, String bulletTexturePath) {
         super(FilePaths.CHARACTERS + texturePath, 2, 8, 0.4f);
-        setSize(150f, 150f);
+        setSize(16f, 16f);
         setVelocity(7f);
         bullets = new ArrayList<>();
-        shootSound = new Audio("game/shoot.mp3");
-        shootSound.setVolume(0.1f);
+        shootSound = new Sound("Sfx", "game/shoot.mp3");
         this.bulletTexturePath = bulletTexturePath;
     }
 

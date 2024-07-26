@@ -7,7 +7,7 @@ public abstract class BasicMainMenuScreen extends Screen {
     public static Song backgroundSong;
 
     static {
-        backgroundSong = new Song("mainTheme.mp3");
+        backgroundSong = new Song("Music", "mainTheme.mp3");
     }
 
     @Override

@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.Color;
 import game.utilities.GameObject;
 import managers.AudioManager;
 import managers.ObjectsManager;
-import com.badlogic.gdx.audio.Music;
+import utilities.io.Channels;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
@@ -18,11 +18,11 @@ public abstract class Screen extends ScreenAdapter {
     protected static final float FADE_TIME = 1f;
 
     private static ObjectsManager objectsManager;
-    private static AudioManager audioManager;
 
     protected Screen() {
         objectsManager = new ObjectsManager();
-        audioManager = new AudioManager();
+        Channels.setChannelVolume("Sfx", 1f);
+        Channels.setChannelVolume("Music", 0.1f);
     }
 
     public void resize(int w, int h) {
@@ -49,9 +49,6 @@ public abstract class Screen extends ScreenAdapter {
                         // If the variable is child of ObjectFunctions register it to objectManager
                         if (GameObject.class.isAssignableFrom(type)) {
                             objectsManager.register((GameObject) variable.get(this));
-                        } else if (Music.class.isAssignableFrom(type)) {
-                            // If music is not static register it
-                            audioManager.register((Music) variable.get(this));
                         }
                     } catch (IllegalAccessException e) {
                         throw new RuntimeException(e);
@@ -62,12 +59,9 @@ public abstract class Screen extends ScreenAdapter {
             // Search in children of child
             currentClass = currentClass.getSuperclass();
         }
-
-        audioManager.setVolume(0.1f);
     }
 
     public void dispose() {
         objectsManager.dispose();
-        audioManager.dispose();
     }
 }

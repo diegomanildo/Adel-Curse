@@ -42,7 +42,7 @@ public final class Bullet extends MovableObject {
         setPosition(x, y);
     }
 
-    // Bullet is no more in the screen, and you should have not render it
+    // Bullet is no more in the screen, and you should have not rendered it
     public boolean outOfBounds() {
         Camera2D camera = GameScreen.getCamera();
         return (getX() < camera.getLeft() - PIXELS_DELAY || getX() > camera.getRight() + PIXELS_DELAY
