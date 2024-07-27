@@ -19,8 +19,8 @@ public abstract class Character extends MovableObject {
 
     public Character(String texturePath, String bulletTexturePath) {
         super(FilePaths.CHARACTERS + texturePath, 2, 8, 0.4f);
-        setSize(26f, 32f);
-        setVelocity((getWidth() + getHeight()) / 29f);
+        setSize(78.0f, 96.0f);
+        setVelocity((getWidth() + getHeight()) / 30f);
         bullets = new ArrayList<>();
         shootSound = new Sound("Sfx", "game/shoot.mp3");
         this.bulletTexturePath = bulletTexturePath;

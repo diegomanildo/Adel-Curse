@@ -1,12 +1,12 @@
-package game.characters.playable;
+package game.characters.playables;
 
 import com.badlogic.gdx.Input;
 import game.characters.Character;
 import utilities.Direction;
 import utilities.Render;
 
-public abstract class CharacterController extends Character {
-    public CharacterController(String texturePath, String bulletTexturePath) {
+public abstract class Playable extends Character {
+    public Playable(String texturePath, String bulletTexturePath) {
         super(texturePath, bulletTexturePath);
     }
 

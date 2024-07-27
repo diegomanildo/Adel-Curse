@@ -79,15 +79,17 @@ public abstract class GameObject implements Hitbox, Disposable {
         Render.sr.begin(ShapeRenderer.ShapeType.Line);
         Render.sr.setColor(Color.GREEN);
         Render.sr.rect(x, y, width, height);
+        Render.sr.end();
 
         // Draw middle of screen
+        Render.sr.begin(ShapeRenderer.ShapeType.Line);
         Render.sr.line(Render.screenSize.width / 2f, 0f, Render.screenSize.width / 2f, Render.screenSize.height);
         Render.sr.line(0f, Render.screenSize.height / 2f, Render.screenSize.width, Render.screenSize.height / 2f);
         Render.sr.end();
 
         // Draw the circle in the middle
         Render.sr.begin(ShapeRenderer.ShapeType.Filled);
-        Render.sr.circle(middleX, middleY, 2f);
+        Render.sr.circle(middleX, middleY, 3f);
         Render.sr.end();
 
         Render.b.begin();
