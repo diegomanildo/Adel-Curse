@@ -1,25 +1,29 @@
 package game;
 
 import game.characters.playables.Adel;
-import game.rooms.Room;
+import game.rooms.StoneRoom;
 import utilities.Render;
 import utilities.Screen;
+import utilities.io.Song;
 
 public final class GameScreen extends Screen {
-    private final Room room;
+    private final Song song;
+    private final StoneRoom room;
     private final Adel adel;
 
     public GameScreen() {
         if (Render.isDebugging()) {
             Render.camera.zoom = 2f;
         }
-        room = new Room("dungeon.tmx");
+        song = new Song("Music", "game/music/UndeadIntro.mp3", "game/music/Undead.mp3");
+        room = new StoneRoom();
         adel = new Adel();
     }
 
     @Override
     public void show() {
         super.show();
+        song.fadeIn(FADE_TIME);
         Render.b.setProjectionMatrix(Render.camera.combined);
         Render.sr.setProjectionMatrix(Render.camera.combined);
     }

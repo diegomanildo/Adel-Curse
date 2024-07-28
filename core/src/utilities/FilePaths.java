@@ -5,7 +5,8 @@ public enum FilePaths {
     AUDIO("audio/"),
     FONTS("fonts/"),
     BACKGROUNDS(IMAGES + "backgrounds/"),
-    CHARACTERS(IMAGES + "characters/");
+    CHARACTERS(IMAGES + "characters/"),
+    ROOMS("rooms/");
 
     private final String filePath;
 

@@ -5,9 +5,10 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import game.utilities.Camera2D;
 import game.utilities.Drawable;
+import utilities.FilePaths;
 import utilities.Render;
 
-public class Room implements Drawable {
+public abstract class Room implements Drawable {
     private final TiledMap map;
     private final OrthogonalTiledMapRenderer renderer;
     private final Camera2D camera;
@@ -16,7 +17,7 @@ public class Room implements Drawable {
 
     public Room(String tmxFile) {
         this.camera = Render.camera;
-        this.map = new TmxMapLoader().load(tmxFile);
+        this.map = new TmxMapLoader().load(FilePaths.ROOMS + tmxFile);
         this.renderer = new OrthogonalTiledMapRenderer(map);
 
         this.camera.setPosition(getWidth() / 2f, getHeight() / 2f);

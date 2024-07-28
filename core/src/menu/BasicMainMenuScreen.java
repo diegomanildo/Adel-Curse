@@ -10,6 +10,10 @@ public abstract class BasicMainMenuScreen extends Screen {
         backgroundSong = new Song("Music", "mainTheme.mp3");
     }
 
+    public BasicMainMenuScreen() {
+        super();
+    }
+
     @Override
     public void show() {
         super.show();

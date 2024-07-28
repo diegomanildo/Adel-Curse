@@ -17,7 +17,7 @@ public abstract class Screen extends ScreenAdapter {
     protected Screen() {
         objectsManager = new ObjectsManager();
         Channels.setChannelVolume("Sfx", 0.5f);
-        Channels.setChannelVolume("Music", 0f);
+        Channels.setChannelVolume("Music", 0.1f);
     }
 
     public void resize(int w, int h) {
