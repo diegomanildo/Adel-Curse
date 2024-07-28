@@ -4,8 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import game.entities.GameEntity;
 import game.utilities.Bullet;
+import game.utilities.Direction;
 import game.utilities.GameObject;
-import utilities.Direction;
 import utilities.FilePaths;
 import utilities.io.Sound;
 

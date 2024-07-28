@@ -1,4 +1,4 @@
-package utilities;
+package game.utilities;
 
 public enum Direction {
     NONE,

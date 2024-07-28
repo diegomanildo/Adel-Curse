@@ -52,6 +52,6 @@ public interface Hitbox {
     }
 
     default void center(Hitbox other) {
-        setPosition(other.getMiddleX(), other.getMiddleY());
+        setPosition(other.getMiddleX() - getWidth() / 2f, other.getMiddleY() - getHeight() / 2f);
     }
 }

@@ -1,6 +1,5 @@
 package game.utilities;
 
-import utilities.Direction;
 import utilities.Render;
 
 public final class Bullet extends MovableObject {

@@ -1,14 +1,14 @@
 package game;
 
 import game.entities.characters.playables.Adel;
-import game.levels.rooms.StoneRoom;
+import game.levels.Level1;
 import utilities.Render;
 import utilities.Screen;
 import utilities.io.Song;
 
 public final class GameScreen extends Screen {
     private final Song song;
-    private final StoneRoom room;
+    private final Level1 level;
     private final Adel adel;
 
     public GameScreen() {
@@ -16,11 +16,11 @@ public final class GameScreen extends Screen {
             Render.camera.zoom = 2f;
         }
         song = new Song("Music", "game/music/UndeadIntro.mp3", "game/music/Undead.mp3");
-        room = new StoneRoom();
+        level = new Level1();
         adel = new Adel();
-        room.center();
-        adel.center();
-        Render.camera.center(room);
+
+        adel.setPosition(level.getInitX() - adel.getWidth() / 2f, level.getInitY() - adel.getHeight() / 2f);
+        Render.camera.setPosition(level.getInitX(), level.getInitY());
     }
 
     @Override

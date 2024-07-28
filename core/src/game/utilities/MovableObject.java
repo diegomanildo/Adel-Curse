@@ -1,7 +1,5 @@
 package game.utilities;
 
-import utilities.Direction;
-
 public abstract class MovableObject extends GameAnimation {
     private float velocity;
 

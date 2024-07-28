@@ -2,8 +2,8 @@ package game.entities.characters.playables;
 
 import game.entities.characters.Character;
 import game.utilities.Controls;
+import game.utilities.Direction;
 import game.utilities.GameAction;
-import utilities.Direction;
 
 public abstract class Playable extends Character {
     public Playable(String texturePath, String bulletTexturePath) {
