@@ -1,4 +1,4 @@
-package game.items;
+package game.entities.items;
 
 public enum ItemQuality {
     Common,

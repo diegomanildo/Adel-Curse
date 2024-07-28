@@ -1,17 +1,17 @@
-package game.characters;
+package game.entities.characters;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import game.entities.GameEntity;
 import game.utilities.Bullet;
 import game.utilities.GameObject;
-import game.utilities.MovableObject;
 import utilities.Direction;
 import utilities.FilePaths;
 import utilities.io.Sound;
 
 import java.util.ArrayList;
 
-public abstract class Character extends MovableObject {
+public abstract class Character extends GameEntity {
     private final ArrayList<Bullet> bullets;
     private final Sound shootSound;
     private final String bulletTexturePath;

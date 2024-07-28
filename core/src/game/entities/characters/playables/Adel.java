@@ -1,4 +1,4 @@
-package game.characters.playables;
+package game.entities.characters.playables;
 
 public class Adel extends Playable {
     public Adel() {

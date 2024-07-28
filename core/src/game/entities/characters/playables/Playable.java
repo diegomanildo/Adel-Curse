@@ -1,6 +1,6 @@
-package game.characters.playables;
+package game.entities.characters.playables;
 
-import game.characters.Character;
+import game.entities.characters.Character;
 import game.utilities.Controls;
 import game.utilities.GameAction;
 import utilities.Direction;

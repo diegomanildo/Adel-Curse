@@ -1,6 +1,6 @@
 package game;
 
-import game.characters.playables.Adel;
+import game.entities.characters.playables.Adel;
 import game.levels.rooms.StoneRoom;
 import utilities.Render;
 import utilities.Screen;
@@ -12,7 +12,7 @@ public final class GameScreen extends Screen {
     private final Adel adel;
 
     public GameScreen() {
-        if (!Render.isDebugging()) {
+        if (Render.isDebugging()) {
             Render.camera.zoom = 2f;
         }
         song = new Song("Music", "game/music/UndeadIntro.mp3", "game/music/Undead.mp3");

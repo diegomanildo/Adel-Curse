@@ -1,6 +1,6 @@
-package game.characters.enemies;
+package game.entities.characters.enemies;
 
-import game.characters.Character;
+import game.entities.characters.Character;
 
 public abstract class Enemy extends Character {
     public Enemy(String texturePath, String bulletTexturePath) {

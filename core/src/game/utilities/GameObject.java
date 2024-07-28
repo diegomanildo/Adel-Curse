@@ -1,5 +1,6 @@
 package game.utilities;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Disposable;
@@ -69,7 +70,11 @@ public abstract class GameObject implements Hitbox, Disposable, Drawable {
     }
 
     protected void drawHitbox() {
-        drawHitbox(getX(), getY(), getMiddleX(), getMiddleY(), getWidth(), getHeight());
+        drawHitbox(Color.GREEN);
+    }
+
+    protected void drawHitbox(Color color) {
+        drawHitbox(getX(), getY(), getMiddleX(), getMiddleY(), getWidth(), getHeight(), color);
     }
 
     public void dispose() {}

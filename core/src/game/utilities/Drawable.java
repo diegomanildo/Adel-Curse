@@ -8,12 +8,12 @@ import utilities.Render;
 public interface Drawable extends Disposable {
     void draw();
 
-    default void drawHitbox(float x, float y, float middleX, float middleY, float width, float height) {
+    default void drawHitbox(float x, float y, float middleX, float middleY, float width, float height, Color drawColor) {
 
         Render.b.end();
         // Draw the hitbox
         Render.sr.begin(ShapeRenderer.ShapeType.Line);
-        Render.sr.setColor(Color.GREEN);
+        Render.sr.setColor(drawColor);
         Render.sr.rect(x, y, width, height);
         Render.sr.end();
 
@@ -29,6 +29,10 @@ public interface Drawable extends Disposable {
         Render.sr.end();
 
         Render.b.begin();
+    }
+
+    default void drawHitbox(float x, float y, float middleX, float middleY, float width, float height) {
+        drawHitbox(x, y, middleX, middleY, width, height, Color.GREEN);
     }
 
     @Override
