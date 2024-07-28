@@ -4,23 +4,57 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Rectangle;
 
-public class Camera2D extends OrthographicCamera {
-    public Camera2D() {
-        super();
-    }
-
+public class Camera2D extends OrthographicCamera implements Hitbox {
     public Camera2D(float viewportWidth, float viewportHeight) {
         super(viewportWidth, viewportHeight);
     }
 
-    public void setPosition(float x, float y) {
-        position.set(x, y, 0f);
+    public Camera2D() {
+        this(0f, 0f);
+    }
+
+    @Override
+    public float getX() {
+        return position.x;
+    }
+
+    @Override
+    public float getY() {
+        return position.y;
+    }
+
+    @Override
+    public void setX(float x) {
+        position.x = x + viewportWidth / 2f;
         update();
     }
 
-    public void setSize(float width, float height) {
-        setToOrtho(false, width, height);
-        setPosition(width / 2f, height / 2f);
+    @Override
+    public void setY(float y) {
+        position.y = y + viewportHeight / 2f;
+        update();
+    }
+
+    @Override
+    public float getWidth() {
+        return viewportWidth;
+    }
+
+    @Override
+    public float getHeight() {
+        return viewportHeight;
+    }
+
+    @Override
+    public void setWidth(float width) {
+        viewportWidth = width;
+        update();
+    }
+
+    @Override
+    public void setHeight(float height) {
+        viewportHeight = height;
+        update();
     }
 
     public void moveTo(float targetX, float targetY, float transitionTime) {

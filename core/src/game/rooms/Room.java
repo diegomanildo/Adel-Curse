@@ -3,11 +3,11 @@ package game.rooms;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Disposable;
 import game.utilities.Camera2D;
+import game.utilities.Drawable;
+import utilities.Render;
 
-public class Room implements Disposable {
+public class Room implements Drawable {
     private final TiledMap map;
     private final OrthogonalTiledMapRenderer renderer;
     private final Camera2D camera;
@@ -19,24 +19,33 @@ public class Room implements Disposable {
         this.map = new TmxMapLoader().load(tmxFile);
         this.renderer = new OrthogonalTiledMapRenderer(map);
 
-        float mapWidth = map.getProperties().get("width", Integer.class) * getTileWidth();
-        float mapHeight = map.getProperties().get("height", Integer.class) * getTileHeight();
-
-        this.camera.position.set(new Vector2(mapWidth / 2f, mapHeight / 2f), 0);
+        this.camera.setPosition(getWidth() / 2f, getHeight() / 2f);
+        this.camera.setSize(getWidth() - OFFSET * 2f, getHeight() - OFFSET * 2f);
         this.camera.update();
-        this.camera.viewportWidth = mapWidth - OFFSET * 2f;
-        this.camera.viewportHeight = mapHeight - OFFSET * 2f;
     }
 
-    public void render() {
+    @Override
+    public void draw() {
+        camera.update();
         renderer.setView(camera);
         renderer.render();
+        if (Render.isDebugging()) {
+            drawHitbox(camera.getLeft(), camera.getBottom(), camera.getX(), camera.getY(), getWidth() - OFFSET * 2f, getHeight() - OFFSET * 2f);
+        }
     }
 
     @Override
     public void dispose() {
         map.dispose();
         renderer.dispose();
+    }
+
+    public float getWidth() {
+        return map.getProperties().get("width", Integer.class) * getTileWidth();
+    }
+
+    public float getHeight() {
+        return map.getProperties().get("height", Integer.class) * getTileHeight();
     }
 
     public float getTileWidth() {

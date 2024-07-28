@@ -1,12 +1,12 @@
 package managers;
 
-import game.utilities.GameObject;
+import game.utilities.Drawable;
 import utilities.Render;
 
-public final class ObjectsManager extends Manager<GameObject> {
+public final class ObjectsManager extends Manager<Drawable> {
     public void draw() {
         Render.b.begin();
-        objects.forEach(GameObject::draw);
+        objects.forEach(o -> o.draw());
         Render.b.end();
     }
 }

@@ -2,7 +2,7 @@ package utilities;
 
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
-import game.utilities.GameObject;
+import game.utilities.Drawable;
 import managers.ObjectsManager;
 import utilities.io.Channels;
 
@@ -42,8 +42,8 @@ public abstract class Screen extends ScreenAdapter {
                 if (!Modifier.isStatic(variable.getModifiers())) {
                     try {
                         // If the variable is child of ObjectFunctions register it to objectManager
-                        if (GameObject.class.isAssignableFrom(type)) {
-                            objectsManager.register((GameObject) variable.get(this));
+                        if (Drawable.class.isAssignableFrom(type)) {
+                            objectsManager.register((Drawable) variable.get(this));
                         }
                     } catch (IllegalAccessException e) {
                         throw new RuntimeException(e);
