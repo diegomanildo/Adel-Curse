@@ -7,7 +7,6 @@ import game.utilities.GameObject;
 import game.utilities.MovableObject;
 import utilities.Direction;
 import utilities.FilePaths;
-import utilities.exceptions.DirectionNotValidException;
 import utilities.io.Sound;
 
 import java.util.ArrayList;
@@ -31,20 +30,20 @@ public abstract class Character extends MovableObject {
         int moveIndex;
 
         switch (bulletDirection) {
-            case Down:
+            case DOWN:
                 moveIndex = 4;
                 break;
-            case Up:
+            case UP:
                 moveIndex = 5;
                 break;
-            case Right:
+            case RIGHT:
                 moveIndex = 6;
                 break;
-            case Left:
+            case LEFT:
                 moveIndex = 7;
                 break;
             default:
-                throw new DirectionNotValidException("The direction " + bulletDirection + " is not valid");
+                throw new RuntimeException("The direction " + bulletDirection + " is not valid");
         }
 
         setAnimation(moveIndex);
@@ -81,11 +80,11 @@ public abstract class Character extends MovableObject {
         if (!bullets.isEmpty()) {
             updateBullets();
             // First draw down bullets
-            bullets.stream().filter(b -> b.getDirection() != Direction.Down).forEach(GameObject::draw);
+            bullets.stream().filter(b -> b.getDirection() != Direction.DOWN).forEach(GameObject::draw);
         }
         super.draw(batch);
 
         // Then others
-        bullets.stream().filter(b -> b.getDirection() == Direction.Down).forEach(GameObject::draw);
+        bullets.stream().filter(b -> b.getDirection() == Direction.DOWN).forEach(GameObject::draw);
     }
 }

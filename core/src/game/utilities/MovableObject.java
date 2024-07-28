@@ -1,7 +1,6 @@
 package game.utilities;
 
 import utilities.Direction;
-import utilities.exceptions.DirectionNotValidException;
 
 public abstract class MovableObject extends GameAnimation {
     private float velocity;
@@ -26,47 +25,47 @@ public abstract class MovableObject extends GameAnimation {
         float diagonalVelocity = (float) (velocity / Math.sqrt(2));
 
         switch (direction) {
-            case None:
+            case NONE:
                 moveIndex = 0;
                 break;
-            case Down:
+            case DOWN:
                 moveIndex = 0;
                 y -= velocity;
                 break;
-            case Up:
+            case UP:
                 moveIndex = 1;
                 y += velocity;
                 break;
-            case Right:
+            case RIGHT:
                 moveIndex = 2;
                 x += velocity;
                 break;
-            case Left:
+            case LEFT:
                 moveIndex = 3;
                 x -= velocity;
                 break;
-            case DownRight:
+            case DOWN_RIGHT:
                 moveIndex = 0;
                 x += diagonalVelocity;
                 y -= diagonalVelocity;
                 break;
-            case DownLeft:
+            case DOWN_LEFT:
                 moveIndex = 0;
                 x -= diagonalVelocity;
                 y -= diagonalVelocity;
                 break;
-            case UpRight:
+            case UP_RIGHT:
                 moveIndex = 1;
                 x += diagonalVelocity;
                 y += diagonalVelocity;
                 break;
-            case UpLeft:
+            case UP_LEFT:
                 moveIndex = 1;
                 x -= diagonalVelocity;
                 y += diagonalVelocity;
                 break;
             default:
-                throw new DirectionNotValidException("The direction " + direction + " is not valid");
+                throw new RuntimeException("The direction " + direction + " is not valid");
         }
 
         setAnimation(moveIndex);

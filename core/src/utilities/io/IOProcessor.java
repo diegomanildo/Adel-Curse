@@ -3,10 +3,7 @@ package utilities.io;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.math.Vector3;
 import utilities.Render;
-import utilities.Screen;
-import utilities.exceptions.NotValidKeyException;
 
 public class IOProcessor implements InputProcessor {
     private final boolean[] keysPressed;
@@ -23,7 +20,7 @@ public class IOProcessor implements InputProcessor {
             keysPressed[keycode] = true;
             return true;
         }
-        throw new NotValidKeyException(keycode);
+        throw new RuntimeException("Invalid key: \"" + keycode + "\"");
     }
 
     @Override
@@ -32,7 +29,7 @@ public class IOProcessor implements InputProcessor {
             keysPressed[keycode] = false;
             return true;
         }
-        throw new NotValidKeyException(keycode);
+        throw new RuntimeException("Invalid key: \"" + keycode + "\"");
     }
 
     @Override
@@ -83,7 +80,7 @@ public class IOProcessor implements InputProcessor {
             return keysPressed[keycode];
         }
 
-        throw new NotValidKeyException(keycode);
+        throw new RuntimeException("keycode");
     }
 
     public int getKeyPressed() {

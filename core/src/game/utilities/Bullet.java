@@ -2,7 +2,6 @@ package game.utilities;
 
 import utilities.Direction;
 import utilities.Render;
-import utilities.exceptions.DirectionNotValidException;
 
 public final class Bullet extends MovableObject {
     private static final float PIXELS_DELAY = 100f;
@@ -21,20 +20,20 @@ public final class Bullet extends MovableObject {
         float velocity = getVelocity();
 
         switch (direction) {
-            case Down:
+            case DOWN:
                 y -= velocity * deltaTime;
                 break;
-            case Up:
+            case UP:
                 y += velocity * deltaTime;
                 break;
-            case Right:
+            case RIGHT:
                 x += velocity * deltaTime;
                 break;
-            case Left:
+            case LEFT:
                 x -= velocity * deltaTime;
                 break;
             default:
-                throw new DirectionNotValidException("The direction " + direction + " is not valid");
+                throw new RuntimeException("The direction " + direction + " is not valid");
         }
 
         setPosition(x, y);

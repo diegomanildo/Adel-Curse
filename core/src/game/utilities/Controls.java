@@ -1,6 +1,7 @@
 package game.utilities;
 
 import com.badlogic.gdx.Input.Keys;
+import utilities.Render;
 
 public class Controls {
     private static final Control[] CONTROLS = new Control[] {
@@ -68,5 +69,9 @@ public class Controls {
         } while (++i < CONTROLS.length && index == -1);
 
         return index != -1;
+    }
+
+    public static boolean isPressed(GameAction action) {
+        return Render.io.isKeyPressed(get(action));
     }
 }

@@ -1,9 +1,9 @@
 package game.characters.playables;
 
-import com.badlogic.gdx.Input;
 import game.characters.Character;
+import game.utilities.Controls;
+import game.utilities.GameAction;
 import utilities.Direction;
-import utilities.Render;
 
 public abstract class Playable extends Character {
     public Playable(String texturePath, String bulletTexturePath) {
@@ -16,18 +16,18 @@ public abstract class Playable extends Character {
     }
 
     private void shoot() {
-        Direction direction = Direction.None;
+        Direction direction = Direction.NONE;
 
         boolean shootEnabled = true;
 
-        if (Render.io.isKeyPressed(Input.Keys.UP)) {
-            direction = Direction.Up;
-        } else if (Render.io.isKeyPressed(Input.Keys.DOWN)) {
-            direction = Direction.Down;
-        } else if (Render.io.isKeyPressed(Input.Keys.RIGHT)) {
-            direction = Direction.Right;
-        } else if (Render.io.isKeyPressed(Input.Keys.LEFT)) {
-            direction = Direction.Left;
+        if (Controls.isPressed(GameAction.SHOOT_UP)) {
+            direction = Direction.UP;
+        } else if (Controls.isPressed(GameAction.SHOOT_DOWN)) {
+            direction = Direction.DOWN;
+        } else if (Controls.isPressed(GameAction.SHOOT_RIGHT)) {
+            direction = Direction.RIGHT;
+        } else if (Controls.isPressed(GameAction.SHOOT_LEFT)) {
+            direction = Direction.LEFT;
         } else {
             shootEnabled = false;
         }
@@ -38,28 +38,28 @@ public abstract class Playable extends Character {
     }
 
     private void moveCharacter() {
-        Direction direction = Direction.None;
+        Direction direction = Direction.NONE;
 
-        if (Render.io.isKeyPressed(Input.Keys.W)) {
-            if (Render.io.isKeyPressed(Input.Keys.A)) {
-                direction = Direction.UpLeft;
-            } else if (Render.io.isKeyPressed(Input.Keys.D)) {
-                direction = Direction.UpRight;
+        if (Controls.isPressed(GameAction.UP)) {
+            if (Controls.isPressed(GameAction.LEFT)) {
+                direction = Direction.UP_LEFT;
+            } else if (Controls.isPressed(GameAction.RIGHT)) {
+                direction = Direction.UP_RIGHT;
             } else {
-                direction = Direction.Up;
+                direction = Direction.UP;
             }
-        } else if (Render.io.isKeyPressed(Input.Keys.S)) {
-            if (Render.io.isKeyPressed(Input.Keys.A)) {
-                direction = Direction.DownLeft;
-            } else if (Render.io.isKeyPressed(Input.Keys.D)) {
-                direction = Direction.DownRight;
+        } else if (Controls.isPressed(GameAction.DOWN)) {
+            if (Controls.isPressed(GameAction.LEFT)) {
+                direction = Direction.DOWN_LEFT;
+            } else if (Controls.isPressed(GameAction.RIGHT)) {
+                direction = Direction.DOWN_RIGHT;
             } else {
-                direction = Direction.Down;
+                direction = Direction.DOWN;
             }
-        } else if (Render.io.isKeyPressed(Input.Keys.D)) {
-            direction = Direction.Right;
-        } else if (Render.io.isKeyPressed(Input.Keys.A)) {
-            direction = Direction.Left;
+        } else if (Controls.isPressed(GameAction.RIGHT)) {
+            direction = Direction.RIGHT;
+        } else if (Controls.isPressed(GameAction.LEFT)) {
+            direction = Direction.LEFT;
         }
 
         move(direction);
