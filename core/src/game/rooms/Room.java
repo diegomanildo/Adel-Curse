@@ -14,8 +14,8 @@ public class Room implements Drawable {
 
     private static final float OFFSET = 17f;
 
-    public Room(String tmxFile, Camera2D camera) {
-        this.camera = camera;
+    public Room(String tmxFile) {
+        this.camera = Render.camera;
         this.map = new TmxMapLoader().load(tmxFile);
         this.renderer = new OrthogonalTiledMapRenderer(map);
 

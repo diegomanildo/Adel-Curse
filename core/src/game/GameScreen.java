@@ -6,14 +6,14 @@ import utilities.Render;
 import utilities.Screen;
 
 public final class GameScreen extends Screen {
-    private final Adel adel;
     private final Room room;
+    private final Adel adel;
 
     public GameScreen() {
         if (Render.isDebugging()) {
             Render.camera.zoom = 2f;
         }
-        room = new Room("dungeon.tmx", Render.camera);
+        room = new Room("dungeon.tmx");
         adel = new Adel();
     }
 
@@ -28,6 +28,24 @@ public final class GameScreen extends Screen {
     public void render(float delta) {
         super.render(delta);
         adel.move();
+
+        if (!adel.collidesWith(Render.camera.getHitbox())) {
+            moveCamera();
+        }
+    }
+
+    private void moveCamera() {
+        if (adel.getX() < Render.camera.getLeft()) {
+            Render.camera.moveTo(Render.camera.position.x - Render.camera.viewportWidth, Render.camera.position.y, FADE_TIME / 2f);
+        } else if (adel.getX() > Render.camera.getRight()) {
+            Render.camera.moveTo(Render.camera.position.x + Render.camera.viewportWidth, Render.camera.position.y, FADE_TIME / 2f);
+        }
+
+        if (adel.getY() < Render.camera.getBottom()) {
+            Render.camera.moveTo(Render.camera.position.x, Render.camera.position.y - Render.camera.viewportHeight, FADE_TIME / 2f);
+        } else if (adel.getY() > Render.camera.getTop()) {
+            Render.camera.moveTo(Render.camera.position.x, Render.camera.position.y + Render.camera.viewportHeight, FADE_TIME / 2f);
+        }
     }
 
     @Override

@@ -9,6 +9,7 @@ public interface Drawable extends Disposable {
     void draw();
 
     default void drawHitbox(float x, float y, float middleX, float middleY, float width, float height) {
+
         Render.b.end();
         // Draw the hitbox
         Render.sr.begin(ShapeRenderer.ShapeType.Line);
@@ -24,7 +25,7 @@ public interface Drawable extends Disposable {
 
         // Draw the circle in the middle
         Render.sr.begin(ShapeRenderer.ShapeType.Filled);
-        Render.sr.circle(middleX, middleY, 3f);
+        Render.sr.circle(middleX, middleY, 1.5f);
         Render.sr.end();
 
         Render.b.begin();
