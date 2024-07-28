@@ -1,4 +1,4 @@
-package game.rooms;
+package game.levels.rooms;
 
 public final class StoneRoom extends Room {
     public StoneRoom() {

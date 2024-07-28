@@ -25,13 +25,13 @@ public class Camera2D extends OrthographicCamera implements Hitbox {
 
     @Override
     public void setX(float x) {
-        position.x = x + viewportWidth / 2f;
+        position.x = x;
         update();
     }
 
     @Override
     public void setY(float y) {
-        position.y = y + viewportHeight / 2f;
+        position.y = y;
         update();
     }
 

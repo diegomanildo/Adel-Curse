@@ -50,4 +50,8 @@ public interface Hitbox {
         centerX();
         centerY();
     }
+
+    default void center(Hitbox other) {
+        setPosition(other.getMiddleX(), other.getMiddleY());
+    }
 }
