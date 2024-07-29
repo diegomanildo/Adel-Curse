@@ -13,7 +13,7 @@ public final class GameScreen extends Screen {
 
     public GameScreen() {
         if (Render.isDebugging()) {
-            Render.camera.zoom = 2f;
+            Render.camera.zoom = 4f;
         }
         song = new Song("Music", "game/music/UndeadIntro.mp3", "game/music/Undead.mp3");
         level = new Level1();

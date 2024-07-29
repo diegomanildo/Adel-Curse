@@ -1,6 +1,6 @@
 package game.levels;
 
-import game.levels.rooms.Room;
+import game.rooms.Room;
 import game.utilities.Drawable;
 import game.utilities.GameObject;
 

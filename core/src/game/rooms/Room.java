@@ -1,4 +1,4 @@
-package game.levels.rooms;
+package game.rooms;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.maps.tiled.TiledMap;

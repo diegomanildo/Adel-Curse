@@ -1,46 +1,59 @@
 package menu;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.utils.Array;
 import game.GameScreen;
 import menu.config.OptionsScreen;
-import utilities.Options;
-import utilities.*;
-import utilities.io.Song;
+import utilities.Render;
 
 public final class MainMenuScreen extends BasicMainMenuScreen {
-    private final Options options;
-
     public MainMenuScreen() {
         super();
-        options = new Options(
-                20f,
-                new Button(Fonts.DEFAULT, "PLAY", this::play),
-                new Button(Fonts.DEFAULT, "OPTIONS", () -> Render.setScreen(new OptionsScreen())),
-                new Button(Fonts.DEFAULT, "QUIT" , () -> Gdx.app.exit())
+
+        Table table = new Table();
+
+        table.setFillParent(true);
+
+        Array<TextButton> buttons = new Array<>();
+
+        TextButton playButton = new TextButton("PLAY", Render.skin);
+        TextButton optionsButton = new TextButton("OPTIONS", Render.skin);
+        TextButton quitButton = new TextButton("QUIT", Render.skin);
+
+        playButton.addListener(new ChangeListener() {
+            public void changed(ChangeEvent event, Actor actor) {
+                backgroundSong.fadeOut(FADE_TIME);
+                Render.setScreen(new GameScreen());
+            }
+        });
+
+        optionsButton.addListener(new ChangeListener() {
+            public void changed(ChangeEvent event, Actor actor) {
+                Render.setScreen(new OptionsScreen());
+            }
+        });
+
+        quitButton.addListener(new ChangeListener() {
+            public void changed(ChangeEvent event, Actor actor) {
+                Gdx.app.exit();
+            }
+        });
+
+        buttons.addAll(
+                playButton,
+                optionsButton,
+                quitButton
         );
-    }
 
-    private void play() {
-        backgroundSong.fadeOut(FADE_TIME);
-        Render.setScreen(new GameScreen());
-    }
+        buttons.forEach(b -> {
+            table.add(b).center().minWidth(100f).minHeight(25f);
+            table.row();
+        });
 
-    @Override
-    public void show() {
-        super.show();
-        options.setAlign(AlignMode.CENTERED);
-    }
-
-    @Override
-    public void render(float delta) {
-        super.render(delta);
-        options.update();
-    }
-
-    @Override
-    public void resize(int w, int h) {
-        super.resize(w, h);
-        options.center();
+        stage.addActor(table);
     }
 }
