@@ -13,7 +13,7 @@ public abstract class Screen extends ScreenAdapter {
     protected Screen() {
         stage = new Stage(new ExtendViewport(Render.screenSize.width, Render.screenSize.height));
         Gdx.input.setInputProcessor(stage);
-        stage.setDebugAll(true);
+        stage.setDebugAll(Render.isDebugging());
     }
 
     public void render(float delta) {
