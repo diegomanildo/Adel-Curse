@@ -17,7 +17,7 @@ public abstract class Character extends GameEntity {
 
     public Character(String texturePath, String bulletTexturePath) {
         super(FilePaths.CHARACTERS + texturePath, 2, 8, 0.4f);
-        setSize(25.0f, 29.0f);
+        setSize(100f, 116f);
         setVelocity((getWidth() + getHeight()) / 30f);
         bullets = new ArrayList<>();
         shootSound = new Sound("Sfx", "game/shoot.mp3");

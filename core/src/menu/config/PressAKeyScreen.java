@@ -2,6 +2,7 @@ package menu.config;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import game.utilities.Control;
 import game.utilities.Controls;
 import utilities.Label;
@@ -16,27 +17,29 @@ public final class PressAKeyScreen extends Screen {
         super();
         this.control = control;
 
+        Table table = new Table();
+        table.setFillParent(true);
         pressAnyKey = new Label("Press a key for " + control.getAction() + "...");
-
-        stage.addActor(pressAnyKey);
+        table.add(pressAnyKey).center();
+        stage.addActor(table);
     }
 
     @Override
     public void render(float delta) {
         super.render(delta);
 
-        if (Render.io.isKeyPressed(Input.Keys.ESCAPE)) {
+        if (stage.isKeyPressed(Input.Keys.ESCAPE)) {
             Render.setScreen(new ControlsScreen());
             return;
         }
 
-        if (Render.io.isAnyKeyPressed()) {
+        if (stage.isAnyKeyPressed()) {
             setControl();
         }
     }
 
     private void setControl() {
-        int keyPressed = Render.io.getKeyPressed();
+        int keyPressed = stage.getKeyPressed();
 
         if (Controls.exists(keyPressed) && control.getKey() != keyPressed) {
             pressAnyKey.setColor(Color.RED);
