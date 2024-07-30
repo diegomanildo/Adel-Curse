@@ -40,8 +40,9 @@ public final class Bullet extends MovableObject {
 
     // Bullet is no more in the screen, and you should have not rendered it
     public boolean outOfBounds() {
-        return (getX() < Render.camera.getLeft() - PIXELS_DELAY || getX() > Render.camera.getRight() + PIXELS_DELAY
-                || getY() < Render.camera.getBottom() - PIXELS_DELAY || getY() > Render.camera.getTop() + PIXELS_DELAY);
+        Camera2D camera = (Camera2D) Render.camera;
+        return (getX() < camera.getLeft() - PIXELS_DELAY || getX() > camera.getRight() + PIXELS_DELAY
+                || getY() < camera.getBottom() - PIXELS_DELAY || getY() > camera.getTop() + PIXELS_DELAY);
     }
 
     public Direction getDirection() {

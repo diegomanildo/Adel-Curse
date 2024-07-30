@@ -29,5 +29,6 @@ public abstract class Screen extends ScreenAdapter {
 
     public void dispose() {
         stage.dispose();
+        stage.clear();
     }
 }

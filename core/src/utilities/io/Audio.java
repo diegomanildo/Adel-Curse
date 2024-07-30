@@ -1,6 +1,7 @@
 package utilities.io;
 
 import com.badlogic.gdx.audio.Music;
+import utilities.Utils;
 
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -44,11 +45,7 @@ public abstract class Audio implements Music {
                         currentVolume = endVolume;
                     }
                     setVolume(currentVolume);
-                    try {
-                        Thread.sleep((long) (stepTime * 1000f));
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+                    Utils.sleep(stepTime * 1000);
                 }
             } finally {
                 lock.unlock();
@@ -71,11 +68,7 @@ public abstract class Audio implements Music {
                         currentVolume = endVolume;
                     }
                     setVolume(currentVolume);
-                    try {
-                        Thread.sleep((long) (stepTime * 1000f));
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+                    Utils.sleep(stepTime * 1000f);
                 }
                 stop();
                 setVolume(startVolume);

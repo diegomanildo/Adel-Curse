@@ -18,7 +18,7 @@ public abstract class Room extends Actor implements Disposable {
     public static final float OFFSET = 17f;
 
     public Room(String tmxFile) {
-        this.camera = Render.camera;
+        this.camera = (Camera2D) Render.camera;
         this.map = new TmxMapLoader().load(FilePaths.ROOMS + tmxFile);
         this.renderer = new OrthogonalTiledMapRenderer(map);
 

@@ -4,16 +4,14 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import utilities.*;
 
 public class LoadingScreen extends Screen {
-    private static final Image BACKGROUND = new Image(FilePaths.BACKGROUNDS + "loadingScreen.png");
-
-    static {
-        BACKGROUND.setSize(Render.screenSize.width, Render.screenSize.height);
-    }
+    private final ProgressBar progressBar;
 
     public LoadingScreen() {
         super();
 
-        ProgressBar progressBar = new ProgressBar(0f, 100f, 1f, false);
+        progressBar = new ProgressBar(0f, 100f, 0.5f, false);
+        Image background = new Image(FilePaths.BACKGROUNDS + "loadingScreen.png");
+        background.setSize(Render.screenSize.width, Render.screenSize.height);
 
         Table table = new Table();
         table.setFillParent(true);
@@ -24,15 +22,19 @@ public class LoadingScreen extends Screen {
                 .bottom()
                 .padBottom(100f);
 
+        stage.addActor(background);
         stage.addActor(table);
     }
 
     @Override
     public void render(float delta) {
         super.render(delta);
-        stage.getBatch().begin();
-        BACKGROUND.draw(stage.getBatch(), 1);
-        stage.getBatch().end();
-        stage.draw();
+
+        progressBar.setValue(progressBar.getValue() + progressBar.getStepSize());
+
+        if (progressBar.getValue() == progressBar.getMaxValue()) {
+
+            Render.setScreen(new MainMenuScreen());
+        }
     }
 }

@@ -3,6 +3,7 @@ package game.utilities;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Rectangle;
+import utilities.Utils;
 
 public class Camera2D extends OrthographicCamera implements Hitbox {
     public Camera2D(float viewportWidth, float viewportHeight) {
@@ -74,11 +75,7 @@ public class Camera2D extends OrthographicCamera implements Hitbox {
                 position.x = startX + deltaX * progress;
                 position.y = startY + deltaY * progress;
                 update();
-                try {
-                    Thread.sleep((long) (delta * 1000));
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+                Utils.sleep(delta * 1000f);
             }
         });
         transitionThread.start();

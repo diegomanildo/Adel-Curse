@@ -2,6 +2,7 @@ package game;
 
 import com.badlogic.gdx.Input;
 import game.entities.characters.playables.Adel;
+import game.utilities.Camera2D;
 import menu.BasicMainMenuScreen;
 import menu.MainMenuScreen;
 import utilities.Render;
@@ -40,16 +41,18 @@ public final class GameScreen extends Screen {
     }
 
     private void moveCamera() {
-        if (adel.getX() < Render.camera.getLeft()) {
-            Render.camera.moveTo(Render.camera.position.x - Render.camera.viewportWidth, Render.camera.position.y, FADE_TIME / 2f);
-        } else if (adel.getX() > Render.camera.getRight()) {
-            Render.camera.moveTo(Render.camera.position.x + Render.camera.viewportWidth, Render.camera.position.y, FADE_TIME / 2f);
+        Camera2D camera = (Camera2D) Render.camera;
+
+        if (adel.getX() < camera.getLeft()) {
+            camera.moveTo(camera.position.x - camera.viewportWidth, camera.position.y, FADE_TIME / 2f);
+        } else if (adel.getX() > camera.getRight()) {
+            camera.moveTo(camera.position.x + camera.viewportWidth, camera.position.y, FADE_TIME / 2f);
         }
 
-        if (adel.getY() < Render.camera.getBottom()) {
-            Render.camera.moveTo(Render.camera.position.x, Render.camera.position.y - Render.camera.viewportHeight, FADE_TIME / 2f);
-        } else if (adel.getY() > Render.camera.getTop()) {
-            Render.camera.moveTo(Render.camera.position.x, Render.camera.position.y + Render.camera.viewportHeight, FADE_TIME / 2f);
+        if (adel.getY() < camera.getBottom()) {
+            camera.moveTo(camera.position.x, camera.position.y - camera.viewportHeight, FADE_TIME / 2f);
+        } else if (adel.getY() > camera.getTop()) {
+            camera.moveTo(camera.position.x, camera.position.y + camera.viewportHeight, FADE_TIME / 2f);
         }
     }
 }
