@@ -61,14 +61,6 @@ public class Render {
             app.getScreen().dispose();
         }
         app.setScreen(s);
-
-        if (!firstTime) {
-            try {
-                Thread.sleep(200);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-        }
     }
 
     public static void setScreen(Screen s) {

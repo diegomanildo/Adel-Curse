@@ -1,40 +1,64 @@
 package menu.config;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.utils.Array;
+import utilities.Render;
 import utilities.Screen;
-import utilities.*;
+import utilities.TextButton;
 
 public final class ResolutionScreen extends BasicOptionsScreen {
-    private final Options options;
-    private final Button applyBtn;
+    private Array<TextButton> options;
 
     private String textSave;
     private int optionSelected;
 
     public ResolutionScreen() {
         super();
-        options = new Options(
-                10f,
-                new Button(Fonts.DEFAULT, "1920x1080"),
-                new Button(Fonts.DEFAULT, "1600x900"),
-                new Button(Fonts.DEFAULT, "1366x768"),
-                new Button(Fonts.DEFAULT, "1360x768"),
-                new Button(Fonts.DEFAULT, "1280x720"),
-                new Button(Fonts.DEFAULT, "1176x664")
+        Table table = new Table();
+        table.setFillParent(true);
+
+        options = new Array<>();
+        options.addAll(
+                new TextButton("1920x1080"),
+                new TextButton("1600x900"),
+                new TextButton("1366x768"),
+                new TextButton("1360x768"),
+                new TextButton("1280x720"),
+                new TextButton("1176x664")
         );
 
-        options.setAlign(AlignMode.CENTERED);
-        for (int i = 0; i < options.buttons.length; i++) {
-            options.buttons[i].showBackground(false);
+        TextButton applyBtn = new TextButton("APPLY", () -> setWindowSize(textSave));
+
+        for (int i = 0; i < options.size; i++) {
+            int auxI = i;
+
+            options.get(i).addChangeListener(() -> {
+                if (auxI != optionSelected) {
+                    options.get(optionSelected).setText(textSave);
+                    optionSelected = auxI;
+                    textSave = options.get(auxI).getText().toString();
+                    options.get(auxI).setText(">" + textSave + "<");
+                }
+            });
+
+            table.add(options.get(i))
+                    .center()
+                    .padBottom(10f);
+
+            table.row();
         }
 
-        applyBtn = new Button(Fonts.DEFAULT, "APPLY", () -> setWindowSize(textSave));
+        table.add(applyBtn)
+                .bottom()
+                .padTop(20f);
+
+        stage.addActor(table);
     }
 
     @Override
     public void show() {
         super.show();
-
         configureResolution();
     }
 
@@ -49,46 +73,18 @@ public final class ResolutionScreen extends BasicOptionsScreen {
     private void configureResolution() {
         String resolution = (int)Render.screenSize.width + "x" + (int)Render.screenSize.height;
 
-        for (int i = 0; i < options.buttons.length; i++) {
-            if (options.buttons[i].getText().equals(resolution)) {
+        for (int i = 0; i < options.size; i++) {
+            String r = options.get(i).getText().toString();
+            if (r.equals(resolution)) {
                 optionSelected = i;
-                textSave = options.buttons[i].getText();
-                options.buttons[i].setText(">" + textSave + "<");
+                textSave = options.get(i).getText().toString();
+                options.get(i).setText(">" + textSave + "<");
             }
         }
 
         if (textSave == null) {
             throw new RuntimeException("Code error resolution not found: " + resolution);
         }
-    }
-
-    @Override
-    public void render(float delta) {
-        super.render(delta);
-        selectResolution();
-        options.center();
-        options.update();
-        applyBtn.update();
-    }
-
-    private void selectResolution() {
-        for (int i = 0; i < options.buttons.length; i++) {
-            if (options.buttons[i].isClicked() && i != optionSelected) {
-                options.buttons[optionSelected].setText(textSave);
-                optionSelected = i;
-                textSave = options.buttons[i].getText();
-                options.buttons[i].setText(">" + textSave + "<");
-            }
-        }
-    }
-
-    @Override
-    public void resize(int w, int h) {
-        super.resize(w, h);
-        options.center();
-
-        applyBtn.centerX();
-        applyBtn.setY(options.getLastButton().getY() - options.getLastButton().getHeight() - (options.getButtonsSpace() * 4f));
     }
 
     @Override

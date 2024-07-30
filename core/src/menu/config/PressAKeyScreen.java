@@ -4,9 +4,9 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import game.utilities.Control;
 import game.utilities.Controls;
-import utilities.Screen;
 import utilities.Fonts;
 import utilities.Render;
+import utilities.Screen;
 import utilities.Text;
 
 public final class PressAKeyScreen extends Screen {
@@ -45,11 +45,5 @@ public final class PressAKeyScreen extends Screen {
             Controls.set(control.getAction(), keyPressed);
             Render.setScreen(new ControlsScreen());
         }
-    }
-
-    @Override
-    public void resize(int w, int h) {
-        super.resize(w, h);
-        pressAnyKey.center();
     }
 }

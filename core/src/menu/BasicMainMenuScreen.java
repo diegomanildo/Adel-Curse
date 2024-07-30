@@ -20,7 +20,6 @@ public abstract class BasicMainMenuScreen extends Screen {
 
         if (!backgroundSong.isPlaying()) {
             backgroundSong.play(true);
-            backgroundSong.setVolume(0.1f);
         }
     }
 }

@@ -1,39 +1,34 @@
 package menu.config;
 
-import com.badlogic.gdx.Input;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import menu.BasicMainMenuScreen;
-import utilities.Screen;
-import utilities.Button;
-import utilities.Fonts;
 import utilities.Render;
-import utilities.Text;
+import utilities.Screen;
+import utilities.TextButton;
 
 public abstract class BasicOptionsScreen extends BasicMainMenuScreen {
-    private final Button backButton;
-    private final Text title;
-
     public BasicOptionsScreen() {
         super();
-        backButton = new Button(Fonts.DEFAULT, "X", () -> Render.setScreen(getBackScreen()));
-        title = new Text(Fonts.DEFAULT, getTitleScreen());
-    }
+        Table table = new Table();
+        table.setFillParent(true);
+        TextButton backButton = new TextButton("X", () -> Render.setScreen(getBackScreen()));
+        Label titleLabel = new Label(getTitleScreen(), Render.skin);
 
-    @Override
-    public void render(float delta) {
-        super.render(delta);
-        if (backButton.isClicked() || Render.io.isKeyPressed(Input.Keys.ESCAPE)){
-            backButton.execute();
-        }
-    }
+        table.add(titleLabel)
+                .top()
+                .padTop(10f)
+                .expand();
 
-    @Override
-    public void resize(int w, int h) {
-        super.resize(w, h);
-        backButton.setX(Render.screenSize.width - backButton.getWidth() - 20f);
-        backButton.setY(Render.screenSize.height - 20f);
+        table.add(backButton)
+                .top()
+                .right()
+                .minWidth(30f)
+                .minHeight(30f)
+                .padTop(10f)
+                .padRight(10f);
 
-        title.centerX();
-        title.setY(Render.screenSize.height - 40f);
+        stage.addActor(table);
     }
 
     protected abstract Screen getBackScreen();

@@ -1,49 +1,37 @@
 package menu.config;
 
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import game.utilities.Control;
 import game.utilities.Controls;
+import utilities.Render;
 import utilities.Screen;
-import utilities.*;
+import utilities.TextButton;
 
 public final class ControlsScreen extends BasicOptionsScreen {
-    private final Options keys;
-    private final Texts actions;
-
     public ControlsScreen() {
         super();
-        Button[] buttons = new Button[Controls.size()];
-        Text[] texts = new Text[buttons.length];
+        Table table = new Table();
+        table.setFillParent(true);
 
-        for (int i = 0; i < buttons.length; i++) {
+        for (int i = 0; i < Controls.size(); i++) {
             Control c = Controls.at(i);
-            buttons[i] = new Button(Fonts.DEFAULT2, Input.Keys.toString(c.getKey()), () -> setButton(c));
-            buttons[i].showBackground(false);
-            texts[i] = new Text(Fonts.DEFAULT2, c.getAction() + ": ");
+            Label controlLabel = new Label(c.getAction() + ": ", Render.skin);
+            TextButton controlButton = new TextButton(Input.Keys.toString(c.getKey()), () -> Render.setScreen(new PressAKeyScreen(c)));
+
+            table.add(controlLabel)
+                    .left();
+
+            table.add(controlButton)
+                    .center()
+                    .padLeft(10f)
+                    .padBottom(10f);
+
+            table.row();
         }
 
-        keys = new Options(buttons);
-        actions = new Texts(texts);
-    }
-
-    private void setButton(Control c) {
-        Render.setScreen(new PressAKeyScreen(c));
-    }
-
-    @Override
-    public void render(float delta) {
-        super.render(delta);
-        keys.update();
-    }
-
-    @Override
-    public void resize(int w, int h) {
-        super.resize(w, h);
-        actions.centerY();
-        actions.setX(10f);
-
-        keys.center();
-        keys.setX(actions.getX() + actions.getWidth());
+        stage.addActor(table);
     }
 
     @Override
