@@ -17,6 +17,7 @@ public class Render {
     public static Juego app;
 
     public static Camera2D camera = new Camera2D();
+    public static int fps = 60;
 
     public static boolean isDebugging() {
         RuntimeMXBean runtimeMXBean = ManagementFactory.getRuntimeMXBean();

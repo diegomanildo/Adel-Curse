@@ -15,7 +15,7 @@ public final class OptionsScreen extends BasicOptionsScreen {
         table.setFillParent(true);
         Array<TextButton> buttons = new Array<>();
         TextButton controlsButton = new TextButton("CONTROLS", () -> Render.setScreen(new ControlsScreen()));
-        TextButton resolutionButton = new TextButton("RESOLUTION", () -> Render.setScreen(new ResolutionScreen()));
+        TextButton resolutionButton = new TextButton("RESOLUTION", () -> Render.setScreen(new DisplayScreen()));
 
         buttons.addAll(
                 controlsButton,
