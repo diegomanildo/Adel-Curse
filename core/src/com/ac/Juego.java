@@ -11,5 +11,6 @@ public final class Juego extends Game {
 		Render.app.setScreen(new LibgdxObjectsScreen());
 		Channels.setChannelVolume("Sfx", 1f);
 		Channels.setChannelVolume("Music", 0f);
+
 	}
 }
