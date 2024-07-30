@@ -13,7 +13,7 @@ public abstract class Screen extends ScreenAdapter {
 
     protected Screen() {
         Channels.setChannelVolume("Sfx", 1f);
-        Channels.setChannelVolume("Music", 0f);
+        Channels.setChannelVolume("Music", 0.05f);
 
         stage = new Stage(new ExtendViewport(Render.screenSize.width, Render.screenSize.height));
         Gdx.input.setInputProcessor(stage);
