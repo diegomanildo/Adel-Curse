@@ -16,8 +16,9 @@ public final class GameScreen extends Screen {
     }
 
     @Override
-    public void render(float delta) {
-        super.render(delta);
+    public void show() {
+        super.show();
+        song.fadeIn(FADE_TIME, true);
     }
 
     private void moveCamera() {

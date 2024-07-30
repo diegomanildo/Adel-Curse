@@ -5,19 +5,15 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
-import utilities.io.Channels;
 
 public abstract class Screen extends ScreenAdapter {
     protected final Stage stage;
     protected static final float FADE_TIME = 1f;
 
     protected Screen() {
-        Channels.setChannelVolume("Sfx", 1f);
-        Channels.setChannelVolume("Music", 0.05f);
-
         stage = new Stage(new ExtendViewport(Render.screenSize.width, Render.screenSize.height));
         Gdx.input.setInputProcessor(stage);
-        stage.setDebugAll(Render.isDebugging());
+        stage.setDebugAll(true);
     }
 
     public void render(float delta) {
