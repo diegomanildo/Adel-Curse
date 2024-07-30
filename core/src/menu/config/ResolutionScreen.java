@@ -5,13 +5,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Array;
 import utilities.Render;
 import utilities.Screen;
+import utilities.SelectBox;
 import utilities.TextButton;
 
 public final class ResolutionScreen extends BasicOptionsScreen {
-    private Array<TextButton> options;
-
-    private String textSave;
-    private int optionSelected;
+    private final Array<String> options;
+    private final SelectBox<String> resolutionSelectBox;
 
     public ResolutionScreen() {
         super();
@@ -20,34 +19,27 @@ public final class ResolutionScreen extends BasicOptionsScreen {
 
         options = new Array<>();
         options.addAll(
-                new TextButton("1920x1080"),
-                new TextButton("1600x900"),
-                new TextButton("1366x768"),
-                new TextButton("1360x768"),
-                new TextButton("1280x720"),
-                new TextButton("1176x664")
+                "1920x1080",
+                "1600x900",
+                "1366x768",
+                "1360x768",
+                "1280x720",
+                "1176x664",
+                "1024x768",
+                "800x600",
+                "640x480"
         );
 
-        TextButton applyBtn = new TextButton("APPLY", () -> setWindowSize(textSave));
+        resolutionSelectBox = new SelectBox<>();
+        resolutionSelectBox.setItems(options);
 
-        for (int i = 0; i < options.size; i++) {
-            int auxI = i;
+        TextButton applyBtn = new TextButton("APPLY", () -> setWindowSize(resolutionSelectBox.getSelected()));
 
-            options.get(i).addChangeListener(() -> {
-                if (auxI != optionSelected) {
-                    options.get(optionSelected).setText(textSave);
-                    optionSelected = auxI;
-                    textSave = options.get(auxI).getText().toString();
-                    options.get(auxI).setText(">" + textSave + "<");
-                }
-            });
+        table.add(resolutionSelectBox)
+                .center()
+                .padBottom(10f);
 
-            table.add(options.get(i))
-                    .center()
-                    .padBottom(10f);
-
-            table.row();
-        }
+        table.row();
 
         table.add(applyBtn)
                 .bottom()
@@ -71,20 +63,16 @@ public final class ResolutionScreen extends BasicOptionsScreen {
     }
 
     private void configureResolution() {
-        String resolution = (int)Render.screenSize.width + "x" + (int)Render.screenSize.height;
+        String resolution = (int) Render.screenSize.width + "x" + (int) Render.screenSize.height;
 
         for (int i = 0; i < options.size; i++) {
-            String r = options.get(i).getText().toString();
-            if (r.equals(resolution)) {
-                optionSelected = i;
-                textSave = options.get(i).getText().toString();
-                options.get(i).setText(">" + textSave + "<");
+            if (options.get(i).equals(resolution)) {
+                resolutionSelectBox.setSelected(options.get(i));
+                return;
             }
         }
 
-        if (textSave == null) {
-            throw new RuntimeException("Code error resolution not found: " + resolution);
-        }
+        throw new RuntimeException("Code error resolution not found: " + resolution);
     }
 
     @Override
