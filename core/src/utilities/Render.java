@@ -3,7 +3,6 @@ package utilities;
 import com.ac.Juego;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.ScreenUtils;
 import game.utilities.Camera2D;
@@ -13,7 +12,6 @@ import java.lang.management.ManagementFactory;
 import java.lang.management.RuntimeMXBean;
 
 public class Render {
-    public static ShapeRenderer sr = new ShapeRenderer();
     public static IOProcessor io = new IOProcessor();
     public static Size screenSize = new Size(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
     public static Skin skin = new Skin(Gdx.files.internal("uiskin.json"));

@@ -2,9 +2,9 @@ package menu.config;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import game.utilities.Control;
 import game.utilities.Controls;
+import utilities.Label;
 import utilities.Render;
 import utilities.Screen;
 
@@ -16,7 +16,7 @@ public final class PressAKeyScreen extends Screen {
         super();
         this.control = control;
 
-        pressAnyKey = new Label("Press a key for " + control.getAction() + "...", Render.skin);
+        pressAnyKey = new Label("Press a key for " + control.getAction() + "...");
 
         stage.addActor(pressAnyKey);
     }

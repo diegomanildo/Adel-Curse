@@ -1,8 +1,8 @@
 package menu.config;
 
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import menu.BasicMainMenuScreen;
+import utilities.Label;
 import utilities.Render;
 import utilities.Screen;
 import utilities.TextButton;
@@ -13,7 +13,7 @@ public abstract class BasicOptionsScreen extends BasicMainMenuScreen {
         Table table = new Table();
         table.setFillParent(true);
         TextButton backButton = new TextButton("X", () -> Render.setScreen(getBackScreen()));
-        Label titleLabel = new Label(getTitleScreen(), Render.skin);
+        Label titleLabel = new Label(getTitleScreen());
 
         table.add(titleLabel)
                 .top()
