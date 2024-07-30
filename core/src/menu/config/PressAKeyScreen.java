@@ -15,6 +15,7 @@ public final class PressAKeyScreen extends Screen {
     public PressAKeyScreen(Control control) {
         super();
         this.control = control;
+
         pressAnyKey = new Label("Press a key for " + control.getAction() + "...", Render.skin);
 
         stage.addActor(pressAnyKey);

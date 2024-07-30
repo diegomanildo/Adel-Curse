@@ -3,7 +3,6 @@ package utilities;
 import com.ac.Juego;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -14,9 +13,6 @@ import java.lang.management.ManagementFactory;
 import java.lang.management.RuntimeMXBean;
 
 public class Render {
-    public static final int MIN_WIDTH = 800;
-    public static final int MIN_HEIGHT = 600;
-    public static SpriteBatch b = new SpriteBatch();
     public static ShapeRenderer sr = new ShapeRenderer();
     public static IOProcessor io = new IOProcessor();
     public static Size screenSize = new Size(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
