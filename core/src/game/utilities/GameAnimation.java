@@ -2,9 +2,11 @@ package game.utilities;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.*;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 
-public abstract class GameAnimation extends GameObject {
+public abstract class GameAnimation extends Actor {
     private float stateTime;
     private int index;
     private final float frameDuration;
@@ -54,7 +56,7 @@ public abstract class GameAnimation extends GameObject {
     }
 
     @Override
-    public void draw(Batch batch) {
+    public void draw(Batch batch, float parentAlpha) {
         stateTime += Gdx.graphics.getDeltaTime();
 
         int frameNumber = ((int)(stateTime / frameDuration)) % frames.length;
@@ -62,13 +64,6 @@ public abstract class GameAnimation extends GameObject {
 
         TextureRegion currentFrame = frames[index + frameNumber];
 
-        float width = getWidth();
-        float height = getHeight();
-
-        if (width == -1 && height == -1) {
-            throw new NullPointerException("Width and height are null, you can not draw it");
-        }
-
-        batch.draw(currentFrame, getX(), getY(), width, height);
+        batch.draw(currentFrame, getX(), getY(), getWidth(), getHeight());
     }
 }

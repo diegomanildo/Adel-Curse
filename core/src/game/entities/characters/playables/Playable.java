@@ -10,7 +10,8 @@ public abstract class Playable extends Character {
         super(texturePath, bulletTexturePath);
     }
 
-    public void move() {
+    @Override
+    public void act(float delta) {
         moveCharacter();
         shoot();
     }

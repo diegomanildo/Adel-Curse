@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import game.entities.GameEntity;
 import game.utilities.Bullet;
 import game.utilities.Direction;
-import game.utilities.GameObject;
 import utilities.FilePaths;
 import utilities.io.Sound;
 
@@ -59,7 +58,7 @@ public abstract class Character extends GameEntity {
         Bullet b = new Bullet(FilePaths.CHARACTERS + bulletTexturePath, bulletDirection, 0.2f);
         b.setAnimation(animationIndex);
         b.setSize(getWidth() / 2f, getHeight() / 2f);
-        b.setPosition(getMiddleX() - b.getWidth() / 2f, getMiddleY() - b.getHeight() / 2f);
+        b.setPosition(getX() - b.getWidth() / 2f, getY() - b.getHeight() / 2f);
         b.setVelocity(getVelocity() * 100f);
         bullets.add(b);
         shootSound.play();
@@ -76,15 +75,16 @@ public abstract class Character extends GameEntity {
     }
 
     @Override
-    public void draw(Batch batch) {
+    public void draw(Batch batch, float parentAlpha) {
         if (!bullets.isEmpty()) {
             updateBullets();
             // First draw down bullets
-            bullets.stream().filter(b -> b.getDirection() != Direction.DOWN).forEach(GameObject::draw);
+            bullets.stream().filter(b -> b.getDirection() != Direction.DOWN).forEach(b -> b.draw(batch, parentAlpha));
         }
-        super.draw(batch);
+
+        super.draw(batch, parentAlpha);
 
         // Then others
-        bullets.stream().filter(b -> b.getDirection() == Direction.DOWN).forEach(GameObject::draw);
+        bullets.stream().filter(b -> b.getDirection() == Direction.DOWN).forEach(b -> b.draw(batch, parentAlpha));
     }
 }

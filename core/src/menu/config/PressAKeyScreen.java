@@ -2,21 +2,22 @@ package menu.config;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import game.utilities.Control;
 import game.utilities.Controls;
-import utilities.Fonts;
 import utilities.Render;
 import utilities.Screen;
-import utilities.Text;
 
 public final class PressAKeyScreen extends Screen {
-    private final Text pressAnyKey;
+    private final Label pressAnyKey;
     private final Control control;
 
     public PressAKeyScreen(Control control) {
         super();
         this.control = control;
-        pressAnyKey = new Text(Fonts.DEFAULT2, "Press a key for " + control.getAction() + "...");
+        pressAnyKey = new Label("Press a key for " + control.getAction() + "...", Render.skin);
+
+        stage.addActor(pressAnyKey);
     }
 
     @Override
@@ -38,10 +39,9 @@ public final class PressAKeyScreen extends Screen {
 
         if (Controls.exists(keyPressed) && control.getKey() != keyPressed) {
             pressAnyKey.setColor(Color.RED);
-            pressAnyKey.setText("Key \"" + Input.Keys.toString(keyPressed) + "\" is already assigned\nPress another key for " + control.getAction() + "...");
-            pressAnyKey.center();
+            pressAnyKey.setText("Key \"" + Input.Keys.toString(keyPressed) + "\" is already assigned\nPress another key for " + control.getAction() + "...");;
         } else {
-            pressAnyKey.resetColor();
+            pressAnyKey.setColor(Color.WHITE);
             Controls.set(control.getAction(), keyPressed);
             Render.setScreen(new ControlsScreen());
         }
