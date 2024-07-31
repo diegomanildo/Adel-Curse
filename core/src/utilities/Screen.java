@@ -3,6 +3,7 @@ package utilities;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import utilities.io.Stage;
 
@@ -12,6 +13,7 @@ public abstract class Screen extends ScreenAdapter {
 
     protected Screen() {
         stage = new Stage(new ExtendViewport(Render.screenSize.width, Render.screenSize.height));
+        Render.camera = (OrthographicCamera) stage.getCamera();
         Gdx.input.setInputProcessor(stage);
         stage.setDebugAll(Render.isDebugging());
     }

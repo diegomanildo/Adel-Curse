@@ -1,6 +1,7 @@
 package game;
 
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import game.entities.characters.playables.Adel;
 import game.utilities.Camera2D;
 import menu.BasicMainMenuScreen;
@@ -14,12 +15,17 @@ public final class GameScreen extends Screen {
     private final Song song;
 
     public GameScreen() {
+        super();
         adel = new Adel();
         song = new Song("Music", "game/music/UndeadIntro.mp3", "game/music/Undead.mp3");
 
         adel.setPosition(Render.screenSize.width / 2f, Render.screenSize.height / 2f);
 
         stage.addActor(adel);
+
+        if (Render.isDebugging()) {
+            ((OrthographicCamera) stage.getCamera()).zoom = 3f;
+        }
     }
 
     @Override
@@ -38,21 +44,25 @@ public final class GameScreen extends Screen {
             BasicMainMenuScreen.backgroundSong.fadeIn(FADE_TIME, true);
             Render.setScreen(new MainMenuScreen());
         }
+
+        if (!adel.collidesWith(Camera2D.getBounds(Render.camera))) {
+            moveCamera();
+        }
     }
 
     private void moveCamera() {
-        Camera2D camera = (Camera2D) Render.camera;
+        OrthographicCamera camera = Render.camera;
 
-        if (adel.getX() < camera.getLeft()) {
-            camera.moveTo(camera.position.x - camera.viewportWidth, camera.position.y, FADE_TIME / 2f);
-        } else if (adel.getX() > camera.getRight()) {
-            camera.moveTo(camera.position.x + camera.viewportWidth, camera.position.y, FADE_TIME / 2f);
+        if (adel.getX() < (camera.position.x - camera.viewportWidth / 2f)) {
+            Camera2D.moveTo(camera, camera.position.x - camera.viewportWidth, camera.position.y, FADE_TIME / 2f);
+        } else if (adel.getX() > (camera.position.x + camera.viewportWidth / 2f)) {
+            Camera2D.moveTo(camera, camera.position.x + camera.viewportWidth, camera.position.y, FADE_TIME / 2f);
         }
 
-        if (adel.getY() < camera.getBottom()) {
-            camera.moveTo(camera.position.x, camera.position.y - camera.viewportHeight, FADE_TIME / 2f);
-        } else if (adel.getY() > camera.getTop()) {
-            camera.moveTo(camera.position.x, camera.position.y + camera.viewportHeight, FADE_TIME / 2f);
+        if (adel.getY() < (camera.position.y - camera.viewportHeight / 2f)) {
+            Camera2D.moveTo(camera, camera.position.x, camera.position.y - camera.viewportHeight, FADE_TIME / 2f);
+        } else if (adel.getY() > (camera.position.y + camera.viewportHeight / 2f)) {
+            Camera2D.moveTo(camera, camera.position.x, camera.position.y + camera.viewportHeight, FADE_TIME / 2f);
         }
     }
 }

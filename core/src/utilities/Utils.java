@@ -3,7 +3,7 @@ package utilities;
 public final class Utils {
     public static Random r = new Random();
 
-    public static <T extends Number> void sleep(T millis) {
+    public static void sleep(float millis) {
         try {
             Thread.sleep((long) millis);
         } catch (InterruptedException e) {

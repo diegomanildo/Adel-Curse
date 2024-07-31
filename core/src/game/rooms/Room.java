@@ -1,31 +1,31 @@
 package game.rooms;
 
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.utils.Disposable;
-import game.utilities.Camera2D;
+import utilities.Actor;
 import utilities.FilePaths;
 import utilities.Render;
 
-public abstract class Room extends Actor implements Disposable {
+public abstract class Room extends Actor {
     private final TiledMap map;
     private final OrthogonalTiledMapRenderer renderer;
-    private final Camera2D camera;
+    private final OrthographicCamera camera;
 
     public static final float OFFSET = 17f;
 
     public Room(String tmxFile) {
-        this.camera = (Camera2D) Render.camera;
+        this.camera = Render.camera;
         this.map = new TmxMapLoader().load(FilePaths.ROOMS + tmxFile);
         this.renderer = new OrthogonalTiledMapRenderer(map);
 
         setWidth(map.getProperties().get("width", Integer.class) * getTileWidth());
         setHeight(map.getProperties().get("height", Integer.class) * getTileHeight());
 
-        this.camera.setSize(getWidth() - OFFSET * 2f, getHeight() - OFFSET * 2f);
+        this.camera.viewportWidth = getWidth() - OFFSET * 2f;
+        this.camera.viewportHeight = getHeight() - OFFSET * 2f;
         this.camera.update();
     }
 
@@ -35,12 +35,6 @@ public abstract class Room extends Actor implements Disposable {
         renderer.setView(camera);
 
         renderer.render();
-    }
-
-    @Override
-    public void dispose() {
-        map.dispose();
-        renderer.dispose();
     }
 
     private float getTileWidth() {

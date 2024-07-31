@@ -1,69 +1,21 @@
 package game.utilities;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.math.Rectangle;
 import utilities.Utils;
 
-public class Camera2D extends OrthographicCamera implements Hitbox {
-    public Camera2D(float viewportWidth, float viewportHeight) {
-        super(viewportWidth, viewportHeight);
+public class Camera2D {
+    public static Rectangle getBounds(Camera camera) {
+        return new Rectangle(camera.position.x - camera.viewportWidth / 2f, camera.position.x + camera.viewportWidth / 2f, camera.position.y - camera.viewportHeight / 2f, camera.position.y + camera.viewportHeight / 2f);
     }
 
-    public Camera2D() {
-        this(0f, 0f);
-    }
-
-    @Override
-    public float getX() {
-        return position.x;
-    }
-
-    @Override
-    public float getY() {
-        return position.y;
-    }
-
-    @Override
-    public void setX(float x) {
-        position.x = x;
-        update();
-    }
-
-    @Override
-    public void setY(float y) {
-        position.y = y;
-        update();
-    }
-
-    @Override
-    public float getWidth() {
-        return viewportWidth;
-    }
-
-    @Override
-    public float getHeight() {
-        return viewportHeight;
-    }
-
-    @Override
-    public void setWidth(float width) {
-        viewportWidth = width;
-        update();
-    }
-
-    @Override
-    public void setHeight(float height) {
-        viewportHeight = height;
-        update();
-    }
-
-    public void moveTo(float targetX, float targetY, float transitionTime) {
+    public static void moveTo(Camera camera, float targetX, float targetY, float transitionTime) {
         // TODO: Thread is interrupted sometimes and the camera doesn't move correctly
 
         Thread transitionThread = new Thread(() -> {
-            final float startX = position.x;
-            final float startY = position.y;
+            final float startX = camera.position.x;
+            final float startY = camera.position.y;
             final float deltaX = targetX - startX;
             final float deltaY = targetY - startY;
 
@@ -72,32 +24,12 @@ public class Camera2D extends OrthographicCamera implements Hitbox {
                 float delta = Gdx.graphics.getDeltaTime();
                 elapsed += delta;
                 float progress = Math.min(elapsed / transitionTime, 1);
-                position.x = startX + deltaX * progress;
-                position.y = startY + deltaY * progress;
-                update();
+                camera.position.x = startX + deltaX * progress;
+                camera.position.y = startY + deltaY * progress;
+                camera.update();
                 Utils.sleep(delta * 1000f);
             }
         });
         transitionThread.start();
-    }
-
-    public float getLeft() {
-        return position.x - viewportWidth / 2f;
-    }
-
-    public float getRight() {
-        return position.x + viewportWidth / 2f;
-    }
-
-    public float getBottom() {
-        return position.y - viewportHeight / 2f;
-    }
-
-    public float getTop() {
-        return position.y + viewportHeight / 2f;
-    }
-
-    public Rectangle getHitbox() {
-        return new Rectangle(getLeft(), getBottom(), getRight(), getTop());
     }
 }

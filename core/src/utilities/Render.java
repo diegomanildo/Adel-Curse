@@ -3,9 +3,9 @@ package utilities;
 import com.ac.Juego;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.ScreenUtils;
-import game.utilities.Camera2D;
 
 import java.lang.management.ManagementFactory;
 import java.lang.management.RuntimeMXBean;
@@ -16,7 +16,7 @@ public class Render {
 
     public static Juego app;
 
-    public static Camera2D camera;
+    public static OrthographicCamera camera;
     public static int fps = 60;
 
     public static boolean isDebugging() {

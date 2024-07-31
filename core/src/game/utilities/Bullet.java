@@ -1,5 +1,6 @@
 package game.utilities;
 
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import utilities.Render;
 
 public final class Bullet extends MovableObject {
@@ -40,9 +41,9 @@ public final class Bullet extends MovableObject {
 
     // Bullet is no more in the screen, and you should have not rendered it
     public boolean outOfBounds() {
-        Camera2D camera = (Camera2D) Render.camera;
-        return (getX() < camera.getLeft() - PIXELS_DELAY || getX() > camera.getRight() + PIXELS_DELAY
-                || getY() < camera.getBottom() - PIXELS_DELAY || getY() > camera.getTop() + PIXELS_DELAY);
+        OrthographicCamera camera = Render.camera;
+        return (getX() < (camera.position.x - camera.viewportWidth / 2f) - PIXELS_DELAY || getX() > (camera.position.x + camera.viewportWidth / 2f) + PIXELS_DELAY
+                || getY() < (camera.position.y - camera.viewportHeight / 2f) - PIXELS_DELAY || getY() > (camera.position.y + camera.viewportHeight / 2f) + PIXELS_DELAY);
     }
 
     public Direction getDirection() {

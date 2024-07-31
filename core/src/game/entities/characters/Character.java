@@ -58,7 +58,7 @@ public abstract class Character extends GameEntity {
         Bullet b = new Bullet(FilePaths.CHARACTERS + bulletTexturePath, bulletDirection, 0.2f);
         b.setAnimation(animationIndex);
         b.setSize(getWidth() / 2f, getHeight() / 2f);
-        b.setPosition(getX() - b.getWidth() / 2f, getY() - b.getHeight() / 2f);
+        b.setPosition(getX() + b.getWidth() / 2f, getY() + b.getHeight() / 2f);
         b.setVelocity(getVelocity() * 100f);
         bullets.add(b);
         shootSound.play();
