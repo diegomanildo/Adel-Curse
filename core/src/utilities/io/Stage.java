@@ -2,6 +2,7 @@ package utilities.io;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -18,6 +19,10 @@ public class Stage extends com.badlogic.gdx.scenes.scene2d.Stage {
 
 	public Stage(Viewport viewport, Batch batch) {
         super();
+    }
+
+    public OrthographicCamera getCamera() {
+        return (OrthographicCamera) super.getCamera();
     }
 
     public boolean keyDown(int keycode) {

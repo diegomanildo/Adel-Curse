@@ -37,6 +37,7 @@ public final class TextButton extends com.badlogic.gdx.scenes.scene2d.ui.TextBut
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 hoveredSound.play();
+
                 getLabel().setColor(Color.YELLOW);
                 super.enter(event, x, y, pointer, fromActor);
             }
