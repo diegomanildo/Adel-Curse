@@ -72,7 +72,7 @@ public abstract class Character extends GameEntity {
         for (int i = 0; i < bullets.size(); i++) {
             bullets.get(i).update(Gdx.graphics.getDeltaTime());
 
-            if (bullets.get(i).outOfBounds()) {
+            if (bullets.get(i).outOfBounds() || bullets.get(i).collidesWithEnemy()) {
                 bullets.remove(i);
             }
         }
@@ -82,9 +82,10 @@ public abstract class Character extends GameEntity {
     public void draw(Batch batch, float parentAlpha) {
         if (!bullets.isEmpty()) {
             updateBullets();
-            // First draw down bullets
-            bullets.stream().filter(b -> b.getDirection() != Direction.DOWN).forEach(b -> b.draw(batch, parentAlpha));
         }
+
+        // First draw down bullets
+        bullets.stream().filter(b -> b.getDirection() != Direction.DOWN).forEach(b -> b.draw(batch, parentAlpha));
 
         super.draw(batch, parentAlpha);
 

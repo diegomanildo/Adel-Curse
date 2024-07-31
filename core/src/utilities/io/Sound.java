@@ -86,9 +86,4 @@ public final class Sound extends Audio {
     public void setOnCompletionListener(OnCompletionListener onCompletionListener) {
         music.setOnCompletionListener(onCompletionListener);
     }
-
-    @Override
-    public boolean isNull() {
-        return music == null;
-    }
 }

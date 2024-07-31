@@ -2,8 +2,10 @@ package game;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import game.entities.characters.enemies.Enemy;
+import game.entities.characters.enemies.Skeleton;
 import game.entities.characters.playables.Adel;
-import game.rooms.StoneRoom;
 import game.utilities.Camera2D;
 import menu.BasicMainMenuScreen;
 import menu.MainMenuScreen;
@@ -11,21 +13,28 @@ import utilities.Render;
 import utilities.Screen;
 import utilities.io.Song;
 
+import java.util.ArrayList;
+
 public final class GameScreen extends Screen {
+    private final SpriteBatch batch = new SpriteBatch();
+    public static ArrayList<Enemy> enemies;
     private final Adel adel;
     private final Song song;
 
     public GameScreen() {
         super();
+        enemies = new ArrayList<>();
+
         adel = new Adel();
         adel.setPosition(Render.screenSize.width / 2f, Render.screenSize.height / 2f);
 
+        Skeleton skeleton = new Skeleton();
+        skeleton.setPosition(40f, adel.getY());
+
+        enemies.add(skeleton);
+
         song = new Song("Music", "game/music/UndeadIntro.mp3", "game/music/Undead.mp3");
 
-        StoneRoom room = new StoneRoom();
-        room.setPosition(132f, 123f);
-
-        stage.addActor(room);
         stage.addActor(adel);
 
         if (Render.isDebugging()) {
@@ -45,29 +54,39 @@ public final class GameScreen extends Screen {
         super.render(delta);
 
         if (stage.isKeyPressed(Input.Keys.ESCAPE)) {
-            song.fadeOut(FADE_TIME);
-            BasicMainMenuScreen.backgroundSong.fadeIn(FADE_TIME, true);
-            Render.setScreen(new MainMenuScreen());
+            exit();
         }
 
         if (!adel.collidesWith(Camera2D.getBounds(Render.camera))) {
             moveCamera();
         }
+
+        batch.begin();
+        enemies.forEach(e -> e.draw(batch, 1f));
+        batch.end();
     }
 
     private void moveCamera() {
         OrthographicCamera camera = Render.camera;
+        float offsetX = adel.getWidth();
+        float offsetY = adel.getHeight();
 
-        if (adel.getX() < (camera.position.x - camera.viewportWidth / 2f)) {
+        if (adel.getX() < Camera2D.getLeft(camera) + offsetX) {
             Camera2D.moveTo(camera, camera.position.x - camera.viewportWidth, camera.position.y, FADE_TIME / 2f);
-        } else if (adel.getX() > (camera.position.x + camera.viewportWidth / 2f)) {
+        } else if (adel.getX() > Camera2D.getRight(camera) + offsetX) {
             Camera2D.moveTo(camera, camera.position.x + camera.viewportWidth, camera.position.y, FADE_TIME / 2f);
         }
 
-        if (adel.getY() < (camera.position.y - camera.viewportHeight / 2f)) {
+        if (adel.getY() < Camera2D.getBottom(camera) + offsetY) {
             Camera2D.moveTo(camera, camera.position.x, camera.position.y - camera.viewportHeight, FADE_TIME / 2f);
-        } else if (adel.getY() > (camera.position.y + camera.viewportHeight / 2f)) {
+        } else if (adel.getY() > Camera2D.getTop(camera) + offsetY) {
             Camera2D.moveTo(camera, camera.position.x, camera.position.y + camera.viewportHeight, FADE_TIME / 2f);
         }
+    }
+
+    private void exit() {
+        song.fadeOut(FADE_TIME);
+        BasicMainMenuScreen.backgroundSong.fadeIn(FADE_TIME, true);
+        Render.setScreen(new MainMenuScreen());
     }
 }

@@ -119,11 +119,6 @@ public final class Song extends Audio {
     }
 
     @Override
-    public boolean isNull() {
-        return intro == null && song == null;
-    }
-
-    @Override
     public void fadeIn(float duration) {
         getNotNull().fadeIn(duration, false);
     }
