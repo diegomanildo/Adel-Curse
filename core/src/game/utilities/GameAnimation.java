@@ -57,6 +57,7 @@ public abstract class GameAnimation extends Actor {
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
+        super.draw(batch, parentAlpha);
         stateTime += Gdx.graphics.getDeltaTime();
 
         int frameNumber = ((int)(stateTime / frameDuration)) % frames.length;

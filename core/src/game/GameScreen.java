@@ -8,6 +8,7 @@ import game.entities.characters.playables.Adel;
 import game.utilities.Camera2D;
 import menu.BasicMainMenuScreen;
 import menu.MainMenuScreen;
+import utilities.Actor;
 import utilities.Render;
 import utilities.Screen;
 import utilities.io.Song;
@@ -34,7 +35,13 @@ public final class GameScreen extends Screen {
         song = new Song("Music", "game/music/UndeadIntro.mp3", "game/music/Undead.mp3");
 
         stage.addActor(adel);
-        enemies.forEach(stage::addActor);
+        stage.addActor(skeleton);
+
+        stage.getActors().forEach(a -> {
+            if (Actor.isEnemy(a)) {
+                enemies.add((Enemy) a);
+            }
+        });
     }
 
     @Override

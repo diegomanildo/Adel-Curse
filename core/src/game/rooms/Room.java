@@ -36,6 +36,16 @@ public abstract class Room extends Actor {
         renderer.render();
     }
 
+    @Override
+    public void setX(float x) {
+        set(x, getY());
+    }
+
+    @Override
+    public void setY(float y) {
+        set(getX(), y);
+    }
+
     private float getTileWidth() {
         return map.getProperties().get("tilewidth", Integer.class);
     }
