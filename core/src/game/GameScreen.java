@@ -3,6 +3,7 @@ package game;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import game.entities.characters.playables.Adel;
+import game.rooms.StoneRoom;
 import game.utilities.Camera2D;
 import menu.BasicMainMenuScreen;
 import menu.MainMenuScreen;
@@ -17,14 +18,18 @@ public final class GameScreen extends Screen {
     public GameScreen() {
         super();
         adel = new Adel();
-        song = new Song("Music", "game/music/UndeadIntro.mp3", "game/music/Undead.mp3");
-
         adel.setPosition(Render.screenSize.width / 2f, Render.screenSize.height / 2f);
 
+        song = new Song("Music", "game/music/UndeadIntro.mp3", "game/music/Undead.mp3");
+
+        StoneRoom room = new StoneRoom();
+        room.setPosition(132f, 123f);
+
+        stage.addActor(room);
         stage.addActor(adel);
 
         if (Render.isDebugging()) {
-            ((OrthographicCamera) stage.getCamera()).zoom = 3f;
+            ((OrthographicCamera) stage.getCamera()).zoom = 2f;
         }
     }
 

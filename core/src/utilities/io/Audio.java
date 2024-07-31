@@ -21,7 +21,7 @@ public abstract class Audio implements Music {
 
     protected void update(String channel) {
         if (channel != null) {
-            Channels.updateVolume(channel);
+            Channels.updateVolume();
         }
     }
 

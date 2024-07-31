@@ -6,8 +6,8 @@ import java.util.Map;
 import java.util.Set;
 
 public final class Channels {
-    public static final String DEFAULT_CHANNEL = "@__DEFAULT_CHANNEL__";
-    public static final String GLOBAL_CHANNEL = "@__GLOBAL__";
+    public static final String DEFAULT_CHANNEL = "Default";
+    public static final String GLOBAL_CHANNEL = "Global";
 
     private static final Map<String, Set<Audio>> audioChannels = new HashMap<>();
     private static final Map<String, Float> volumeChannels = new HashMap<>();
@@ -25,18 +25,22 @@ public final class Channels {
             throw new RuntimeException("Volume " + volume + " is invalid, range: (0.0 - 1.0)");
         } else {
             volumeChannels.put(channel, volume);
-            updateVolume(channel);
+            updateVolume();
         }
     }
 
-    public static void updateVolume(String channel) {
-        float volume = volumeChannels.getOrDefault(channel, 1.0f) * volumeChannels.get(GLOBAL_CHANNEL);
-
-        Set<Audio> audios = audioChannels.get(channel);
-        if (audios != null) {
-            for (Audio audio : audios) {
-                audio.setVolume(volume);
+    public static void updateVolume() {
+        audioChannels.forEach((channelName, audios) -> {
+            float volume = getChannelVolume(channelName) * volumeChannels.get(GLOBAL_CHANNEL);
+            if (audios != null) {
+                for (Audio audio : audios) {
+                    audio.setVolume(volume);
+                }
             }
-        }
+        });
+    }
+
+    public static float getChannelVolume(String channel) {
+        return volumeChannels.getOrDefault(channel, 1.0f);
     }
 }

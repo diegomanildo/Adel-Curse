@@ -6,6 +6,10 @@ import game.utilities.Direction;
 import game.utilities.GameAction;
 
 public abstract class Playable extends Character {
+    public Playable(String texturePath, String bulletTexturePath, int columns, int rows) {
+        super(texturePath, bulletTexturePath, columns, rows);
+    }
+
     public Playable(String texturePath, String bulletTexturePath) {
         super(texturePath, bulletTexturePath);
     }

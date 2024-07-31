@@ -15,13 +15,17 @@ public abstract class Character extends GameEntity {
     private final Sound shootSound;
     private final String bulletTexturePath;
 
-    public Character(String texturePath, String bulletTexturePath) {
-        super(FilePaths.CHARACTERS + texturePath, 2, 8, 0.4f);
+    public Character(String texturePath, String bulletTexturePath, int columns, int rows) {
+        super(FilePaths.CHARACTERS + texturePath, columns, rows, 0.4f);
         setSize(100f, 116f);
         setVelocity((getWidth() + getHeight()) / 30f);
         bullets = new ArrayList<>();
         shootSound = new Sound("Sfx", "game/shoot.mp3");
         this.bulletTexturePath = bulletTexturePath;
+    }
+
+    public Character(String texturePath, String bulletTexturePath) {
+        this(texturePath, bulletTexturePath, 2, 8);
     }
 
     // Creates a bullet and then shoots it

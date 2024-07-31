@@ -33,7 +33,6 @@ public abstract class Room extends Actor {
     public void draw(Batch batch, float parentAlpha) {
         camera.update();
         renderer.setView(camera);
-
         renderer.render();
     }
 
@@ -45,7 +44,8 @@ public abstract class Room extends Actor {
         return map.getProperties().get("tileheight", Integer.class);
     }
 
-    private void set(float x, float y) {
+    public void set(float x, float y) {
+        setPosition(x, y);
         renderer.getBatch().begin();
         renderer.getBatch().getTransformMatrix().setToTranslation(x, y, 0f);
         renderer.getBatch().end();

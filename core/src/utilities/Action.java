@@ -1,5 +1,5 @@
 package utilities;
 
-public interface ButtonAction {
+public interface Action {
     void execute();
 }

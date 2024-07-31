@@ -5,12 +5,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Array;
 import utilities.*;
 
-public final class DisplayScreen extends BasicOptionsScreen {
+public final class VideoSettingsScreen extends BasicOptionsScreen {
     private final SelectBox<String> resolutionSelectBox;
     private final SelectBox<String> fpsSelectBox;
     private final CheckBox fullscreenCheckBox;
 
-    public DisplayScreen() {
+    public VideoSettingsScreen() {
         super();
         Table table = new Table();
         table.setFillParent(true);
@@ -98,6 +98,6 @@ public final class DisplayScreen extends BasicOptionsScreen {
 
     @Override
     protected String getTitleScreen() {
-        return "DISPLAY SETTINGS";
+        return "VIDEO SETTINGS";
     }
 }

@@ -14,12 +14,10 @@ public final class OptionsScreen extends BasicOptionsScreen {
         Table table = new Table();
         table.setFillParent(true);
         Array<TextButton> buttons = new Array<>();
-        TextButton controlsButton = new TextButton("CONTROLS", () -> Render.setScreen(new ControlsScreen()));
-        TextButton resolutionButton = new TextButton("RESOLUTION", () -> Render.setScreen(new DisplayScreen()));
-
         buttons.addAll(
-                controlsButton,
-                resolutionButton
+                new TextButton("CONTROLS", () -> Render.setScreen(new ControlsScreen())),
+                new TextButton("SOUND SETTINGS", () -> Render.setScreen(new SoundSettingsScreen())),
+                new TextButton("VIDEO SETTINGS", () -> Render.setScreen(new VideoSettingsScreen()))
         );
 
         buttons.forEach(b -> {

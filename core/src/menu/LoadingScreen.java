@@ -3,7 +3,7 @@ package menu;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import utilities.*;
 
-public class LoadingScreen extends Screen {
+public final class LoadingScreen extends Screen {
     private final ProgressBar progressBar;
 
     public LoadingScreen() {
