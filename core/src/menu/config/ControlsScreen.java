@@ -24,7 +24,7 @@ public final class ControlsScreen extends BasicOptionsScreen {
                     .left();
 
             table.add(controlButton)
-                    .center()
+                    .left()
                     .padLeft(10f)
                     .padBottom(10f);
 

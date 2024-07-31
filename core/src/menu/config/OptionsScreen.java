@@ -16,8 +16,7 @@ public final class OptionsScreen extends BasicOptionsScreen {
         Array<TextButton> buttons = new Array<>();
         buttons.addAll(
                 new TextButton("CONTROLS", () -> Render.setScreen(new ControlsScreen())),
-                new TextButton("SOUND SETTINGS", () -> Render.setScreen(new SoundSettingsScreen())),
-                new TextButton("VIDEO SETTINGS", () -> Render.setScreen(new VideoSettingsScreen()))
+                new TextButton("SETTINGS", () -> Render.setScreen(new SettingsScreen()))
         );
 
         buttons.forEach(b -> {
