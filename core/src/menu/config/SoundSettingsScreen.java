@@ -17,13 +17,18 @@ public class SoundSettingsScreen extends BasicOptionsScreen {
 
         public VolumeEditor(String channelName) {
             name = channelName;
-            label = new Label(channelName + " volume");
+            label = new Label(name + " volume");
             slider = new Slider(0f, 1f, 0.01f, false);
+            slider.setValue(Channels.getChannelVolume(name));
+            slider.addListener(this::sliderChanged);
             field = new TextField();
-
-            slider.addListener(() -> Channels.setChannelVolume(name, slider.getValue()));
-
             field.setDisabled(true);
+            sliderChanged();
+        }
+
+        private void sliderChanged() {
+            Channels.setChannelVolume(name, slider.getValue());
+            field.setText((int)(slider.getPercent() * 100f) + "%");
         }
 
         public void addToTable(Table t) {
@@ -32,15 +37,10 @@ public class SoundSettingsScreen extends BasicOptionsScreen {
             t.add(field).width(50f);
             t.row();
         }
-
-        public String getName() {
-            return name;
-        }
     }
 
-    private final Array<VolumeEditor> volumes = new Array<>();
-
     public SoundSettingsScreen() {
+        Array<VolumeEditor> volumes = new Array<>();
         volumes.addAll(
                 new VolumeEditor(Channels.GLOBAL_CHANNEL),
                 new VolumeEditor("Music"),
@@ -53,18 +53,6 @@ public class SoundSettingsScreen extends BasicOptionsScreen {
         volumes.forEach(v -> v.addToTable(table));
 
         stage.addActor(table);
-    }
-
-    @Override
-    public void show() {
-        super.show();
-        volumes.forEach(v -> v.slider.setValue(Channels.getChannelVolume(v.getName())));
-    }
-
-    @Override
-    public void render(float delta) {
-        super.render(delta);
-        volumes.forEach(v -> v.field.setText((int)(v.slider.getPercent() * 100f) + "%"));
     }
 
     @Override
