@@ -8,7 +8,6 @@ import game.entities.characters.playables.Adel;
 import game.utilities.Camera2D;
 import menu.BasicMainMenuScreen;
 import menu.MainMenuScreen;
-import utilities.Log;
 import utilities.Render;
 import utilities.Screen;
 import utilities.io.Song;
@@ -53,21 +52,8 @@ public final class GameScreen extends Screen {
             moveCamera();
         }
 
-        checkDeaths();
-
         if (stage.isKeyPressed(Input.Keys.ESCAPE)) {
             exit();
-        }
-    }
-
-    private void checkDeaths() {
-        for (int i = 0; i < enemies.size(); i++) {
-            Enemy enemy = enemies.get(i);
-            if (enemy.isDeath()) {
-                Log.debug(enemy.getClass().getSimpleName() + " death in x " + enemy.getX() + " y " + enemy.getY());
-                enemy.remove();
-                enemies.remove(i);
-            }
         }
     }
 

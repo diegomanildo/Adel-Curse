@@ -24,7 +24,7 @@ public final class MainMenuScreen extends BasicMainMenuScreen {
         );
 
         buttons.forEach(b -> {
-            table.add(b).center().minWidth(100f).minHeight(25f).padBottom(0);
+            table.add(b).center().minWidth(100f).minHeight(25f).padBottom(10f);
             table.row();
         });
 

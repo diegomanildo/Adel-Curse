@@ -1,8 +1,10 @@
 package game.entities;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
+import game.GameScreen;
 import game.utilities.MovableObject;
 import utilities.Label;
+import utilities.Log;
 
 public abstract class GameEntity extends MovableObject {
     private int hp;
@@ -10,6 +12,7 @@ public abstract class GameEntity extends MovableObject {
 
     public GameEntity(String texturePath, int columns, int rows, float frameDuration) {
         super(texturePath, columns, rows, frameDuration);
+        hitboxReduce(0.75f);
         hp = getInitHp();
         damage = getInitDamage();
     }
@@ -35,6 +38,12 @@ public abstract class GameEntity extends MovableObject {
 
     public void setHp(int hp) {
         this.hp = hp;
+        if (hp <= 0) {
+            Log.debug(getClass().getSimpleName() + " death in x " + getX() + " y " + getY());
+            remove();
+            GameScreen.enemies.remove(this);
+            Log.debug("Enemies: " + GameScreen.enemies.size());
+        }
     }
 
     public void setDamage(int damage) {
