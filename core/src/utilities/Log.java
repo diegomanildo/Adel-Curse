@@ -24,23 +24,21 @@ public class Log {
         }
     }
 
-    public static String logPrefix = "LOG";
-    public static String debugPrefix = "DEBUG";
-    public static String errorPrefix = "ERROR";
-
     private static void print(Colors color, String prefix, String msg) {
         System.out.println(color + "[" + prefix + "] " + msg + Colors.RESET);
     }
 
     public static void log(String msg) {
-        print(Colors.GREEN, logPrefix, msg);
+        print(Colors.GREEN, "LOG", msg);
     }
 
     public static void debug(String msg) {
-        print(Colors.BLUE, debugPrefix, msg);
+        if (Render.isDebugging()) {
+            print(Colors.BLUE, "DEBUG", msg);
+        }
     }
 
     public static void error(String msg) {
-        print(Colors.RED, errorPrefix, msg);
+        print(Colors.RED, "ERROR", msg);
     }
 }

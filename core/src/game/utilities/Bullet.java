@@ -1,6 +1,5 @@
 package game.utilities;
 
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import game.GameScreen;
 import game.entities.characters.enemies.Enemy;
 import utilities.Render;
@@ -43,19 +42,18 @@ public final class Bullet extends MovableObject {
 
     // Bullet is no more in the screen, and you should have not rendered it
     public boolean outOfBounds() {
-        OrthographicCamera camera = Render.camera;
-        return (getX() < Camera2D.getLeft(camera) - PIXELS_DELAY || getX() > Camera2D.getRight(camera) + PIXELS_DELAY
-                || getY() < Camera2D.getBottom(camera) - PIXELS_DELAY || getY() > Camera2D.getTop(camera) + PIXELS_DELAY);
+        return (getX() < Camera2D.getLeft(Render.camera) - PIXELS_DELAY || getX() > Camera2D.getRight(Render.camera) + PIXELS_DELAY
+                || getY() < Camera2D.getBottom(Render.camera) - PIXELS_DELAY || getY() > Camera2D.getTop(Render.camera) + PIXELS_DELAY);
     }
 
     public Direction getDirection() {
         return direction;
     }
 
-    public boolean collidesWithEnemy() {
+    public boolean collidesWithEnemy(int damageReceived) {
         for (Enemy e : GameScreen.enemies) {
             if (e.collidesWith(this)) {
-                GameScreen.enemies.remove(e);
+                e.damage(damageReceived);
                 return true;
             }
         }

@@ -43,21 +43,24 @@ public abstract class Audio implements Music {
 
     public synchronized void fadeOut(float duration) {
         new Thread(() -> {
-            float startVolume = getVolume();
-            float endVolume = 0.0f;
-            float step = 0.01f;
-            float stepTime = duration / ((startVolume - endVolume) / step);
-            float currentVolume = startVolume;
-            while (currentVolume > endVolume) {
-                currentVolume -= step;
-                if (currentVolume < endVolume) {
-                    currentVolume = endVolume;
+            try {
+                float startVolume = getVolume();
+                float endVolume = 0.0f;
+                float step = 0.01f;
+                float stepTime = duration / ((startVolume - endVolume) / step);
+                float currentVolume = startVolume;
+                while (currentVolume > endVolume) {
+                    currentVolume -= step;
+                    if (currentVolume < endVolume) {
+                        currentVolume = endVolume;
+                    }
+                    setVolume(currentVolume);
+                    Utils.sleep(stepTime * 1000f);
                 }
-                setVolume(currentVolume);
-                Utils.sleep(stepTime * 1000f);
+                setVolume(startVolume);
+            } finally {
+                stop();
             }
-            stop();
-            setVolume(startVolume);
         }).start();
     }
 }

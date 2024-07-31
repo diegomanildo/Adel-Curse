@@ -2,13 +2,13 @@ package game;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import game.entities.characters.enemies.Enemy;
 import game.entities.characters.enemies.Skeleton;
 import game.entities.characters.playables.Adel;
 import game.utilities.Camera2D;
 import menu.BasicMainMenuScreen;
 import menu.MainMenuScreen;
+import utilities.Log;
 import utilities.Render;
 import utilities.Screen;
 import utilities.io.Song;
@@ -16,7 +16,6 @@ import utilities.io.Song;
 import java.util.ArrayList;
 
 public final class GameScreen extends Screen {
-    private final SpriteBatch batch = new SpriteBatch();
     public static ArrayList<Enemy> enemies;
     private final Adel adel;
     private final Song song;
@@ -36,10 +35,7 @@ public final class GameScreen extends Screen {
         song = new Song("Music", "game/music/UndeadIntro.mp3", "game/music/Undead.mp3");
 
         stage.addActor(adel);
-
-        if (Render.isDebugging()) {
-            ((OrthographicCamera) stage.getCamera()).zoom = 2f;
-        }
+        enemies.forEach(stage::addActor);
     }
 
     @Override
@@ -53,17 +49,26 @@ public final class GameScreen extends Screen {
     public void render(float delta) {
         super.render(delta);
 
-        if (stage.isKeyPressed(Input.Keys.ESCAPE)) {
-            exit();
-        }
-
         if (!adel.collidesWith(Camera2D.getBounds(Render.camera))) {
             moveCamera();
         }
 
-        batch.begin();
-        enemies.forEach(e -> e.draw(batch, 1f));
-        batch.end();
+        checkDeaths();
+
+        if (stage.isKeyPressed(Input.Keys.ESCAPE)) {
+            exit();
+        }
+    }
+
+    private void checkDeaths() {
+        for (int i = 0; i < enemies.size(); i++) {
+            Enemy enemy = enemies.get(i);
+            if (enemy.isDeath()) {
+                Log.debug(enemy.getClass().getSimpleName() + " death in x " + enemy.getX() + " y " + enemy.getY());
+                enemy.remove();
+                enemies.remove(i);
+            }
+        }
     }
 
     private void moveCamera() {

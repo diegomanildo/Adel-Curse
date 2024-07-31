@@ -72,7 +72,7 @@ public abstract class Character extends GameEntity {
         for (int i = 0; i < bullets.size(); i++) {
             bullets.get(i).update(Gdx.graphics.getDeltaTime());
 
-            if (bullets.get(i).outOfBounds() || bullets.get(i).collidesWithEnemy()) {
+            if (bullets.get(i).outOfBounds() || bullets.get(i).collidesWithEnemy(getDamage())) {
                 bullets.remove(i);
             }
         }
