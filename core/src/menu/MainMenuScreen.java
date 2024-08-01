@@ -20,8 +20,8 @@ public final class MainMenuScreen extends BasicMainMenuScreen {
                     backgroundSong.fadeOut(FADE_TIME);
                     Render.setScreen(new GameScreen());
                 }),
-                new TextButton("SETTINGS", () -> Render.setScreen(new SettingsScreen())),
                 new TextButton("CONTROLS", () -> Render.setScreen(new ControlsScreen())),
+                new TextButton("SETTINGS", () -> Render.setScreen(new SettingsScreen())),
                 new TextButton("QUIT", () -> Gdx.app.exit())
         );
 

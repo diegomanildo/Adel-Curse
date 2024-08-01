@@ -106,23 +106,15 @@ public final class SettingsScreen extends BasicOptionsScreen {
     }
 
     private void applySettings() {
-        String resolution = resolutionSelectBox.getSelected();
-        String[] parts = resolution.split("x");
-        int w = Integer.parseInt(parts[0]);
-        int h = Integer.parseInt(parts[1]);
-
-        if (fullscreenCheckBox.isChecked()) {
-            Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
-        } else {
-            Gdx.graphics.setWindowedMode(w, h);
-        }
-
+        Size resolution = Size.getResolution(resolutionSelectBox.getSelected());
         int fps = Integer.parseInt(fpsSelectBox.getSelected());
-        Gdx.graphics.setForegroundFPS(fps);
-        Render.fps = fps;
+        Settings.add(new Settings.SettingPack(resolution, fps, fullscreenCheckBox.isChecked()));
+        Settings.applySettings(Settings.getSettings());
     }
 
     private void configureSettings() {
+        Settings.SettingPack s = Settings.getSettings();
+
         // Set the current resolution
         resolutionSelectBox.setSelected((int) Render.screenSize.width + "x" + (int) Render.screenSize.height);
 
