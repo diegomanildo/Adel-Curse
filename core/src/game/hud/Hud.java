@@ -4,9 +4,9 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import game.entities.characters.playables.Playable;
 import utilities.Label;
-import utilities.Screen;
+import utilities.SubScreen;
 
-public class Hud extends Screen {
+public class Hud extends SubScreen {
     private final Playable player;
 
     public Hud(Playable player) {
@@ -22,10 +22,5 @@ public class Hud extends Screen {
         table.add(hpBar).expandX().width(hpBar.width).height(hpBar.height).left().bottom();
 
         stage.addActor(table);
-    }
-
-    @Override
-    public void render(float delta) {
-        super.render(delta, false);
     }
 }

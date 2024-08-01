@@ -18,7 +18,6 @@ import utilities.io.Song;
 import java.util.ArrayList;
 
 public final class GameScreen extends Screen {
-    private final Hud hud;
     public static ArrayList<Enemy> enemies;
     private final Adel adel;
     private final Song song;
@@ -29,7 +28,8 @@ public final class GameScreen extends Screen {
 
         adel = new Adel();
         adel.setPosition(Render.screenSize.width / 2f, Render.screenSize.height / 2f);
-        hud = new Hud(adel);
+        Hud hud = new Hud(adel);
+        addSubScreen(hud);
 
         Skeleton skeleton = new Skeleton();
         skeleton.setPosition(40f, adel.getY());
@@ -53,7 +53,6 @@ public final class GameScreen extends Screen {
     @Override
     public void show() {
         super.show();
-        hud.show();
         BasicMainMenuScreen.backgroundSong.fadeOut(FADE_TIME);
         song.fadeIn(FADE_TIME, true);
     }
@@ -61,7 +60,6 @@ public final class GameScreen extends Screen {
     @Override
     public void render(float delta) {
         super.render(delta);
-        hud.render(delta);
 
         if (stage.isKeyPressed(Input.Keys.ESCAPE)) {
             exit();
@@ -98,17 +96,5 @@ public final class GameScreen extends Screen {
         song.fadeOut(FADE_TIME);
         BasicMainMenuScreen.backgroundSong.fadeIn(FADE_TIME, true);
         Render.setScreen(new MainMenuScreen());
-    }
-
-    @Override
-    public void resize(int w, int h) {
-        super.resize(w, h);
-        hud.resize(w, h);
-    }
-
-    @Override
-    public void dispose() {
-        super.dispose();
-        hud.dispose();
     }
 }
