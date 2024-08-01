@@ -4,6 +4,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import game.utilities.Control;
 import game.utilities.Controls;
+import menu.MainMenuScreen;
 import utilities.Label;
 import utilities.Render;
 import utilities.Screen;
@@ -36,7 +37,7 @@ public final class ControlsScreen extends BasicOptionsScreen {
 
     @Override
     protected Screen getBackScreen() {
-        return new OptionsScreen();
+        return new MainMenuScreen();
     }
 
     @Override

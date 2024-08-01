@@ -4,7 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Array;
 import game.GameScreen;
-import menu.config.OptionsScreen;
+import menu.config.ControlsScreen;
+import menu.config.SettingsScreen;
 import utilities.Render;
 import utilities.TextButton;
 
@@ -19,7 +20,8 @@ public final class MainMenuScreen extends BasicMainMenuScreen {
                     backgroundSong.fadeOut(FADE_TIME);
                     Render.setScreen(new GameScreen());
                 }),
-                new TextButton("OPTIONS", () -> Render.setScreen(new OptionsScreen())),
+                new TextButton("SETTINGS", () -> Render.setScreen(new SettingsScreen())),
+                new TextButton("CONTROLS", () -> Render.setScreen(new ControlsScreen())),
                 new TextButton("QUIT", () -> Gdx.app.exit())
         );
 

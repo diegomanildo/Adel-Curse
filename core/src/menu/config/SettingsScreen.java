@@ -3,6 +3,7 @@ package menu.config;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Array;
+import menu.MainMenuScreen;
 import utilities.*;
 import utilities.io.Channels;
 
@@ -134,7 +135,7 @@ public final class SettingsScreen extends BasicOptionsScreen {
 
     @Override
     protected Screen getBackScreen() {
-        return new OptionsScreen();
+        return new MainMenuScreen();
     }
 
     @Override

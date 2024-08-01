@@ -21,6 +21,9 @@ public class Hud extends SubScreen {
         table.add(new Label("Hp: ")).center().bottom().padLeft(10f).padTop(10f).padRight(5f);
         table.add(hpBar).expandX().width(hpBar.width).height(hpBar.height).left().bottom();
 
+        table.left();
+        
+
         stage.addActor(table);
     }
 }
