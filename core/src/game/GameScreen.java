@@ -67,10 +67,6 @@ public final class GameScreen extends Screen {
             exit();
         }
 
-        if (stage.isKeyPressed(Input.Keys.J)) {
-            adel.damage(1);
-        }
-
         if (!adel.collidesWith(Camera2D.getHitbox(Render.camera))) {
             moveCamera();
         }

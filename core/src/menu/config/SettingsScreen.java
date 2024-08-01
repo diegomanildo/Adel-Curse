@@ -93,7 +93,7 @@ public final class SettingsScreen extends BasicOptionsScreen {
 
         table.add(new Label("Volume")).padTop(20f).padBottom(20f).left().row();
         volumes.forEach(v -> v.addToTable(table));
-        table.add(applyBtn).colspan(2).center().padTop(20f);
+        table.add(applyBtn).center().width(200f).height(45f).padBottom(10f).colspan(2).center().padTop(20f);
 
         stage.addActor(table);
     }

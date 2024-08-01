@@ -1,6 +1,7 @@
 package utilities;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -14,12 +15,9 @@ public abstract class Screen extends ScreenAdapter {
 
     protected Screen(Camera camera) {
         stage = new Stage(new ExtendViewport(Render.screenSize.width, Render.screenSize.height, camera));
-        stage.setDebugAll(Render.isDebugging());
         if (camera.equals(DEFAULT_CAMERA)) {
             Render.camera = stage.getCamera();
             Gdx.input.setInputProcessor(stage);
-        } else {
-            Log.log("Camera registered");
         }
     }
 
@@ -29,6 +27,11 @@ public abstract class Screen extends ScreenAdapter {
 
     public void render(float delta) {
         render(delta, true);
+
+        if (stage.isKeyPressed(Input.Keys.J)) {
+            stage.setDebugAll(!stage.isDebugAll());
+            Utils.sleep(100);
+        }
     }
 
     protected void render(float delta, boolean clearScreen) {

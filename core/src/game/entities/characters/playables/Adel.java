@@ -7,11 +7,11 @@ public class Adel extends Playable {
 
     @Override
     protected int getInitMaxHp() {
-        return 100;
+        return 6;
     }
 
     @Override
     protected int getInitDamage() {
-        return 3;
+        return 1;
     }
 }

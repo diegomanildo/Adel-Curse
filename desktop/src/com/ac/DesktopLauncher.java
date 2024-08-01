@@ -9,7 +9,7 @@ public class DesktopLauncher {
 			Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 			config.setForegroundFPS(60);
 			config.setTitle("Adel's Curse");
-			config.setResizable(true);
+			config.setResizable(false);
 			config.setWindowedMode(1280, 720);
 			new Lwjgl3Application(new Juego(), config);
 		} catch (Exception e) {
