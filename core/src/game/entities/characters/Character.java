@@ -2,6 +2,7 @@ package game.entities.characters;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import game.entities.GameEntity;
 import game.utilities.Bullet;
 import game.utilities.Direction;
@@ -18,6 +19,7 @@ public abstract class Character extends GameEntity {
     public Character(String texturePath, String bulletTexturePath, int columns, int rows) {
         super(FilePaths.CHARACTERS + texturePath, columns, rows, 0.4f);
         setSize(100f, 116f);
+        setHitbox(40f, getHeight() - 10f);
         setVelocity((getWidth() + getHeight()) / 30f);
         bullets = new ArrayList<>();
         shootSound = new Sound("Sfx", "game/shoot.mp3");
@@ -65,6 +67,7 @@ public abstract class Character extends GameEntity {
         b.setPosition(getX() + b.getWidth() / 2f, getY() + b.getHeight() / 2f);
         b.setVelocity(getVelocity() * 100f);
         bullets.add(b);
+        getStage().addActor(b);
         shootSound.play();
     }
 
@@ -73,6 +76,7 @@ public abstract class Character extends GameEntity {
             bullets.get(i).update(Gdx.graphics.getDeltaTime());
 
             if (bullets.get(i).outOfBounds() || bullets.get(i).collidesWithEnemy(getDamage())) {
+                bullets.get(i).remove();
                 bullets.remove(i);
             }
         }
@@ -91,5 +95,11 @@ public abstract class Character extends GameEntity {
 
         // Then others
         bullets.stream().filter(b -> b.getDirection() == Direction.DOWN).forEach(b -> b.draw(batch, parentAlpha));
+    }
+
+    @Override
+    public void drawDebug(ShapeRenderer shapes) {
+        super.drawDebug(shapes);
+        bullets.forEach(b -> b.drawDebug(shapes));
     }
 }

@@ -16,6 +16,7 @@ public abstract class Playable extends Character {
 
     @Override
     public void act(float delta) {
+        super.act(delta);
         moveCharacter();
         shoot();
     }

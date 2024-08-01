@@ -1,15 +1,12 @@
 package game.entities;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import game.GameScreen;
 import game.utilities.MovableObject;
 import utilities.Label;
 import utilities.Log;
 
 public abstract class GameEntity extends MovableObject {
-    private static final ShapeRenderer SR = new ShapeRenderer();
-
     private int hp;
     private int damage;
 
@@ -17,7 +14,6 @@ public abstract class GameEntity extends MovableObject {
         super(texturePath, columns, rows, frameDuration);
         hp = getInitHp();
         damage = getInitDamage();
-        hitboxReduce(0.5f);
     }
 
     @Override

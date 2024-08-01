@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import game.entities.characters.enemies.Enemy;
 import game.entities.characters.enemies.Skeleton;
 import game.entities.characters.playables.Adel;
+import game.hud.Hud;
 import game.utilities.Camera2D;
 import menu.BasicMainMenuScreen;
 import menu.MainMenuScreen;
@@ -16,12 +17,14 @@ import utilities.io.Song;
 import java.util.ArrayList;
 
 public final class GameScreen extends Screen {
+    private final Hud hud;
     public static ArrayList<Enemy> enemies;
     private final Adel adel;
     private final Song song;
 
     public GameScreen() {
         super();
+        hud = new Hud();
         enemies = new ArrayList<>();
 
         adel = new Adel();
@@ -36,8 +39,8 @@ public final class GameScreen extends Screen {
 
         stage.getViewport().setCamera(new OrthographicCamera());
 
-        stage.addActor(adel);
         stage.addActor(skeleton);
+        stage.addActor(adel);
 
         stage.getActors().forEach(a -> {
             if (Actor.isEnemy(a)) {
@@ -49,6 +52,7 @@ public final class GameScreen extends Screen {
     @Override
     public void show() {
         super.show();
+        hud.show();
         BasicMainMenuScreen.backgroundSong.fadeOut(FADE_TIME);
         song.fadeIn(FADE_TIME, true);
     }
@@ -56,6 +60,7 @@ public final class GameScreen extends Screen {
     @Override
     public void render(float delta) {
         super.render(delta);
+        hud.render(delta);
 
         if (!adel.collidesWith(Camera2D.getBounds(Render.camera))) {
             moveCamera();
@@ -88,5 +93,17 @@ public final class GameScreen extends Screen {
         song.fadeOut(FADE_TIME);
         BasicMainMenuScreen.backgroundSong.fadeIn(FADE_TIME, true);
         Render.setScreen(new MainMenuScreen());
+    }
+
+    @Override
+    public void resize(int w, int h) {
+        super.resize(w, h);
+        hud.resize(w, h);
+    }
+
+    @Override
+    public void dispose() {
+        super.dispose();
+        hud.dispose();
     }
 }

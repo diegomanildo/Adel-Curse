@@ -12,6 +12,7 @@ public final class Bullet extends MovableObject {
     public Bullet(String texturePath, Direction direction, float frameDuration) {
         super(texturePath, 2, 4, frameDuration);
         this.direction = direction;
+        setHitbox(10f, 10f);
     }
 
     // Update bullet position

@@ -8,11 +8,17 @@ import game.entities.characters.playables.Playable;
 import game.utilities.Hitbox;
 
 public class Actor extends com.badlogic.gdx.scenes.scene2d.Actor {
-    private Hitbox hitbox;
+    private final Hitbox hitbox;
 
     public Actor() {
         super();
         hitbox = new Hitbox();
+    }
+
+    @Override
+    public void act(float delta) {
+        super.act(delta);
+        hitbox.setPosition(getX() + (getWidth() - hitbox.width) / 2f, getY() + (getHeight() - hitbox.height) / 2f);
     }
 
     public float getMiddleX() {
@@ -31,7 +37,7 @@ public class Actor extends com.badlogic.gdx.scenes.scene2d.Actor {
     }
 
     public boolean collidesWith(Actor other) {
-        return collidesWith(new Hitbox(other.getX(), other.getY(), other.getWidth(), other.getHeight()));
+        return collidesWith(other.getHitbox());
     }
 
     public boolean collidesWith(Rectangle other) {
@@ -42,16 +48,8 @@ public class Actor extends com.badlogic.gdx.scenes.scene2d.Actor {
         return hitbox;
     }
 
-    public void setHitbox(Hitbox hitbox) {
-        this.hitbox = hitbox;
-    }
-
-    public void hitboxReduce(float factor) {
-        float w = hitbox.width * factor;
-        float h = hitbox.height * factor;
-
-        hitbox.setSize(w, h);
-        hitbox.setPosition(getX() + (getWidth() - w) / 2f, getY() + (getHeight() - h) / 2f);
+    public void setHitbox(float width, float height) {
+        this.hitbox.setSize(width, height);
     }
 
     @Override
@@ -64,6 +62,7 @@ public class Actor extends com.badlogic.gdx.scenes.scene2d.Actor {
         shapes.set(ShapeRenderer.ShapeType.Line);
         shapes.setColor(Color.PURPLE);
         shapes.rect(hitbox.x, hitbox.y, hitbox.width, hitbox.height);
+        Log.debug("Hitbox: " + hitbox);
     }
 
     private static boolean isInstance(com.badlogic.gdx.scenes.scene2d.Actor actor, Class<?> search) {
@@ -92,18 +91,6 @@ public class Actor extends com.badlogic.gdx.scenes.scene2d.Actor {
     public void setPosition(float x, float y) {
         setX(x);
         setY(y);
-    }
-
-    @Override
-    public void setWidth(float width) {
-        super.setWidth(width);
-        hitbox.width = width;
-    }
-
-    @Override
-    public void setHeight(float height) {
-        super.setHeight(height);
-        hitbox.height = height;
     }
 
     @Override

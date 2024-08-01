@@ -25,6 +25,11 @@ public final class Hitbox {
         this.height = height;
     }
 
+    public void setBounds(float x, float y, float width, float height) {
+        setPosition(x, y);
+        setSize(width, height);
+    }
+
     @Override
     public String toString() {
         return "[x=" + x + ", y=" + y + ", width=" + width + ", height=" + height + "]";
