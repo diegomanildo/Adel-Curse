@@ -17,11 +17,10 @@ public abstract class Screen extends ScreenAdapter {
         stage.setDebugAll(Render.isDebugging());
         if (camera.equals(DEFAULT_CAMERA)) {
             Render.camera = stage.getCamera();
+            Gdx.input.setInputProcessor(stage);
         } else {
             Log.log("Camera registered");
-
         }
-        Gdx.input.setInputProcessor(stage);
     }
 
     protected Screen() {

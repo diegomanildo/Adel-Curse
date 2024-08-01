@@ -62,7 +62,6 @@ public class Actor extends com.badlogic.gdx.scenes.scene2d.Actor {
         shapes.set(ShapeRenderer.ShapeType.Line);
         shapes.setColor(Color.PURPLE);
         shapes.rect(hitbox.x, hitbox.y, hitbox.width, hitbox.height);
-        Log.debug("Hitbox: " + hitbox);
     }
 
     private static boolean isInstance(com.badlogic.gdx.scenes.scene2d.Actor actor, Class<?> search) {

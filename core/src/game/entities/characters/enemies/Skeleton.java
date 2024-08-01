@@ -5,9 +5,8 @@ public final class Skeleton extends Enemy {
         super("skeleton/skeleton.png", "adel/bullet.png", 2, 4);
     }
 
-
     @Override
-    protected int getInitHp() {
+    protected int getInitMaxHp() {
         return 10;
     }
 

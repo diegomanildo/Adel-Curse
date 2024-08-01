@@ -8,13 +8,16 @@ import utilities.Log;
 
 public abstract class GameEntity extends MovableObject {
     private int hp;
+    private int maxHp;
     private int damage;
 
     public GameEntity(String texturePath, int columns, int rows, float frameDuration) {
         super(texturePath, columns, rows, frameDuration);
-        hp = getInitHp();
+        maxHp = getInitMaxHp();
+        hp = maxHp;
         damage = getInitDamage();
     }
+
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
@@ -24,11 +27,15 @@ public abstract class GameEntity extends MovableObject {
         hp.draw(batch, parentAlpha);
     }
 
-    protected abstract int getInitHp();
+    protected abstract int getInitMaxHp();
     protected abstract int getInitDamage();
 
     public int getHp() {
         return hp;
+    }
+
+    public int getMaxHp() {
+        return maxHp;
     }
 
     public int getDamage() {
@@ -44,6 +51,10 @@ public abstract class GameEntity extends MovableObject {
             GameScreen.enemies.remove(this);
             Log.debug("Enemies: " + GameScreen.enemies.size());
         }
+    }
+
+    public void setMaxHp(int maxHp) {
+        this.maxHp = maxHp;
     }
 
     public void setDamage(int damage) {

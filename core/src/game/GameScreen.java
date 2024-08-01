@@ -10,6 +10,7 @@ import game.utilities.Camera2D;
 import menu.BasicMainMenuScreen;
 import menu.MainMenuScreen;
 import utilities.Actor;
+import utilities.Log;
 import utilities.Render;
 import utilities.Screen;
 import utilities.io.Song;
@@ -24,11 +25,11 @@ public final class GameScreen extends Screen {
 
     public GameScreen() {
         super();
-        hud = new Hud();
         enemies = new ArrayList<>();
 
         adel = new Adel();
         adel.setPosition(Render.screenSize.width / 2f, Render.screenSize.height / 2f);
+        hud = new Hud(adel);
 
         Skeleton skeleton = new Skeleton();
         skeleton.setPosition(40f, adel.getY());
@@ -62,30 +63,38 @@ public final class GameScreen extends Screen {
         super.render(delta);
         hud.render(delta);
 
-        if (!adel.collidesWith(Camera2D.getBounds(Render.camera))) {
-            moveCamera();
-        }
-
         if (stage.isKeyPressed(Input.Keys.ESCAPE)) {
             exit();
+        }
+
+        if (stage.isKeyPressed(Input.Keys.J)) {
+            adel.damage(1);
+        }
+
+        if (!adel.collidesWith(Camera2D.getHitbox(Render.camera))) {
+            moveCamera();
         }
     }
 
     private void moveCamera() {
-        OrthographicCamera camera = Render.camera;
+        OrthographicCamera camera = stage.getCamera();
         float offsetX = adel.getWidth();
         float offsetY = adel.getHeight();
 
         if (adel.getX() < Camera2D.getLeft(camera) - offsetX * 2f) {
             Camera2D.moveTo(camera, camera.position.x - camera.viewportWidth, camera.position.y, FADE_TIME / 2f);
+            Log.debug("Moving camera left");
         } else if (adel.getX() > Camera2D.getRight(camera) + offsetX) {
             Camera2D.moveTo(camera, camera.position.x + camera.viewportWidth, camera.position.y, FADE_TIME / 2f);
+            Log.debug("Moving camera right");
         }
 
         if (adel.getY() < Camera2D.getBottom(camera) - offsetY * 2f) {
             Camera2D.moveTo(camera, camera.position.x, camera.position.y - camera.viewportHeight, FADE_TIME / 2f);
+            Log.debug("Moving camera down");
         } else if (adel.getY() > Camera2D.getTop(camera) + offsetY) {
             Camera2D.moveTo(camera, camera.position.x, camera.position.y + camera.viewportHeight, FADE_TIME / 2f);
+            Log.debug("Moving camera up");
         }
     }
 

@@ -6,8 +6,8 @@ public class Adel extends Playable {
     }
 
     @Override
-    protected int getInitHp() {
-        return 10;
+    protected int getInitMaxHp() {
+        return 100;
     }
 
     @Override

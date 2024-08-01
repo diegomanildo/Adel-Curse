@@ -2,14 +2,13 @@ package game.utilities;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.math.Rectangle;
 import utilities.Utils;
 
 public class Camera2D {
     public static final float OFFSET = 100f;
 
-    public static Rectangle getBounds(Camera camera) {
-        return new Rectangle(getLeft(camera), getBottom(camera), getRight(camera), getTop(camera));
+    public static Hitbox getHitbox(Camera camera) {
+        return new Hitbox(getLeft(camera), getBottom(camera), getRight(camera), getTop(camera));
     }
 
     public static float getLeft(Camera camera) {
@@ -37,11 +36,11 @@ public class Camera2D {
             final float deltaX = targetX - startX;
             final float deltaY = targetY - startY;
 
-            float elapsed = 0;
+            float elapsed = 0f;
             while (elapsed < transitionTime) {
                 float delta = Gdx.graphics.getDeltaTime();
                 elapsed += delta;
-                float progress = Math.min(elapsed / transitionTime, 1);
+                float progress = Math.min(elapsed / transitionTime, 1f);
                 camera.position.x = startX + deltaX * progress;
                 camera.position.y = startY + deltaY * progress;
                 camera.update();
