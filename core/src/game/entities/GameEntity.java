@@ -1,27 +1,30 @@
 package game.entities;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import game.GameScreen;
 import game.utilities.MovableObject;
 import utilities.Label;
 import utilities.Log;
 
 public abstract class GameEntity extends MovableObject {
+    private static final ShapeRenderer SR = new ShapeRenderer();
+
     private int hp;
     private int damage;
 
     public GameEntity(String texturePath, int columns, int rows, float frameDuration) {
         super(texturePath, columns, rows, frameDuration);
-        hitboxReduce(0.75f);
         hp = getInitHp();
         damage = getInitDamage();
+        hitboxReduce(0.5f);
     }
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
         Label hp = new Label("Hp: " + getHp());
-        hp.setPosition(getX(), getY() + getHeight() + 10f);
+        hp.setPosition(getX() + hp.getWidth() / 2f, getY() + getHeight() + 10f);
         hp.draw(batch, parentAlpha);
     }
 
@@ -38,7 +41,8 @@ public abstract class GameEntity extends MovableObject {
 
     public void setHp(int hp) {
         this.hp = hp;
-        if (hp <= 0) {
+        if (this.hp <= 0) {
+            this.hp = 0;
             Log.debug(getClass().getSimpleName() + " death in x " + getX() + " y " + getY());
             remove();
             GameScreen.enemies.remove(this);

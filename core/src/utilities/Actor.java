@@ -5,13 +5,14 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import game.entities.characters.enemies.Enemy;
 import game.entities.characters.playables.Playable;
+import game.utilities.Hitbox;
 
 public class Actor extends com.badlogic.gdx.scenes.scene2d.Actor {
-    private Rectangle hitbox;
+    private Hitbox hitbox;
 
     public Actor() {
         super();
-        hitbox = new Rectangle(getX(), getY(), getWidth(), getHeight());
+        hitbox = new Hitbox();
     }
 
     public float getMiddleX() {
@@ -22,22 +23,26 @@ public class Actor extends com.badlogic.gdx.scenes.scene2d.Actor {
         return getY() + getHeight() / 2f;
     }
 
-    public boolean collidesWith(Rectangle rect) {
-        return hitbox.x < rect.x + rect.width &&
-                hitbox.x + hitbox.width > rect.x &&
-                hitbox.y < rect.y + rect.height &&
-                hitbox.y + hitbox.height > rect.y;
+    public boolean collidesWith(Hitbox other) {
+        return hitbox.x < other.x + other.width &&
+                hitbox.x + hitbox.width > other.x &&
+                hitbox.y < other.y + other.height &&
+                hitbox.y + hitbox.height > other.y;
     }
 
     public boolean collidesWith(Actor other) {
-        return collidesWith(new Rectangle(other.getX(), other.getY(), other.getWidth(), other.getHeight()));
+        return collidesWith(new Hitbox(other.getX(), other.getY(), other.getWidth(), other.getHeight()));
     }
 
-    public Rectangle getHitbox() {
+    public boolean collidesWith(Rectangle other) {
+        return collidesWith(new Hitbox(other.getX(), other.getY(), other.getWidth(), other.getHeight()));
+    }
+
+    public Hitbox getHitbox() {
         return hitbox;
     }
 
-    public void setHitbox(Rectangle hitbox) {
+    public void setHitbox(Hitbox hitbox) {
         this.hitbox = hitbox;
     }
 
@@ -47,12 +52,6 @@ public class Actor extends com.badlogic.gdx.scenes.scene2d.Actor {
 
         hitbox.setSize(w, h);
         hitbox.setPosition(getX() + (getWidth() - w) / 2f, getY() + (getHeight() - h) / 2f);
-    }
-
-    @Override
-    public void act(float delta) {
-        super.act(delta);
-        hitbox.setPosition(getX() + (getWidth() - hitbox.width) / 2, getY() + (getHeight() - hitbox.height) / 2);
     }
 
     @Override
@@ -67,7 +66,7 @@ public class Actor extends com.badlogic.gdx.scenes.scene2d.Actor {
         shapes.rect(hitbox.x, hitbox.y, hitbox.width, hitbox.height);
     }
 
-    private static boolean isIntance(com.badlogic.gdx.scenes.scene2d.Actor actor, Class<?> search) {
+    private static boolean isInstance(com.badlogic.gdx.scenes.scene2d.Actor actor, Class<?> search) {
         Class<?> currentClass = actor.getClass();
 
         while (currentClass != null) {
@@ -82,10 +81,40 @@ public class Actor extends com.badlogic.gdx.scenes.scene2d.Actor {
     }
 
     public static boolean isEnemy(com.badlogic.gdx.scenes.scene2d.Actor actor) {
-        return isIntance(actor, Enemy.class);
+        return isInstance(actor, Enemy.class);
     }
 
     public static boolean isPlayable(com.badlogic.gdx.scenes.scene2d.Actor actor) {
-        return isIntance(actor, Playable.class);
+        return isInstance(actor, Playable.class);
+    }
+
+    @Override
+    public void setPosition(float x, float y) {
+        setX(x);
+        setY(y);
+    }
+
+    @Override
+    public void setWidth(float width) {
+        super.setWidth(width);
+        hitbox.width = width;
+    }
+
+    @Override
+    public void setHeight(float height) {
+        super.setHeight(height);
+        hitbox.height = height;
+    }
+
+    @Override
+    public void setSize(float width, float height) {
+        setWidth(width);
+        setHeight(height);
+    }
+
+    @Override
+    public void setBounds(float x, float y, float width, float height) {
+        setPosition(x, y);
+        setSize(width, height);
     }
 }

@@ -2,7 +2,6 @@ package utilities;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import utilities.io.Stage;
 
@@ -18,7 +17,7 @@ public abstract class Screen extends ScreenAdapter {
     }
 
     public void render(float delta) {
-        Render.clear(new Color(0x800000FF));
+        Render.clear();
         stage.act(delta);
         stage.draw();
     }

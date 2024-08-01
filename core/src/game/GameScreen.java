@@ -34,6 +34,8 @@ public final class GameScreen extends Screen {
 
         song = new Song("Music", "game/music/UndeadIntro.mp3", "game/music/Undead.mp3");
 
+        stage.getViewport().setCamera(new OrthographicCamera());
+
         stage.addActor(adel);
         stage.addActor(skeleton);
 

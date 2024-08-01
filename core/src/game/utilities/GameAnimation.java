@@ -17,6 +17,7 @@ public abstract class GameAnimation extends Actor {
     private final TextureRegion[] frames;
 
     public GameAnimation(String texturePath, int columns, int rows, float frameDuration) {
+        super();
         frames = getFrames(texturePath, columns, rows);
         this.frameDuration = frameDuration;
 
