@@ -20,7 +20,7 @@ public final class OptionsScreen extends BasicOptionsScreen {
         );
 
         buttons.forEach(b -> {
-            table.add(b).center().minWidth(100f).minHeight(25f).padBottom(10f);
+            table.add(b).center().width(200f).height(45f).padBottom(10f);
             table.row();
         });
 

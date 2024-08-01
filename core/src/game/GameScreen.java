@@ -69,13 +69,13 @@ public final class GameScreen extends Screen {
         float offsetX = adel.getWidth();
         float offsetY = adel.getHeight();
 
-        if (adel.getX() < Camera2D.getLeft(camera) + offsetX) {
+        if (adel.getX() < Camera2D.getLeft(camera) - offsetX * 2f) {
             Camera2D.moveTo(camera, camera.position.x - camera.viewportWidth, camera.position.y, FADE_TIME / 2f);
         } else if (adel.getX() > Camera2D.getRight(camera) + offsetX) {
             Camera2D.moveTo(camera, camera.position.x + camera.viewportWidth, camera.position.y, FADE_TIME / 2f);
         }
 
-        if (adel.getY() < Camera2D.getBottom(camera) + offsetY) {
+        if (adel.getY() < Camera2D.getBottom(camera) - offsetY * 2f) {
             Camera2D.moveTo(camera, camera.position.x, camera.position.y - camera.viewportHeight, FADE_TIME / 2f);
         } else if (adel.getY() > Camera2D.getTop(camera) + offsetY) {
             Camera2D.moveTo(camera, camera.position.x, camera.position.y + camera.viewportHeight, FADE_TIME / 2f);

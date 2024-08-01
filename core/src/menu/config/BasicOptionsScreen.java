@@ -15,20 +15,8 @@ public abstract class BasicOptionsScreen extends BasicMainMenuScreen {
         table.setFillParent(true);
         TextButton backButton = new TextButton("<", this::back);
         Label titleLabel = new Label(getTitleScreen());
-
-        table.add(titleLabel)
-                .top()
-                .padTop(10f)
-                .expand();
-
-        table.add(backButton)
-                .top()
-                .right()
-                .minWidth(30f)
-                .minHeight(30f)
-                .padTop(10f)
-                .padRight(10f);
-
+        table.add(titleLabel).top().padTop(10f).expand();
+        table.add(backButton).top().right().width(45f).height(45f).padTop(10f).padRight(10f);
         stage.addActor(table);
     }
 
