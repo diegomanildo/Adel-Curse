@@ -8,10 +8,10 @@ public class Slider extends com.badlogic.gdx.scenes.scene2d.ui.Slider {
         super(min, max, stepSize, vertical, Render.skin);
     }
 
-    public void addListener(Action action) {
+    public void addListener(Runnable action) {
         addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                action.execute();
+                action.run();
             }
         });
     }

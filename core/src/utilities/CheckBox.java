@@ -13,11 +13,11 @@ public class CheckBox extends com.badlogic.gdx.scenes.scene2d.ui.CheckBox {
         addChangeListener(() -> {});
     }
 
-    public void addChangeListener(Action action) {
+    public void addChangeListener(Runnable action) {
         addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
                 pressedSound.play();
-                action.execute();
+                action.run();
             }
         });
     }

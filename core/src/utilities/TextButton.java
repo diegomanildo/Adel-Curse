@@ -11,7 +11,7 @@ public final class TextButton extends com.badlogic.gdx.scenes.scene2d.ui.TextBut
     private final Sound pressedSound;
     private final Sound hoveredSound;
 
-    public TextButton(String text, Action action) {
+    public TextButton(String text, Runnable action) {
         super(text, Render.skin);
         pressedSound = new Sound("Sfx", "clickSound.mp3");
         hoveredSound = new Sound("Sfx", "hoverSound.mp3");
@@ -23,11 +23,11 @@ public final class TextButton extends com.badlogic.gdx.scenes.scene2d.ui.TextBut
         this(text, () -> {});
     }
 
-    public void addChangeListener(Action action) {
+    public void addChangeListener(Runnable action) {
         addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
                 pressedSound.play();
-                action.execute();
+                action.run();
             }
         });
     }

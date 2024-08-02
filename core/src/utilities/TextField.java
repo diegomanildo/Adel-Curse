@@ -12,10 +12,10 @@ public class TextField extends com.badlogic.gdx.scenes.scene2d.ui.TextField {
         this("");
     }
 
-    public void addListener(Action action) {
+    public void addListener(Runnable action) {
         addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                action.execute();
+                action.run();
             }
         });
     }
