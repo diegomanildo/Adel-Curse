@@ -16,14 +16,22 @@ public abstract class Screen extends SubScreen {
     @Override
     public void show() {
         super.show();
-        subScreens.forEach(ScreenAdapter::show);
+        subScreens.forEach(s -> {
+            if (s.isShowing()) {
+                s.show();
+            }
+        });
     }
 
     @Override
     public void render(float delta) {
         Render.clear();
         super.render(delta);
-        subScreens.forEach(s -> s.render(delta));
+        subScreens.forEach(s -> {
+            if (s.isShowing()) {
+                s.render(delta);
+            }
+        });
     }
 
     @Override

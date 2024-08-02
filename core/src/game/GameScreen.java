@@ -6,6 +6,7 @@ import game.entities.characters.enemies.Enemy;
 import game.entities.characters.enemies.Skeleton;
 import game.entities.characters.playables.Adel;
 import game.hud.Hud;
+import game.states.PauseScreen;
 import game.utilities.Camera2D;
 import menu.BasicMainMenuScreen;
 import menu.MainMenuScreen;
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 
 public final class GameScreen extends Screen {
     public static ArrayList<Enemy> enemies;
+    private final PauseScreen pauseScreen;
     private final Adel adel;
     private final Song song;
 
@@ -30,6 +32,8 @@ public final class GameScreen extends Screen {
         adel.setPosition(Render.screenSize.width / 2f, Render.screenSize.height / 2f);
         Hud hud = new Hud(adel);
         addSubScreen(hud);
+        pauseScreen = new PauseScreen();
+        addSubScreen(pauseScreen);
 
         Skeleton skeleton = new Skeleton();
         skeleton.setPosition(40f, adel.getY());
@@ -62,7 +66,7 @@ public final class GameScreen extends Screen {
         super.render(delta);
 
         if (stage.isKeyPressed(Input.Keys.ESCAPE)) {
-            exit();
+            Render.setScreen(new MainMenuScreen());
         }
 
         if (!adel.collidesWith(Camera2D.getHitbox(Render.camera))) {

@@ -12,13 +12,19 @@ public abstract class SubScreen extends ScreenAdapter {
     private static final OrthographicCamera DEFAULT_CAMERA = new OrthographicCamera();
     protected final Stage stage;
     protected static final float FADE_TIME = 1f;
+    private boolean show;
 
     protected SubScreen(Camera camera) {
         stage = new Stage(new ExtendViewport(Render.screenSize.width, Render.screenSize.height, camera));
+        show = true;
         if (camera.equals(DEFAULT_CAMERA)) {
             Render.camera = stage.getCamera();
             Gdx.input.setInputProcessor(stage);
         }
+    }
+
+    protected SubScreen(boolean isSub) {
+        this(new OrthographicCamera());
     }
 
     protected SubScreen() {
@@ -43,5 +49,17 @@ public abstract class SubScreen extends ScreenAdapter {
     public void dispose() {
         stage.dispose();
         stage.clear();
+    }
+
+    public boolean isShowing() {
+        return show;
+    }
+
+    public void setShow(boolean show) {
+        this.show = show;
+
+        if (show) {
+            Gdx.input.setInputProcessor(stage);
+        }
     }
 }
