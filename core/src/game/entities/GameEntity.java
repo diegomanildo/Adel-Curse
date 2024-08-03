@@ -1,23 +1,42 @@
 package game.entities;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
-import game.GameScreen;
+import game.Game;
 import game.utilities.MovableObject;
 import utilities.Label;
 import utilities.Log;
 
 public abstract class GameEntity extends MovableObject {
+    private boolean paused;
     private int hp;
     private int maxHp;
     private int damage;
 
     public GameEntity(String texturePath, int columns, int rows, float frameDuration) {
         super(texturePath, columns, rows, frameDuration);
+        paused = false;
         maxHp = getInitMaxHp();
         hp = maxHp;
         damage = getInitDamage();
     }
 
+    @Override
+    public void act(float delta) {
+        super.act(delta);
+        if (!paused) {
+            update(delta);
+        }
+    }
+
+    protected abstract void update(float delta);
+
+    public void pause() {
+        paused = true;
+    }
+
+    public void resume() {
+        paused = false;
+    }
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
@@ -42,14 +61,18 @@ public abstract class GameEntity extends MovableObject {
         return damage;
     }
 
+    public void setPaused(boolean paused) {
+        this.paused = paused;
+    }
+
     public void setHp(int hp) {
         this.hp = hp;
         if (this.hp <= 0) {
             this.hp = 0;
             Log.debug(getClass().getSimpleName() + " death in x " + getX() + " y " + getY());
             remove();
-            GameScreen.enemies.remove(this);
-            Log.debug("Enemies: " + GameScreen.enemies.size());
+            Game.entities.remove(this);
+            Log.debug("Enemies: " + Game.entities.size());
         }
     }
 

@@ -6,19 +6,20 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import game.entities.characters.playables.Playable;
 import utilities.Label;
 import utilities.SubScreen;
+import utilities.Timer;
 
 public class Hud extends SubScreen {
     private final Playable player;
     private final Label hpLabel;
     private final Label timerLabel;
-    private float elapsedTime;
+    private final Timer timer;
 
     public Hud(Playable player) {
         super(new OrthographicCamera());
         this.player = player;
-        elapsedTime = 0f;
         hpLabel = new Label();
         timerLabel = new Label();
+        timer = new Timer();
 
         Table table = new Table();
         table.top().left();
@@ -38,14 +39,23 @@ public class Hud extends SubScreen {
     }
 
     @Override
+    public void show() {
+        super.show();
+        timer.start();
+    }
+
+    @Override
     public void render(float delta) {
         super.render(delta);
         hpLabel.setText(player.getHp() + "/" + player.getMaxHp());
 
-        elapsedTime += delta;
-        long hours = (long) (elapsedTime / 3600f);
-        int minutes = (int) ((elapsedTime % 3600f) / 60f);
-        int seconds = (int) (elapsedTime % 60f);
+        long hours = timer.getHours();
+        long minutes = timer.getMinutes();
+        long seconds = timer.getSeconds();
         timerLabel.setText(String.format("Time: %02d:%02d:%02d", hours, minutes, seconds));
+    }
+
+    public Timer getTimer() {
+        return timer;
     }
 }

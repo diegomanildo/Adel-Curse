@@ -1,16 +1,18 @@
 package game.utilities;
 
-import game.GameScreen;
-import game.entities.characters.enemies.Enemy;
+import game.Game;
+import game.entities.GameEntity;
 import utilities.Render;
 
 public final class Bullet extends MovableObject {
     private static final float PIXELS_DELAY = 100f;
 
+    private final GameEntity from;
     private final Direction direction;
 
-    public Bullet(String texturePath, Direction direction, float frameDuration) {
+    public Bullet(GameEntity from, String texturePath, Direction direction, float frameDuration) {
         super(texturePath, 2, 4, frameDuration);
+        this.from = from;
         this.direction = direction;
         setHitbox(10f, 10f);
     }
@@ -52,8 +54,8 @@ public final class Bullet extends MovableObject {
     }
 
     public boolean collidesWithEnemy(int damageReceived) {
-        for (Enemy e : GameScreen.enemies) {
-            if (e.collidesWith(this)) {
+        for (GameEntity e : Game.entities) {
+            if (!from.equals(e) && e.collidesWith(this)) {
                 e.damage(damageReceived);
                 return true;
             }

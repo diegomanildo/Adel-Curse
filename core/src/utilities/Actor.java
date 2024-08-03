@@ -3,8 +3,6 @@ package utilities;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
-import game.entities.characters.enemies.Enemy;
-import game.entities.characters.playables.Playable;
 import game.utilities.Hitbox;
 
 public class Actor extends com.badlogic.gdx.scenes.scene2d.Actor {
@@ -62,28 +60,6 @@ public class Actor extends com.badlogic.gdx.scenes.scene2d.Actor {
         shapes.set(ShapeRenderer.ShapeType.Line);
         shapes.setColor(Color.PURPLE);
         shapes.rect(hitbox.x, hitbox.y, hitbox.width, hitbox.height);
-    }
-
-    private static boolean isInstance(com.badlogic.gdx.scenes.scene2d.Actor actor, Class<?> search) {
-        Class<?> currentClass = actor.getClass();
-
-        while (currentClass != null) {
-            if (currentClass.equals(search)) {
-                return true;
-            }
-
-            currentClass = currentClass.getSuperclass();
-        }
-
-        return false;
-    }
-
-    public static boolean isEnemy(com.badlogic.gdx.scenes.scene2d.Actor actor) {
-        return isInstance(actor, Enemy.class);
-    }
-
-    public static boolean isPlayable(com.badlogic.gdx.scenes.scene2d.Actor actor) {
-        return isInstance(actor, Playable.class);
     }
 
     @Override

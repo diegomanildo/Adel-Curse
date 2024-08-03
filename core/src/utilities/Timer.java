@@ -3,32 +3,59 @@ package utilities;
 public class Timer {
     private long startTime;
     private long endTime;
+    private long pauseTime;
     private boolean running;
+    private boolean paused;
 
+    // Constructor
     public Timer() {
-        this.running = false;
+        reset();
     }
 
     public void start() {
-        this.startTime = System.currentTimeMillis();
-        this.running = true;
+        if (!running) {
+            startTime = System.currentTimeMillis();
+            running = true;
+            paused = false;
+        }
     }
 
     public void stop() {
-        this.endTime = System.currentTimeMillis();
-        this.running = false;
+        if (running) {
+            endTime = System.currentTimeMillis();
+            running = false;
+        }
     }
 
     public void reset() {
-        this.running = false;
-        this.startTime = 0L;
-        this.endTime = 0L;
+        running = false;
+        paused = false;
+        startTime = 0L;
+        endTime = 0L;
+        pauseTime = 0L;
     }
 
-    // Get milliseconds elapsed
+    public void pause() {
+        if (running && !paused) {
+            this.pauseTime = System.currentTimeMillis();
+            this.paused = true;
+        }
+    }
+
+    public void resume() {
+        if (running && paused) {
+            startTime += (System.currentTimeMillis() - pauseTime);
+            paused = false;
+        }
+    }
+
     public long getElapsedTime() {
         if (running) {
-            return System.currentTimeMillis() - startTime;
+            if (paused) {
+                return pauseTime - startTime;
+            } else {
+                return System.currentTimeMillis() - startTime;
+            }
         } else {
             return endTime - startTime;
         }
@@ -49,4 +76,9 @@ public class Timer {
     public boolean isRunning() {
         return this.running;
     }
+
+    public boolean isPaused() {
+        return this.paused;
+    }
 }
+

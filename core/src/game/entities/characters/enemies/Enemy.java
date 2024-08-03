@@ -10,4 +10,9 @@ public abstract class Enemy extends Character {
     public Enemy(String texturePath, String bulletTexturePath) {
         super(texturePath, bulletTexturePath);
     }
+
+    @Override
+    protected void update(float delta) {
+
+    }
 }

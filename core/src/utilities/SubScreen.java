@@ -1,7 +1,6 @@
 package utilities;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -10,9 +9,10 @@ import utilities.io.Stage;
 
 public abstract class SubScreen extends ScreenAdapter {
     private static final OrthographicCamera DEFAULT_CAMERA = new OrthographicCamera();
-    protected final Stage stage;
     protected static final float FADE_TIME = 1f;
+
     private boolean show;
+    protected final Stage stage;
 
     protected SubScreen(Camera camera) {
         stage = new Stage(new ExtendViewport(Render.screenSize.width, Render.screenSize.height, camera));
@@ -34,11 +34,6 @@ public abstract class SubScreen extends ScreenAdapter {
     public void render(float delta) {
         stage.act(delta);
         stage.draw();
-
-        if (stage.isKeyPressed(Input.Keys.J)) {
-            stage.setDebugAll(!stage.isDebugAll());
-            Utils.sleep(100);
-        }
     }
 
     public void resize(int w, int h) {
