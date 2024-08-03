@@ -32,10 +32,12 @@ public abstract class GameEntity extends MovableObject {
 
     public void pause() {
         paused = true;
+        setStop(true);
     }
 
     public void resume() {
         paused = false;
+        setStop(false);
     }
 
     @Override

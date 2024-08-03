@@ -2,6 +2,7 @@ package utilities;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.graphics.Color;
 
 import java.util.ArrayList;
 
@@ -25,7 +26,7 @@ public abstract class Screen extends SubScreen {
 
     @Override
     public void render(float delta) {
-        Render.clear();
+        Render.clear(new Color(0x6c141301));
         super.render(delta);
         subScreens.forEach(s -> {
             if (s.isShowing()) {

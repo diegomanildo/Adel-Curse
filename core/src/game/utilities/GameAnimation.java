@@ -16,15 +16,17 @@ public abstract class GameAnimation extends Actor {
 
     private final TextureRegion[] frames;
 
+    private boolean stopped;
+
     public GameAnimation(String texturePath, int columns, int rows, float frameDuration) {
         super();
-        frames = getFrames(texturePath, columns, rows);
+        this.stateTime = 0f;
+        this.index = 0;
         this.frameDuration = frameDuration;
-
         this.columns = columns;
         this.rows = rows;
-
-        stateTime = 0f;
+        this.frames = getFrames(texturePath, columns, rows);
+        this.stopped = false;
         setAnimation(0);
     }
 
@@ -46,7 +48,7 @@ public abstract class GameAnimation extends Actor {
 
     public void setAnimation(int index) {
         if (index < 0) {
-            throw new NegativeArraySizeException("Index " + index + " must be greather than 0");
+            throw new NegativeArraySizeException("Index " + index + " must be greater than 0");
         }
 
         if (index >= frames.length) {
@@ -61,11 +63,25 @@ public abstract class GameAnimation extends Actor {
         super.draw(batch, parentAlpha);
         stateTime += Gdx.graphics.getDeltaTime();
 
-        int frameNumber = ((int)(stateTime / frameDuration)) % frames.length;
-        frameNumber %= columns;
+        int frameNumber;
+
+        if (stopped) {
+            frameNumber = 0;
+        } else {
+            frameNumber = ((int)(stateTime / frameDuration)) % frames.length;
+            frameNumber %= columns;
+        }
 
         TextureRegion currentFrame = frames[index + frameNumber];
 
         batch.draw(currentFrame, getX(), getY(), getWidth(), getHeight());
+    }
+
+    public boolean isStopped() {
+        return stopped;
+    }
+
+    public void setStop(boolean stop) {
+        this.stopped = stop;
     }
 }
