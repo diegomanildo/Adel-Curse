@@ -10,6 +10,7 @@ public final class SettingsScreen extends BasicOptionsScreen {
     private final SelectBox<String> resolutionSelectBox;
     private final SelectBox<String> fpsSelectBox;
     private final CheckBox fullscreenCheckBox;
+
     private static class VolumeEditor {
         private final String name;
         private final Label label;
@@ -38,7 +39,15 @@ public final class SettingsScreen extends BasicOptionsScreen {
             t.add(field).width(50f);
             t.row();
         }
+
+        public float getValue() {
+            return slider.getValue();
+        }
     }
+
+    private final VolumeEditor globalVolumeEditor;
+    private final VolumeEditor musicVolumeEditor;
+    private final VolumeEditor sfxVolumeEditor;
 
     public SettingsScreen(Screen backScreen) {
         super(backScreen);
@@ -67,12 +76,9 @@ public final class SettingsScreen extends BasicOptionsScreen {
                 "240"
         );
 
-        Array<VolumeEditor> volumes = new Array<>();
-        volumes.addAll(
-                new VolumeEditor(Channels.GLOBAL_CHANNEL),
-                new VolumeEditor("Music"),
-                new VolumeEditor("Sfx")
-        );
+        globalVolumeEditor = new VolumeEditor(Channels.GLOBAL_CHANNEL);
+        musicVolumeEditor = new VolumeEditor("Music");
+        sfxVolumeEditor = new VolumeEditor("Sfx");
 
         resolutionSelectBox = new SelectBox<>();
         resolutionSelectBox.setItems(resolutions);
@@ -92,7 +98,9 @@ public final class SettingsScreen extends BasicOptionsScreen {
         table.add(fullscreenCheckBox).colspan(2).left().padBottom(10f).row();
 
         table.add(new Label("Volume")).padTop(20f).padBottom(20f).left().row();
-        volumes.forEach(v -> v.addToTable(table));
+        globalVolumeEditor.addToTable(table);
+        musicVolumeEditor.addToTable(table);
+        sfxVolumeEditor.addToTable(table);
         table.add(applyBtn).center().width(200f).height(45f).padBottom(10f).colspan(2).center().padTop(20f);
 
         stage.addActor(table);
@@ -107,7 +115,11 @@ public final class SettingsScreen extends BasicOptionsScreen {
     private void applySettings() {
         Size resolution = Size.getResolution(resolutionSelectBox.getSelected());
         int fps = Integer.parseInt(fpsSelectBox.getSelected());
-        Settings.add(new Settings.SettingPack(resolution, fps, fullscreenCheckBox.isChecked()));
+        float globalVolume = globalVolumeEditor.getValue();
+        float musicVolume = musicVolumeEditor.getValue();
+        float sfxVolume = sfxVolumeEditor.getValue();
+
+        Settings.add(new Settings.SettingPack(resolution, fps, fullscreenCheckBox.isChecked(), globalVolume, musicVolume, sfxVolume));
         Settings.applySettings(Settings.getSettings());
     }
 
@@ -122,6 +134,11 @@ public final class SettingsScreen extends BasicOptionsScreen {
 
         // Set the fullScreen
         fullscreenCheckBox.setChecked(Gdx.graphics.isFullscreen());
+
+        // Set the volumes
+        globalVolumeEditor.slider.setValue(s.globalVolume);
+        musicVolumeEditor.slider.setValue(s.musicVolume);
+        sfxVolumeEditor.slider.setValue(s.sfxVolume);
     }
 
     @Override
