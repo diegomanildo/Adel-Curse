@@ -1,6 +1,5 @@
 package game.states.hud;
 
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import game.entities.characters.playables.Playable;
@@ -15,7 +14,7 @@ public class Hud extends SubScreen {
     private final Timer timer;
 
     public Hud(Playable player) {
-        super(new OrthographicCamera());
+        super(true);
         this.player = player;
         hpLabel = new Label();
         timerLabel = new Label();

@@ -17,9 +17,7 @@ public abstract class SubScreen extends ScreenAdapter {
     protected SubScreen(Camera camera) {
         stage = new Stage(new ExtendViewport(Render.screenSize.width, Render.screenSize.height, camera));
         show = true;
-        if (camera.equals(DEFAULT_CAMERA)) {
-            Gdx.input.setInputProcessor(stage);
-        }
+        Gdx.input.setInputProcessor(stage);
     }
 
     protected SubScreen(boolean isSub) {

@@ -51,6 +51,7 @@ public class Render {
             app.getScreen().dispose();
         }
         app.setScreen(s);
+        Gdx.input.setInputProcessor(s.stage);
     }
 
     public static void setScreen(Screen s) {

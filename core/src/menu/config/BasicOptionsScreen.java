@@ -9,8 +9,11 @@ import utilities.Screen;
 import utilities.TextButton;
 
 public abstract class BasicOptionsScreen extends BasicMainMenuScreen {
-    public BasicOptionsScreen() {
+    private final Screen backScreen;
+
+    public BasicOptionsScreen(Screen backScreen) {
         super();
+        this.backScreen = backScreen;
         Table table = new Table();
         table.setFillParent(true);
         TextButton backButton = new TextButton("<", this::back);
@@ -30,9 +33,8 @@ public abstract class BasicOptionsScreen extends BasicMainMenuScreen {
     }
 
     private void back() {
-        Render.setScreen(getBackScreen());
+        Render.setScreen(backScreen);
     }
 
-    protected abstract Screen getBackScreen();
     protected abstract String getTitleScreen();
 }

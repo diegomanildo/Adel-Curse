@@ -3,7 +3,6 @@ package menu.config;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Array;
-import menu.MainMenuScreen;
 import utilities.*;
 import utilities.io.Channels;
 
@@ -41,8 +40,8 @@ public final class SettingsScreen extends BasicOptionsScreen {
         }
     }
 
-    public SettingsScreen() {
-        super();
+    public SettingsScreen(Screen backScreen) {
+        super(backScreen);
         Table table = new Table();
         table.setFillParent(true);
 
@@ -123,11 +122,6 @@ public final class SettingsScreen extends BasicOptionsScreen {
 
         // Set the fullScreen
         fullscreenCheckBox.setChecked(Gdx.graphics.isFullscreen());
-    }
-
-    @Override
-    protected Screen getBackScreen() {
-        return new MainMenuScreen();
     }
 
     @Override

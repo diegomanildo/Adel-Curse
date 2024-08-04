@@ -4,22 +4,21 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import game.utilities.Control;
 import game.utilities.Controls;
-import menu.MainMenuScreen;
 import utilities.Label;
 import utilities.Render;
 import utilities.Screen;
 import utilities.TextButton;
 
 public final class ControlsScreen extends BasicOptionsScreen {
-    public ControlsScreen() {
-        super();
+    public ControlsScreen(Screen backScreen) {
+        super(backScreen);
         Table table = new Table();
         table.setFillParent(true);
 
         for (int i = 0; i < Controls.size(); i++) {
             Control c = Controls.at(i);
             Label controlLabel = new Label(c.getAction() + ": ");
-            TextButton controlButton = new TextButton(Input.Keys.toString(c.getKey()), () -> Render.setScreen(new PressAKeyScreen(c)));
+            TextButton controlButton = new TextButton(Input.Keys.toString(c.getKey()), () -> Render.setScreen(new PressAKeyScreen(backScreen, c)));
 
             table.add(controlLabel)
                     .left();
@@ -33,11 +32,6 @@ public final class ControlsScreen extends BasicOptionsScreen {
         }
 
         stage.addActor(table);
-    }
-
-    @Override
-    protected Screen getBackScreen() {
-        return new MainMenuScreen();
     }
 
     @Override

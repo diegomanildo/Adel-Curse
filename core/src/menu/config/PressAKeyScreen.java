@@ -11,10 +11,12 @@ import utilities.Screen;
 
 public final class PressAKeyScreen extends Screen {
     private final Label pressAnyKey;
+    private final Screen backControlsScreen;
     private final Control control;
 
-    public PressAKeyScreen(Control control) {
+    public PressAKeyScreen(Screen backControlsScreen, Control control) {
         super();
+        this.backControlsScreen = backControlsScreen;
         this.control = control;
 
         Table table = new Table();
@@ -29,7 +31,7 @@ public final class PressAKeyScreen extends Screen {
         super.render(delta);
 
         if (stage.isKeyPressed(Input.Keys.ESCAPE)) {
-            Render.setScreen(new ControlsScreen());
+            Render.setScreen(new ControlsScreen(backControlsScreen));
             return;
         }
 
@@ -47,7 +49,7 @@ public final class PressAKeyScreen extends Screen {
         } else {
             pressAnyKey.setColor(Color.WHITE);
             Controls.set(control.getAction(), keyPressed);
-            Render.setScreen(new ControlsScreen());
+            Render.setScreen(new ControlsScreen(backControlsScreen));
         }
     }
 }

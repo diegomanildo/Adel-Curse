@@ -1,5 +1,6 @@
 package game;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import game.states.Game;
 import game.states.PauseScreen;
@@ -36,8 +37,8 @@ public final class GameScreen extends Screen {
     public void render(float delta) {
         super.render(delta);
 
-        if (stage.isKeyPressed(Input.Keys.ESCAPE)) {
-            loadPause();
+        if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
+            pause.setShow(true);
         }
     }
 
@@ -45,9 +46,5 @@ public final class GameScreen extends Screen {
         game.getSong().fadeOut(FADE_TIME);
         BasicMainMenuScreen.backgroundSong.fadeIn(FADE_TIME, true);
         Render.setScreen(new MainMenuScreen());
-    }
-
-    private void loadPause() {
-        pause.setShow(true);
     }
 }
