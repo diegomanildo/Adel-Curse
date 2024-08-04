@@ -1,9 +1,9 @@
 package game.rooms;
 
-import com.badlogic.gdx.graphics.OrthographicCamera;
+import game.utilities.Camera2D;
 
 public final class StoneRoom extends Room {
-    public StoneRoom(OrthographicCamera camera) {
+    public StoneRoom(Camera2D camera) {
         super("stone/map_1.tmx", camera);
     }
 }

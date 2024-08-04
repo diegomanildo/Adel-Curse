@@ -4,14 +4,17 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Array;
 import game.GameScreen;
 import menu.config.SettingsScreen;
-import utilities.*;
+import utilities.Render;
+import utilities.SubScreen;
+import utilities.TextButton;
+import utilities.Timer;
 
 public class PauseScreen extends SubScreen {
     private final Game game;
     private final Timer timer;
 
     public PauseScreen(Game game, Runnable backFunction, Timer timer) {
-        super(true);
+        super();
         this.game = game;
         this.timer = timer;
 
@@ -42,7 +45,6 @@ public class PauseScreen extends SubScreen {
     @Override
     public void setShow(boolean show) {
         super.setShow(show);
-        Log.log("Enter");
         if (show) {
             game.pause();
             timer.pause();

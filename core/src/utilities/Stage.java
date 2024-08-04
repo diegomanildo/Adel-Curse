@@ -2,11 +2,13 @@ package utilities;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import game.utilities.Camera2D;
 
 public class Stage extends com.badlogic.gdx.scenes.scene2d.Stage {
     private final boolean[] keysPressed = new boolean[256];
+    private final ShapeRenderer sr = new ShapeRenderer();
 
 	public Stage(Viewport viewport) {
         super(viewport);

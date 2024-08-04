@@ -1,9 +1,9 @@
 package game.rooms;
 
-import com.badlogic.gdx.graphics.OrthographicCamera;
+import game.utilities.Camera2D;
 
 public final class ShopRoom extends Room {
-    public ShopRoom(OrthographicCamera camera) {
+    public ShopRoom(Camera2D camera) {
         super("shop/shop.tmx", camera);
     }
 }

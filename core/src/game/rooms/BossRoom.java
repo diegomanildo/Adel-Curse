@@ -1,10 +1,9 @@
 package game.rooms;
 
-import com.badlogic.gdx.graphics.OrthographicCamera;
+import game.utilities.Camera2D;
 
 public final class BossRoom extends Room {
-
-    public BossRoom(OrthographicCamera camera) {
+    public BossRoom(Camera2D camera) {
         super("boss/boss_1.tmx", camera);
     }
 }

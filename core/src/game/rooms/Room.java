@@ -1,21 +1,21 @@
 package game.rooms;
 
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import game.utilities.Camera2D;
 import utilities.Actor;
 import utilities.FilePaths;
 
 public abstract class Room extends Actor {
     private final TiledMap map;
     private final OrthogonalTiledMapRenderer renderer;
-    private final OrthographicCamera camera;
+    private final Camera2D camera;
 
     public static final float OFFSET = 17f;
 
-    public Room(String tmxFile, OrthographicCamera camera) {
+    public Room(String tmxFile, Camera2D camera) {
         this.camera = camera;
         this.map = new TmxMapLoader().load(FilePaths.ROOMS + tmxFile);
         this.renderer = new OrthogonalTiledMapRenderer(map);

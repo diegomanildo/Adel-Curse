@@ -22,7 +22,7 @@ public final class Game extends SubScreen {
     private final Room room;
 
     public Game() {
-        super(true);
+        super();
 
         if (Render.isDebugging()) {
             stage.getCamera().zoom = 2f;

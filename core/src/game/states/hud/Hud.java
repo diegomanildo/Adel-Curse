@@ -14,7 +14,7 @@ public class Hud extends SubScreen {
     private final Timer timer;
 
     public Hud(Playable player) {
-        super(true);
+        super();
         this.player = player;
         hpLabel = new Label();
         timerLabel = new Label();
