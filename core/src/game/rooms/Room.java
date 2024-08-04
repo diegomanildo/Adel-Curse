@@ -11,40 +11,74 @@ import utilities.FilePaths;
 public abstract class Room extends Actor {
     private final TiledMap map;
     private final OrthogonalTiledMapRenderer renderer;
-    private final Camera2D camera;
+    private Camera2D camera;
 
     public static final float OFFSET = 17f;
 
-    public Room(String tmxFile, Camera2D camera) {
-        this.camera = camera;
+    public Room(String tmxFile) {
         this.map = new TmxMapLoader().load(FilePaths.ROOMS + tmxFile);
         this.renderer = new OrthogonalTiledMapRenderer(map);
 
-        setWidth(map.getProperties().get("width", Integer.class) * getTileWidth());
-        setHeight(map.getProperties().get("height", Integer.class) * getTileHeight());
-
-        this.camera.viewportWidth = getWidth();
-        this.camera.viewportHeight = getHeight();
-        this.camera.update();
+        super.setWidth(map.getProperties().get("width", Integer.class) * map.getProperties().get("tilewidth", Integer.class));
+        super.setHeight(map.getProperties().get("height", Integer.class) * map.getProperties().get("tileheight", Integer.class));
     }
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
+        renderer.setView(camera);
         renderer.render();
     }
 
     @Override
     public void act(float delta) {
         super.act(delta);
+        if (camera == null) {
+            initCamera();
+        }
         camera.update();
-        renderer.setView(camera);
     }
 
-    private float getTileWidth() {
-        return map.getProperties().get("tilewidth", Integer.class);
+    private void initCamera() {
+        camera = (Camera2D) getStage().getCamera();
+        setWidth(map.getProperties().get("width", Integer.class) * map.getProperties().get("tilewidth", Integer.class));
+        setHeight(map.getProperties().get("height", Integer.class) * map.getProperties().get("tileheight", Integer.class));
+        setSize(getWidth() - OFFSET * 2f, getHeight() - OFFSET * 2f);
+        camera.setPosition(getMiddleX() + OFFSET, getMiddleY() + OFFSET);
     }
 
-    private float getTileHeight() {
-        return map.getProperties().get("tileheight", Integer.class);
+//    @Override
+//    public void drawDebug(ShapeRenderer shapes) {
+//        super.drawDebug(shapes);
+//        shapes.set(ShapeRenderer.ShapeType.Line);
+//        shapes.setColor(Color.BLUE);
+////        shapes.rect(getX(), getY(), getWidth(), getHeight());
+//    }
+
+    @Override
+    public void setWidth(float width) {
+        super.setWidth(width);
+        camera.viewportWidth = width;
+        camera.update();
+    }
+
+    @Override
+    public void setHeight(float height) {
+        super.setHeight(height);
+        camera.viewportHeight = height;
+        camera.update();
+    }
+
+    @Override
+    public void setX(float x) {
+        super.setX(x);
+        camera.position.x = x;
+        camera.update();
+    }
+
+    @Override
+    public void setY(float y) {
+        super.setY(y);
+        camera.position.y = y;
+        camera.update();
     }
 }

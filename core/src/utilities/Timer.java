@@ -62,15 +62,15 @@ public class Timer {
     }
 
     public long getSeconds() {
-        return getElapsedTime() / 1000L;
+        return (getElapsedTime() % 60000L) / 1000L;
     }
 
     public long getMinutes() {
-        return getSeconds() / 60L;
+        return (getElapsedTime() % 3600000L) / 60000L;
     }
 
     public long getHours() {
-        return getMinutes() / 60L;
+        return getElapsedTime() / 3600000L;
     }
 
     public boolean isRunning() {

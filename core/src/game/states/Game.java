@@ -8,7 +8,6 @@ import game.rooms.Room;
 import game.rooms.StoneRoom;
 import game.utilities.Camera2D;
 import utilities.Log;
-import utilities.Render;
 import utilities.SubScreen;
 import utilities.io.Song;
 
@@ -24,16 +23,12 @@ public final class Game extends SubScreen {
     public Game() {
         super();
 
-        if (Render.isDebugging()) {
-            stage.getCamera().zoom = 2f;
-        }
-
-        room = new StoneRoom(stage.getCamera());
+        room = new StoneRoom();
 
         entities = new ArrayList<>();
 
         adel = new Adel();
-        adel.setPosition(Render.screenSize.width / 2f, Render.screenSize.height / 2f);
+        adel.setPosition(room.getMiddleX(), room.getMiddleY());
 
         song = new Song("Music", "game/music/UndeadIntro.mp3", "game/music/Undead.mp3");
 

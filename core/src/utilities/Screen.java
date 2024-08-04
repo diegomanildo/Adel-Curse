@@ -1,6 +1,5 @@
 package utilities;
 
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
 
@@ -33,12 +32,6 @@ public abstract class Screen extends SubScreen {
                 s.render(delta);
             }
         });
-
-        if (stage.isKeyPressed(Input.Keys.J)) {
-            stage.setDebugAll(!stage.isDebugAll());
-            subScreens.forEach(s -> s.stage.setDebugAll(!s.stage.isDebugAll()));
-            Utils.sleep(50);
-        }
     }
 
     @Override

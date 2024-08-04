@@ -40,7 +40,8 @@ public abstract class GameEntity extends MovableObject {
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
         Label hp = new Label("Hp: " + getHp());
-        hp.setPosition(getX() + hp.getWidth() / 2f, getY() + getHeight() + 10f);
+        hp.setFontScale(0.5f);
+        hp.setPosition(getX(), getY() + getHeight());
         hp.draw(batch, parentAlpha);
     }
 
