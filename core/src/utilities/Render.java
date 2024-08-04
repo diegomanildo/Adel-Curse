@@ -3,7 +3,6 @@ package utilities;
 import com.ac.Juego;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.ScreenUtils;
 
@@ -13,10 +12,8 @@ import java.lang.management.RuntimeMXBean;
 public class Render {
     public static Size screenSize = new Size(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
     public static Skin skin = new Skin(Gdx.files.internal("uiskin.json"));
-
     public static Juego app;
 
-    public static OrthographicCamera camera;
     public static int fps = 60;
 
     public static boolean isDebugging() {

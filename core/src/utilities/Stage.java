@@ -1,28 +1,20 @@
-package utilities.io;
+package utilities;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import game.utilities.Camera2D;
 
 public class Stage extends com.badlogic.gdx.scenes.scene2d.Stage {
     private final boolean[] keysPressed = new boolean[256];
 
-    public Stage() {
-        super();
-    }
-
 	public Stage(Viewport viewport) {
-        super();
+        super(viewport);
+        viewport.setCamera(new Camera2D());
     }
 
-	public Stage(Viewport viewport, Batch batch) {
-        super();
-    }
-
-    public OrthographicCamera getCamera() {
-        return (OrthographicCamera) super.getCamera();
+    public Camera2D getCamera() {
+        return (Camera2D) super.getCamera();
     }
 
     public boolean keyDown(int keycode) {

@@ -1,38 +1,23 @@
 package game.utilities;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.math.Rectangle;
 import utilities.Utils;
 
-public class Camera2D {
-    public static final float OFFSET = 100f;
-
-    public static Hitbox getHitbox(Camera camera) {
-        return new Hitbox(getLeft(camera), getBottom(camera), getRight(camera), getTop(camera));
+public class Camera2D extends OrthographicCamera {
+    public Camera2D() {
+        super();
     }
 
-    public static float getLeft(Camera camera) {
-        return camera.position.x - camera.viewportWidth / 2f;
+    public void setPosition(float x, float y) {
+        position.set(x, y, 0f);
     }
 
-    public static float getBottom(Camera camera) {
-        return camera.position.y - camera.viewportHeight / 2f;
-    }
-
-    public static float getRight(Camera camera) {
-        return camera.position.x + camera.viewportWidth / 2f;
-    }
-
-    public static float getTop(Camera camera) {
-        return camera.position.y + camera.viewportHeight / 2f;
-    }
-
-    public static void moveTo(Camera camera, float targetX, float targetY, float transitionTime) {
-        // TODO: Thread is interrupted sometimes and the camera doesn't move correctly
-
-        Thread transitionThread = new Thread(() -> {
-            final float startX = camera.position.x;
-            final float startY = camera.position.y;
+    public void moveTo(float targetX, float targetY, float transitionTime) {
+        new Thread(() -> {
+            final float startX = position.x;
+            final float startY = position.y;
             final float deltaX = targetX - startX;
             final float deltaY = targetY - startY;
 
@@ -41,12 +26,30 @@ public class Camera2D {
                 float delta = Gdx.graphics.getDeltaTime();
                 elapsed += delta;
                 float progress = Math.min(elapsed / transitionTime, 1f);
-                camera.position.x = startX + deltaX * progress;
-                camera.position.y = startY + deltaY * progress;
-                camera.update();
+                setPosition(startX + deltaX * progress, startY + deltaY * progress);
+                update();
                 Utils.sleep(delta * 1000f);
             }
-        });
-        transitionThread.start();
+        }).start();
+    }
+
+    public float getLeft() {
+        return position.x - viewportWidth / 2f;
+    }
+
+    public float getRight() {
+        return position.x + viewportWidth / 2f;
+    }
+
+    public float getBottom() {
+        return position.y - viewportHeight / 2f;
+    }
+
+    public float getTop() {
+        return position.y + viewportHeight / 2f;
+    }
+
+    public Rectangle getHitbox() {
+        return new Rectangle(getLeft(), getBottom(), getRight(), getTop());
     }
 }

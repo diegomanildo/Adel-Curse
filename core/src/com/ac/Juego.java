@@ -11,7 +11,7 @@ public final class Juego extends Game {
 	public void create() {
 		Settings.applySettings(Settings.getSettings());
 		Channels.setChannelVolume("Sfx", 1f);
-		Channels.setChannelVolume("Music", 0f);
+		Channels.setChannelVolume("Music", 0.25f);
 		Render.app = this;
 		Render.app.setScreen(new MainMenuScreen());
 	}

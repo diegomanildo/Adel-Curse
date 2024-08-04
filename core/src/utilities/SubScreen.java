@@ -5,10 +5,10 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
-import utilities.io.Stage;
+import game.utilities.Camera2D;
 
 public abstract class SubScreen extends ScreenAdapter {
-    private static final OrthographicCamera DEFAULT_CAMERA = new OrthographicCamera();
+    private static final Camera2D DEFAULT_CAMERA = new Camera2D();
     protected static final float FADE_TIME = 1f;
 
     private boolean show;
@@ -18,7 +18,6 @@ public abstract class SubScreen extends ScreenAdapter {
         stage = new Stage(new ExtendViewport(Render.screenSize.width, Render.screenSize.height, camera));
         show = true;
         if (camera.equals(DEFAULT_CAMERA)) {
-            Render.camera = stage.getCamera();
             Gdx.input.setInputProcessor(stage);
         }
     }

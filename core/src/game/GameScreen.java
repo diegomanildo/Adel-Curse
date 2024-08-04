@@ -1,7 +1,6 @@
 package game;
 
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import game.hud.Hud;
 import game.states.PauseScreen;
 import menu.BasicMainMenuScreen;
@@ -22,8 +21,6 @@ public final class GameScreen extends Screen {
         addSubScreen(game);
         addSubScreen(hud);
         addSubScreen(pause);
-
-        stage.getViewport().setCamera(new OrthographicCamera());
     }
 
     @Override

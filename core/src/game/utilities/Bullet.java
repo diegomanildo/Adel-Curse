@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import game.Game;
 import game.entities.GameEntity;
-import utilities.Render;
 
 public final class Bullet extends MovableObject {
     private static final float PIXELS_DELAY = 100f;
@@ -76,8 +75,10 @@ public final class Bullet extends MovableObject {
 
     // Bullet is no more in the screen, and you should have not rendered it
     public boolean outOfBounds() {
-        return (getX() < Camera2D.getLeft(Render.camera) - PIXELS_DELAY || getX() > Camera2D.getRight(Render.camera) + PIXELS_DELAY
-                || getY() < Camera2D.getBottom(Render.camera) - PIXELS_DELAY || getY() > Camera2D.getTop(Render.camera) + PIXELS_DELAY);
+        Camera2D camera = (Camera2D) getStage().getCamera();
+
+        return (getX() < camera.getLeft() - PIXELS_DELAY || getX() > camera.getRight() + PIXELS_DELAY
+                || getY() < camera.getBottom() - PIXELS_DELAY || getY() > camera.getTop() + PIXELS_DELAY);
     }
 
     public boolean collidesWithEnemy(int damageReceived) {
