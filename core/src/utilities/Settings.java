@@ -4,11 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 
 public class Settings {
-    private static final Preferences PREFS;
-
-    static {
-        PREFS = Gdx.app.getPreferences("settings");
-    }
+    private static final Preferences PREFS = Gdx.app.getPreferences("settings");
 
     public static class SettingPack {
         public Size resolution;
