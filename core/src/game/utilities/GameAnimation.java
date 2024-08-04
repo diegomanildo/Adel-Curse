@@ -9,7 +9,7 @@ import utilities.Actor;
 public abstract class GameAnimation extends Actor {
     private float stateTime;
     private int index;
-    private final float frameDuration;
+    private float frameDuration;
 
     private final int columns;
     private final int rows;
@@ -79,6 +79,22 @@ public abstract class GameAnimation extends Actor {
 
     public boolean isStopped() {
         return stopped;
+    }
+
+    public float getFrameDuration() {
+        return frameDuration;
+    }
+
+    public int getRows() {
+        return rows;
+    }
+
+    public int getColumns() {
+        return columns;
+    }
+
+    public void setFrameDuration(float frameDuration) {
+        this.frameDuration = frameDuration;
     }
 
     public void setStop(boolean stop) {

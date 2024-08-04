@@ -43,6 +43,5 @@ public final class GameScreen extends Screen {
 
     private void loadPause() {
         pause.setShow(true);
-        hud.getTimer().pause();
     }
 }
