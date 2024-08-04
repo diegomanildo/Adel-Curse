@@ -1,4 +1,4 @@
-package game.hud;
+package game.states.hud;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;

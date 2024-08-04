@@ -1,9 +1,12 @@
 package game;
 
 import com.badlogic.gdx.Input;
-import game.hud.Hud;
+import game.states.Game;
 import game.states.PauseScreen;
+import game.states.hud.Hud;
 import menu.BasicMainMenuScreen;
+import menu.MainMenuScreen;
+import utilities.Render;
 import utilities.Screen;
 
 public final class GameScreen extends Screen {
@@ -16,7 +19,7 @@ public final class GameScreen extends Screen {
 
         game = new Game();
         hud = new Hud(game.getPlayer());
-        pause = new PauseScreen(game, hud.getTimer());
+        pause = new PauseScreen(game, this::exit, hud.getTimer());
 
         addSubScreen(game);
         addSubScreen(hud);
@@ -36,6 +39,12 @@ public final class GameScreen extends Screen {
         if (stage.isKeyPressed(Input.Keys.ESCAPE)) {
             loadPause();
         }
+    }
+
+    public void exit() {
+        game.getSong().fadeOut(FADE_TIME);
+        BasicMainMenuScreen.backgroundSong.fadeIn(FADE_TIME, true);
+        Render.setScreen(new MainMenuScreen());
     }
 
     private void loadPause() {

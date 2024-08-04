@@ -1,20 +1,18 @@
 package game.entities;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
-import game.Game;
+import game.states.Game;
 import game.utilities.MovableObject;
 import utilities.Label;
 import utilities.Log;
 
 public abstract class GameEntity extends MovableObject {
-    private boolean paused;
     private int hp;
     private int maxHp;
     private int damage;
 
     public GameEntity(String texturePath, int columns, int rows, float frameDuration) {
         super(texturePath, columns, rows, frameDuration);
-        paused = false;
         maxHp = getInitMaxHp();
         hp = maxHp;
         damage = getInitDamage();
@@ -23,7 +21,7 @@ public abstract class GameEntity extends MovableObject {
     @Override
     public void act(float delta) {
         super.act(delta);
-        if (!paused) {
+        if (!isStopped()) {
             update(delta);
         }
     }
@@ -31,12 +29,10 @@ public abstract class GameEntity extends MovableObject {
     protected abstract void update(float delta);
 
     public void pause() {
-        paused = true;
         setStop(true);
     }
 
     public void resume() {
-        paused = false;
         setStop(false);
     }
 
@@ -61,10 +57,6 @@ public abstract class GameEntity extends MovableObject {
 
     public int getDamage() {
         return damage;
-    }
-
-    public void setPaused(boolean paused) {
-        this.paused = paused;
     }
 
     public void setHp(int hp) {

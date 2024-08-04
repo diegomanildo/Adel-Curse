@@ -1,4 +1,4 @@
-package game.hud;
+package game.states.hud;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
@@ -47,12 +47,9 @@ public class Hud extends SubScreen {
     @Override
     public void render(float delta) {
         super.render(delta);
-        hpLabel.setText(player.getHp() + "/" + player.getMaxHp());
+        hpLabel.setText(player.getHp() + "/" + player.getMaxHp() + " HP");
 
-        long hours = timer.getHours();
-        long minutes = timer.getMinutes();
-        long seconds = timer.getSeconds();
-        timerLabel.setText(String.format("Time: %02d:%02d:%02d", hours, minutes, seconds));
+        timerLabel.setText(String.format("Time: %02d:%02d:%02d", timer.getHours(), timer.getMinutes(), timer.getSeconds()));
     }
 
     public Timer getTimer() {
