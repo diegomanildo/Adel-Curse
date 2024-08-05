@@ -18,7 +18,7 @@ public abstract class Character extends GameEntity {
 
     public Character(String texturePath, String bulletTexturePath, int columns, int rows) {
         super(FilePaths.CHARACTERS + texturePath, columns, rows, 0.4f);
-        setSize(16f, 29.0f);
+        setSize(24.0f, 29.0f);
         setHitbox(getWidth() / 2f, getHeight());
         setVelocity((getWidth() + getHeight()) / 30f);
         bullets = new ArrayList<>();

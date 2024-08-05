@@ -40,19 +40,14 @@ public abstract class Room extends Actor {
 
     private void initCamera() {
         camera = (Camera2D) getStage().getCamera();
+        camera.zoom = 1.5f;
         setWidth(map.getProperties().get("width", Integer.class) * map.getProperties().get("tilewidth", Integer.class));
         setHeight(map.getProperties().get("height", Integer.class) * map.getProperties().get("tileheight", Integer.class));
         setSize(getWidth() - OFFSET * 2f, getHeight() - OFFSET * 2f);
-        camera.setPosition(getMiddleX() + OFFSET, getMiddleY() + OFFSET);
-    }
 
-//    @Override
-//    public void drawDebug(ShapeRenderer shapes) {
-//        super.drawDebug(shapes);
-//        shapes.set(ShapeRenderer.ShapeType.Line);
-//        shapes.setColor(Color.BLUE);
-////        shapes.rect(getX(), getY(), getWidth(), getHeight());
-//    }
+        camera.setPosition(getMiddleX() + OFFSET, getMiddleY() + OFFSET);
+        setPosition(getX() + OFFSET, getY() + OFFSET);
+    }
 
     @Override
     public void setWidth(float width) {
@@ -65,20 +60,6 @@ public abstract class Room extends Actor {
     public void setHeight(float height) {
         super.setHeight(height);
         camera.viewportHeight = height;
-        camera.update();
-    }
-
-    @Override
-    public void setX(float x) {
-        super.setX(x);
-        camera.position.x = x;
-        camera.update();
-    }
-
-    @Override
-    public void setY(float y) {
-        super.setY(y);
-        camera.position.y = y;
         camera.update();
     }
 }

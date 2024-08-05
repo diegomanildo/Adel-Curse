@@ -59,6 +59,7 @@ public class Timer {
         } else {
             return endTime - startTime;
         }
+
     }
 
     public long getSeconds() {
