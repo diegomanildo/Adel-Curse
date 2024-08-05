@@ -3,6 +3,7 @@ package utilities;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
+import game.utilities.Camera2D;
 import game.utilities.Hitbox;
 
 public class Actor extends com.badlogic.gdx.scenes.scene2d.Actor {
@@ -78,5 +79,13 @@ public class Actor extends com.badlogic.gdx.scenes.scene2d.Actor {
     public void setBounds(float x, float y, float width, float height) {
         setPosition(x, y);
         setSize(width, height);
+    }
+
+    public Camera2D getCamera() {
+        return (Camera2D) getStage().getCamera();
+    }
+
+    public void dispose() {
+
     }
 }

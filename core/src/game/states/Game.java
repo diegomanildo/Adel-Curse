@@ -4,8 +4,6 @@ import game.entities.GameEntity;
 import game.entities.characters.enemies.Skeleton;
 import game.entities.characters.playables.Adel;
 import game.entities.characters.playables.Playable;
-import game.rooms.Room;
-import game.rooms.StoneRoom;
 import game.utilities.Camera2D;
 import utilities.Log;
 import utilities.SubScreen;
@@ -18,30 +16,24 @@ public final class Game extends SubScreen {
 
     private final Adel adel;
     private final Song song;
-    private final Room room;
 
     public Game() {
         super();
-
-        room = new StoneRoom();
-
         entities = new ArrayList<>();
 
         adel = new Adel();
-        adel.setPosition(room.getMiddleX(), room.getMiddleY());
+        adel.setPosition(0, 0);
 
         song = new Song("Music", "game/music/UndeadIntro.mp3", "game/music/Undead.mp3");
 
         Skeleton skeleton = new Skeleton();
         skeleton.setPosition(40f, adel.getY());
-
-        stage.addActor(room);
+        
         stage.addActor(skeleton);
         stage.addActor(adel);
-
-        stage.getActors().forEach(a -> {
-            if (a instanceof GameEntity) {
-                entities.add((GameEntity) a);
+        stage.getActors().forEach(actor -> {
+            if (actor instanceof GameEntity) {
+                entities.add((GameEntity) actor);
             }
         });
     }

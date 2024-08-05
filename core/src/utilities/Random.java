@@ -13,4 +13,8 @@ public final class Random {
         }
         return r.nextInt(to - from + 1) + from;
     }
+
+    public int nextInt(int n) {
+        return r.nextInt(n);
+    }
 }

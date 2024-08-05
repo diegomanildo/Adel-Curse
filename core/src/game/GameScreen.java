@@ -25,10 +25,6 @@ public final class GameScreen extends Screen {
         addSubScreen(game);
         addSubScreen(hud);
         addSubScreen(pause);
-
-        if (Render.isDebugging()) {
-            stage.getCamera().zoom = 1.5f;
-        }
     }
 
     @Override
