@@ -3,7 +3,7 @@ package game.entities.items;
 import game.entities.characters.playables.Playable;
 
 public class Diamond extends Item{
-
+//
 
     public Diamond() {
         super("Adel-Curse/assets/imgs/items/diamond/diamond.png", 2, 1);
