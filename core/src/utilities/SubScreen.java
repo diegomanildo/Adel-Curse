@@ -13,10 +13,17 @@ public abstract class SubScreen extends ScreenAdapter {
     protected final Stage stage;
 
     protected SubScreen() {
-        stage = new Stage(new ExtendViewport(Render.screenSize.width, Render.screenSize.height, new Camera2D()));
+        stage = new Stage(new ExtendViewport(Render.screenSize.width, Render.screenSize.height));
+        stage.getViewport().setCamera(new Camera2D());
         stage.setDebugAll(Render.isDebugging());
         show = true;
         Gdx.input.setInputProcessor(stage);
+    }
+
+    @Override
+    public void show() {
+        super.show();
+        stage.show();
     }
 
     public void render(float delta) {

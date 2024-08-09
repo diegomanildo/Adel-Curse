@@ -2,7 +2,6 @@ package game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import game.states.Game;
 import game.states.PauseScreen;
 import game.states.hud.Hud;
 import menu.BasicMainMenuScreen;

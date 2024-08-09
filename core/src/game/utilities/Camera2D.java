@@ -1,6 +1,7 @@
 package game.utilities;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Rectangle;
 import utilities.Utils;
@@ -8,6 +9,10 @@ import utilities.Utils;
 public class Camera2D extends OrthographicCamera {
     public Camera2D() {
         super();
+    }
+
+    public Camera2D(Camera camera) {
+        super(camera.viewportWidth, camera.viewportHeight);
     }
 
     public void setPosition(float x, float y) {

@@ -2,17 +2,24 @@ package utilities;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import game.utilities.Camera2D;
 
 public class Stage extends com.badlogic.gdx.scenes.scene2d.Stage {
     private final boolean[] keysPressed = new boolean[256];
-    private final ShapeRenderer sr = new ShapeRenderer();
 
 	public Stage(Viewport viewport) {
         super(viewport);
-        viewport.setCamera(new Camera2D());
+    }
+
+    public void show() {
+        Array<com.badlogic.gdx.scenes.scene2d.Actor> actors = getActors();
+        for (int i = 0; i < actors.size; i++) {
+            if (actors.get(i) instanceof Actor) {
+                ((Actor) actors.get(i)).show();
+            }
+        }
     }
 
     public Camera2D getCamera() {

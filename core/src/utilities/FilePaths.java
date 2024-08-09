@@ -6,7 +6,7 @@ public enum FilePaths {
     FONTS("fonts/"),
     BACKGROUNDS(IMAGES + "backgrounds/"),
     CHARACTERS(IMAGES + "characters/"),
-    ROOMS("game/rooms/");
+    ROOMS("rooms/");
 
     private final String filePath;
 

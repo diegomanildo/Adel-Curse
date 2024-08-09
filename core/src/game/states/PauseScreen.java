@@ -2,6 +2,7 @@ package game.states;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Array;
+import game.Game;
 import game.GameScreen;
 import menu.config.SettingsScreen;
 import utilities.Render;

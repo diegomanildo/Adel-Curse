@@ -1,7 +1,7 @@
 package game.entities;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
-import game.states.Game;
+import game.Game;
 import game.utilities.MovableObject;
 import utilities.Label;
 import utilities.Log;

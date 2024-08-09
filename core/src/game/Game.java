@@ -1,9 +1,10 @@
-package game.states;
+package game;
 
 import game.entities.GameEntity;
 import game.entities.characters.enemies.Skeleton;
 import game.entities.characters.playables.Adel;
 import game.entities.characters.playables.Playable;
+import game.levels.Level1;
 import game.utilities.Camera2D;
 import utilities.Log;
 import utilities.SubScreen;
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 public final class Game extends SubScreen {
     public static ArrayList<GameEntity> entities;
 
+    private final Level1 level;
     private final Adel adel;
     private final Song song;
 
@@ -21,16 +23,19 @@ public final class Game extends SubScreen {
         super();
         entities = new ArrayList<>();
 
+        level = new Level1();
         adel = new Adel();
-        adel.setPosition(0, 0);
+        adel.setPosition(level.getInitX(), level.getInitY());
 
         song = new Song("Music", "game/music/UndeadIntro.mp3", "game/music/Undead.mp3");
 
         Skeleton skeleton = new Skeleton();
         skeleton.setPosition(40f, adel.getY());
         
+        stage.addActor(level);
         stage.addActor(skeleton);
         stage.addActor(adel);
+
         stage.getActors().forEach(actor -> {
             if (actor instanceof GameEntity) {
                 entities.add((GameEntity) actor);

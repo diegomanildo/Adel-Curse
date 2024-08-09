@@ -1,5 +1,6 @@
 package utilities;
 
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
@@ -12,6 +13,10 @@ public class Actor extends com.badlogic.gdx.scenes.scene2d.Actor {
     public Actor() {
         super();
         hitbox = new Hitbox();
+    }
+
+    public void show() {
+
     }
 
     @Override
@@ -82,7 +87,12 @@ public class Actor extends com.badlogic.gdx.scenes.scene2d.Actor {
     }
 
     public Camera2D getCamera() {
-        return (Camera2D) getStage().getCamera();
+        Camera camera = getStage().getCamera();
+        if (camera instanceof Camera2D) {
+            return (Camera2D) camera;
+        } else {
+            return new Camera2D(camera);
+        }
     }
 
     public void dispose() {
