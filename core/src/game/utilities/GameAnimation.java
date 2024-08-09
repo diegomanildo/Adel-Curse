@@ -14,7 +14,7 @@ public abstract class GameAnimation extends Actor {
     private final int columns;
     private final int rows;
 
-    private final TextureRegion[] frames;
+    private TextureRegion[] frames;
 
     private boolean stopped;
 
@@ -99,5 +99,9 @@ public abstract class GameAnimation extends Actor {
 
     public void setStop(boolean stop) {
         this.stopped = stop;
+    }
+
+    public void setTextureRegion(String texturePath, int columns, int rows){
+        this.frames = getFrames(texturePath, columns, rows);
     }
 }

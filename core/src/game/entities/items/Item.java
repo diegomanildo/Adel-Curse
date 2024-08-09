@@ -5,8 +5,8 @@ import game.utilities.MovableObject;
 
 public abstract class Item extends MovableObject {
 
-    public Item() {
-        super("NULL", 0, 0, 0);
+    public Item(String texturePath, int columns, int rows) {
+        super(texturePath, columns, rows, 0.4f);
     }
 
     public String getName() {
