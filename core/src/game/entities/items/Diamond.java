@@ -2,7 +2,7 @@ package game.entities.items;
 
 import game.entities.characters.playables.Playable;
 
-public class Diamond extends Item{
+public class Diamond extends Item{ // Mal indentado
 //
 
     public Diamond() {
@@ -11,7 +11,7 @@ public class Diamond extends Item{
 
     @Override
     public void applyEffect(Playable character) {
-        character.setTextureRegion("adelDiamond/adelDiamond.png", 2, 8);
+        character.setTextureRegion("adelDiamond/adelDiamond.png", 2, 8); // texturePath esta mal
     }
 
     @Override
