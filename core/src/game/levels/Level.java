@@ -4,24 +4,27 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.utils.Array;
 import game.rooms.Room;
+import game.utilities.Camera2D;
 import utilities.Actor;
 
 public abstract class Level extends Actor {
     private final Array<Room> rooms;
     private int roomIndex;
     private OrthogonalTiledMapRenderer renderer;
+    private final Camera2D camera;
 
     protected Level() {
         rooms = getRooms();
         roomIndex = 0;
+        camera = new Camera2D();
     }
 
     @Override
     public void show() {
         super.show();
-        getCamera().setToOrtho(false, getCurrentRoom().getWidth(), getCurrentRoom().getHeight());
-        getCamera().position.set(getInitX(), getInitY(), 0f);
-        getCamera().update();
+        camera.setToOrtho(false, getCurrentRoom().getWidth(), getCurrentRoom().getHeight());
+        camera.position.set(getInitX(), getInitY(), 0f);
+        camera.update();
     }
 
     public abstract Array<Room> getRooms();
@@ -38,13 +41,13 @@ public abstract class Level extends Actor {
     public void act(float delta) {
         super.act(delta);
         changeRoom();
-        getCamera().update();
+        camera.update();
     }
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
-        renderer.setView(getCamera());
+        renderer.setView(camera);
         renderer.render();
     }
 
