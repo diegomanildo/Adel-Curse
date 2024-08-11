@@ -1,5 +1,7 @@
 package game.entities.characters.playables;
 
+import game.entities.items.Item;
+
 public class Adel extends Playable {
     public Adel() {
         super("adel/adel.png", "adel/bullet.png");
@@ -14,4 +16,9 @@ public class Adel extends Playable {
     protected int getInitDamage() {
         return 1;
     }
+
+    protected void removeItem(Item item) {
+        itemList.remove(item);
+    }
+
 }

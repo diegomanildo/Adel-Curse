@@ -30,4 +30,6 @@ public abstract class Item extends MovableObject {
     public abstract ItemQuality getQuality();
 
     public abstract String getDescription();
+
+    public void remove(){}
 }
