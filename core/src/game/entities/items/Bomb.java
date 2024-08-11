@@ -5,12 +5,12 @@ import game.entities.characters.playables.Playable;
 public class Bomb extends Item{
 
     public Bomb() {
-        super("Adel-Curse/assets/imgs/items/bomb/bombExplotion.png", 2, 1);
+        super("imgs/items/bomb/bombExplotion.png", 2, 1);
     }
 
     @Override
     public void applyEffect(Playable character) {
-
+        character.itemList.add(new Bomb());
     }
 
     @Override

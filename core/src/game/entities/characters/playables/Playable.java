@@ -1,11 +1,16 @@
 package game.entities.characters.playables;
 
 import game.entities.characters.Character;
+import game.entities.items.Item;
 import game.utilities.Controls;
 import game.utilities.Direction;
 import game.utilities.GameAction;
 
+import java.util.ArrayList;
+
 public abstract class Playable extends Character {
+    public ArrayList<Item> itemList = new ArrayList<Item>();
+
     public Playable(String texturePath, String bulletTexturePath, int columns, int rows) {
         super(texturePath, bulletTexturePath, columns, rows);
     }
