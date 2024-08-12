@@ -31,5 +31,5 @@ public abstract class Item extends MovableObject {
 
     public abstract String getDescription();
 
-    public void remove(){}
+    public void removeItem (){}
 }

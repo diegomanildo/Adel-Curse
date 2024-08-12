@@ -14,6 +14,5 @@ public abstract class Enemy extends Character {
 
     @Override
     protected void update(float delta) {
-        
     }
 }
