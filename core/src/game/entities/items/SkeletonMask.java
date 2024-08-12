@@ -2,14 +2,14 @@ package game.entities.items;
 
 import game.entities.characters.playables.Playable;
 
-public class skeletonMask extends Item{
-    public skeletonMask() {
+public class SkeletonMask extends Item {
+    public SkeletonMask() {
         super("imgs/items/skeletonMask/skeletonMask.png", 2, 1);
     }
 
     @Override
     public void applyEffect(Playable character) {
-        character.itemList.add(new skeletonMask());
+        character.itemList.add(new SkeletonMask());
         character.setDamage((character.getDamage() + 2));
     }
 
