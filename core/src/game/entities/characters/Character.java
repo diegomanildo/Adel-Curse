@@ -7,6 +7,7 @@ import game.entities.GameEntity;
 import game.utilities.Bullet;
 import game.utilities.Direction;
 import utilities.FilePaths;
+import utilities.Timer;
 import utilities.io.Sound;
 
 import java.util.ArrayList;
@@ -15,6 +16,8 @@ public abstract class Character extends GameEntity {
     private final ArrayList<Bullet> bullets;
     private final Sound shootSound;
     private final String bulletTexturePath;
+    private final Timer timer = new Timer();
+    private boolean firstShoot = false;
 
     public Character(String texturePath, String bulletTexturePath, int columns, int rows) {
         super(FilePaths.CHARACTERS + texturePath, columns, rows, 0.4f);
@@ -32,6 +35,8 @@ public abstract class Character extends GameEntity {
 
     // Creates a bullet and then shoots it
     protected void shoot(Direction bulletDirection) {
+        timer.start();
+
         int moveIndex;
 
         switch (bulletDirection) {
@@ -54,8 +59,14 @@ public abstract class Character extends GameEntity {
         setAnimation(moveIndex);
         int animationIndex = moveIndex - 4;
 
-        if (!shootSound.isPlaying()) {
+        if (timer.getElapsedTime() > 250f || !firstShoot) {
             createShoot(animationIndex, bulletDirection);
+
+            if(!firstShoot) {
+                firstShoot = true;
+            } else {
+                timer.reset();
+            }
         }
     }
 
