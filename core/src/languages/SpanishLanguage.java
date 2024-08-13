@@ -3,32 +3,32 @@ package languages;
 public final class SpanishLanguage extends Language {
     @Override
     public String name() {
-        return "Español";
+        return "Espanol";
     }
 
     @Override
     public String playBtn() {
-        return "JUGAR";
+        return "Jugar";
     }
 
     @Override
     public String controlsBtn() {
-        return "CONTROLES";
+        return "Controles";
     }
 
     @Override
     public String songSelectorBtn() {
-        return "SELECTOR DE CANCIONES";
+        return "Selector de canciones";
     }
 
     @Override
     public String settingsBtn() {
-        return "CONFIGURACION";
+        return "Configuracion";
     }
 
     @Override
     public String quitBtn() {
-        return "SALIR";
+        return "Salir";
     }
 
     @Override
@@ -43,12 +43,12 @@ public final class SpanishLanguage extends Language {
 
     @Override
     public String apply() {
-        return "APLICAR";
+        return "Aplicar";
     }
 
     @Override
     public String language() {
-        return "LENGUAJE";
+        return "Lenguaje";
     }
 
     @Override
@@ -69,5 +69,15 @@ public final class SpanishLanguage extends Language {
     @Override
     public String volume() {
         return "Volumen";
+    }
+
+    @Override
+    public String resumeBtn() {
+        return "Reanudar";
+    }
+
+    @Override
+    public String backToMenuBtn() {
+        return "Volver al menu";
     }
 }

@@ -53,7 +53,7 @@ public final class Game extends SubScreen {
     public void render(float delta) {
         super.render(delta);
 
-        if (!adel.collidesWith(stage.getCamera().getHitbox())) {
+        if (!adel.collidesWith(level.getCamera().getHitbox())) {
             moveCamera();
         }
     }
@@ -71,7 +71,7 @@ public final class Game extends SubScreen {
     }
 
     private void moveCamera() {
-        Camera2D camera = stage.getCamera();
+        Camera2D camera = level.getCamera();
 
         if (adel.getX() < camera.getLeft()) {
             camera.moveTo(camera.position.x - camera.viewportWidth, camera.position.y, FADE_TIME / 2f);

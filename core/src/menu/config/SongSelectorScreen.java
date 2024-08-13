@@ -8,7 +8,7 @@ import utilities.Render;
 import utilities.SelectBox;
 import utilities.io.Song;
 
-public class SongSelectorScreen extends BasicOptionsScreen {
+public final class SongSelectorScreen extends BasicOptionsScreen {
     public SongSelectorScreen(MainMenuScreen backScreen) {
         super(backScreen);
         String[] songNames = {
@@ -19,9 +19,8 @@ public class SongSelectorScreen extends BasicOptionsScreen {
                 "Death to Eva",
         };
 
-        SelectBox<String>songSelectBox = new SelectBox<>();
+        SelectBox<String> songSelectBox = new SelectBox<>();
         songSelectBox.setItems(songNames);
-        songSelectBox.setSelected(songNames[0]);
 
         songSelectBox.addListener(new ChangeListener() {
             @Override

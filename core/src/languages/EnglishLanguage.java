@@ -8,27 +8,27 @@ public final class EnglishLanguage extends Language {
 
     @Override
     public String playBtn() {
-        return "PLAY";
+        return "Play";
     }
 
     @Override
     public String controlsBtn() {
-        return "CONTROLS";
+        return "Controls";
     }
 
     @Override
     public String songSelectorBtn() {
-        return "SONG SELECTOR";
+        return "Song selector";
     }
 
     @Override
     public String settingsBtn() {
-        return "SETTINGS";
+        return "Settings";
     }
 
     @Override
     public String quitBtn() {
-        return "QUIT";
+        return "Quit";
     }
 
     @Override
@@ -43,7 +43,7 @@ public final class EnglishLanguage extends Language {
 
     @Override
     public String apply() {
-        return "APPLY";
+        return "Apply";
     }
 
     @Override
@@ -68,6 +68,16 @@ public final class EnglishLanguage extends Language {
 
     @Override
     public String volume() {
-        return "";
+        return "Volume";
+    }
+
+    @Override
+    public String resumeBtn() {
+        return "Resume";
+    }
+
+    @Override
+    public String backToMenuBtn() {
+        return "Back to menu";
     }
 }

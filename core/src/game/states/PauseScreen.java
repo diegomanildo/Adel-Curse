@@ -27,12 +27,12 @@ public class PauseScreen extends SubScreen {
         Array<TextButton> buttons = new Array<>();
 
         buttons.addAll(
-                new TextButton("Resume", () -> setShow(false)),
-                new TextButton("Settings", () -> {
+                new TextButton(Render.currentLanguage.resumeBtn(), () -> setShow(false)),
+                new TextButton(Render.currentLanguage.settingsBtn(), () -> {
                     backFunction.run();
                     Render.setScreen(new SettingsScreen(new GameScreen()));
                 }),
-                new TextButton("Back to menu", backFunction)
+                new TextButton(Render.currentLanguage.backToMenuBtn(), backFunction)
         );
 
         buttons.forEach(b -> {

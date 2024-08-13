@@ -20,7 +20,7 @@ public class Camera2D extends OrthographicCamera {
         update();
     }
 
-    public void moveTo(float targetX, float targetY, float transitionTime) {
+    public void moveTo(float targetX, float targetY, float transitionTime, Runnable onEnd) {
         new Thread(() -> {
             final float startX = position.x;
             final float startY = position.y;
@@ -36,7 +36,13 @@ public class Camera2D extends OrthographicCamera {
                 update();
                 Utils.sleep(delta * 1000f);
             }
+
+            onEnd.run();
         }).start();
+    }
+
+    public void moveTo(float targetX, float targetY, float transitionTime) {
+        moveTo(targetX, targetY, transitionTime, () -> {});
     }
 
     public float getLeft() {

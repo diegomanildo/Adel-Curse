@@ -1,29 +1,31 @@
 package game.levels;
 
+import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.utils.Array;
 import game.rooms.Room;
-import game.utilities.Camera2D;
 import utilities.Actor;
 
 public abstract class Level extends Actor {
     private final Array<Room> rooms;
     private int roomIndex;
     private OrthogonalTiledMapRenderer renderer;
-    private final Camera2D camera;
+    private Camera camera;
 
     protected Level() {
         rooms = getRooms();
         roomIndex = 0;
-        camera = new Camera2D();
     }
 
     @Override
     public void show() {
         super.show();
-        camera.setToOrtho(false, getCurrentRoom().getWidth(), getCurrentRoom().getHeight());
-        camera.position.set(getInitX(), getInitY(), 0f);
+        camera = getStage().getCamera();
+        camera.viewportWidth = getCurrentRoom().getWidth();
+        camera.viewportHeight = getCurrentRoom().getHeight();
+        camera.position.set(100, 100, 0f);
         camera.update();
     }
 
@@ -47,7 +49,7 @@ public abstract class Level extends Actor {
     @Override
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
-        renderer.setView(camera);
+        renderer.setView((OrthographicCamera) camera);
         renderer.render();
     }
 

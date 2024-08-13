@@ -37,4 +37,7 @@ public abstract class Language {
     public abstract String resolution();
     public abstract String fps();
     public abstract String volume();
+
+    public abstract String resumeBtn();
+    public abstract String backToMenuBtn();
 }
