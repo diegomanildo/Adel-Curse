@@ -9,7 +9,6 @@ public class SkeletonMask extends Item {
 
     @Override
     public void applyEffect(Playable character) {
-        character.itemList.add(new SkeletonMask());
         character.setDamage((character.getDamage() + 2));
     }
 
@@ -20,6 +19,6 @@ public class SkeletonMask extends Item {
 
     @Override
     public String getDescription() {
-        return "aumenta +2 el daño";
+        return "+2 Damage";
     }
 }

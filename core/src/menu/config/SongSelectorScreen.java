@@ -4,6 +4,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import menu.MainMenuScreen;
+import utilities.Render;
 import utilities.SelectBox;
 import utilities.io.Song;
 
@@ -40,6 +41,6 @@ public class SongSelectorScreen extends BasicOptionsScreen {
 
     @Override
     protected String getTitleScreen() {
-        return "SONG SELECTOR";
+        return Render.currentLanguage.songSelectorBtn();
     }
 }

@@ -17,14 +17,14 @@ public final class MainMenuScreen extends BasicMainMenuScreen {
         table.setFillParent(true);
         Array<TextButton> buttons = new Array<>();
         buttons.addAll(
-                new TextButton("PLAY", () -> {
+                new TextButton(Render.currentLanguage.playBtn(), () -> {
                     backgroundSong.fadeOut(FADE_TIME);
                     Render.setScreen(new GameScreen());
                 }),
-                new TextButton("CONTROLS", () -> Render.setScreen(new ControlsScreen(new MainMenuScreen()))),
-                new TextButton("SONG SELECTOR", () -> Render.setScreen(new SongSelectorScreen(new MainMenuScreen()))),
-                new TextButton("SETTINGS", () -> Render.setScreen(new SettingsScreen(new MainMenuScreen()))),
-                new TextButton("QUIT", () -> Gdx.app.exit())
+                new TextButton(Render.currentLanguage.controlsBtn(), () -> Render.setScreen(new ControlsScreen(new MainMenuScreen()))),
+                new TextButton(Render.currentLanguage.songSelectorBtn(), () -> Render.setScreen(new SongSelectorScreen(new MainMenuScreen()))),
+                new TextButton(Render.currentLanguage.settingsBtn(), () -> Render.setScreen(new SettingsScreen(new MainMenuScreen()))),
+                new TextButton(Render.currentLanguage.quitBtn(), () -> Gdx.app.exit())
         );
 
         buttons.forEach(b -> {

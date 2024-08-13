@@ -9,7 +9,7 @@ import game.utilities.GameAction;
 import java.util.ArrayList;
 
 public abstract class Playable extends Character {
-    public ArrayList<Item> itemList = new ArrayList<Item>();
+    private final ArrayList<Item> items = new ArrayList<>();
 
     public Playable(String texturePath, String bulletTexturePath, int columns, int rows) {
         super(texturePath, bulletTexturePath, columns, rows);
@@ -73,5 +73,13 @@ public abstract class Playable extends Character {
         }
 
         move(direction);
+    }
+
+    public void addItem(Item i) {
+        items.add(i);
+    }
+
+    public void removeItem(Item i) {
+        items.remove(i);
     }
 }

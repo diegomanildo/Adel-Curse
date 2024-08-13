@@ -2,7 +2,7 @@ package game.entities.items;
 
 import game.entities.characters.playables.Playable;
 
-public class Bomb extends Item{
+public class Bomb extends Item {
 
     public Bomb() {
         super("imgs/items/bomb/bombExplotion.png", 2, 1);
@@ -10,7 +10,7 @@ public class Bomb extends Item{
 
     @Override
     public void applyEffect(Playable character) {
-        character.itemList.add(new Bomb());
+
     }
 
     @Override

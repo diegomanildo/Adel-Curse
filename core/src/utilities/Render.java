@@ -5,6 +5,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.ScreenUtils;
+import languages.Language;
+import languages.SpanishLanguage;
 
 import java.lang.management.ManagementFactory;
 import java.lang.management.RuntimeMXBean;
@@ -13,6 +15,7 @@ public class Render {
     public static Size screenSize = new Size(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
     public static Skin skin = new Skin(Gdx.files.internal("uiskin.json"));
     public static Juego app;
+    public static Language currentLanguage = new SpanishLanguage();
 
     public static int fps = 60;
 

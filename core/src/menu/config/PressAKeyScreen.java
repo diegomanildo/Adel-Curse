@@ -21,7 +21,7 @@ public final class PressAKeyScreen extends Screen {
 
         Table table = new Table();
         table.setFillParent(true);
-        pressAnyKey = new Label("Press a key for " + control.getAction() + "...");
+        pressAnyKey = new Label(Render.currentLanguage.pressAKeyFor() + control.getAction() + "...");
         table.add(pressAnyKey).center();
         stage.addActor(table);
     }

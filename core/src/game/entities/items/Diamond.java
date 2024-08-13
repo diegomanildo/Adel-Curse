@@ -2,7 +2,7 @@ package game.entities.items;
 
 import game.entities.characters.playables.Playable;
 
-public class Diamond extends Item{
+public class Diamond extends Item {
 
     public Diamond() {
         super("imgs/items/diamond/diamond.png", 2, 1);
@@ -20,6 +20,6 @@ public class Diamond extends Item{
 
     @Override
     public String getDescription() {
-        return "Protege una bala del enemigo";
+        return "Protection";
     }
 }
