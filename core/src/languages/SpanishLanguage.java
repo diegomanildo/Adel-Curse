@@ -37,6 +37,21 @@ public final class SpanishLanguage extends Language {
     }
 
     @Override
+    public String globalVolume() {
+        return "Volumen Global";
+    }
+
+    @Override
+    public String musicVolume() {
+        return "Volumen Musica";
+    }
+
+    @Override
+    public String sfxVolume() {
+        return "Volumen Efectos";
+    }
+
+    @Override
     public String fullScreen() {
         return "Pantalla completa";
     }

@@ -21,15 +21,19 @@ public final class SettingsScreen extends BasicOptionsScreen {
         private final Slider slider;
         private final TextField field;
 
-        public VolumeEditor(String channelName) {
+        public VolumeEditor(String channelName, String labelText) {
             name = channelName;
-            label = new Label(name + " volume");
+            label = new Label(labelText);
             slider = new Slider(0f, 1f, 0.01f, false);
             slider.setValue(Channels.getChannelVolume(name));
             slider.addListener(this::sliderChanged);
             field = new TextField();
             field.setDisabled(true);
             sliderChanged();
+        }
+
+        public VolumeEditor(String channelName) {
+            this(channelName, channelName + " volume");
         }
 
         private void sliderChanged() {
@@ -85,9 +89,9 @@ public final class SettingsScreen extends BasicOptionsScreen {
             languages.add(l.name());
         }
 
-        globalVolumeEditor = new VolumeEditor(Channels.GLOBAL_CHANNEL);
-        musicVolumeEditor = new VolumeEditor("Music");
-        sfxVolumeEditor = new VolumeEditor("Sfx");
+        globalVolumeEditor = new VolumeEditor(Channels.GLOBAL_CHANNEL, Render.currentLanguage.globalVolume());
+        musicVolumeEditor = new VolumeEditor("Music", Render.currentLanguage.musicVolume());
+        sfxVolumeEditor = new VolumeEditor("Sfx", Render.currentLanguage.sfxVolume());
 
         resolutionSelectBox = new SelectBox<>();
         resolutionSelectBox.setItems(resolutions);

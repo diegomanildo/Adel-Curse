@@ -30,6 +30,11 @@ public abstract class Language {
 
     public abstract String pressAKeyFor();
 
+    public abstract String globalVolume();
+    public abstract String musicVolume();
+
+    public abstract String sfxVolume();
+
     public abstract String fullScreen();
     public abstract String apply();
     public abstract String language();

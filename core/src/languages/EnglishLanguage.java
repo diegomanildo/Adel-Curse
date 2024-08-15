@@ -37,6 +37,21 @@ public final class EnglishLanguage extends Language {
     }
 
     @Override
+    public String globalVolume() {
+        return "Volume Global";
+    }
+
+    @Override
+    public String musicVolume() {
+        return "Volume Music";
+    }
+
+    @Override
+    public String sfxVolume() {
+        return "Volume Sfx";
+    }
+
+    @Override
     public String fullScreen() {
         return "Fullscreen";
     }
