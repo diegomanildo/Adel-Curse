@@ -17,8 +17,4 @@ public enum Direction {
         }
         return values()[index];
     }
-
-    public static Direction getMaxValidDirection() {
-        return LEFT;
-    }
 }

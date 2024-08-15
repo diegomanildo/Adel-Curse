@@ -31,7 +31,8 @@ public abstract class SubScreen extends ScreenAdapter {
         stage.draw();
 
         if (Gdx.input.isKeyPressed(Input.Keys.J)) {
-            stage.setDebugAll(!stage.isDebugAll());
+            Render.setDebug(!Render.isDebugging());
+            stage.setDebugAll(Render.isDebugging());
             Utils.sleep(50);
         }
     }

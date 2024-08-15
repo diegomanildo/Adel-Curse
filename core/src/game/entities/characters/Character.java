@@ -58,10 +58,9 @@ public abstract class Character extends GameEntity {
         }
 
         setAnimation(moveIndex);
-        int animationIndex = moveIndex - 4;
 
-        if (timer.getElapsedTime() > 500f || !firstShoot) {
-            createShoot(animationIndex, bulletDirection);
+        if (timer.getSeconds() > 0.5f || !firstShoot) {
+            createShoot(moveIndex - 4, bulletDirection);
 
             if(!firstShoot) {
                 firstShoot = true;

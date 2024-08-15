@@ -8,6 +8,7 @@ import menu.BasicMainMenuScreen;
 import menu.MainMenuScreen;
 import utilities.Render;
 import utilities.Screen;
+import utilities.Utils;
 
 public final class GameScreen extends Screen {
     private final Game game;
@@ -38,6 +39,9 @@ public final class GameScreen extends Screen {
 
         if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
             pause.setShow(true);
+        } else if (Gdx.input.isKeyPressed(Input.Keys.NUMPAD_DOT)) {
+            game.getPlayer().damage(1);
+            Utils.sleep(100f);
         }
     }
 

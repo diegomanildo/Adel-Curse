@@ -6,6 +6,7 @@ import game.entities.characters.playables.Adel;
 import game.entities.characters.playables.Playable;
 import game.levels.Level1;
 import game.utilities.Camera2D;
+import game.utilities.Direction;
 import utilities.Log;
 import utilities.SubScreen;
 import utilities.io.Song;
@@ -72,20 +73,47 @@ public final class Game extends SubScreen {
 
     private void moveCamera() {
         Camera2D camera = level.getCamera();
+        if (camera.isMoving())
+            return;
+        float transitionTime = FADE_TIME / 2f;
 
         if (adel.getX() < camera.getLeft()) {
-            camera.moveTo(camera.position.x - camera.viewportWidth, camera.position.y, FADE_TIME / 2f);
+            camera.moveTo(camera.position.x - camera.viewportWidth, camera.position.y, transitionTime, () -> {
+                camera.setPosition(camera.position.x + 2f * camera.viewportWidth, camera.position.y);
+                camera.moveTo(camera.position.x - camera.viewportWidth, camera.position.y, transitionTime, () -> {
+                    adel.setPosition(camera.getRight() - adel.getWidth() / 2f, adel.getY());
+                    level.changeRoom(Direction.LEFT);
+                });
+            });
             Log.debug("Moving camera left");
         } else if (adel.getX() > camera.getRight()) {
-            camera.moveTo(camera.position.x + camera.viewportWidth, camera.position.y, FADE_TIME / 2f);
+            camera.moveTo(camera.position.x + camera.viewportWidth, camera.position.y, transitionTime, () -> {
+                camera.setPosition(camera.position.x - 2f * camera.viewportWidth, camera.position.y);
+                camera.moveTo(camera.position.x + camera.viewportWidth, camera.position.y, transitionTime, () -> {
+                    adel.setPosition(camera.getLeft() + adel.getWidth() / 2f, adel.getY());
+                    level.changeRoom(Direction.RIGHT);
+                });
+            });
             Log.debug("Moving camera right");
         }
 
         if (adel.getY() < camera.getBottom()) {
-            camera.moveTo(camera.position.x, camera.position.y - camera.viewportHeight, FADE_TIME / 2f);
+            camera.moveTo(camera.position.x, camera.position.y - camera.viewportHeight, transitionTime, () -> {
+                camera.setPosition(camera.position.x, camera.position.y + 2f * camera.viewportHeight);
+                camera.moveTo(camera.position.x, camera.position.y - camera.viewportHeight, transitionTime, () -> {
+                    adel.setPosition(adel.getX(), camera.getTop() - adel.getHeight() / 2f);
+                    level.changeRoom(Direction.DOWN);
+                });
+            });
             Log.debug("Moving camera down");
         } else if (adel.getY() > camera.getTop()) {
-            camera.moveTo(camera.position.x, camera.position.y + camera.viewportHeight, FADE_TIME / 2f);
+            camera.moveTo(camera.position.x, camera.position.y + camera.viewportHeight, transitionTime, () -> {
+                camera.setPosition(camera.position.x, camera.position.y - 2f * camera.viewportHeight);
+                camera.moveTo(camera.position.x, camera.position.y + camera.viewportHeight, transitionTime, () -> {
+                    adel.setPosition(adel.getX(), camera.getBottom() + adel.getHeight() / 2f);
+                    level.changeRoom(Direction.UP);
+                });
+            });
             Log.debug("Moving camera up");
         }
     }

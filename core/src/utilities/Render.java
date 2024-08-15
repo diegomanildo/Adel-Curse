@@ -19,6 +19,8 @@ public class Render {
 
     public static int fps = 60;
 
+    private static boolean debug = false;
+
     public static boolean isDebugging() {
         RuntimeMXBean runtimeMXBean = ManagementFactory.getRuntimeMXBean();
         for (String arg : runtimeMXBean.getInputArguments()) {
@@ -26,7 +28,12 @@ public class Render {
                 return true;
             }
         }
-        return false;
+
+        return debug;
+    }
+
+    public static void setDebug(boolean debug) {
+        Render.debug = debug;
     }
 
     public static void clear(float r, float g, float b, float a) {

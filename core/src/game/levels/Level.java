@@ -4,48 +4,54 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.utils.Array;
-import game.rooms.Room;
+import game.rooms.BossRoom;
+import game.rooms.ShopRoom;
+import game.rooms.StoneRoom;
 import game.utilities.Camera2D;
+import game.utilities.Direction;
+import game.utilities.Map;
 import utilities.Actor;
+import utilities.Render;
 
 public abstract class Level extends Actor {
-    private final Array<Room> rooms;
-    private int roomIndex;
     private OrthogonalTiledMapRenderer renderer;
+    private Map map;
     private Camera camera;
 
     private static final float OFFSET = 34f;
 
     protected Level() {
-        rooms = getRooms();
-        roomIndex = 0;
+        try {
+            map = new Map(20, 10, 10, StoneRoom.class, ShopRoom.class, BossRoom.class);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        map.print();
     }
 
     @Override
     public void show() {
         super.show();
         camera = new Camera2D();
-        camera.viewportWidth = getCurrentRoom().getWidth() - OFFSET;
-        camera.viewportHeight = getCurrentRoom().getHeight() - OFFSET;
+        camera.viewportWidth = map.getCurrent().getWidth() - OFFSET;
+        camera.viewportHeight = map.getCurrent().getHeight() - OFFSET;
         camera.position.set(getInitX(), getInitY(), 0f);
         camera.update();
     }
 
-    public abstract Array<Room> getRooms();
-
     public float getInitX() {
-        return rooms.get(0).getWidth() / 2f;
+        return map.initPosition.x;
     }
 
     public float getInitY() {
-        return rooms.get(0).getHeight() / 2f;
+        return map.initPosition.y;
     }
 
     @Override
     public void act(float delta) {
         super.act(delta);
-        changeRoom();
+        renderer = new OrthogonalTiledMapRenderer(map.getCurrent().getMap());
+        ((Camera2D) camera).zoom = Render.isDebugging() ? 2f : 1f;
         camera.update();
     }
 
@@ -56,16 +62,21 @@ public abstract class Level extends Actor {
         renderer.render();
     }
 
-    public Room getCurrentRoom() {
-        return rooms.get(roomIndex);
-    }
-
-    public int getRoomIndex() {
-        return roomIndex;
-    }
-
-    private void changeRoom() {
-        renderer = new OrthogonalTiledMapRenderer(rooms.get(roomIndex).getMap());
+    public void changeRoom(Direction direction) {
+        switch (direction) {
+            case DOWN:
+                map.down();
+                break;
+            case UP:
+                map.up();
+                break;
+            case RIGHT:
+                map.right();
+                break;
+            case LEFT:
+                map.left();
+                break;
+        }
     }
 
     @Override

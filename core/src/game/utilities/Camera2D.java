@@ -7,6 +7,8 @@ import com.badlogic.gdx.math.Rectangle;
 import utilities.Utils;
 
 public class Camera2D extends OrthographicCamera {
+    private boolean isMoving = false;
+
     public Camera2D() {
         super();
     }
@@ -22,6 +24,7 @@ public class Camera2D extends OrthographicCamera {
 
     public void moveTo(float targetX, float targetY, float transitionTime, Runnable onEnd) {
         new Thread(() -> {
+            isMoving = true;
             final float startX = position.x;
             final float startY = position.y;
             final float deltaX = targetX - startX;
@@ -38,6 +41,7 @@ public class Camera2D extends OrthographicCamera {
             }
 
             onEnd.run();
+            isMoving = false;
         }).start();
     }
 
@@ -63,5 +67,9 @@ public class Camera2D extends OrthographicCamera {
 
     public Rectangle getHitbox() {
         return new Rectangle(getLeft(), getBottom(), getRight(), getTop());
+    }
+
+    public boolean isMoving() {
+        return isMoving;
     }
 }

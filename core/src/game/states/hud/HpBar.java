@@ -43,7 +43,7 @@ public class HpBar extends Widget {
         // Draw outline
         shapeRenderer.set(ShapeRenderer.ShapeType.Line);
         shapeRenderer.setColor(Color.BLACK);
-        shapeRenderer.rect(getX(), getY(), healthWidth, height, 2f);
+        shapeRenderer.rect(getX(), getY(), width, height, 2f);
 
         shapeRenderer.end();
 
