@@ -2,9 +2,9 @@ package game.states.hud;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.ui.Widget;
 import game.entities.characters.playables.Playable;
+import utilities.ShapeRenderer;
 
 public class HpBar extends Widget {
     private final Playable player;
@@ -18,6 +18,7 @@ public class HpBar extends Widget {
         super();
         this.player = player;
         shapeRenderer = new ShapeRenderer();
+        shapeRenderer.setAutoShapeType(true);
         setSize(400f, 20f);
     }
 
@@ -30,14 +31,19 @@ public class HpBar extends Widget {
         shapeRenderer.setProjectionMatrix(getStage().getCamera().combined);
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 
-        // Dibujar el fondo de la barra de vida
+        // Draw background
         shapeRenderer.setColor(BACKGROUND_COLOR);
         shapeRenderer.rect(getX(), getY(), width, height);
 
-        // Dibujar la salud
+        // Draw health bar
         shapeRenderer.setColor(HEALTH_COLOR);
         float healthWidth = ((float) player.getHp() / player.getMaxHp()) * width;
         shapeRenderer.rect(getX(), getY(), healthWidth, height);
+
+        // Draw outline
+        shapeRenderer.set(ShapeRenderer.ShapeType.Line);
+        shapeRenderer.setColor(Color.BLACK);
+        shapeRenderer.rect(getX(), getY(), healthWidth, height, 2f);
 
         shapeRenderer.end();
 

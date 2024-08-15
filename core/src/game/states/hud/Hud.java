@@ -48,7 +48,11 @@ public class Hud extends SubScreen {
         super.render(delta);
         hpLabel.setText(player.getHp() + "/" + player.getMaxHp() + " HP");
 
-        timerLabel.setText(String.format("Time: %02d:%02d:%02d", timer.getHours(), timer.getMinutes(), timer.getSeconds()));
+        long hours = (long) timer.getHours();
+        long minutes = (long) timer.getMinutes();
+        long seconds = (long) timer.getSeconds();
+
+        timerLabel.setText(String.format("Time: %02d:%02d:%02d", hours, minutes, seconds));
     }
 
     public Timer getTimer() {

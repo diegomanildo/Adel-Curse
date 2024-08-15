@@ -16,7 +16,7 @@ public abstract class Character extends GameEntity {
     private final ArrayList<Bullet> bullets;
     private final Sound shootSound;
     private final String bulletTexturePath;
-    private final Timer timer = new Timer();
+    private final Timer timer;
     private boolean firstShoot = false;
 
     public Character(String texturePath, String bulletTexturePath, int columns, int rows) {
@@ -27,6 +27,7 @@ public abstract class Character extends GameEntity {
         bullets = new ArrayList<>();
         shootSound = new Sound("Sfx", "game/shoot.mp3");
         this.bulletTexturePath = bulletTexturePath;
+        timer = new Timer();
     }
 
     public Character(String texturePath, String bulletTexturePath) {
@@ -59,7 +60,7 @@ public abstract class Character extends GameEntity {
         setAnimation(moveIndex);
         int animationIndex = moveIndex - 4;
 
-        if (timer.getElapsedTime() > 250f || !firstShoot) {
+        if (timer.getElapsedTime() > 500f || !firstShoot) {
             createShoot(animationIndex, bulletDirection);
 
             if(!firstShoot) {

@@ -5,17 +5,20 @@ import game.Game;
 import game.utilities.MovableObject;
 import utilities.Label;
 import utilities.Log;
+import utilities.io.Sound;
 
 public abstract class GameEntity extends MovableObject {
     private int hp;
     private int maxHp;
     private int damage;
+    private final Sound deathSound;
 
     public GameEntity(String texturePath, int columns, int rows, float frameDuration) {
         super(texturePath, columns, rows, frameDuration);
         maxHp = getInitMaxHp();
         hp = maxHp;
         damage = getInitDamage();
+        deathSound = new Sound("Sfx", "game/death.mp3");
     }
 
     @Override
@@ -62,12 +65,8 @@ public abstract class GameEntity extends MovableObject {
 
     public void setHp(int hp) {
         this.hp = hp;
-        if (this.hp <= 0) {
-            this.hp = 0;
-            Log.debug(getClass().getSimpleName() + " death in x " + getX() + " y " + getY());
-            remove();
-            Game.entities.remove(this);
-            Log.debug("Enemies: " + Game.entities.size());
+        if (isDeath()) {
+            onDeath();
         }
     }
 
@@ -85,5 +84,14 @@ public abstract class GameEntity extends MovableObject {
 
     public boolean isDeath() {
         return hp <= 0;
+    }
+
+    protected void onDeath() {
+        this.hp = 0;
+        deathSound.play();
+        Log.debug(getClass().getSimpleName() + " death in x " + getX() + " y " + getY());
+        remove();
+        Game.entities.remove(this);
+        Log.debug("Enemies: " + Game.entities.size());
     }
 }

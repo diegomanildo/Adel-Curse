@@ -62,16 +62,16 @@ public class Timer {
 
     }
 
-    public long getSeconds() {
-        return (getElapsedTime() % 60000L) / 1000L;
+    public float getSeconds() {
+        return (getElapsedTime() % 60000f) / 1000f;
     }
 
-    public long getMinutes() {
-        return (getElapsedTime() % 3600000L) / 60000L;
+    public float getMinutes() {
+        return (getElapsedTime() % 3600000f) / 60000f;
     }
 
-    public long getHours() {
-        return getElapsedTime() / 3600000L;
+    public float getHours() {
+        return getElapsedTime() / 3600000f;
     }
 
     public boolean isRunning() {
