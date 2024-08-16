@@ -4,12 +4,10 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import game.rooms.BossRoom;
-import game.rooms.ShopRoom;
-import game.rooms.StoneRoom;
 import game.utilities.Camera2D;
 import game.utilities.Direction;
 import game.utilities.Map;
+import game.utilities.RoomsArray;
 import utilities.Actor;
 import utilities.Render;
 
@@ -20,9 +18,9 @@ public abstract class Level extends Actor {
 
     private static final float OFFSET = 34f;
 
-    protected Level() {
+    protected Level(int quantity, int rows, int cols, RoomsArray rooms) {
         try {
-            map = new Map(20, 10, 10, StoneRoom.class, ShopRoom.class, BossRoom.class);
+            map = new Map(quantity, rows, cols, rooms);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

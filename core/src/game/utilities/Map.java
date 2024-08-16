@@ -10,7 +10,7 @@ public class Map {
     private int y;
     public final Vector2 initPosition;
 
-    public Map(int quantity, int rows, int cols, Class<? extends Room>... rooms) throws InstantiationException, IllegalAccessException {
+    public Map(int quantity, int rows, int cols, RoomsArray rooms) throws InstantiationException, IllegalAccessException {
         map = new Room[rows][cols];
 
         Random random = new Random();
@@ -18,7 +18,7 @@ public class Map {
         int x = rows / 2;
         int y = cols / 2;
 
-        map[y][x] = rooms[0].newInstance();
+        map[y][x] = rooms.get(0).newInstance();
 
         for (int i = 0; i < quantity; i++) {
             Direction direction;
@@ -29,7 +29,7 @@ public class Map {
             do {
                 auxX = x;
                 auxY = y;
-                direction = random.nextDirection(Direction.DOWN, Direction.UP_RIGHT);
+                direction = random.nextDirection(Direction.DOWN, Direction.LEFT);
 
                 switch (direction) {
                     case UP:
@@ -50,7 +50,7 @@ public class Map {
             x = auxX;
             y = auxY;
 
-            map[y][x] = random.next(rooms).newInstance();
+            map[y][x] = rooms.get(random.nextInt(rooms.size)).newInstance();
         }
 
         initPosition = new Vector2(map[y][x].getWidth() / 2f, map[y][x].getHeight() / 2f);
