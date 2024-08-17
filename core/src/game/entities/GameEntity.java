@@ -7,17 +7,13 @@ import utilities.Label;
 import utilities.Log;
 import utilities.io.Sound;
 
-public abstract class GameEntity extends MovableObject {
-    private int hp;
-    private int maxHp;
-    private int damage;
+public abstract class GameEntity extends MovableObject implements Statistics {
+    private final Stats stats;
     private final Sound deathSound;
 
-    public GameEntity(String texturePath, int columns, int rows, float frameDuration) {
+    public GameEntity(Stats stats, String texturePath, int columns, int rows, float frameDuration) {
         super(texturePath, columns, rows, frameDuration);
-        maxHp = getInitMaxHp();
-        hp = maxHp;
-        damage = getInitDamage();
+        this.stats = stats;
         deathSound = new Sound("Sfx", "game/death.mp3");
     }
 
@@ -48,46 +44,36 @@ public abstract class GameEntity extends MovableObject {
         hp.draw(batch, parentAlpha);
     }
 
-    protected abstract int getInitMaxHp();
-    protected abstract int getInitDamage();
-
+    @Override
     public int getHp() {
-        return hp;
+        return stats.hp;
     }
 
+    @Override
     public int getMaxHp() {
-        return maxHp;
+        return stats.maxHp;
     }
 
+    @Override
     public int getDamage() {
-        return damage;
+        return stats.damage;
     }
 
+    @Override
     public void setHp(int hp) {
-        this.hp = hp;
+        stats.hp = hp;
         if (isDeath()) {
             onDeath();
         }
     }
 
-    public void setMaxHp(int maxHp) {
-        this.maxHp = maxHp;
-    }
-
+    @Override
     public void setDamage(int damage) {
-        this.damage = damage;
-    }
-
-    public void damage(int damageReceived) {
-        setHp(getHp() - damageReceived);
-    }
-
-    public boolean isDeath() {
-        return hp <= 0;
+        stats.damage = damage;
     }
 
     protected void onDeath() {
-        this.hp = 0;
+        stats.hp = 0;
         deathSound.play();
         Log.debug(getClass().getSimpleName() + " death in x " + getX() + " y " + getY());
         remove();

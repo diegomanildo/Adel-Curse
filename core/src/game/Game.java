@@ -90,6 +90,10 @@ public final class Game extends SubScreen {
     }
 
     private void moveCameraDown(Camera2D camera, float transitionTime) {
+        if (!level.isValid(Direction.DOWN)) {
+            return;
+        }
+
         camera.moveTo(camera.position.x, camera.position.y - camera.viewportHeight, transitionTime, () -> {
             camera.setPosition(camera.position.x, camera.position.y + 2f * camera.viewportHeight);
             level.changeRoom(Direction.DOWN);
@@ -100,6 +104,10 @@ public final class Game extends SubScreen {
     }
 
     private void moveCameraUp(Camera2D camera, float transitionTime) {
+        if (!level.isValid(Direction.UP)) {
+            return;
+        }
+
         camera.moveTo(camera.position.x, camera.position.y + camera.viewportHeight, transitionTime, () -> {
             camera.setPosition(camera.position.x, camera.position.y - 2f * camera.viewportHeight);
             level.changeRoom(Direction.UP);
@@ -110,6 +118,10 @@ public final class Game extends SubScreen {
     }
 
     private void moveCameraRight(Camera2D camera, float transitionTime) {
+        if (!level.isValid(Direction.RIGHT)) {
+            return;
+        }
+
         camera.moveTo(camera.position.x + camera.viewportWidth, camera.position.y, transitionTime, () -> {
             camera.setPosition(camera.position.x - 2f * camera.viewportWidth, camera.position.y);
             level.changeRoom(Direction.RIGHT);
@@ -120,6 +132,10 @@ public final class Game extends SubScreen {
     }
 
     private void moveCameraLeft(Camera2D camera, float transitionTime) {
+        if (!level.isValid(Direction.LEFT)) {
+            return;
+        }
+
         camera.moveTo(camera.position.x - camera.viewportWidth, camera.position.y, transitionTime, () -> {
             camera.setPosition(camera.position.x + 2f * camera.viewportWidth, camera.position.y);
             level.changeRoom(Direction.LEFT);

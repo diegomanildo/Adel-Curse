@@ -19,19 +19,19 @@ public abstract class Character extends GameEntity {
     private final Timer timer;
     private boolean firstShoot = false;
 
-    public Character(String texturePath, String bulletTexturePath, int columns, int rows) {
-        super(FilePaths.CHARACTERS + texturePath, columns, rows, 0.4f);
+    public Character(Stats stats, String texturePath, String bulletTexturePath, int columns, int rows) {
+        super(stats, FilePaths.CHARACTERS + texturePath, columns, rows, 0.4f);
         setSize(24.0f, 29.0f);
         setHitbox(getWidth() / 2f, getHeight());
-        setVelocity((getWidth() + getHeight()) / 30f);
+        setVelocity(getWidth() + getHeight());
         bullets = new ArrayList<>();
         shootSound = new Sound("Sfx", "game/shoot.mp3");
         this.bulletTexturePath = bulletTexturePath;
         timer = new Timer();
     }
 
-    public Character(String texturePath, String bulletTexturePath) {
-        this(texturePath, bulletTexturePath, 2, 8);
+    public Character(Stats stats, String texturePath, String bulletTexturePath) {
+        this(stats, texturePath, bulletTexturePath, 2, 8);
     }
 
     // Creates a bullet and then shoots it
@@ -76,9 +76,10 @@ public abstract class Character extends GameEntity {
         b.setAnimation(animationIndex);
         b.setSize(getWidth() / 2f, getHeight() / 2f);
         b.setPosition(getX() + b.getWidth() / 2f, getY() + b.getHeight() / 2f);
-        b.setVelocity(getVelocity() * 100f);
+        b.setVelocity(getVelocity() * 2f);
         bullets.add(b);
         getStage().addActor(b);
+
         shootSound.play();
     }
 

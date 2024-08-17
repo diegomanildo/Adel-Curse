@@ -1,5 +1,7 @@
 package game.utilities;
 
+import com.badlogic.gdx.Gdx;
+
 public abstract class MovableObject extends GameAnimation {
     private float velocity;
 
@@ -20,6 +22,7 @@ public abstract class MovableObject extends GameAnimation {
         int moveIndex;
         float x = getX();
         float y = getY();
+        float velocity = getVelocity() * Gdx.graphics.getDeltaTime();
         float diagonalVelocity = (float) (velocity / Math.sqrt(2));
 
         switch (direction) {

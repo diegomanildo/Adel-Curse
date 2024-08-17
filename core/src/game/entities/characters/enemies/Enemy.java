@@ -4,12 +4,12 @@ import game.entities.characters.Character;
 
 public abstract class Enemy extends Character {
 
-    public Enemy(String texturePath, String bulletTexturePath, int columns, int rows) {
-        super(texturePath, bulletTexturePath, columns, rows);
+    public Enemy(Stats stats, String texturePath, String bulletTexturePath, int columns, int rows) {
+        super(stats, texturePath, bulletTexturePath, columns, rows);
     }
 
-    public Enemy(String texturePath, String bulletTexturePath) {
-        super(texturePath, bulletTexturePath);
+    public Enemy(Stats stats, String texturePath, String bulletTexturePath) {
+        super(stats, texturePath, bulletTexturePath);
     }
 
     @Override

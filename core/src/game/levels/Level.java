@@ -9,11 +9,12 @@ import game.utilities.Direction;
 import game.utilities.Map;
 import game.utilities.RoomsArray;
 import utilities.Actor;
+import utilities.Log;
 import utilities.Render;
 
 public abstract class Level extends Actor {
     private OrthogonalTiledMapRenderer renderer;
-    private Map map;
+    private final Map map;
     private Camera camera;
 
     private static final float OFFSET = 34f;
@@ -75,6 +76,12 @@ public abstract class Level extends Actor {
                 map.left();
                 break;
         }
+    }
+
+    public boolean isValid(Direction direction) {
+        boolean valid = map.isValid(direction);
+        Log.log("Valid: " + valid);
+        return valid;
     }
 
     @Override

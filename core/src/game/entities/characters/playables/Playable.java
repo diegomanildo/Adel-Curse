@@ -11,12 +11,12 @@ import java.util.ArrayList;
 public abstract class Playable extends Character {
     private final ArrayList<Item> items = new ArrayList<>();
 
-    public Playable(String texturePath, String bulletTexturePath, int columns, int rows) {
-        super(texturePath, bulletTexturePath, columns, rows);
+    public Playable(Stats stats, String texturePath, String bulletTexturePath, int columns, int rows) {
+        super(stats, texturePath, bulletTexturePath, columns, rows);
     }
 
-    public Playable(String texturePath, String bulletTexturePath) {
-        super(texturePath, bulletTexturePath);
+    public Playable(Stats stats, String texturePath, String bulletTexturePath) {
+        super(stats, texturePath, bulletTexturePath);
     }
 
     @Override

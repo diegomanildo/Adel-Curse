@@ -73,14 +73,13 @@ public class Map {
     }
 
     public void print() {
-        for (int i = 0; i < map.length; i++) {
-            for (int j = 0; j < map[i].length; j++) {
-                if (i == map.length / 2 && j == map[i].length / 2) {
-                    System.out.print("| M |");
-                } else if (map[i][j] != null) {
-                    System.out.print("| R |");
+        for (int row = 0; row < map.length; row++) {
+            for (int column = 0; column < map[row].length; column++) {
+                if (map[row][column] != null) {
+                    String className = map[row][column].getClass().getSimpleName().substring(0, 2);
+                    System.out.print("| " + className + " |");
                 } else {
-                    System.out.print("| + |");
+                    System.out.print("| ++ |");
                 }
             }
             System.out.println();
@@ -105,5 +104,29 @@ public class Map {
 
     public Room getCurrent() {
         return map[y][x];
+    }
+
+    public boolean isValid(Direction direction) {
+        int x = this.x;
+        int y = this.y;
+
+        switch (direction) {
+            case DOWN:
+                y++;
+                break;
+            case UP:
+                y--;
+                break;
+            case RIGHT:
+                x++;
+                break;
+            case LEFT:
+                x--;
+                break;
+            default:
+                throw new RuntimeException("Invalid direction: " + direction);
+        }
+
+        return get(y, x) == null;
     }
 }
