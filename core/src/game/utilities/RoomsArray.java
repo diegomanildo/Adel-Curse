@@ -2,6 +2,7 @@ package game.utilities;
 
 import com.badlogic.gdx.utils.Array;
 import game.rooms.Room;
+import utilities.Random;
 
 public class RoomsArray extends Array<Class<? extends Room>> {
     @SafeVarargs
@@ -16,5 +17,9 @@ public class RoomsArray extends Array<Class<? extends Room>> {
 
     public Class<? extends Room> getBossRoom() {
         return get(1);
+    }
+
+    public Class<? extends Room> randomRoom() {
+        return get(new Random().nextInt(size));
     }
 }

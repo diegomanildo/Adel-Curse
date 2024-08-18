@@ -2,84 +2,73 @@ package game.utilities;
 
 import com.badlogic.gdx.math.Vector2;
 import game.rooms.Room;
-import utilities.Random;
 
 public class Map {
     private final Room[][] map;
-    private int x;
-    private int y;
-    public final Vector2 initPosition;
+    public final Vector2 playerInitPosition;
+    private int row; // Current row
+    private int col; // Current col
 
-    public Map(int quantity, int rows, int cols, RoomsArray rooms) throws InstantiationException, IllegalAccessException {
+    public Map(int quantityOfRooms, int rows, int cols, RoomsArray rooms) throws InstantiationException, IllegalAccessException {
         map = new Room[rows][cols];
+        row = 0;
+        col = 0;
+        map[row][col] = rooms.getInitialRoom().newInstance();
 
-        Random random = new Random();
+        playerInitPosition = new Vector2(getCurrent().getWidth() / 2f, getCurrent().getHeight() / 2f);
 
-        int x = rows / 2;
-        int y = cols / 2;
+        generateRooms(quantityOfRooms - 1, rooms);
+    }
 
-        map[y][x] = rooms.get(0).newInstance();
+    private void generateRooms(int quantityOfRooms, RoomsArray rooms) throws InstantiationException, IllegalAccessException {
+        while (quantityOfRooms > 0) {
+            int direction = (int) (Math.random() * 4);
+            switch (direction) {
+                case 0: // up
+                    if (isValidPosition(row - 1, col)) {
+                        row--;
+                    }
+                    break;
+                case 1: // down
+                    if (isValidPosition(row + 1, col)) {
+                        row++;
+                    }
+                    break;
+                case 2: // left
+                    if (isValidPosition(row, col - 1)) {
+                        col--;
+                    }
+                    break;
+                case 3: // right
+                    if (isValidPosition(row, col + 1)) {
+                        col++;
+                    }
+                    break;
+            }
 
-        for (int i = 0; i < quantity; i++) {
-            Direction direction;
-
-            int auxX;
-            int auxY;
-
-            do {
-                auxX = x;
-                auxY = y;
-                direction = random.nextDirection(Direction.DOWN, Direction.LEFT);
-
-                switch (direction) {
-                    case UP:
-                        auxY--;
-                        break;
-                    case DOWN:
-                        auxY++;
-                        break;
-                    case LEFT:
-                        auxX++;
-                        break;
-                    case RIGHT:
-                        auxX--;
-                        break;
-                }
-            } while (!isValidPosition(auxX, auxY));
-
-            x = auxX;
-            y = auxY;
-
-            map[y][x] = rooms.get(random.nextInt(rooms.size)).newInstance();
+            if (map[row][col] == null) {
+                map[row][col] = rooms.randomRoom().newInstance();
+                quantityOfRooms--;
+            }
         }
-
-        initPosition = new Vector2(map[y][x].getWidth() / 2f, map[y][x].getHeight() / 2f);
-        this.x = x;
-        this.y = y;
     }
 
-    private boolean isValidPosition(int x, int y) {
-        return x >= 0 && x < map.length &&
-               y >= 0 && y < map[0].length &&
-               get(y, x) == null;
+    private boolean isValidPosition(int row, int col) {
+        return row >= 0 && col >= 0 && row < map.length && col < map[0].length;
     }
-
 
     public Room get(int row, int col) {
-        if (row < 0 || row >= map.length || col < 0 || col >= map[0].length) {
-            return null;
-        }
-        return map[row][col];
+        return isValidPosition(row, col) ? map[row][col] : null;
     }
 
     public void print() {
-        for (int row = 0; row < map.length; row++) {
-            for (int column = 0; column < map[row].length; column++) {
-                if (map[row][column] != null) {
-                    String className = map[row][column].getClass().getSimpleName().substring(0, 2);
-                    System.out.print("| " + className + " |");
+        for (Room[] row : map) {
+            for (Room room : row) {
+                if (room != null) {
+                    String roomName = room.getClass().getSimpleName().substring(0, 2);
+                    System.out.print(roomName + " ");
                 } else {
-                    System.out.print("| ++ |");
+                    System.out.print("++ ");
                 }
             }
             System.out.println();
@@ -87,46 +76,34 @@ public class Map {
     }
 
     public void up() {
-        if (get(y - 1, x) != null) y--;
+        if (get(row - 1, col) != null) row--;
     }
 
     public void down() {
-        if (get(y + 1, x) != null) y++;
+        if (get(row + 1, col) != null) row++;
     }
 
     public void left() {
-        if (get(y, x - 1) != null) x--;
+        if (get(row, col - 1) != null) col--;
     }
 
     public void right() {
-        if (get(y, x + 1) != null) x++;
+        if (get(row, col + 1) != null) col++;
     }
 
     public Room getCurrent() {
-        return map[y][x];
+        return map[row][col];
     }
 
-    public boolean isValid(Direction direction) {
-        int x = this.x;
-        int y = this.y;
+    public int getCurrentRow() {
+        return row;
+    }
 
-        switch (direction) {
-            case DOWN:
-                y++;
-                break;
-            case UP:
-                y--;
-                break;
-            case RIGHT:
-                x++;
-                break;
-            case LEFT:
-                x--;
-                break;
-            default:
-                throw new RuntimeException("Invalid direction: " + direction);
-        }
+    public int getCurrentCol() {
+        return col;
+    }
 
-        return get(y, x) == null;
+    public Room[][] getMap() {
+        return map;
     }
 }

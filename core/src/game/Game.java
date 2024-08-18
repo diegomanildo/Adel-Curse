@@ -4,6 +4,7 @@ import game.entities.GameEntity;
 import game.entities.characters.enemies.Skeleton;
 import game.entities.characters.playables.Adel;
 import game.entities.characters.playables.Playable;
+import game.levels.Level;
 import game.levels.Level1;
 import game.utilities.Camera2D;
 import game.utilities.Direction;
@@ -90,10 +91,6 @@ public final class Game extends SubScreen {
     }
 
     private void moveCameraDown(Camera2D camera, float transitionTime) {
-        if (!level.isValid(Direction.DOWN)) {
-            return;
-        }
-
         camera.moveTo(camera.position.x, camera.position.y - camera.viewportHeight, transitionTime, () -> {
             camera.setPosition(camera.position.x, camera.position.y + 2f * camera.viewportHeight);
             level.changeRoom(Direction.DOWN);
@@ -104,10 +101,6 @@ public final class Game extends SubScreen {
     }
 
     private void moveCameraUp(Camera2D camera, float transitionTime) {
-        if (!level.isValid(Direction.UP)) {
-            return;
-        }
-
         camera.moveTo(camera.position.x, camera.position.y + camera.viewportHeight, transitionTime, () -> {
             camera.setPosition(camera.position.x, camera.position.y - 2f * camera.viewportHeight);
             level.changeRoom(Direction.UP);
@@ -118,10 +111,6 @@ public final class Game extends SubScreen {
     }
 
     private void moveCameraRight(Camera2D camera, float transitionTime) {
-        if (!level.isValid(Direction.RIGHT)) {
-            return;
-        }
-
         camera.moveTo(camera.position.x + camera.viewportWidth, camera.position.y, transitionTime, () -> {
             camera.setPosition(camera.position.x - 2f * camera.viewportWidth, camera.position.y);
             level.changeRoom(Direction.RIGHT);
@@ -132,10 +121,6 @@ public final class Game extends SubScreen {
     }
 
     private void moveCameraLeft(Camera2D camera, float transitionTime) {
-        if (!level.isValid(Direction.LEFT)) {
-            return;
-        }
-
         camera.moveTo(camera.position.x - camera.viewportWidth, camera.position.y, transitionTime, () -> {
             camera.setPosition(camera.position.x + 2f * camera.viewportWidth, camera.position.y);
             level.changeRoom(Direction.LEFT);
@@ -151,5 +136,9 @@ public final class Game extends SubScreen {
 
     public Song getSong() {
         return song;
+    }
+
+    public Level getLevel() {
+        return level;
     }
 }

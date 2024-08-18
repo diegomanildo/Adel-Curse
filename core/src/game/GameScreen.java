@@ -19,7 +19,7 @@ public final class GameScreen extends Screen {
         super();
 
         game = new Game();
-        hud = new Hud(game.getPlayer());
+        hud = new Hud(game.getPlayer(), game.getLevel().getMap());
         pause = new PauseScreen(game, this::exit, hud.getTimer());
 
         addSubScreen(game);

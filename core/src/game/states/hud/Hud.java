@@ -13,7 +13,7 @@ public class Hud extends SubScreen {
     private final Label timerLabel;
     private final Timer timer;
 
-    public Hud(Playable player) {
+    public Hud(Playable player, MapRooms map) {
         super();
         this.player = player;
         hpLabel = new Label();
@@ -33,6 +33,7 @@ public class Hud extends SubScreen {
         table.add(stack).width(hpBar.width).height(hpBar.height).padTop(10f).padLeft(10f).padRight(5f);
 
         table.add(timerLabel).center();
+        table.add(map).center();
 
         stage.addActor(table);
     }

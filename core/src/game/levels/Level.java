@@ -4,12 +4,12 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import game.states.hud.MapRooms;
 import game.utilities.Camera2D;
 import game.utilities.Direction;
 import game.utilities.Map;
 import game.utilities.RoomsArray;
 import utilities.Actor;
-import utilities.Log;
 import utilities.Render;
 
 public abstract class Level extends Actor {
@@ -39,11 +39,11 @@ public abstract class Level extends Actor {
     }
 
     public float getInitX() {
-        return map.initPosition.x;
+        return map.playerInitPosition.x;
     }
 
     public float getInitY() {
-        return map.initPosition.y;
+        return map.playerInitPosition.y;
     }
 
     @Override
@@ -78,14 +78,12 @@ public abstract class Level extends Actor {
         }
     }
 
-    public boolean isValid(Direction direction) {
-        boolean valid = map.isValid(direction);
-        Log.log("Valid: " + valid);
-        return valid;
-    }
-
     @Override
     public Camera2D getCamera() {
         return (Camera2D) camera;
+    }
+
+    public MapRooms getMap() {
+        return new MapRooms(map);
     }
 }
