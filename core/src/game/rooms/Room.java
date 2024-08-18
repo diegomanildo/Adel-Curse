@@ -2,9 +2,10 @@ package game.rooms;
 
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.scenes.scene2d.Group;
 import utilities.FilePaths;
 
-public abstract class Room {
+public abstract class Room extends Group {
     private final TiledMap map;
 
     protected Room(String mapFile) {
