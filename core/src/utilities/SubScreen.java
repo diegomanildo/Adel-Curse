@@ -30,10 +30,21 @@ public abstract class SubScreen extends ScreenAdapter {
         stage.act(delta);
         stage.draw();
 
-        if (Gdx.input.isKeyPressed(Input.Keys.J)) {
+        handleInput();
+    }
+
+    protected void handleInput() {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.F11)) {
+            Settings.SettingPack s = Settings.getSettings();
+            s.fullscreen = !s.fullscreen;
+
+            Settings.add(s);
+            Settings.applySettings(Settings.getSettings());
+        }
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.J)) {
             Render.setDebug(!Render.isDebugging());
             stage.setDebugAll(Render.isDebugging());
-            Utils.sleep(50);
         }
     }
 
