@@ -3,6 +3,8 @@ package game.states.hud;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import game.entities.characters.playables.Playable;
+import game.utilities.map.GameMap;
+import game.utilities.map.MapDrawable;
 import utilities.Label;
 import utilities.SubScreen;
 import utilities.Timer;
@@ -13,7 +15,7 @@ public class Hud extends SubScreen {
     private final Label timerLabel;
     private final Timer timer;
 
-    public Hud(Playable player) {
+    public Hud(Playable player, GameMap map) {
         super();
         this.player = player;
         hpLabel = new Label();
@@ -22,9 +24,10 @@ public class Hud extends SubScreen {
 
         Table table = new Table();
         table.setFillParent(true);
-        table.top().left();
+        table.top();
 
         HpBar hpBar = new HpBar(player);
+        MapDrawable mapDrawable = new MapDrawable(map, 10f);
 
         Stack stack = new Stack();
         stack.add(hpBar);
@@ -33,6 +36,8 @@ public class Hud extends SubScreen {
         table.add(stack).width(hpBar.width).height(hpBar.height).padTop(10f).padLeft(10f).padRight(5f);
 
         table.add(timerLabel).center();
+
+        table.add(mapDrawable).right().pad(10f);
 
         stage.addActor(table);
     }
