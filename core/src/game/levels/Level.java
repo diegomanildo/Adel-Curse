@@ -4,27 +4,22 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import game.states.hud.MapRooms;
 import game.utilities.Camera2D;
 import game.utilities.Direction;
-import game.utilities.Map;
-import game.utilities.RoomsArray;
+import game.utilities.map.GameMap;
+import game.utilities.map.RoomsArray;
 import utilities.Actor;
 import utilities.Render;
 
 public abstract class Level extends Actor {
     private OrthogonalTiledMapRenderer renderer;
-    private final Map map;
+    private final GameMap map;
     private Camera camera;
 
     private static final float OFFSET = 34f;
 
     protected Level(int quantity, int rows, int cols, RoomsArray rooms) {
-        try {
-            map = new Map(quantity, rows, cols, rooms);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        map = new GameMap(quantity, rows, cols, rooms);
         map.print();
     }
 
@@ -62,20 +57,7 @@ public abstract class Level extends Actor {
     }
 
     public void changeRoom(Direction direction) {
-        switch (direction) {
-            case DOWN:
-                map.down();
-                break;
-            case UP:
-                map.up();
-                break;
-            case RIGHT:
-                map.right();
-                break;
-            case LEFT:
-                map.left();
-                break;
-        }
+        map.changeRoom(direction);
     }
 
     @Override
@@ -83,7 +65,7 @@ public abstract class Level extends Actor {
         return (Camera2D) camera;
     }
 
-    public MapRooms getMap() {
-        return new MapRooms(map);
+    public GameMap getMap() {
+        return map;
     }
 }

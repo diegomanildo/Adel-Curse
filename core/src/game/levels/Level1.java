@@ -3,7 +3,7 @@ package game.levels;
 import game.rooms.BossRoom;
 import game.rooms.ShopRoom;
 import game.rooms.StoneRoom;
-import game.utilities.RoomsArray;
+import game.utilities.map.RoomsArray;
 
 public final class Level1 extends Level {
     private static final RoomsArray ROOMS = new RoomsArray(
