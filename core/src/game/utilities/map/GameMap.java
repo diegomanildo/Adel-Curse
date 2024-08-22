@@ -5,17 +5,16 @@ import game.rooms.Room;
 import game.utilities.Direction;
 import utilities.Log;
 
-public class GameMap {
+public class GameMap extends RoomMap {
     private int currentRow;
     private int currentCol;
 
-    private final RoomMap map;
     public final Vector2 playerInitPosition;
 
     public GameMap(int quantity, int rows, int columns, RoomsArray rooms) {
-        map = new RoomMap(quantity, rows, columns, rooms);
-        this.currentRow = (int) map.finalCreated.x;
-        this.currentCol = (int) map.finalCreated.y;
+        super(quantity, rows, columns, rooms);
+        this.currentRow = (int) initRoom.x;
+        this.currentCol = (int) initRoom.y;
         playerInitPosition = new Vector2(getCurrent().getWidth() / 2f, getCurrent().getHeight() / 2f);
     }
 
@@ -23,7 +22,7 @@ public class GameMap {
         Log.log("Map:");
         for (int row = 0; row < getRows(); row++) {
             for (int column = 0; column < getColumns(); column++) {
-                Room room = map.getRoom(row, column);
+                Room room = getRoomAt(row, column);
                 Room current = getCurrent();
 
                 if (room == null) {
@@ -60,15 +59,7 @@ public class GameMap {
     }
 
     public Room getCurrent() {
-        return map.getRoom(currentRow, currentCol);
-    }
-
-    public int getRows() {
-        return map.getRows();
-    }
-
-    public int getColumns() {
-        return map.getColumns();
+        return getRoomAt(currentRow, currentCol);
     }
 
     public int getCurrentCol() {
