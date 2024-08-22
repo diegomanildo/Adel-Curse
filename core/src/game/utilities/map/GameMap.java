@@ -3,7 +3,6 @@ package game.utilities.map;
 import com.badlogic.gdx.math.Vector2;
 import game.rooms.Room;
 import game.utilities.Direction;
-import utilities.Log;
 
 public class GameMap extends RoomMap {
     private int currentRow;
@@ -18,34 +17,13 @@ public class GameMap extends RoomMap {
         playerInitPosition = new Vector2(getCurrent().getWidth() / 2f, getCurrent().getHeight() / 2f);
     }
 
-    public void print() {
-        Log.log("Map:");
-        for (int row = 0; row < getRows(); row++) {
-            for (int column = 0; column < getColumns(); column++) {
-                Room room = getRoomAt(row, column);
-                Room current = getCurrent();
-
-                if (room == null) {
-                    System.out.print(".. ");
-                } else if (room.equals(current)) {
-                    System.out.print("PJ ");
-                } else {
-                    String initials = room.getClass().getSimpleName().substring(0, 2);
-                    System.out.print(initials + " ");
-                }
-            }
-
-            System.out.println();
-        }
-    }
-
     public void changeRoom(Direction direction) {
         switch (direction) {
             case UP:
-                currentRow--;
+                currentRow++;
                 break;
             case DOWN:
-                currentRow++;
+                currentRow--;
                 break;
             case RIGHT:
                 currentCol++;

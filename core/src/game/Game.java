@@ -75,7 +75,7 @@ public final class Game extends SubScreen {
         Camera2D camera = level.getCamera();
         if (camera.isMoving())
             return;
-        float transitionTime = FADE_TIME / 2f;
+        float transitionTime = FADE_TIME / 3f;
 
         if (adel.getY() < camera.getBottom()) {
             moveCameraDown(camera, transitionTime);
