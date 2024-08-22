@@ -1,6 +1,10 @@
 package utilities;
 
 public class ShapeRenderer extends com.badlogic.gdx.graphics.glutils.ShapeRenderer {
+    public ShapeRenderer() {
+        setAutoShapeType(true);
+    }
+
     public void rect(float x, float y, float width, float height, float thickness) {
         if (thickness <= 0) {
             return;

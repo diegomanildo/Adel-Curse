@@ -1,12 +1,13 @@
-package game.utilities.map;
+package game.states.hud;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import game.rooms.BossRoom;
 import game.rooms.Room;
 import game.rooms.ShopRoom;
+import game.utilities.map.GameMap;
 import utilities.Actor;
+import utilities.ShapeRenderer;
 
 public class MapDrawable extends Actor {
     private final GameMap gameMap;
@@ -19,6 +20,7 @@ public class MapDrawable extends Actor {
         this.gameMap = gameMap;
         this.cellSize = cellSize;
         this.shapeRenderer = new ShapeRenderer();
+        this.shapeRenderer.setAutoShapeType(true);
     }
 
     @Override
@@ -28,8 +30,11 @@ public class MapDrawable extends Actor {
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 
         // Initialize the bounds of the occupied area
-        int minRow = gameMap.getRows(), maxRow = 0;
-        int minCol = gameMap.getColumns(), maxCol = 0;
+        int minRow = gameMap.getRows();
+        int maxRow = 0;
+
+        int minCol = gameMap.getColumns();
+        int maxCol = 0;
 
         // Find the occupied bounds
         for (int row = 0; row < gameMap.getRows(); row++) {
@@ -69,18 +74,22 @@ public class MapDrawable extends Actor {
                         shapeRenderer.setColor(Color.GRAY);
                     }
 
-                    shapeRenderer.rect(x + PADDING / 2, y + PADDING / 2, cellSize, cellSize);
+                    shapeRenderer.rect(x + PADDING / 2f, y + PADDING / 2f, cellSize, cellSize);
                 }
             }
         }
 
-        shapeRenderer.end();
+
 
         // Calculate and set the size of the actor based on the occupied map area
         float width = (maxCol - minCol + 1) * (cellSize + PADDING);
         float height = (maxRow - minRow + 1) * (cellSize + PADDING);
         setSize(width, height); // Set the actor's size to the size of the occupied area
+        shapeRenderer.set(ShapeRenderer.ShapeType.Line);
+        shapeRenderer.setColor(Color.BLACK);
+        shapeRenderer.rect(getX(), getY(), getWidth(), getHeight());
 
+        shapeRenderer.end();
         batch.begin(); // Resume the batch
     }
 
