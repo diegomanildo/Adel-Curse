@@ -26,7 +26,7 @@ public class Controls {
 
     private static void saveKey(GameAction action, int key) {
         PREFS.putInteger(action.name(), key);
-        PREFS.flush(); // Guarda inmediatamente las preferencias
+        PREFS.flush(); // Save controls
     }
 
     public static int size() {

@@ -1,7 +1,5 @@
 package game.states;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Array;
 import game.Game;
@@ -54,14 +52,6 @@ public class PauseScreen extends SubScreen {
         } else {
             game.resume();
             timer.resume();
-        }
-    }
-
-    @Override
-    protected void handleInput() {
-        super.handleInput();
-        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
-            setShow(false);
         }
     }
 }

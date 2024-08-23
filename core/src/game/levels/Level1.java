@@ -7,9 +7,9 @@ import game.utilities.map.RoomsArray;
 
 public final class Level1 extends Level {
     private static final RoomsArray ROOMS = new RoomsArray(
-            StoneRoom.class,
+            BossRoom.class,
             ShopRoom.class,
-            BossRoom.class
+            StoneRoom.class
     );
 
     public Level1() {

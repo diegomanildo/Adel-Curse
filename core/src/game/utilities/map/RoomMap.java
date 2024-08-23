@@ -1,6 +1,7 @@
 package game.utilities.map;
 
 import com.badlogic.gdx.math.Vector2;
+import game.rooms.BossRoom;
 import game.rooms.Room;
 
 import java.util.ArrayList;
@@ -32,6 +33,8 @@ public class RoomMap {
         initRoom = new Vector2(initialRow, initialColumn);
 
         generateMap(quantity - 1); // Subtract 1 since the initial room is already created
+        placeBossRoom();
+        placeShopRoom();
     }
 
     private void generateMap(int quantity) {
@@ -42,19 +45,17 @@ public class RoomMap {
         }
     }
 
-    private void createRoomAt(int row, int column, Class<? extends Room> randomRoom) {
-        // Select a random room type from the room types
-        if (randomRoom == null) {
-            randomRoom = roomTypes.random();
+    private void createRoomAt(int row, int column, Class<? extends Room> roomClass) {
+        if (roomClass == null) {
+            roomClass = roomTypes.random();
         }
 
         try {
-            map[row][column] = randomRoom.getDeclaredConstructor().newInstance();
+            map[row][column] = roomClass.getDeclaredConstructor().newInstance();
         } catch (Exception e) {
-            throw new RuntimeException("Room class \"" + randomRoom.getName() + "\" is not valid (" + e.getClass() + ")");
+            throw new RuntimeException("Room class \"" + roomClass.getName() + "\" is not valid (" + e.getClass() + ")");
         }
 
-        // Add adjacent positions to openPositions for possible future room creation
         addAdjacentPositions(row, column);
     }
 
@@ -77,6 +78,47 @@ public class RoomMap {
 
         if (column < columns - 1 && isFreeAt(row, column + 1)) {
             openPositions.add(new Vector2(row, column + 1));
+        }
+    }
+
+    private void placeBossRoom() {
+        Vector2 farthestRoomPos = null;
+        float maxDistance = 0;
+
+        // Find the farthest room from the initial room
+        for (int row = 0; row < rows; row++) {
+            for (int column = 0; column < columns; column++) {
+                if (map[row][column] != null) {
+                    float distance = initRoom.dst(row, column);
+                    if (distance > maxDistance) {
+                        maxDistance = distance;
+                        farthestRoomPos = new Vector2(row, column);
+                    }
+                }
+            }
+        }
+
+        if (farthestRoomPos != null) {
+            createRoomAt((int) farthestRoomPos.x, (int) farthestRoomPos.y, roomTypes.getBossRoom());
+        }
+    }
+
+    private void placeShopRoom() {
+        List<Vector2> possibleLocations = new ArrayList<>();
+
+        // Collect all available spots where we could place the shop
+        for (int row = 0; row < rows; row++) {
+            for (int column = 0; column < columns; column++) {
+                if (map[row][column] != null && !(row == initRoom.x && column == initRoom.y) && !map[row][column].getClass().isAssignableFrom(BossRoom.class)) {
+                    possibleLocations.add(new Vector2(row, column));
+                }
+            }
+        }
+
+        // Place the ShopRoom in a random location from the available spots
+        if (!possibleLocations.isEmpty()) {
+            Vector2 shopPosition = possibleLocations.get(RANDOM.nextInt(possibleLocations.size()));
+            createRoomAt((int) shopPosition.x, (int) shopPosition.y, roomTypes.getShopRoom());
         }
     }
 

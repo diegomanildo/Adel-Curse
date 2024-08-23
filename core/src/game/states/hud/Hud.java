@@ -32,7 +32,7 @@ public class Hud extends SubScreen {
         stack.add(hpLabel);
 
         table.add(stack).left().top().width(hpBar.getWidth()).height(hpBar.getHeight()).pad(10f).expandX();
-        table.add(timerLabel).center().top().pad(10f).expandX();
+        table.add(timerLabel).left().top().pad(10f).expandX();
         table.add(mapDrawable).right().top().pad(10f).expandX();
 
         stage.addActor(table);
