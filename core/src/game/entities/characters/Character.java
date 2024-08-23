@@ -23,7 +23,7 @@ public abstract class Character extends GameEntity {
         super(stats, FilePaths.CHARACTERS + texturePath, columns, rows, 0.4f);
         setSize(24.0f, 29.0f);
         setHitbox(getWidth() / 2f, getHeight());
-        setVelocity(getWidth() + getHeight());
+        setVelocity(80f);
         bullets = new ArrayList<>();
         shootSound = new Sound("Sfx", "game/shoot.mp3");
         this.bulletTexturePath = bulletTexturePath;
