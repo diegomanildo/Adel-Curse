@@ -42,6 +42,7 @@ public class GameMap extends RoomMap {
 
         // if room is current set kind to Current
         if (room != null && room.equals(getCurrent())) {
+            room = Room.copy(room);
             room.setKind(RoomKinds.CURRENT);
         }
 

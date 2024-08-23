@@ -20,23 +20,20 @@ public class Hud extends SubScreen {
         hpLabel = new Label();
         timerLabel = new Label();
         timer = new Timer();
+        HpBar hpBar = new HpBar(player);
+        MapDrawable mapDrawable = new MapDrawable(map, 25f);
 
         Table table = new Table();
         table.setFillParent(true);
-        table.top();
-
-        HpBar hpBar = new HpBar(player);
-        MapDrawable mapDrawable = new MapDrawable(map, 10f);
+        table.top().left();
 
         Stack stack = new Stack();
         stack.add(hpBar);
         stack.add(hpLabel);
 
-        table.add(stack).width(hpBar.width).height(hpBar.height).padTop(10f).padLeft(10f).padRight(5f);
-
-        table.add(timerLabel).center();
-
-        table.add(mapDrawable).right().pad(10f);
+        table.add(stack).left().top().width(hpBar.getWidth()).height(hpBar.getHeight()).pad(10f).expandX();
+        table.add(timerLabel).center().top().pad(10f).expandX();
+        table.add(mapDrawable).right().top().pad(10f).expandX();
 
         stage.addActor(table);
     }

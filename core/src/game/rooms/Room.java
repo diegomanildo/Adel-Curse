@@ -6,13 +6,22 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import game.utilities.map.RoomKinds;
 import utilities.FilePaths;
 
-public abstract class Room extends Group {
+public class Room extends Group {
     private final TiledMap map;
     private RoomKinds roomKind;
 
     protected Room(String mapFile, RoomKinds roomKind) {
         map = new TmxMapLoader().load(FilePaths.ROOMS + mapFile);
         this.roomKind = roomKind;
+    }
+
+    private Room(Room other) {
+        this.map = other.map;
+        this.roomKind = other.roomKind;
+    }
+
+    public static Room copy(Room room) {
+        return new Room(room);
     }
 
     protected Room(String mapFile) {

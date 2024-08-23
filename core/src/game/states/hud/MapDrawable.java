@@ -2,9 +2,7 @@ package game.states.hud;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import game.rooms.BossRoom;
 import game.rooms.Room;
-import game.rooms.ShopRoom;
 import game.utilities.map.GameMap;
 import utilities.Actor;
 import utilities.ShapeRenderer;
@@ -62,20 +60,7 @@ public class MapDrawable extends Actor {
                     shapeRenderer.rect(x, y, cellSize + PADDING, cellSize + PADDING);
 
                     // Draw room's interior
-                    Class<? extends Room> roomClass = room.getClass();
-
                     shapeRenderer.setColor(room.getKind().getColor());
-
-                    if (room.equals(gameMap.getCurrent())) {
-                        shapeRenderer.setColor(Color.GREEN);
-                    } else if (roomClass.equals(BossRoom.class)) {
-                        shapeRenderer.setColor(Color.RED);
-                    } else if (roomClass.equals(ShopRoom.class)) {
-                        shapeRenderer.setColor(Color.YELLOW);
-                    } else {
-                        shapeRenderer.setColor(Color.GRAY);
-                    }
-
                     shapeRenderer.rect(x + PADDING / 2f, y + PADDING / 2f, cellSize, cellSize);
                 }
             }
