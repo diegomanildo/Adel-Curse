@@ -3,13 +3,20 @@ package game.rooms;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.scenes.scene2d.Group;
+import game.utilities.map.RoomKinds;
 import utilities.FilePaths;
 
 public abstract class Room extends Group {
     private final TiledMap map;
+    private RoomKinds roomKind;
+
+    protected Room(String mapFile, RoomKinds roomKind) {
+        map = new TmxMapLoader().load(FilePaths.ROOMS + mapFile);
+        this.roomKind = roomKind;
+    }
 
     protected Room(String mapFile) {
-        map = new TmxMapLoader().load(FilePaths.ROOMS + mapFile);
+        this(mapFile, RoomKinds.OTHER);
     }
 
     public float getWidth() {
@@ -22,5 +29,13 @@ public abstract class Room extends Group {
 
     public TiledMap getMap() {
         return map;
+    }
+
+    public RoomKinds getKind() {
+        return roomKind;
+    }
+
+    public void setKind(RoomKinds roomKind) {
+        this.roomKind = roomKind;
     }
 }

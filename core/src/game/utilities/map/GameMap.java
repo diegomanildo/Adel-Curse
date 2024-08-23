@@ -36,8 +36,20 @@ public class GameMap extends RoomMap {
         }
     }
 
+    @Override
+    public Room getRoomAt(int row, int column) {
+        Room room = super.getRoomAt(row, column);
+
+        // if room is current set kind to Current
+        if (room != null && room.equals(getCurrent())) {
+            room.setKind(RoomKinds.CURRENT);
+        }
+
+        return room;
+    }
+
     public Room getCurrent() {
-        return getRoomAt(currentRow, currentCol);
+        return super.getRoomAt(currentRow, currentCol);
     }
 
     public int getCurrentCol() {

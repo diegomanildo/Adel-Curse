@@ -28,7 +28,7 @@ public class RoomMap {
         // Generate the initial room at the middle
         int initialRow = rows / 2;
         int initialColumn = columns / 2;
-        createRoomAt(initialRow, initialColumn);
+        createRoomAt(initialRow, initialColumn, roomTypes.getInitialRoom());
         initRoom = new Vector2(initialRow, initialColumn);
 
         generateMap(quantity - 1); // Subtract 1 since the initial room is already created
@@ -42,9 +42,11 @@ public class RoomMap {
         }
     }
 
-    private void createRoomAt(int row, int column) {
+    private void createRoomAt(int row, int column, Class<? extends Room> randomRoom) {
         // Select a random room type from the room types
-        Class<? extends Room> randomRoom = roomTypes.random();
+        if (randomRoom == null) {
+            randomRoom = roomTypes.random();
+        }
 
         try {
             map[row][column] = randomRoom.getDeclaredConstructor().newInstance();
@@ -54,6 +56,10 @@ public class RoomMap {
 
         // Add adjacent positions to openPositions for possible future room creation
         addAdjacentPositions(row, column);
+    }
+
+    private void createRoomAt(int row, int column) {
+        createRoomAt(row, column, null);
     }
 
     private void addAdjacentPositions(int row, int column) {

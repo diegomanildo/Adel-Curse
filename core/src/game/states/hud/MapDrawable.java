@@ -64,6 +64,8 @@ public class MapDrawable extends Actor {
                     // Draw room's interior
                     Class<? extends Room> roomClass = room.getClass();
 
+                    shapeRenderer.setColor(room.getKind().getColor());
+
                     if (room.equals(gameMap.getCurrent())) {
                         shapeRenderer.setColor(Color.GREEN);
                     } else if (roomClass.equals(BossRoom.class)) {

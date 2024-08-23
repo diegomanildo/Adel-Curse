@@ -1,8 +1,10 @@
 package game.rooms;
 
+import game.utilities.map.RoomKinds;
+
 public final class ShopRoom extends Room {
     public ShopRoom() {
-        super("shop/shop.tmx");
+        super("shop/shop.tmx", RoomKinds.SHOP);
 //        initializeObjects();
     }
 
