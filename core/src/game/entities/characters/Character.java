@@ -7,6 +7,7 @@ import game.entities.GameEntity;
 import game.utilities.Bullet;
 import game.utilities.Direction;
 import utilities.FilePaths;
+import utilities.Log;
 import utilities.Timer;
 import utilities.io.Sound;
 
@@ -21,7 +22,7 @@ public abstract class Character extends GameEntity {
 
     public Character(Stats stats, String texturePath, String bulletTexturePath, int columns, int rows) {
         super(stats, FilePaths.CHARACTERS + texturePath, columns, rows, 0.4f);
-        setSize(24.0f, 29.0f);
+        setSize(24f, 29f);
         setHitbox(getWidth() / 2f, getHeight());
         setVelocity(80f);
         bullets = new ArrayList<>();
@@ -79,7 +80,6 @@ public abstract class Character extends GameEntity {
         b.setPosition(getX() + b.getWidth() / 2f, getY() + b.getHeight() / 2f);
         b.setVelocity(getVelocity() * 2f);
         bullets.add(b);
-        getStage().addActor(b);
 
         shootSound.play();
     }
@@ -88,9 +88,10 @@ public abstract class Character extends GameEntity {
         for (int i = 0; i < bullets.size(); i++) {
             bullets.get(i).update(Gdx.graphics.getDeltaTime());
 
-            if (bullets.get(i).outOfBounds() || bullets.get(i).collidesWithEnemy(getDamage())) {
+            if (bullets.get(i).outOfBounds(getCamera()) || bullets.get(i).collidesWithEnemy(getDamage())) {
                 bullets.get(i).impact();
                 bullets.remove(i);
+                Log.debug("Bullet remove, bullets in screen: " + bullets.size());
             }
         }
     }

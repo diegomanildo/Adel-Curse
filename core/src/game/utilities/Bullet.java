@@ -12,15 +12,15 @@ public final class Bullet extends MovableObject {
     private float impactTime;
     private final float impactDuration;
 
-    private final GameEntity from;
+    private final GameEntity parent;
     private final Direction direction;
 
-    public Bullet(GameEntity from, String texturePath, Direction direction, float frameDuration) {
+    public Bullet(GameEntity parent, String texturePath, Direction direction, float frameDuration) {
         super(texturePath, 2, 5, frameDuration);
         this.impacted = false;
         this.impactTime = 0f;
         this.impactDuration = 0.5f;
-        this.from = from;
+        this.parent = parent;
         this.direction = direction;
         setHitbox(10f, 10f);
     }
@@ -74,16 +74,17 @@ public final class Bullet extends MovableObject {
     }
 
     // Bullet is no more in the screen, and you should have not rendered it
-    public boolean outOfBounds() {
-        Camera2D camera = (Camera2D) getStage().getCamera();
+    public boolean outOfBounds(Camera2D camera) {
+        // TODO: camera.getRight() and camera.getTop() are not right because camera is stage camera and not Level camera
 
-        return (getX() < camera.getLeft() - PIXELS_DELAY || getX() > camera.getRight() + PIXELS_DELAY
-                || getY() < camera.getBottom() - PIXELS_DELAY || getY() > camera.getTop() + PIXELS_DELAY);
+        return (getX() < camera.getLeft() || getX() > camera.getRight()
+                || getY() < camera.getBottom()  || getY() > camera.getTop());
     }
 
+    // Check if the parent is not the same entity and if collides with the bullet
     public boolean collidesWithEnemy(int damageReceived) {
         for (GameEntity e : Game.entities) {
-            if (!from.equals(e) && e.collidesWith(this)) {
+            if (!parent.equals(e) && e.collidesWith(this)) {
                 e.damage(damageReceived);
                 return true;
             }

@@ -20,11 +20,6 @@ public abstract class Level extends Actor {
 
     protected Level(int quantity, int rows, int cols, RoomsArray rooms) {
         map = new GameMap(quantity, rows, cols, rooms);
-    }
-
-    @Override
-    public void show() {
-        super.show();
         camera = new Camera2D();
         camera.viewportWidth = map.getCurrent().getWidth() - OFFSET;
         camera.viewportHeight = map.getCurrent().getHeight() - OFFSET;
