@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import game.Game;
 import game.entities.characters.playables.Playable;
 import game.entities.items.Item;
-import game.entities.items.RandomCard;
 import game.map.RoomKinds;
 import utilities.Log;
 import utilities.io.Song;
@@ -18,13 +17,30 @@ public final class ShopRoom extends Room {
 
     public ShopRoom() {
         super("shop/shop.tmx", RoomKinds.SHOP);
-        items = new ArrayList<>();
         firstTime = true;
+        items = new ArrayList<>();
 
-        RandomCard randomCard = new RandomCard();
-        randomCard.setPosition(200, 200);
+        Item item1 = getRandomItem();
+        item1.setPosition(144, 115);
+        items.add(item1);
 
-        items.add(randomCard);
+        Item item2 = getRandomItem();
+        item2.setPosition(175f, 115);
+        items.add(item2);
+
+        Item item3 = getRandomItem();
+        item3.setPosition(208, 115);
+        items.add(item3);
+    }
+
+    public Item getRandomItem() {
+        Item item;
+
+        do {
+            item = Item.ITEMS.getRandomItem();
+        } while (items.contains(item));
+
+        return item;
     }
 
     @Override

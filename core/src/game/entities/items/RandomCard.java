@@ -12,11 +12,7 @@ public class RandomCard extends Item {
         Item randomItem;
 
         do {
-            try {
-                randomItem = ITEMS.random().getDeclaredConstructor().newInstance();
-            } catch(Exception e) {
-                throw new RuntimeException("Item is not valid (" + e.getClass() + ")");
-            }
+            randomItem = ITEMS.getRandomItem();
         } while (randomItem instanceof RandomCard);
 
         randomItem.changeOwnerTo(owner);
