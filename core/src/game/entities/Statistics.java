@@ -18,12 +18,20 @@ public interface Statistics {
     }
 
     int getHp();
-    int getMaxHp();
-    int getDamage();
-
     void setHp(int hp);
-    void setDamage(int damage);
 
+    default void addHp(int hp) {
+        setHp(getHp() + hp);
+    }
+
+    default void removeHp(int hp) {
+        damage(hp);
+    }
+
+    int getMaxHp();
+
+    int getDamage();
+    void setDamage(int damage);
     default void damage(int damageReceived) {
         setHp(getHp() - damageReceived);
     }

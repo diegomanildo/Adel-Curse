@@ -6,6 +6,7 @@ public enum FilePaths {
     FONTS("fonts/"),
     BACKGROUNDS(IMAGES + "backgrounds/"),
     CHARACTERS(IMAGES + "characters/"),
+    ITEMS(IMAGES + "items/"),
     ROOMS("rooms/");
 
     private final String filePath;
