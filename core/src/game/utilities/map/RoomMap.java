@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import game.rooms.BossRoom;
 import game.rooms.Room;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -16,7 +17,7 @@ public class RoomMap {
     private final int columns;
     private final RoomsArray roomTypes;
 
-    protected final Vector2 initRoom; // Initial room position
+    public final Vector2 initRoom; // Initial room position
     private final List<Vector2> openPositions = new ArrayList<>();
 
     public RoomMap(int quantity, int rows, int columns, RoomsArray roomTypes) {
@@ -52,7 +53,9 @@ public class RoomMap {
 
         try {
             map[row][column] = roomClass.getDeclaredConstructor().newInstance();
-        } catch (Exception e) {
+        } catch(InvocationTargetException e) {
+            throw new RuntimeException(e);
+        } catch(Exception e) {
             throw new RuntimeException("Room class \"" + roomClass.getName() + "\" is not valid (" + e.getClass() + ")");
         }
 

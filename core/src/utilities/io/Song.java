@@ -6,12 +6,14 @@ public final class Song extends Audio {
     private final Sound intro;
     private final Sound song;
 
+    private boolean isInSong;
+
     private Sound getNotNull() {
         return intro != null ? intro : song;
     }
 
     private Sound getPlaying() {
-        return intro != null && intro.isPlaying() ? intro : song;
+        return isInSong ? song : intro;
     }
 
     private void forEach(Consumer<Sound> action) {
@@ -26,14 +28,17 @@ public final class Song extends Audio {
     public Song(String channel, String introFilePath, String songFilePath) {
         super(channel);
         song = new Sound(null, songFilePath);
+        isInSong = false;
 
         if (introFilePath == null) {
             intro = null;
+            isInSong = true;
         } else {
             intro = new Sound(null, introFilePath);
             intro.setOnCompletionListener(music -> {
                 intro.stop();
                 song.play();
+                isInSong = true;
             });
         }
 
@@ -126,7 +131,7 @@ public final class Song extends Audio {
     @Override
     public void fadeIn(float duration, boolean loop) {
         setLooping(loop);
-        getNotNull().fadeIn(duration);
+        getPlaying().fadeIn(duration);
     }
 
     @Override

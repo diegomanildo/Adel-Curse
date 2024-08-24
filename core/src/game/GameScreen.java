@@ -2,8 +2,7 @@ package game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import game.states.PauseScreen;
-import game.states.hud.Hud;
+import game.hud.Hud;
 import menu.BasicMainMenuScreen;
 import menu.MainMenuScreen;
 import utilities.Render;
@@ -39,6 +38,8 @@ public final class GameScreen extends Screen {
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
             pause.setShow(true);
+        } else if (Gdx.input.isKeyJustPressed(Input.Keys.SHIFT_LEFT)) {
+            game.getPlayer().setVelocity(game.getPlayer().getVelocity() * 2f);
         }
     }
 

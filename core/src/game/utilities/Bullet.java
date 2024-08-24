@@ -75,10 +75,8 @@ public final class Bullet extends MovableObject {
 
     // Bullet is no more in the screen, and you should have not rendered it
     public boolean outOfBounds(Camera2D camera) {
-        // TODO: camera.getRight() and camera.getTop() are not right because camera is stage camera and not Level camera
-
-        return (getX() < camera.getLeft() || getX() > camera.getRight()
-                || getY() < camera.getBottom()  || getY() > camera.getTop());
+        return (getX() < camera.getLeft() - getWidth() || getX() > camera.getRight()
+                || getY() < camera.getBottom() - getHeight()  || getY() > camera.getTop());
     }
 
     // Check if the parent is not the same entity and if collides with the bullet

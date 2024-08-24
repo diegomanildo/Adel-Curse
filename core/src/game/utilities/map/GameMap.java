@@ -17,7 +17,8 @@ public class GameMap extends RoomMap {
         playerInitPosition = new Vector2(getCurrent().getWidth() / 2f, getCurrent().getHeight() / 2f);
     }
 
-    public void changeRoom(Direction direction) {
+    // Changes the room and returns the new current room
+    public Room changeRoom(Direction direction) {
         switch (direction) {
             case UP:
                 currentRow++;
@@ -34,6 +35,8 @@ public class GameMap extends RoomMap {
             default:
                 throw new RuntimeException("Invalid direction: " + direction);
         }
+
+        return getCurrent();
     }
 
     @Override

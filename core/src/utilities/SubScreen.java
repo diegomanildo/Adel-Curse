@@ -7,7 +7,7 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import game.utilities.Camera2D;
 
 public abstract class SubScreen extends ScreenAdapter {
-    protected static final float FADE_TIME = 1f;
+    public static final float FADE_TIME = 1f;
 
     private boolean show;
     protected final Stage stage;

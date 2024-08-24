@@ -1,8 +1,11 @@
 package game.rooms;
 
 import game.utilities.map.RoomKinds;
+import utilities.io.Song;
 
 public final class ShopRoom extends Room {
+    public static Song song = new Song("Music", "game/music/ShopIntro.mp3", "game/music/Shop.mp3");
+
     public ShopRoom() {
         super("shop/shop.tmx", RoomKinds.SHOP);
 //        initializeObjects();

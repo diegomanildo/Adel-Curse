@@ -4,17 +4,22 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import game.Game;
+import game.rooms.Room;
+import game.rooms.ShopRoom;
 import game.utilities.Camera2D;
 import game.utilities.Direction;
 import game.utilities.map.GameMap;
 import game.utilities.map.RoomsArray;
 import utilities.Actor;
 import utilities.Render;
+import utilities.Screen;
 
 public abstract class Level extends Actor {
+    public static Camera camera;
     private OrthogonalTiledMapRenderer renderer;
     private final GameMap map;
-    private Camera camera;
+    private boolean isInShop;
 
     private static final float OFFSET = 34f;
 
@@ -25,6 +30,7 @@ public abstract class Level extends Actor {
         camera.viewportHeight = map.getCurrent().getHeight() - OFFSET;
         camera.position.set(getInitX(), getInitY(), 0f);
         camera.update();
+        isInShop = false;
     }
 
     public float getInitX() {
@@ -51,7 +57,17 @@ public abstract class Level extends Actor {
     }
 
     public void changeRoom(Direction direction) {
-        map.changeRoom(direction);
+        Room current = map.changeRoom(direction);
+
+        if (current instanceof ShopRoom) {
+            ShopRoom.song.play(true);
+            Game.song.pause();
+            isInShop = true;
+        } else if (isInShop) {
+            isInShop = false;
+            Game.song.fadeIn(Screen.FADE_TIME, true);
+            ShopRoom.song.fadeOut(Screen.FADE_TIME, true);
+        }
     }
 
     @Override

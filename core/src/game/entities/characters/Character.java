@@ -4,7 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import game.entities.GameEntity;
+import game.levels.Level;
 import game.utilities.Bullet;
+import game.utilities.Camera2D;
 import game.utilities.Direction;
 import utilities.FilePaths;
 import utilities.Log;
@@ -88,7 +90,7 @@ public abstract class Character extends GameEntity {
         for (int i = 0; i < bullets.size(); i++) {
             bullets.get(i).update(Gdx.graphics.getDeltaTime());
 
-            if (bullets.get(i).outOfBounds(getCamera()) || bullets.get(i).collidesWithEnemy(getDamage())) {
+            if (bullets.get(i).outOfBounds((Camera2D) Level.camera) || bullets.get(i).collidesWithEnemy(getDamage())) {
                 bullets.get(i).impact();
                 bullets.remove(i);
                 Log.debug("Bullet remove, bullets in screen: " + bullets.size());

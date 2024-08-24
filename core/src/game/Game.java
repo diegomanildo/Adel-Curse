@@ -18,7 +18,7 @@ public final class Game extends SubScreen {
 
     private final Level1 level;
     private final Adel adel;
-    private final Song song;
+    public static Song song;
 
     public Game() {
         super();
@@ -75,7 +75,7 @@ public final class Game extends SubScreen {
         Camera2D camera = level.getCamera();
         if (camera.isMoving())
             return;
-        float transitionTime = FADE_TIME / 3f;
+        float transitionTime = FADE_TIME / 6f;
 
         if (adel.getY() < camera.getBottom()) {
             moveCameraDown(camera, transitionTime);

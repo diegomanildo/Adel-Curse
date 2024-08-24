@@ -1,4 +1,4 @@
-package game.states.hud;
+package game.hud;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -7,18 +7,17 @@ import game.utilities.map.GameMap;
 import utilities.Actor;
 import utilities.ShapeRenderer;
 
-public class MapDrawable extends Actor {
+public class MiniMap extends Actor {
     private final GameMap gameMap;
     private final ShapeRenderer shapeRenderer;
 
     private final float cellSize;
     private static final float PADDING = 4f;
 
-    public MapDrawable(GameMap gameMap, float cellSize) {
+    public MiniMap(GameMap gameMap, float cellSize) {
         this.gameMap = gameMap;
         this.cellSize = cellSize;
         this.shapeRenderer = new ShapeRenderer();
-        this.shapeRenderer.setAutoShapeType(true);
     }
 
     @Override

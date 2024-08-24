@@ -57,7 +57,7 @@ public abstract class Audio implements Music {
         Gdx.app.postRunnable(fadeInStep);
     }
 
-    public void fadeOut(float duration) {
+    public void fadeOut(float duration, boolean pause) {
         float startVolume = getVolume();
         float endVolume = 0.0f;
         float step = 0.01f;
@@ -82,11 +82,19 @@ public abstract class Audio implements Music {
                 if (currentVolume[0] > endVolume) {
                     Gdx.app.postRunnable(this);
                 } else {
-                    stop();
+                    if (pause) {
+                        pause();
+                    } else {
+                        stop();
+                    }
                 }
             }
         };
 
         Gdx.app.postRunnable(fadeOutStep);
+    }
+
+    public void fadeOut(float duration) {
+        fadeOut(duration, false);
     }
 }
