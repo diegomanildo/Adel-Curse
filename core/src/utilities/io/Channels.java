@@ -3,13 +3,12 @@ package utilities.io;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 public final class Channels {
     public static final String DEFAULT_CHANNEL = "Default";
     public static final String GLOBAL_CHANNEL = "Global";
 
-    private static final Map<String, Set<Audio>> audioChannels = new HashMap<>();
+    private static final Map<String, HashSet<Audio>> audioChannels = new HashMap<>();
     private static final Map<String, Float> volumeChannels = new HashMap<>();
 
     static {
