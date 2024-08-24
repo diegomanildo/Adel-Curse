@@ -29,6 +29,11 @@ public interface Statistics {
     }
 
     int getMaxHp();
+    void setMaxHp(int maxHp);
+
+    default void addMaxHp(int hp) {
+        setMaxHp(getMaxHp() + hp);
+    }
 
     int getDamage();
     void setDamage(int damage);

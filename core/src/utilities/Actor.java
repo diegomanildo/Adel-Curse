@@ -41,7 +41,7 @@ public class Actor extends com.badlogic.gdx.scenes.scene2d.Actor {
     }
 
     public boolean collidesWith(Actor other) {
-        return collidesWith(other.getHitbox());
+        return other.getHitbox() == null ? collidesWith(new Hitbox(other.getX(), other.getY(), other.getWidth(), other.getHeight())) : collidesWith(other.getHitbox());
     }
 
     public boolean collidesWith(Rectangle other) {

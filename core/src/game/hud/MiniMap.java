@@ -2,8 +2,8 @@ package game.hud;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import game.map.GameMap;
 import game.rooms.Room;
-import game.utilities.map.GameMap;
 import utilities.Actor;
 import utilities.ShapeRenderer;
 

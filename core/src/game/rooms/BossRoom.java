@@ -1,6 +1,6 @@
 package game.rooms;
 
-import game.utilities.map.RoomKinds;
+import game.map.RoomKinds;
 import utilities.io.Song;
 
 public final class BossRoom extends Room {

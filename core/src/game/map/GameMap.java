@@ -1,4 +1,4 @@
-package game.utilities.map;
+package game.map;
 
 import com.badlogic.gdx.math.Vector2;
 import game.rooms.Room;
@@ -19,6 +19,8 @@ public class GameMap extends RoomMap {
 
     // Changes the room and returns the new current room
     public Room changeRoom(Direction direction) {
+        getCurrent().remove();
+
         switch (direction) {
             case UP:
                 currentRow++;
@@ -36,7 +38,11 @@ public class GameMap extends RoomMap {
                 throw new RuntimeException("Invalid direction: " + direction);
         }
 
-        return getCurrent();
+        Room current = getCurrent();
+
+        addActor(current);
+
+        return current;
     }
 
     @Override

@@ -3,7 +3,7 @@ package game.hud;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import game.entities.characters.playables.Playable;
-import game.utilities.map.GameMap;
+import game.map.GameMap;
 import utilities.Label;
 import utilities.SubScreen;
 import utilities.Timer;

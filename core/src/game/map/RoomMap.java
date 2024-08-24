@@ -1,6 +1,7 @@
-package game.utilities.map;
+package game.map;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Group;
 import game.rooms.BossRoom;
 import game.rooms.Room;
 
@@ -9,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class RoomMap {
+public class RoomMap extends Group {
     private static final Random RANDOM = new Random();
 
     private final Room[][] map;

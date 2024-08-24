@@ -3,7 +3,7 @@ package game.rooms;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.scenes.scene2d.Group;
-import game.utilities.map.RoomKinds;
+import game.map.RoomKinds;
 import utilities.FilePaths;
 
 public class Room extends Group {

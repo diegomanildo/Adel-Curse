@@ -8,13 +8,12 @@ import game.levels.Level;
 import game.levels.Level1;
 import game.utilities.Camera2D;
 import game.utilities.Direction;
+import game.utilities.Entities;
 import utilities.SubScreen;
 import utilities.io.Song;
 
-import java.util.ArrayList;
-
 public final class Game extends SubScreen {
-    public static ArrayList<GameEntity> entities;
+    public static Entities entities;
 
     private final Level1 level;
     private final Adel adel;
@@ -22,7 +21,7 @@ public final class Game extends SubScreen {
 
     public Game() {
         super();
-        entities = new ArrayList<>();
+        entities = new Entities();
 
         level = new Level1();
         adel = new Adel();

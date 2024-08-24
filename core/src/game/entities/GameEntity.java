@@ -68,6 +68,11 @@ public abstract class GameEntity extends MovableObject implements Statistics {
     }
 
     @Override
+    public void setMaxHp(int maxHp) {
+        stats.maxHp = maxHp;
+    }
+
+    @Override
     public void setDamage(int damage) {
         stats.damage = damage;
     }

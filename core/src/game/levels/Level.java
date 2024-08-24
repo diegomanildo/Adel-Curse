@@ -4,18 +4,18 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.scenes.scene2d.Group;
 import game.Game;
+import game.map.GameMap;
+import game.map.RoomsArray;
 import game.rooms.BossRoom;
 import game.rooms.Room;
 import game.rooms.ShopRoom;
 import game.utilities.Camera2D;
 import game.utilities.Direction;
-import game.utilities.map.GameMap;
-import game.utilities.map.RoomsArray;
-import utilities.Actor;
 import utilities.Render;
 
-public abstract class Level extends Actor {
+public abstract class Level extends Group {
     public static Camera camera;
     private OrthogonalTiledMapRenderer renderer;
     private final GameMap map;
@@ -26,6 +26,7 @@ public abstract class Level extends Actor {
 
     protected Level(int quantity, int rows, int cols, RoomsArray rooms) {
         map = new GameMap(quantity, rows, cols, rooms);
+        addActor(map);
         camera = new Camera2D();
         camera.viewportWidth = map.getCurrent().getWidth() - OFFSET;
         camera.viewportHeight = map.getCurrent().getHeight() - OFFSET;
@@ -91,7 +92,6 @@ public abstract class Level extends Actor {
         BossRoom.song.pause();
     }
 
-    @Override
     public Camera2D getCamera() {
         return (Camera2D) camera;
     }
