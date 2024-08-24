@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import game.Game;
+import game.rooms.BossRoom;
 import game.rooms.Room;
 import game.rooms.ShopRoom;
 import game.utilities.Camera2D;
@@ -13,13 +14,13 @@ import game.utilities.map.GameMap;
 import game.utilities.map.RoomsArray;
 import utilities.Actor;
 import utilities.Render;
-import utilities.Screen;
 
 public abstract class Level extends Actor {
     public static Camera camera;
     private OrthogonalTiledMapRenderer renderer;
     private final GameMap map;
     private boolean isInShop;
+    private boolean isInBoss;
 
     private static final float OFFSET = 34f;
 
@@ -31,6 +32,7 @@ public abstract class Level extends Actor {
         camera.position.set(getInitX(), getInitY(), 0f);
         camera.update();
         isInShop = false;
+        isInBoss = false;
     }
 
     public float getInitX() {
@@ -60,14 +62,33 @@ public abstract class Level extends Actor {
         Room current = map.changeRoom(direction);
 
         if (current instanceof ShopRoom) {
-            ShopRoom.song.play(true);
-            Game.song.pause();
-            isInShop = true;
-        } else if (isInShop) {
-            isInShop = false;
-            Game.song.fadeIn(Screen.FADE_TIME, true);
-            ShopRoom.song.fadeOut(Screen.FADE_TIME, true);
+            onChangedToShop();
+        } else if (current instanceof BossRoom) {
+            onChangedToBoss();
+        } else if (isInShop || isInBoss) {
+            onChangedToCommon();
         }
+    }
+
+    private void onChangedToShop() {
+        ShopRoom.song.play(true);
+        Game.song.pause();
+        isInShop = true;
+    }
+
+    private void onChangedToBoss() {
+        isInBoss = true;
+
+        BossRoom.song.play(true);
+        Game.song.pause();
+    }
+
+    private void onChangedToCommon() {
+        isInShop = false;
+        isInBoss = false;
+        Game.song.play(true);
+        ShopRoom.song.pause();
+        BossRoom.song.pause();
     }
 
     @Override
