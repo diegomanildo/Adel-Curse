@@ -3,8 +3,8 @@ package game.rooms;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import game.Game;
 import game.entities.characters.playables.Playable;
-import game.entities.items.Candy;
 import game.entities.items.Item;
+import game.entities.items.RandomCard;
 import game.map.RoomKinds;
 import utilities.Log;
 import utilities.io.Song;
@@ -21,10 +21,10 @@ public final class ShopRoom extends Room {
         items = new ArrayList<>();
         firstTime = true;
 
-        Candy candy = new Candy();
-        candy.setPosition(200, 200);
+        RandomCard randomCard = new RandomCard();
+        randomCard.setPosition(200, 200);
 
-        items.add(candy);
+        items.add(randomCard);
     }
 
     @Override
@@ -33,7 +33,6 @@ public final class ShopRoom extends Room {
 
         if (firstTime) {
             items.forEach(i -> {
-                i.setZIndex(1);
                 getStage().addActor(i);
             });
             firstTime = false;

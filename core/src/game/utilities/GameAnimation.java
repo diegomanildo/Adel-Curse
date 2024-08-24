@@ -11,8 +11,8 @@ public abstract class GameAnimation extends Actor {
     private int index;
     private float frameDuration;
 
-    private final int columns;
-    private final int rows;
+    private int columns;
+    private int rows;
 
     private TextureRegion[] frames;
 
@@ -20,6 +20,10 @@ public abstract class GameAnimation extends Actor {
 
     public GameAnimation(String texturePath, int columns, int rows, float frameDuration) {
         super();
+        setFrames(texturePath, columns, rows, frameDuration);
+    }
+
+    public void setFrames(String texturePath, int columns, int rows, float frameDuration) {
         this.stateTime = 0f;
         this.index = 0;
         this.frameDuration = frameDuration;

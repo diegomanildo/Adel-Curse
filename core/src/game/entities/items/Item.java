@@ -2,9 +2,23 @@ package game.entities.items;
 
 import game.entities.characters.playables.Playable;
 import game.utilities.GameAnimation;
+import game.utilities.ItemList;
 import utilities.FilePaths;
+import utilities.Log;
 
 public abstract class Item extends GameAnimation {
+    public static final ItemList ITEMS = new ItemList(
+            Bomb.class,
+            Candy.class,
+            Cap.class,
+            Diamond.class,
+            Mushroom.class,
+            RandomCard.class,
+            Shell.class,
+            SkeletonMask.class,
+            UpCard.class
+    );
+
     protected Playable owner;
     private final ItemQuality quality;
     private final String description;
@@ -20,6 +34,7 @@ public abstract class Item extends GameAnimation {
     public void addToOwner() {
         owner.addItem(this);
         applyEffect();
+        Log.log("Description: " + description);
     }
 
     public void removeFromOwner() {
