@@ -20,27 +20,22 @@ public final class ShopRoom extends Room {
         firstTime = true;
         items = new ArrayList<>();
 
-        Item item1 = getRandomItem();
-        item1.setPosition(144, 115);
-        items.add(item1);
+        float yPos = 115f;
 
-        Item item2 = getRandomItem();
-        item2.setPosition(175f, 115);
-        items.add(item2);
-
-        Item item3 = getRandomItem();
-        item3.setPosition(208, 115);
-        items.add(item3);
+        generateItem(144f, yPos);
+        generateItem(175f, yPos);
+        generateItem(208f, yPos);
     }
 
-    public Item getRandomItem() {
+    private void generateItem(float x, float y) {
         Item item;
 
         do {
             item = Item.ITEMS.getRandomItem();
         } while (items.contains(item));
 
-        return item;
+        item.setPosition(x, y);
+        items.add(item);
     }
 
     @Override
@@ -64,14 +59,23 @@ public final class ShopRoom extends Room {
         for (int i = 0; i < items.size(); i++) {
             Item item = items.get(i);
             for (Playable player : players) {
-                if (item.collidesWith(player)) {
+                if (item.collidesWith(player.getBounds())) {
                     item.changeOwnerTo(player);
                     item.addToOwner();
                     item.remove();
                     items.remove(item);
-                    Log.log(item.getClass().getSimpleName() + " added to " + item.getOwner().getClass().getSimpleName());
+                    Log.debug(item.getClass().getSimpleName() + " added to " + item.getOwner().getClass().getSimpleName());
                 }
             }
         }
+    }
+
+    @Override
+    public boolean remove() {
+        for (Item item : items) {
+            item.remove();
+        }
+        firstTime = true;
+        return super.remove();
     }
 }

@@ -98,4 +98,8 @@ public class Actor extends com.badlogic.gdx.scenes.scene2d.Actor {
     public void dispose() {
 
     }
+
+    public Hitbox getBounds() {
+        return new Hitbox(getX(), getY(), getWidth(), getHeight());
+    }
 }

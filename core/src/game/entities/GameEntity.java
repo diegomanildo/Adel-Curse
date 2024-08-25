@@ -62,6 +62,9 @@ public abstract class GameEntity extends MovableObject implements Statistics {
     @Override
     public void setHp(int hp) {
         stats.hp = hp;
+        if (getHp() > getMaxHp()) {
+            setMaxHp(getHp());
+        }
         if (isDeath()) {
             onDeath();
         }

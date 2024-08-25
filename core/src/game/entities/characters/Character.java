@@ -75,7 +75,7 @@ public abstract class Character extends GameEntity {
 
     // Creates a shoot
     private void createShoot(int animationIndex, Direction bulletDirection) {
-        Bullet b = new Bullet(this, FilePaths.CHARACTERS + bulletTexturePath, bulletDirection, 0.2f);
+        Bullet b = new Bullet(FilePaths.CHARACTERS + bulletTexturePath, bulletDirection, 0.2f);
         b.setAnimation(animationIndex);
         float bulletSize = getHeight() / 2f;
         b.setSize(bulletSize, bulletSize);

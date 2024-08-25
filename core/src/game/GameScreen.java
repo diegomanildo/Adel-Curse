@@ -40,6 +40,8 @@ public final class GameScreen extends Screen {
             pause.setShow(true);
         } else if (Gdx.input.isKeyJustPressed(Input.Keys.SHIFT_LEFT)) {
             game.getPlayer().setVelocity(game.getPlayer().getVelocity() * 2f);
+        } else if (Gdx.input.isKeyJustPressed(Input.Keys.F1)) {
+            game.getPlayer().damage(1);
         }
     }
 
