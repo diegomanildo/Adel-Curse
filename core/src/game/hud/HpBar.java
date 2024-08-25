@@ -13,6 +13,7 @@ public class HpBar extends Widget {
 
     private static final Color BACKGROUND_COLOR = Color.GRAY;
     private static final Color HEALTH_COLOR = Color.RED;
+    private static final Color ARMOR_COLOR = Color.BLUE;
 
     public HpBar(Playable player) {
         super();
@@ -36,9 +37,14 @@ public class HpBar extends Widget {
         shapeRenderer.rect(getX(), getY(), width, height);
 
         // Draw health bar
-        shapeRenderer.setColor(HEALTH_COLOR);
         float healthWidth = ((float) player.getHp() / player.getMaxHp()) * width;
+        shapeRenderer.setColor(HEALTH_COLOR);
         shapeRenderer.rect(getX(), getY(), healthWidth, height);
+
+        // Draw armor bar (on top of the health bar)
+        float armorWidth = (float) Math.min(player.getArmor(), player.getMaxHp()) / player.getMaxHp() * width;
+        shapeRenderer.setColor(ARMOR_COLOR);
+        shapeRenderer.rect(getX(), getY(), armorWidth, height);
 
         // Draw outline
         shapeRenderer.set(ShapeRenderer.ShapeType.Line);

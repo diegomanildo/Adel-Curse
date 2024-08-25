@@ -35,7 +35,6 @@ public final class GameScreen extends Screen {
     protected void handleInput() {
         super.handleInput();
 
-
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
             pause.setShow(true);
         } else if (Gdx.input.isKeyJustPressed(Input.Keys.SHIFT_LEFT)) {

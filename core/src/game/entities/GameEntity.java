@@ -50,16 +50,6 @@ public abstract class GameEntity extends MovableObject implements Statistics {
     }
 
     @Override
-    public int getMaxHp() {
-        return stats.maxHp;
-    }
-
-    @Override
-    public int getDamage() {
-        return stats.damage;
-    }
-
-    @Override
     public void setHp(int hp) {
         stats.hp = hp;
         if (getHp() > getMaxHp()) {
@@ -71,13 +61,33 @@ public abstract class GameEntity extends MovableObject implements Statistics {
     }
 
     @Override
+    public int getMaxHp() {
+        return stats.maxHp;
+    }
+
+    @Override
     public void setMaxHp(int maxHp) {
         stats.maxHp = maxHp;
     }
 
     @Override
+    public int getDamage() {
+        return stats.damage;
+    }
+
+    @Override
     public void setDamage(int damage) {
         stats.damage = damage;
+    }
+
+    @Override
+    public int getArmor() {
+        return stats.armor;
+    }
+
+    @Override
+    public void setArmor(int armor) {
+        stats.armor = armor;
     }
 
     protected void onDeath() {
