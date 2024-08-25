@@ -82,4 +82,8 @@ public abstract class Playable extends Character {
     public void removeItem(Item i) {
         items.remove(i);
     }
+
+    public ArrayList<Item> getItems() {
+        return items;
+    }
 }
