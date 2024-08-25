@@ -15,12 +15,14 @@ import utilities.io.Song;
 public final class Game extends SubScreen {
     public static Entities entities;
 
+    private final ChatScreen chat;
     private final Level1 level;
     private final Adel adel;
     public static Song song;
 
-    public Game() {
+    public Game(ChatScreen chat) {
         super();
+        this.chat = chat;
         entities = new Entities();
 
         level = new Level1();
@@ -47,6 +49,7 @@ public final class Game extends SubScreen {
     public void show() {
         super.show();
         song.fadeIn(FADE_TIME, true);
+        chat.create("Bom di asd asda sdsa dsad asdsad a sad asdasd sa asad ag skdjlkasjdgjl kajsldgjlads jgljadslkjgljaldslg jasldjgladjkslga");
     }
 
     @Override
@@ -128,7 +131,6 @@ public final class Game extends SubScreen {
             });
         });
     }
-
     public Playable getPlayer() {
         return adel;
     }

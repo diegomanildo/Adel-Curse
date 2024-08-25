@@ -9,6 +9,7 @@ import utilities.Render;
 import utilities.Screen;
 
 public final class GameScreen extends Screen {
+    private final ChatScreen chatScreen;
     private final Game game;
     private final Hud hud;
     private final PauseScreen pause;
@@ -16,12 +17,14 @@ public final class GameScreen extends Screen {
     public GameScreen() {
         super();
 
-        game = new Game();
+        chatScreen = new ChatScreen();
+        game = new Game(chatScreen);
         hud = new Hud(game.getPlayer(), game.getLevel().getMap());
         pause = new PauseScreen(game, this::exit, hud.getTimer());
 
         addSubScreen(game);
         addSubScreen(hud);
+        addSubScreen(chatScreen);
         addSubScreen(pause);
     }
 
