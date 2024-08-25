@@ -36,15 +36,18 @@ public class HpBar extends Widget {
         shapeRenderer.setColor(BACKGROUND_COLOR);
         shapeRenderer.rect(getX(), getY(), width, height);
 
+        float max = player.getMaxHp() + player.getArmor();
+
         // Draw health bar
-        float healthWidth = ((float) player.getHp() / player.getMaxHp()) * width;
+        float healthWidth = ((float) player.getHp() / max) * width;
         shapeRenderer.setColor(HEALTH_COLOR);
         shapeRenderer.rect(getX(), getY(), healthWidth, height);
 
-        // Draw armor bar (on top of the health bar)
-        float armorWidth = (float) Math.min(player.getArmor(), player.getMaxHp()) / player.getMaxHp() * width;
+        float endOfHealth = getX() + healthWidth;
+        float armorWidth = ((float) player.getArmor() / max) * width;
+
         shapeRenderer.setColor(ARMOR_COLOR);
-        shapeRenderer.rect(getX(), getY(), armorWidth, height);
+        shapeRenderer.rect(endOfHealth, getY(), armorWidth, height);
 
         // Draw outline
         shapeRenderer.set(ShapeRenderer.ShapeType.Line);

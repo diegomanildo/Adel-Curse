@@ -3,6 +3,7 @@ package game.rooms;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import game.Game;
 import game.entities.characters.playables.Playable;
+import game.entities.items.Candy;
 import game.entities.items.Item;
 import game.entities.items.Shell;
 import game.map.RoomKinds;
@@ -23,20 +24,22 @@ public final class ShopRoom extends Room {
 
         float yPos = 115f;
 
-        generateItem(144f, yPos);
-        generateItem(175f, yPos);
-        generateItem(208f, yPos);
+        generateItem(144f, yPos, new Shell());
+        generateItem(175f, yPos, new Candy());
+        generateItem(208f, yPos, new Shell());
     }
 
-    private void generateItem(float x, float y) {
-        Item item = new Shell();
-
-//        do {
-//            item = Item.ITEMS.getRandomItem();
-//        } while (items.contains(item));
+    private void generateItem(float x, float y, Item item) {
+        while (item == null || items.contains(item)) {
+            item = Item.ITEMS.getRandomItem();
+        }
 
         item.setPosition(x, y);
         items.add(item);
+    }
+
+    private void generateItem(float x, float y) {
+        generateItem(x, y, null);
     }
 
     @Override
