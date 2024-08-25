@@ -4,11 +4,11 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.ui.Widget;
 import game.entities.characters.playables.Playable;
+import utilities.Render;
 import utilities.ShapeRenderer;
 
 public class HpBar extends Widget {
     private final Playable player;
-    private final ShapeRenderer shapeRenderer;
     public float width, height;
 
     private static final Color BACKGROUND_COLOR = Color.GRAY;
@@ -18,8 +18,6 @@ public class HpBar extends Widget {
     public HpBar(Playable player) {
         super();
         this.player = player;
-        shapeRenderer = new ShapeRenderer();
-        shapeRenderer.setAutoShapeType(true);
         setSize(400f, 20f);
     }
 
@@ -29,32 +27,32 @@ public class HpBar extends Widget {
 
         batch.end();
 
-        shapeRenderer.setProjectionMatrix(getStage().getCamera().combined);
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        Render.sr.setProjectionMatrix(getStage().getCamera().combined);
+        Render.sr.begin(ShapeRenderer.ShapeType.Filled);
 
         // Draw background
-        shapeRenderer.setColor(BACKGROUND_COLOR);
-        shapeRenderer.rect(getX(), getY(), width, height);
+        Render.sr.setColor(BACKGROUND_COLOR);
+        Render.sr.rect(getX(), getY(), width, height);
 
         float max = player.getMaxHp() + player.getArmor();
 
         // Draw health bar
         float healthWidth = ((float) player.getHp() / max) * width;
-        shapeRenderer.setColor(HEALTH_COLOR);
-        shapeRenderer.rect(getX(), getY(), healthWidth, height);
+        Render.sr.setColor(HEALTH_COLOR);
+        Render.sr.rect(getX(), getY(), healthWidth, height);
 
         float endOfHealth = getX() + healthWidth;
         float armorWidth = ((float) player.getArmor() / max) * width;
 
-        shapeRenderer.setColor(ARMOR_COLOR);
-        shapeRenderer.rect(endOfHealth, getY(), armorWidth, height);
+        Render.sr.setColor(ARMOR_COLOR);
+        Render.sr.rect(endOfHealth, getY(), armorWidth, height);
 
         // Draw outline
-        shapeRenderer.set(ShapeRenderer.ShapeType.Line);
-        shapeRenderer.setColor(Color.BLACK);
-        shapeRenderer.rect(getX(), getY(), width, height, 2f);
+        Render.sr.set(ShapeRenderer.ShapeType.Line);
+        Render.sr.setColor(Color.BLACK);
+        Render.sr.rect(getX(), getY(), width, height, 2f);
 
-        shapeRenderer.end();
+        Render.sr.end();
 
         batch.begin();
     }

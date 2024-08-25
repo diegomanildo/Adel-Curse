@@ -16,6 +16,7 @@ public class Render {
     public static Skin skin = new Skin(Gdx.files.internal("uiskin.json"));
     public static Juego app;
     public static Language currentLanguage = new SpanishLanguage();
+    public static ShapeRenderer sr = new ShapeRenderer();
 
     public static int fps = 60;
 
@@ -42,18 +43,6 @@ public class Render {
 
     public static void clear(Color c) {
         clear(c.r, c.g, c.b, c.a);
-    }
-
-    public static void clear() {
-        clear(0f, 0f, 0f, 1f);
-    }
-
-    public static float getMiddleX() {
-        return screenSize.width / 2f;
-    }
-
-    public static float getMiddleY() {
-        return screenSize.height / 2f;
     }
 
     public static void setScreen(Screen s, boolean firstTime) {
