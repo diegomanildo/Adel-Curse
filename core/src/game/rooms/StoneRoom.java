@@ -1,7 +1,7 @@
 package game.rooms;
 
-public final class StoneRoom extends Room {
-    public StoneRoom() {
-        super("stone/map_1.tmx");
+public abstract class StoneRoom extends Room {
+    public StoneRoom(String mapFile) {
+        super(mapFile);
     }
 }

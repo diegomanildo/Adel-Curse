@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.scenes.scene2d.Group;
 import game.Game;
 import game.map.GameMap;
 import game.map.RoomsArray;
@@ -13,6 +12,7 @@ import game.rooms.Room;
 import game.rooms.ShopRoom;
 import game.utilities.Camera2D;
 import game.utilities.Direction;
+import utilities.Group;
 import utilities.Render;
 
 public abstract class Level extends Group {

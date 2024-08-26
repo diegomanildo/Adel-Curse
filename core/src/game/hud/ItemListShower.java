@@ -1,7 +1,7 @@
 package game.hud;
 
-import com.badlogic.gdx.scenes.scene2d.Group;
 import game.entities.items.Item;
+import utilities.Group;
 
 import java.util.ArrayList;
 

@@ -1,7 +1,7 @@
 package game.rooms;
 
-import com.badlogic.gdx.graphics.g2d.Batch;
 import game.Game;
+import game.entities.ShopKeeper;
 import game.entities.characters.playables.Playable;
 import game.entities.items.Item;
 import game.map.RoomKinds;
@@ -13,55 +13,20 @@ import java.util.ArrayList;
 public final class ShopRoom extends Room {
     public static Song song = new Song("Music", "game/music/ShopIntro.mp3", "game/music/Shop.mp3");
     private final ArrayList<Item> items;
-    private boolean firstTime;
+    private final ShopKeeper shopKeeper;
 
     public ShopRoom() {
         super("shop/shop.tmx", RoomKinds.SHOP);
-        firstTime = true;
         items = new ArrayList<>();
 
-        float yPos = 115f;
-
-        generateItem(144f, yPos);
-        generateItem(175f, yPos);
-        generateItem(208f, yPos);
-    }
-
-    private void generateItem(float x, float y, Item item) {
-        if (item == null) {
-            do {
-                item = Item.ITEMS.getRandomItem();
-            } while (exists(item));
-        }
-
-        item.setPosition(x, y);
-        items.add(item);
-    }
-
-    private void generateItem(float x, float y) {
-        generateItem(x, y, null);
-    }
-
-    private boolean exists(Item item) {
-        for (Item value : items) {
-            if (item.getClass().equals(value.getClass())) {
-                return true;
-            }
-        }
-
-        return false;
+        shopKeeper = new ShopKeeper();
+        shopKeeper.setPosition(172f, 115f);
     }
 
     @Override
-    public void draw(Batch batch, float parentAlpha) {
-        super.draw(batch, parentAlpha);
-
-        if (firstTime) {
-            items.forEach(i -> {
-                getStage().addActor(i);
-            });
-            firstTime = false;
-        }
+    public void show() {
+        super.show();
+        getStage().addActor(shopKeeper);
     }
 
     @Override
@@ -89,7 +54,6 @@ public final class ShopRoom extends Room {
         for (Item item : items) {
             item.remove();
         }
-        firstTime = true;
         return super.remove();
     }
 }

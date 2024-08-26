@@ -16,8 +16,13 @@ public class Stage extends com.badlogic.gdx.scenes.scene2d.Stage {
     public void show() {
         Array<com.badlogic.gdx.scenes.scene2d.Actor> actors = getActors();
         for (int i = 0; i < actors.size; i++) {
-            if (actors.get(i) instanceof Actor) {
-                ((Actor) actors.get(i)).show();
+            com.badlogic.gdx.scenes.scene2d.Actor actor = actors.get(i);
+            if (actor instanceof Actor) {
+                ((Actor) actor).show();
+            }
+
+            if (actor instanceof Group) {
+                ((Group) actor).show();
             }
         }
     }

@@ -1,9 +1,9 @@
 package game.map;
 
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.Group;
 import game.rooms.BossRoom;
 import game.rooms.Room;
+import utilities.Group;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;

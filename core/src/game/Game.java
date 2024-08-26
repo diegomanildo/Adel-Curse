@@ -49,7 +49,6 @@ public final class Game extends SubScreen {
     public void show() {
         super.show();
         song.fadeIn(FADE_TIME, true);
-        chat.create("Bom di asd asda sdsa dsad asdsad a sad asdasd sa asad ag skdjlkasjdgjl kajsldgjlads jgljadslkjgljaldslg jasldjgladjkslga");
     }
 
     @Override
@@ -131,6 +130,7 @@ public final class Game extends SubScreen {
             });
         });
     }
+
     public Playable getPlayer() {
         return adel;
     }
