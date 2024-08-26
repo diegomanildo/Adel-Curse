@@ -2,7 +2,6 @@ package game.utilities;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.utils.Align;
 import utilities.Label;
 import utilities.Render;
 import utilities.ShapeRenderer;
@@ -23,9 +22,6 @@ public class ChatBox extends Label {
         inTransition = false;
         displayedText = "";
         elapsedTime = 0f;
-
-        setWrap(true);
-        setAlignment(Align.topLeft);
     }
 
     public ChatBox() {
@@ -37,10 +33,16 @@ public class ChatBox extends Label {
         this.text = (String) newText;
     }
 
-    public void startTransition(float transitionTime) {
+    public void startTransition(float transitionTime, boolean reproduceSound) {
         inTransition = true;
         this.transitionTime = transitionTime;
-        typing.play(true);
+        if (reproduceSound) {
+            typing.play(true);
+        }
+    }
+
+    public void startTransition(float transitionTime) {
+        startTransition(transitionTime, true);
     }
 
     private void endTransition() {

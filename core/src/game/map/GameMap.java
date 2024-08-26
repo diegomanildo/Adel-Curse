@@ -41,6 +41,7 @@ public class GameMap extends RoomMap {
         Room current = getCurrent();
 
         addActor(current);
+        current.show();
 
         return current;
     }

@@ -1,11 +1,13 @@
 package game.rooms;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import game.Game;
 import game.entities.ShopKeeper;
 import game.entities.characters.playables.Playable;
 import game.entities.items.Item;
 import game.map.RoomKinds;
-import utilities.Log;
 import utilities.io.Song;
 
 import java.util.ArrayList;
@@ -21,12 +23,12 @@ public final class ShopRoom extends Room {
 
         shopKeeper = new ShopKeeper();
         shopKeeper.setPosition(172f, 115f);
+        createEntity(shopKeeper);
     }
 
     @Override
     public void show() {
         super.show();
-        getStage().addActor(shopKeeper);
     }
 
     @Override
@@ -35,25 +37,37 @@ public final class ShopRoom extends Room {
 
         ArrayList<Playable> players = Game.entities.getPlayers();
 
-        for (int i = 0; i < items.size(); i++) {
-            Item item = items.get(i);
-            for (Playable player : players) {
-                if (item.collidesWith(player.getBounds())) {
-                    item.changeOwnerTo(player);
-                    item.addToOwner();
-                    item.remove();
-                    items.remove(item);
-                    Log.debug(item.getClass().getSimpleName() + " added to " + item.getOwner().getClass().getSimpleName());
+        for (Playable player : players) {
+            if (player.collidesWith(shopKeeper.getBounds())) {
+                Game.chat.createTiny("Press E");
+
+                if (Gdx.input.isKeyJustPressed(Input.Keys.E)) {
+                    // GameScreen.openShopScreen();
                 }
+            } else {
+                Game.chat.remove();
             }
         }
+
+//        for (int i = 0; i < items.size(); i++) {
+//            Item item = items.get(i);
+//            for (Playable player : players) {
+//                // If item collides with the player, add item to him
+//                if (item.collidesWith(player.getBounds())) {
+//                    item.changeOwnerTo(player);
+//                    item.addToOwner();
+//                    item.remove();
+//                    items.remove(item);
+//                    Log.debug(item.getClass().getSimpleName() + " added to " + item.getOwner().getClass().getSimpleName());
+//                }
+//            }
+//        }
     }
 
     @Override
     public boolean remove() {
-        for (Item item : items) {
-            item.remove();
-        }
-        return super.remove();
+        boolean b = super.remove();
+        items.forEach(Actor::remove);
+        return b;
     }
 }

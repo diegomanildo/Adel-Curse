@@ -1,7 +1,6 @@
 package game;
 
 import game.entities.GameEntity;
-import game.entities.characters.enemies.Skeleton;
 import game.entities.characters.playables.Adel;
 import game.entities.characters.playables.Playable;
 import game.levels.Level;
@@ -15,14 +14,14 @@ import utilities.io.Song;
 public final class Game extends SubScreen {
     public static Entities entities;
 
-    private final ChatScreen chat;
+    public static ChatScreen chat;
     private final Level1 level;
     private final Adel adel;
     public static Song song;
 
     public Game(ChatScreen chat) {
         super();
-        this.chat = chat;
+        Game.chat = chat;
         entities = new Entities();
 
         level = new Level1();
@@ -30,12 +29,8 @@ public final class Game extends SubScreen {
         adel.setPosition(level.getInitX(), level.getInitY());
 
         song = new Song("Music", "game/music/UndeadIntro.mp3", "game/music/Undead.mp3");
-
-        Skeleton skeleton = new Skeleton();
-        skeleton.setPosition(40f, adel.getY());
         
         stage.addActor(level);
-        stage.addActor(skeleton);
         stage.addActor(adel);
 
         stage.getActors().forEach(actor -> {

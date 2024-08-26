@@ -3,43 +3,65 @@ package game.entities.characters;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import game.Game;
 import game.entities.GameEntity;
+import game.entities.Statistics;
 import game.levels.Level;
 import game.utilities.Bullet;
 import game.utilities.Camera2D;
 import game.utilities.Direction;
 import utilities.FilePaths;
+import utilities.Label;
 import utilities.Log;
 import utilities.Timer;
 import utilities.io.Sound;
 
 import java.util.ArrayList;
 
-public abstract class Character extends GameEntity {
+public abstract class Character extends GameEntity implements Statistics {
+    private final Stats stats;
+
     private final ArrayList<Bullet> bullets;
-    private final Sound shootSound;
     private final String bulletTexturePath;
-    private final Timer timer;
-    private boolean firstShoot = false;
+
+    private final Sound deathSound;
+    private final Sound shootSound;
+
+    private final Timer shootTime;
+    private boolean firstShoot;
 
     public Character(Stats stats, String texturePath, String bulletTexturePath, int columns, int rows) {
-        super(stats, FilePaths.CHARACTERS + texturePath, columns, rows, 0.4f);
+        super(FilePaths.CHARACTERS + texturePath, columns, rows, 0.4f);
+        this.stats = stats;
+        this.bullets = new ArrayList<>();
+        this.bulletTexturePath = bulletTexturePath;
+        this.deathSound = new Sound("Sfx", "game/death.mp3");
+        this.shootSound = new Sound("Sfx", "game/shoot.mp3");
+
+        this.shootTime = new Timer();
+        this.firstShoot = false;
         setSize(24f, 29f);
         setHitbox(getWidth() / 2f, getHeight());
         setVelocity(80f);
-        bullets = new ArrayList<>();
-        shootSound = new Sound("Sfx", "game/shoot.mp3");
-        this.bulletTexturePath = bulletTexturePath;
-        timer = new Timer();
     }
 
     public Character(Stats stats, String texturePath, String bulletTexturePath) {
         this(stats, texturePath, bulletTexturePath, 2, 8);
     }
 
+    @Override
+    public void act(float delta) {
+        super.act(delta);
+        if (!isStopped()) {
+            update(delta);
+        }
+    }
+
+    protected abstract void update(float delta);
+
     // Creates a bullet and then shoots it
     protected void shoot(Direction bulletDirection) {
-        timer.start();
+        shootTime.start();
 
         int moveIndex;
 
@@ -62,13 +84,13 @@ public abstract class Character extends GameEntity {
 
         setAnimation(moveIndex);
 
-        if (timer.getSeconds() > 0.5f || !firstShoot) {
+        if (shootTime.getSeconds() > 0.5f || !firstShoot) {
             createShoot(moveIndex - 4, bulletDirection);
 
-            if(!firstShoot) {
+            if (!firstShoot) {
                 firstShoot = true;
             } else {
-                timer.reset();
+                shootTime.reset();
             }
         }
     }
@@ -108,6 +130,10 @@ public abstract class Character extends GameEntity {
         bullets.stream().filter(b -> b.getDirection() != Direction.DOWN).forEach(b -> b.draw(batch, parentAlpha));
 
         super.draw(batch, parentAlpha);
+        Label hp = new Label("Hp: " + getHp());
+        hp.setFontScale(0.5f);
+        hp.setPosition(getX(), getY() + getHeight());
+        hp.draw(batch, parentAlpha);
 
         // Then others
         bullets.stream().filter(b -> b.getDirection() == Direction.DOWN).forEach(b -> b.draw(batch, parentAlpha));
@@ -117,5 +143,60 @@ public abstract class Character extends GameEntity {
     public void drawDebug(ShapeRenderer shapes) {
         super.drawDebug(shapes);
         bullets.forEach(b -> b.drawDebug(shapes));
+    }
+
+    @Override
+    public int getHp() {
+        return stats.hp;
+    }
+
+    @Override
+    public void setHp(int hp) {
+        stats.hp = hp;
+        if (getHp() > getMaxHp()) {
+            setMaxHp(getHp());
+        }
+        if (isDeath()) {
+            onDeath();
+        }
+    }
+
+    @Override
+    public int getMaxHp() {
+        return stats.maxHp;
+    }
+
+    @Override
+    public void setMaxHp(int maxHp) {
+        stats.maxHp = maxHp;
+    }
+
+    @Override
+    public int getDamage() {
+        return stats.damage;
+    }
+
+    @Override
+    public void setDamage(int damage) {
+        stats.damage = damage;
+    }
+
+    @Override
+    public int getArmor() {
+        return stats.armor;
+    }
+
+    @Override
+    public void setArmor(int armor) {
+        stats.armor = armor;
+    }
+
+    protected void onDeath() {
+        stats.hp = 0;
+        deathSound.play();
+        Log.debug(getClass().getSimpleName() + " death in x " + getX() + " y " + getY());
+        remove();
+        Game.entities.remove(this);
+        Log.debug("Enemies: " + Game.entities.size());
     }
 }
