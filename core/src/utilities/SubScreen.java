@@ -41,11 +41,6 @@ public abstract class SubScreen extends ScreenAdapter {
             Settings.add(s);
             Settings.applySettings(Settings.getSettings());
         }
-
-        if (Gdx.input.isKeyJustPressed(Input.Keys.J)) {
-            Render.setDebug(!Render.isDebugging());
-            stage.setDebugAll(Render.isDebugging());
-        }
     }
 
     public void resize(int w, int h) {

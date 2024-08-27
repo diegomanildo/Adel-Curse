@@ -8,11 +8,8 @@ import utilities.SubScreen;
 import utilities.TextButton;
 
 public class PauseScreen extends SubScreen {
-    private final Game game;
-
-    public PauseScreen(Game game, Runnable backFunction) {
+    public PauseScreen(Runnable backFunction) {
         super();
-        this.game = game;
 
         setShow(false);
 
@@ -42,9 +39,9 @@ public class PauseScreen extends SubScreen {
     public void setShow(boolean show) {
         super.setShow(show);
         if (show) {
-            game.pause();
+            GameScreen.game.pause();
         } else {
-            game.resume();
+            GameScreen.game.resume();
         }
     }
 }

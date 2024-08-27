@@ -16,7 +16,6 @@ public class Actor extends com.badlogic.gdx.scenes.scene2d.Actor {
     }
 
     public void show() {
-
     }
 
     @Override

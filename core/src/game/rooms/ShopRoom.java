@@ -30,7 +30,7 @@ public final class ShopRoom extends Room {
     @Override
     public void show() {
         super.show();
-        Game.chat.createBig("Hola! Bienvenido a la Tienda! Soy el vendedor. Aqui podras comprar items a cambio de monedas. No te pases de listo.");
+        GameScreen.chat.createBig("Hola! Bienvenido a la Tienda! Soy el vendedor. Aqui podras comprar items a cambio de monedas. No te pases de listo.");
     }
 
     @Override
@@ -41,13 +41,13 @@ public final class ShopRoom extends Room {
 
         for (Playable player : players) {
             if (player.collidesWith(shopKeeper.getBounds())) {
-                Game.chat.createTiny("Press E");
+                GameScreen.chat.createTiny("Press E");
 
                 if (Gdx.input.isKeyJustPressed(Input.Keys.E)) {
                     GameScreen.shopScreen.setShow(true);
                 }
             } else {
-                Game.chat.removeTiny();
+                GameScreen.chat.removeTiny();
             }
         }
     }

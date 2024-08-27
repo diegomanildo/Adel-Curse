@@ -9,7 +9,7 @@ import utilities.SubScreen;
 public class ChatScreen extends SubScreen {
     private static final float PADDING = 200f;
 
-    private static class BigChatBox extends ChatBox {
+    private class BigChatBox extends ChatBox {
         public BigChatBox() {
             setFontScale(1.25f);
             setWrap(true);
@@ -20,12 +20,12 @@ public class ChatScreen extends SubScreen {
         public void act(float delta) {
             super.act(delta);
             if (!isInTransition() && (Gdx.input.justTouched())) {
-                remove();
+                removeBig();
             }
         }
     }
 
-    private static class TinyChatBox extends ChatBox {
+    private class TinyChatBox extends ChatBox {
         public TinyChatBox() {
             setFontScale(1.25f);
             setWrap(true);
@@ -43,6 +43,7 @@ public class ChatScreen extends SubScreen {
     }
 
     public void createBig(String text) {
+        GameScreen.game.pause();
         big.setText(text);
         big.setSize(Render.screenSize.width - PADDING * 2f, 150f);
         big.setPosition((Render.screenSize.width - big.getWidth()) / 2f, 40f);
@@ -59,6 +60,7 @@ public class ChatScreen extends SubScreen {
     }
 
     public void removeBig() {
+        GameScreen.game.resume();
         big.remove();
     }
 

@@ -9,24 +9,18 @@ import utilities.Render;
 import utilities.Screen;
 
 public final class GameScreen extends Screen {
-    private final ChatScreen chatScreen;
-    private final Game game;
-    private final Hud hud;
-    private final PauseScreen pause;
-    public static ShopScreen shopScreen;
+    public static ChatScreen chat = new ChatScreen();
+    public static Game game = new Game();
+    public static Hud hud = new Hud();
+    public static PauseScreen pause = new PauseScreen(GameScreen::exit);
+    public static ShopScreen shopScreen = new ShopScreen();
 
     public GameScreen() {
         super();
 
-        chatScreen = new ChatScreen();
-        game = new Game(chatScreen);
-        hud = new Hud(game);
-        pause = new PauseScreen(game, this::exit);
-        shopScreen = new ShopScreen(game);
-
         addSubScreen(game);
         addSubScreen(hud);
-        addSubScreen(chatScreen);
+        addSubScreen(chat);
         addSubScreen(shopScreen);
         addSubScreen(pause);
     }
@@ -50,7 +44,7 @@ public final class GameScreen extends Screen {
         }
     }
 
-    public void exit() {
+    public static void exit() {
         game.getSong().fadeOut(FADE_TIME);
         BasicMainMenuScreen.backgroundSong.fadeIn(FADE_TIME, true);
         Render.setScreen(new MainMenuScreen());

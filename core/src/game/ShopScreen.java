@@ -10,11 +10,9 @@ import utilities.SubScreen;
 public class ShopScreen extends SubScreen {
     private static final float PADDING = 100f;
     private final Table table;
-    private final Game game;
 
-    public ShopScreen(Game game) {
+    public ShopScreen() {
         super();
-        this.game = game;
         setShow(false);
         Store store = new Store();
 
@@ -28,9 +26,9 @@ public class ShopScreen extends SubScreen {
     public void setShow(boolean show) {
         super.setShow(show);
         if (show) {
-            game.pause();
+            GameScreen.game.pause();
         } else {
-            game.resume();
+            GameScreen.game.resume();
         }
     }
 

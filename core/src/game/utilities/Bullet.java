@@ -3,11 +3,10 @@ package game.utilities;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import game.Game;
+import game.entities.GameEntity;
 import game.entities.characters.enemies.Enemy;
 
-public final class Bullet extends MovableObject {
-    private static final float PIXELS_DELAY = 100f;
-
+public final class Bullet extends GameEntity {
     private boolean impacted;
     private float impactTime;
     private final float impactDuration;

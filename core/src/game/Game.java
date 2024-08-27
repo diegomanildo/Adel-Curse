@@ -16,20 +16,18 @@ public final class Game extends SubScreen {
     public static Entities entities;
 
     private final Timer timer;
-    public static ChatScreen chat;
     private final Level1 level;
     private final Adel adel;
     public static Song song;
 
-    public Game(ChatScreen chat) {
+    public Game() {
         super();
         timer = new Timer();
-        Game.chat = chat;
         entities = new Entities();
 
         level = new Level1();
         adel = new Adel();
-        adel.setPosition(level.getInitX(), level.getInitY());
+        adel.setPosition(level.getInitX() - adel.getWidth() / 2f, level.getInitY() - adel.getHeight() / 2f);
 
         song = new Song("Music", "game/music/UndeadIntro.mp3", "game/music/Undead.mp3");
         
