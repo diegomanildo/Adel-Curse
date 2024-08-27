@@ -1,7 +1,14 @@
 package game.rooms;
 
-public abstract class StoneRoom extends Room {
+import game.entities.characters.enemies.Skeleton;
+import game.utilities.EntityClassList;
+
+public abstract class StoneRoom extends EnemyRoom {
+    private static final EntityClassList ENEMIES = new EntityClassList(
+            Skeleton.class
+    );
+
     public StoneRoom(String mapFile) {
-        super(mapFile);
+        super(mapFile, ENEMIES, 3);
     }
 }
