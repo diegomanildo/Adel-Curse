@@ -6,16 +6,13 @@ import menu.config.SettingsScreen;
 import utilities.Render;
 import utilities.SubScreen;
 import utilities.TextButton;
-import utilities.Timer;
 
 public class PauseScreen extends SubScreen {
     private final Game game;
-    private final Timer timer;
 
-    public PauseScreen(Game game, Runnable backFunction, Timer timer) {
+    public PauseScreen(Game game, Runnable backFunction) {
         super();
         this.game = game;
-        this.timer = timer;
 
         setShow(false);
 
@@ -46,10 +43,8 @@ public class PauseScreen extends SubScreen {
         super.setShow(show);
         if (show) {
             game.pause();
-            timer.pause();
         } else {
             game.resume();
-            timer.resume();
         }
     }
 }

@@ -6,7 +6,6 @@ import com.badlogic.gdx.utils.Array;
 import game.GameScreen;
 import menu.config.ControlsScreen;
 import menu.config.SettingsScreen;
-import menu.config.SongSelectorScreen;
 import utilities.Render;
 import utilities.TextButton;
 
@@ -22,7 +21,6 @@ public final class MainMenuScreen extends BasicMainMenuScreen {
                     Render.setScreen(new GameScreen());
                 }),
                 new TextButton(Render.currentLanguage.controlsBtn(), () -> Render.setScreen(new ControlsScreen(new MainMenuScreen()))),
-                new TextButton(Render.currentLanguage.songSelectorBtn(), () -> Render.setScreen(new SongSelectorScreen(new MainMenuScreen()))),
                 new TextButton(Render.currentLanguage.settingsBtn(), () -> Render.setScreen(new SettingsScreen(new MainMenuScreen()))),
                 new TextButton(Render.currentLanguage.quitBtn(), () -> Gdx.app.exit())
         );

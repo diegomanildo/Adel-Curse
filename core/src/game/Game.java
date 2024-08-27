@@ -9,11 +9,13 @@ import game.utilities.Camera2D;
 import game.utilities.Direction;
 import game.utilities.Entities;
 import utilities.SubScreen;
+import utilities.Timer;
 import utilities.io.Song;
 
 public final class Game extends SubScreen {
     public static Entities entities;
 
+    private final Timer timer;
     public static ChatScreen chat;
     private final Level1 level;
     private final Adel adel;
@@ -21,6 +23,7 @@ public final class Game extends SubScreen {
 
     public Game(ChatScreen chat) {
         super();
+        timer = new Timer();
         Game.chat = chat;
         entities = new Entities();
 
@@ -44,6 +47,7 @@ public final class Game extends SubScreen {
     public void show() {
         super.show();
         song.fadeIn(FADE_TIME, true);
+        timer.start();
     }
 
     @Override
@@ -59,12 +63,14 @@ public final class Game extends SubScreen {
     public void pause() {
         super.pause();
         entities.forEach(GameEntity::pause);
+        timer.pause();
     }
 
     @Override
     public void resume() {
         super.resume();
         entities.forEach(GameEntity::resume);
+        timer.resume();
     }
 
     private void moveCamera() {
@@ -136,5 +142,9 @@ public final class Game extends SubScreen {
 
     public Level getLevel() {
         return level;
+    }
+
+    public Timer getTimer() {
+        return timer;
     }
 }

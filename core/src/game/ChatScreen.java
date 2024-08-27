@@ -8,51 +8,61 @@ import utilities.SubScreen;
 
 public class ChatScreen extends SubScreen {
     private static final float PADDING = 200f;
-    private static final float TYPE_SPEED = 0.2f;
-    public final ChatBox big;
-    public final ChatBox tiny;
+
+    private static class BigChatBox extends ChatBox {
+        public BigChatBox() {
+            setFontScale(1.25f);
+            setWrap(true);
+            setAlignment(Align.topLeft);
+        }
+
+        @Override
+        public void act(float delta) {
+            super.act(delta);
+            if (!isInTransition() && (Gdx.input.justTouched())) {
+                remove();
+            }
+        }
+    }
+
+    private static class TinyChatBox extends ChatBox {
+        public TinyChatBox() {
+            setFontScale(1.25f);
+            setWrap(true);
+            setAlignment(Align.center);
+        }
+    }
+
+    private final ChatBox big;
+    private final ChatBox tiny;
 
     public ChatScreen() {
         super();
-        big = new ChatBox() {
-            @Override
-            public void act(float delta) {
-                super.act(delta);
-                if (!isInTransition() && Gdx.input.isTouched()) {
-                    remove();
-                }
-            }
-        };
-        big.setFontScale(1.25f);
-        big.setPosition(PADDING, 40f);
-        big.setSize(Render.screenSize.width - PADDING * 2f, 150f);
-        big.setWrap(true);
-        big.setAlignment(Align.topLeft);
-
-        tiny = new ChatBox();
-        tiny.setFontScale(1.25f);
-        tiny.setWrap(true);
-        tiny.setAlignment(Align.center);
+        big = new BigChatBox();
+        tiny = new TinyChatBox();
     }
 
     public void createBig(String text) {
         big.setText(text);
-
+        big.setSize(Render.screenSize.width - PADDING * 2f, 150f);
+        big.setPosition((Render.screenSize.width - big.getWidth()) / 2f, 40f);
         stage.addActor(big);
-        big.startTransition(text.length() * TYPE_SPEED);
+        big.startTransition(1f);
     }
 
     public void createTiny(String text) {
-        float padding = 15f;
         tiny.setText(text);
-        tiny.setSize(text.length() * padding, 40f);
+        tiny.setSize(text.length() * 15f, 40f);
         tiny.setPosition((Render.screenSize.width - tiny.getWidth()) / 2f, 40f);
         stage.addActor(tiny);
-        tiny.startTransition(text.length() * TYPE_SPEED, false);
+        tiny.startTransition(1f, false);
     }
 
-    public void remove() {
+    public void removeBig() {
         big.remove();
+    }
+
+    public void removeTiny() {
         tiny.remove();
     }
 }

@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import game.Game;
+import game.GameScreen;
 import game.entities.ShopKeeper;
 import game.entities.characters.playables.Playable;
 import game.entities.items.Item;
@@ -29,6 +30,7 @@ public final class ShopRoom extends Room {
     @Override
     public void show() {
         super.show();
+        Game.chat.createBig("Hola! Bienvenido a la Tienda! Soy el vendedor. Aqui podras comprar items a cambio de monedas. No te pases de listo.");
     }
 
     @Override
@@ -42,26 +44,12 @@ public final class ShopRoom extends Room {
                 Game.chat.createTiny("Press E");
 
                 if (Gdx.input.isKeyJustPressed(Input.Keys.E)) {
-                    // GameScreen.openShopScreen();
+                    GameScreen.shopScreen.setShow(true);
                 }
             } else {
-                Game.chat.remove();
+                Game.chat.removeTiny();
             }
         }
-
-//        for (int i = 0; i < items.size(); i++) {
-//            Item item = items.get(i);
-//            for (Playable player : players) {
-//                // If item collides with the player, add item to him
-//                if (item.collidesWith(player.getBounds())) {
-//                    item.changeOwnerTo(player);
-//                    item.addToOwner();
-//                    item.remove();
-//                    items.remove(item);
-//                    Log.debug(item.getClass().getSimpleName() + " added to " + item.getOwner().getClass().getSimpleName());
-//                }
-//            }
-//        }
     }
 
     @Override

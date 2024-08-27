@@ -12,7 +12,7 @@ import utilities.Group;
 public class Room extends Group {
     private final TiledMap map;
     private RoomKinds roomKind;
-    private final Entities entities;
+    protected final Entities entities;
 
     protected Room(String mapFile, RoomKinds roomKind) {
         this.map = new TmxMapLoader().load(FilePaths.ROOMS + mapFile);

@@ -114,4 +114,10 @@ public class ChatBox extends Label {
 
         return true;
     }
+
+    @Override
+    public boolean remove() {
+
+        return super.remove();
+    }
 }

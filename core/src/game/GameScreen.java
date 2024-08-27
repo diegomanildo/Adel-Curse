@@ -13,18 +13,21 @@ public final class GameScreen extends Screen {
     private final Game game;
     private final Hud hud;
     private final PauseScreen pause;
+    public static ShopScreen shopScreen;
 
     public GameScreen() {
         super();
 
         chatScreen = new ChatScreen();
         game = new Game(chatScreen);
-        hud = new Hud(game.getPlayer(), game.getLevel().getMap());
-        pause = new PauseScreen(game, this::exit, hud.getTimer());
+        hud = new Hud(game);
+        pause = new PauseScreen(game, this::exit);
+        shopScreen = new ShopScreen(game);
 
         addSubScreen(game);
         addSubScreen(hud);
         addSubScreen(chatScreen);
+        addSubScreen(shopScreen);
         addSubScreen(pause);
     }
 
