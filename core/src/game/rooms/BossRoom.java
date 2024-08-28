@@ -1,7 +1,7 @@
 package game.rooms;
 
 import game.map.RoomKinds;
-import utilities.io.Song;
+import utilities.audio.Song;
 
 public final class BossRoom extends Room {
     public static Song song = new Song("Music", "songs/Death to Eva.mp3");

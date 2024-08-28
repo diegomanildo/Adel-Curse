@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import utilities.Label;
 import utilities.Render;
 import utilities.ShapeRenderer;
-import utilities.io.Sound;
+import utilities.audio.Sound;
 
 public class ChatBox extends Label {
     private String text;

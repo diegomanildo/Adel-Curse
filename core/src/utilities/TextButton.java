@@ -5,7 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import utilities.io.Sound;
+import utilities.audio.Sound;
 
 public final class TextButton extends com.badlogic.gdx.scenes.scene2d.ui.TextButton {
     private final Sound pressedSound;

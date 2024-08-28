@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import game.Game;
 import game.map.GameMap;
 import game.map.RoomsArray;
 import game.rooms.BossRoom;
@@ -14,8 +13,13 @@ import game.utilities.Camera2D;
 import game.utilities.Direction;
 import utilities.Group;
 import utilities.Render;
+import utilities.Screen;
+import utilities.audio.Song;
 
 public abstract class Level extends Group {
+    private Song levelSong;
+    private Song auxSong;
+
     public static Camera camera;
     private OrthogonalTiledMapRenderer renderer;
     private final GameMap map;
@@ -24,7 +28,9 @@ public abstract class Level extends Group {
 
     private static final float OFFSET = 34f;
 
-    protected Level(int quantity, int rows, int cols, RoomsArray rooms) {
+    protected Level(Song levelSong, int quantity, int rows, int cols, RoomsArray rooms) {
+        this.levelSong = levelSong;
+
         map = new GameMap(quantity, rows, cols, rooms);
         addActor(map);
         camera = new Camera2D();
@@ -36,12 +42,10 @@ public abstract class Level extends Group {
         isInBoss = false;
     }
 
-    public float getInitX() {
-        return map.playerInitPosition.x;
-    }
-
-    public float getInitY() {
-        return map.playerInitPosition.y;
+    @Override
+    public void show() {
+        super.show();
+        levelSong.fadeIn(Screen.FADE_TIME, true);
     }
 
     @Override
@@ -72,24 +76,37 @@ public abstract class Level extends Group {
     }
 
     private void onChangedToShop() {
-        ShopRoom.song.play(true);
-        Game.song.pause();
+        changeSong(ShopRoom.shopSong);
         isInShop = true;
     }
 
     private void onChangedToBoss() {
         isInBoss = true;
-
-        BossRoom.song.play(true);
-        Game.song.pause();
+        changeSong(BossRoom.song);
     }
 
     private void onChangedToCommon() {
         isInShop = false;
         isInBoss = false;
-        Game.song.play(true);
-        ShopRoom.song.pause();
-        BossRoom.song.pause();
+        returnSong();
+    }
+
+    private void changeSong(Song song) {
+        levelSong.fadeOut(Screen.FADE_TIME, true);
+        auxSong = levelSong;
+        levelSong = song;
+        levelSong.fadeIn(Screen.FADE_TIME, true);
+    }
+
+    private void returnSong() {
+        levelSong.fadeOut(Screen.FADE_TIME, true);
+        levelSong = auxSong;
+        auxSong = null;
+        levelSong.fadeIn(Screen.FADE_TIME, true);
+    }
+
+    public Song getSong() {
+        return levelSong;
     }
 
     public Camera2D getCamera() {
@@ -98,5 +115,13 @@ public abstract class Level extends Group {
 
     public GameMap getMap() {
         return map;
+    }
+
+    public float getInitX() {
+        return map.playerInitPosition.x;
+    }
+
+    public float getInitY() {
+        return map.playerInitPosition.y;
     }
 }

@@ -10,7 +10,6 @@ import game.utilities.Direction;
 import game.utilities.Entities;
 import utilities.SubScreen;
 import utilities.Timer;
-import utilities.io.Song;
 
 public final class Game extends SubScreen {
     public static Entities entities;
@@ -18,7 +17,6 @@ public final class Game extends SubScreen {
     private final Timer timer;
     private final Level1 level;
     private final Adel adel;
-    public static Song song;
 
     public Game() {
         super();
@@ -29,8 +27,7 @@ public final class Game extends SubScreen {
         adel = new Adel();
         adel.setPosition(level.getInitX() - adel.getWidth() / 2f, level.getInitY() - adel.getHeight() / 2f);
 
-        song = new Song("Music", "game/music/UndeadIntro.mp3", "game/music/Undead.mp3");
-        
+
         stage.addActor(level);
         stage.addActor(adel);
 
@@ -44,7 +41,6 @@ public final class Game extends SubScreen {
     @Override
     public void show() {
         super.show();
-        song.fadeIn(FADE_TIME, true);
         timer.start();
     }
 
@@ -75,7 +71,7 @@ public final class Game extends SubScreen {
         Camera2D camera = level.getCamera();
         if (camera.isMoving())
             return;
-        float transitionTime = FADE_TIME / 6f;
+        float transitionTime = FADE_TIME / 3f;
 
         if (adel.getY() < camera.getBottom()) {
             moveCameraDown(camera, transitionTime);
@@ -132,10 +128,6 @@ public final class Game extends SubScreen {
 
     public Playable getPlayer() {
         return adel;
-    }
-
-    public Song getSong() {
-        return song;
     }
 
     public Level getLevel() {

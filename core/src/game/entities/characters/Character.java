@@ -14,7 +14,7 @@ import utilities.FilePaths;
 import utilities.Label;
 import utilities.Log;
 import utilities.Timer;
-import utilities.io.Sound;
+import utilities.audio.Sound;
 
 import java.util.ArrayList;
 

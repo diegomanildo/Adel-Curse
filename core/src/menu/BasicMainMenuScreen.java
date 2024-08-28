@@ -1,7 +1,7 @@
 package menu;
 
 import utilities.Screen;
-import utilities.io.Song;
+import utilities.audio.Song;
 
 public abstract class BasicMainMenuScreen extends Screen {
     public static Song backgroundSong;

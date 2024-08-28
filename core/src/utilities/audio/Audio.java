@@ -1,10 +1,9 @@
-package utilities.io;
+package utilities.audio;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 
 public abstract class Audio implements Music {
-
     protected Audio(String channel) {
         if (channel != null) {
             Channels.register(channel, this);
@@ -17,10 +16,6 @@ public abstract class Audio implements Music {
         if (channel != null) {
             Channels.updateVolume();
         }
-    }
-
-    public void fadeIn(float duration) {
-        fadeIn(duration, false);
     }
 
     public void fadeIn(float duration, boolean loop) {
@@ -57,6 +52,10 @@ public abstract class Audio implements Music {
         Gdx.app.postRunnable(fadeInStep);
     }
 
+    public void fadeIn(float duration) {
+        fadeIn(duration, false);
+    }
+
     public void fadeOut(float duration, boolean pause) {
         float startVolume = getVolume();
         float endVolume = 0.0f;
@@ -87,6 +86,7 @@ public abstract class Audio implements Music {
                     } else {
                         stop();
                     }
+                    setVolume(startVolume);
                 }
             }
         };

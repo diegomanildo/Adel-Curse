@@ -2,7 +2,7 @@ package utilities;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import utilities.io.Sound;
+import utilities.audio.Sound;
 
 public class CheckBox extends com.badlogic.gdx.scenes.scene2d.ui.CheckBox {
     private final Sound pressedSound;

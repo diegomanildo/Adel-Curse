@@ -1,19 +1,34 @@
-package utilities.io;
+package utilities.audio;
 
 import java.util.function.Consumer;
 
 public final class Song extends Audio {
     private final Sound intro;
     private final Sound song;
+    private boolean isInIntro;
 
-    private boolean isInSong;
+    public Song(String channel, String introFilePath, String songFilePath) {
+        super(channel);
+        song = new Sound(null, songFilePath);
+        isInIntro = false;
 
-    private Sound getNotNull() {
-        return intro != null ? intro : song;
+        if (introFilePath == null) {
+            intro = null;
+        } else {
+            isInIntro = true;
+            intro = new Sound(null, introFilePath);
+            intro.setOnCompletionListener(music -> {
+                isInIntro = false;
+                intro.stop();
+                song.play();
+            });
+        }
+
+        update(channel);
     }
 
-    private Sound getPlaying() {
-        return isInSong ? song : intro;
+    public Song(String channel, String songFilePath) {
+        this(channel, null, songFilePath);
     }
 
     private void forEach(Consumer<Sound> action) {
@@ -25,57 +40,50 @@ public final class Song extends Audio {
         }
     }
 
-    public Song(String channel, String introFilePath, String songFilePath) {
-        super(channel);
-        song = new Sound(null, songFilePath);
-        isInSong = false;
-
-        if (introFilePath == null) {
-            intro = null;
-            isInSong = true;
-        } else {
-            intro = new Sound(null, introFilePath);
-            intro.setOnCompletionListener(music -> {
-                intro.stop();
-                song.play();
-                isInSong = true;
-            });
-        }
-
-        update(channel);
+    public boolean introValid() {
+        return intro != null && isInIntro;
     }
 
-    public Song(String channel, String songFilePath) {
-        this(channel, null, songFilePath);
-    }
-
-    public Song(String songFilePath) {
-        this(Channels.DEFAULT_CHANNEL, songFilePath);
+    @Override
+    public void play(boolean loop) {
+        setLooping(loop);
+        play();
     }
 
     @Override
     public void play() {
-        play(false);
-    }
-
-    public void play(boolean loop) {
-        getNotNull().play();
-        song.setLooping(loop);
+        if (introValid()) {
+            intro.play();
+        } else {
+            song.play();
+        }
     }
 
     @Override
     public void pause() {
-        getPlaying().pause();
+        if (introValid()) {
+            intro.pause();
+        } else {
+            song.pause();
+        }
     }
 
     @Override
     public void stop() {
-        getPlaying().stop();
+        if (introValid()) {
+            intro.stop();
+        } else {
+            song.stop();
+        }
     }
 
     @Override
     public boolean isPlaying() {
-        return getPlaying().isPlaying();
+        if (introValid()) {
+            return intro.isPlaying() || song.isPlaying();
+        } else {
+            return song.isPlaying();
+        }
     }
 
     @Override
@@ -95,12 +103,12 @@ public final class Song extends Audio {
 
     @Override
     public float getVolume() {
-        return getPlaying().getVolume();
+        return song.getVolume();
     }
 
     @Override
-    public void setPan(float v, float v1) {
-        forEach(s -> s.setPan(v, v1));
+    public void setPan(float pan, float volume) {
+        forEach(s -> s.setPan(pan, volume));
     }
 
     @Override
@@ -110,7 +118,7 @@ public final class Song extends Audio {
 
     @Override
     public float getPosition() {
-        return getPlaying().getPosition();
+        return song.getPosition();
     }
 
     @Override
@@ -119,23 +127,7 @@ public final class Song extends Audio {
     }
 
     @Override
-    public void setOnCompletionListener(OnCompletionListener onCompletionListener) {
-        song.setOnCompletionListener(onCompletionListener);
-    }
-
-    @Override
-    public void fadeIn(float duration) {
-        getNotNull().fadeIn(duration, false);
-    }
-
-    @Override
-    public void fadeIn(float duration, boolean loop) {
-        setLooping(loop);
-        getPlaying().fadeIn(duration);
-    }
-
-    @Override
-    public void fadeOut(float duration) {
-        getPlaying().fadeOut(duration);
+    public void setOnCompletionListener(OnCompletionListener listener) {
+        song.setOnCompletionListener(listener);
     }
 }

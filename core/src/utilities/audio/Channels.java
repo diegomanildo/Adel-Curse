@@ -1,4 +1,4 @@
-package utilities.io;
+package utilities.audio;
 
 import java.util.HashMap;
 import java.util.HashSet;

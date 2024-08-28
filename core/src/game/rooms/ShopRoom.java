@@ -9,12 +9,12 @@ import game.entities.ShopKeeper;
 import game.entities.characters.playables.Playable;
 import game.entities.items.Item;
 import game.map.RoomKinds;
-import utilities.io.Song;
+import utilities.audio.Song;
 
 import java.util.ArrayList;
 
 public final class ShopRoom extends Room {
-    public static Song song = new Song("Music", "game/music/ShopIntro.mp3", "game/music/Shop.mp3");
+    public static Song shopSong = new Song("Music", "game/music/ShopIntro.mp3", "game/music/Shop.mp3");
     private final ArrayList<Item> items;
     private final ShopKeeper shopKeeper;
 

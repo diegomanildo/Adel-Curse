@@ -45,7 +45,7 @@ public final class GameScreen extends Screen {
     }
 
     public static void exit() {
-        game.getSong().fadeOut(FADE_TIME);
+        game.getLevel().getSong().fadeOut(FADE_TIME);
         BasicMainMenuScreen.backgroundSong.fadeIn(FADE_TIME, true);
         Render.setScreen(new MainMenuScreen());
     }

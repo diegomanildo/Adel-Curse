@@ -7,7 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Array;
 import languages.Language;
 import utilities.*;
-import utilities.io.Channels;
+import utilities.audio.Channels;
 
 public final class SettingsScreen extends BasicOptionsScreen {
     private final SelectBox<String> resolutionSelectBox;

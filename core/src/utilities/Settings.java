@@ -2,7 +2,7 @@ package utilities;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
-import utilities.io.Channels;
+import utilities.audio.Channels;
 
 public class Settings {
     private static final Preferences PREFS = Gdx.app.getPreferences("settings");

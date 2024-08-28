@@ -5,6 +5,7 @@ import game.rooms.BossRoom;
 import game.rooms.ShopRoom;
 import game.rooms.StoneRoom1;
 import game.rooms.StoneRoom2;
+import utilities.audio.Song;
 
 public final class Level1 extends Level {
     private static final RoomsArray ROOMS = new RoomsArray(
@@ -15,6 +16,6 @@ public final class Level1 extends Level {
     );
 
     public Level1() {
-        super(15, 10, 10, ROOMS);
+        super(new Song("Music", "game/music/UndeadIntro.mp3", "game/music/Undead.mp3"), 15, 10, 10, ROOMS);
     }
 }
