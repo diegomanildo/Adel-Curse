@@ -27,7 +27,6 @@ public final class Game extends SubScreen {
         adel = new Adel();
         adel.setPosition(level.getInitX() - adel.getWidth() / 2f, level.getInitY() - adel.getHeight() / 2f);
 
-
         stage.addActor(level);
         stage.addActor(adel);
 

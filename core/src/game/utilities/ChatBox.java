@@ -1,5 +1,6 @@
 package game.utilities;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import utilities.Label;
@@ -33,7 +34,15 @@ public class ChatBox extends Label {
         this.text = (String) newText;
     }
 
+    public void complete() {
+        elapsedTime = transitionTime;
+        update(Gdx.graphics.getDeltaTime());
+        endTransition();
+    }
+
     public void startTransition(float transitionTime, boolean reproduceSound) {
+        elapsedTime = 0f;
+        displayedText = "";
         inTransition = true;
         this.transitionTime = transitionTime;
         if (reproduceSound) {

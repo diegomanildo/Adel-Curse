@@ -30,6 +30,8 @@ public abstract class Character extends GameEntity implements Statistics {
     private final Timer shootTime;
     private boolean firstShoot;
 
+    private final Label hpLabel;
+
     public Character(Stats stats, String texturePath, String bulletTexturePath, int columns, int rows) {
         super(FilePaths.CHARACTERS + texturePath, columns, rows, 0.4f);
         this.stats = stats;
@@ -40,6 +42,10 @@ public abstract class Character extends GameEntity implements Statistics {
 
         this.shootTime = new Timer();
         this.firstShoot = false;
+
+        this.hpLabel = new Label();
+        this.hpLabel.setFontScale(0.5f);
+
         setSize(24f, 29f);
         setHitbox(getWidth() / 2f, getHeight());
         setVelocity(80f);
@@ -50,9 +56,26 @@ public abstract class Character extends GameEntity implements Statistics {
     }
 
     @Override
+    public void pause() {
+        super.pause();
+        bullets.forEach(GameEntity::pause);
+    }
+
+    @Override
+    public void resume() {
+        super.resume();
+        bullets.forEach(GameEntity::resume);
+    }
+
+    @Override
     public void act(float delta) {
         super.act(delta);
         if (!isStopped()) {
+            if (!bullets.isEmpty()) {
+                updateBullets();
+            }
+
+            hpLabel.setText("Hp: " + getHp());
             update(delta);
         }
     }
@@ -122,18 +145,12 @@ public abstract class Character extends GameEntity implements Statistics {
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
-        if (!bullets.isEmpty()) {
-            updateBullets();
-        }
-
         // First draw down bullets
         bullets.stream().filter(b -> b.getDirection() != Direction.DOWN).forEach(b -> b.draw(batch, parentAlpha));
 
         super.draw(batch, parentAlpha);
-        Label hp = new Label("Hp: " + getHp());
-        hp.setFontScale(0.5f);
-        hp.setPosition(getX(), getY() + getHeight());
-        hp.draw(batch, parentAlpha);
+        hpLabel.setPosition(getX(), getY() + getHeight());
+        hpLabel.draw(batch, parentAlpha);
 
         // Then others
         bullets.stream().filter(b -> b.getDirection() == Direction.DOWN).forEach(b -> b.draw(batch, parentAlpha));

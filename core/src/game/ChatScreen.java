@@ -1,6 +1,7 @@
 package game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.utils.Align;
 import game.utilities.ChatBox;
 import utilities.Render;
@@ -8,6 +9,7 @@ import utilities.SubScreen;
 
 public class ChatScreen extends SubScreen {
     private static final float PADDING = 200f;
+    private static final float TYPING_TIME = 0.025f;
 
     private class BigChatBox extends ChatBox {
         public BigChatBox() {
@@ -19,8 +21,12 @@ public class ChatScreen extends SubScreen {
         @Override
         public void act(float delta) {
             super.act(delta);
-            if (!isInTransition() && (Gdx.input.justTouched())) {
-                removeBig();
+            if (Gdx.input.isKeyJustPressed(Input.Keys.ANY_KEY)) {
+                if (isInTransition()) {
+                    complete();
+                } else {
+                    removeBig();
+                }
             }
         }
     }
@@ -48,7 +54,7 @@ public class ChatScreen extends SubScreen {
         big.setSize(Render.screenSize.width - PADDING * 2f, 150f);
         big.setPosition((Render.screenSize.width - big.getWidth()) / 2f, 40f);
         stage.addActor(big);
-        big.startTransition(1f);
+        big.startTransition(text.length() * TYPING_TIME);
     }
 
     public void createTiny(String text) {
@@ -56,7 +62,7 @@ public class ChatScreen extends SubScreen {
         tiny.setSize(text.length() * 15f, 40f);
         tiny.setPosition((Render.screenSize.width - tiny.getWidth()) / 2f, 40f);
         stage.addActor(tiny);
-        tiny.startTransition(1f, false);
+        tiny.startTransition(text.length() * TYPING_TIME, false);
     }
 
     public void removeBig() {
