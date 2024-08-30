@@ -31,16 +31,21 @@ public class ChatScreen extends SubScreen {
         }
     }
 
-    private class TinyChatBox extends ChatBox {
+    private static class TinyChatBox extends ChatBox {
         public TinyChatBox() {
             setFontScale(1.25f);
             setWrap(true);
             setAlignment(Align.center);
         }
+
+        @Override
+        public void act(float delta) {
+            super.act(delta);
+        }
     }
 
-    private final ChatBox big;
-    private final ChatBox tiny;
+    public final ChatBox big;
+    public final ChatBox tiny;
 
     public ChatScreen() {
         super();
@@ -49,6 +54,10 @@ public class ChatScreen extends SubScreen {
     }
 
     public void createBig(String text) {
+        if (big.isShowing()) {
+            return;
+        }
+
         GameScreen.game.pause();
         big.setText(text);
         big.setSize(Render.screenSize.width - PADDING * 2f, 150f);
@@ -58,6 +67,10 @@ public class ChatScreen extends SubScreen {
     }
 
     public void createTiny(String text) {
+        if (tiny.isShowing()) {
+            return;
+        }
+
         tiny.setText(text);
         tiny.setSize(text.length() * 15f, 40f);
         tiny.setPosition((Render.screenSize.width - tiny.getWidth()) / 2f, 40f);

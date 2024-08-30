@@ -1,7 +1,5 @@
 package game.rooms;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import game.Game;
 import game.GameScreen;
@@ -9,6 +7,8 @@ import game.entities.ShopKeeper;
 import game.entities.characters.playables.Playable;
 import game.entities.items.Item;
 import game.map.RoomKinds;
+import game.utilities.Controls;
+import game.utilities.GameAction;
 import utilities.audio.Song;
 
 import java.util.ArrayList;
@@ -41,9 +41,9 @@ public final class ShopRoom extends Room {
 
         for (Playable player : players) {
             if (player.collidesWith(shopKeeper.getBounds())) {
-                GameScreen.chat.createTiny("Press E");
+                GameScreen.chat.createTiny("Press " + Controls.getCharacter(GameAction.INTERACT));
 
-                if (Gdx.input.isKeyJustPressed(Input.Keys.E)) {
+                if (Controls.isPressed(GameAction.INTERACT)) {
                     GameScreen.shopScreen.setShow(true);
                 }
             } else {

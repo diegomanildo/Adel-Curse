@@ -1,5 +1,7 @@
 package game.utilities;
 
+import com.badlogic.gdx.Input;
+
 public class Control {
     private final GameAction action;
     private int key;
@@ -19,5 +21,9 @@ public class Control {
 
     public void setKey(int key) {
         this.key = key;
+    }
+
+    public String getStringKey() {
+        return Input.Keys.toString(key);
     }
 }

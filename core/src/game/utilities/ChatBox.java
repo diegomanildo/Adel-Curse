@@ -37,7 +37,6 @@ public class ChatBox extends Label {
     public void complete() {
         elapsedTime = transitionTime;
         update(Gdx.graphics.getDeltaTime());
-        endTransition();
     }
 
     public void startTransition(float transitionTime, boolean reproduceSound) {
@@ -110,6 +109,10 @@ public class ChatBox extends Label {
         return inTransition;
     }
 
+    public boolean isShowing() {
+        return getStage() != null;
+    }
+
     private static boolean equals(String s1, String s2) {
         if (s1.length() != s2.length()) {
             return false;
@@ -122,11 +125,5 @@ public class ChatBox extends Label {
         }
 
         return true;
-    }
-
-    @Override
-    public boolean remove() {
-
-        return super.remove();
     }
 }

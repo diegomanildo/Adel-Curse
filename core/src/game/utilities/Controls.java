@@ -1,6 +1,7 @@
 package game.utilities;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Preferences;
 
@@ -9,19 +10,21 @@ public class Controls {
     private static final Preferences PREFS = Gdx.app.getPreferences(PREFS_NAME);
 
     private static final Control[] CONTROLS = new Control[] {
-            new Control(GameAction.UP, loadKey(GameAction.UP, Keys.W)),
-            new Control(GameAction.DOWN, loadKey(GameAction.DOWN, Keys.S)),
-            new Control(GameAction.LEFT, loadKey(GameAction.LEFT, Keys.A)),
-            new Control(GameAction.RIGHT, loadKey(GameAction.RIGHT, Keys.D)),
+            loadKey(GameAction.UP, Keys.W),
+            loadKey(GameAction.DOWN, Keys.S),
+            loadKey(GameAction.LEFT, Keys.A),
+            loadKey(GameAction.RIGHT, Keys.D),
 
-            new Control(GameAction.SHOOT_UP, loadKey(GameAction.SHOOT_UP, Keys.UP)),
-            new Control(GameAction.SHOOT_DOWN, loadKey(GameAction.SHOOT_DOWN, Keys.DOWN)),
-            new Control(GameAction.SHOOT_LEFT, loadKey(GameAction.SHOOT_LEFT, Keys.LEFT)),
-            new Control(GameAction.SHOOT_RIGHT, loadKey(GameAction.SHOOT_RIGHT, Keys.RIGHT))
+            loadKey(GameAction.SHOOT_UP, Keys.UP),
+            loadKey(GameAction.SHOOT_DOWN, Keys.DOWN),
+            loadKey(GameAction.SHOOT_LEFT, Keys.LEFT),
+            loadKey(GameAction.SHOOT_RIGHT, Keys.RIGHT),
+
+            loadKey(GameAction.INTERACT, Keys.E)
     };
 
-    private static int loadKey(GameAction action, int defaultKey) {
-        return PREFS.getInteger(action.name(), defaultKey);
+    private static Control loadKey(GameAction action, int defaultKey) {
+        return new Control(action, PREFS.getInteger(action.name(), defaultKey));
     }
 
     private static void saveKey(GameAction action, int key) {
@@ -48,6 +51,11 @@ public class Controls {
         }
 
         return CONTROLS[index].getKey();
+    }
+
+    public static String getCharacter(GameAction action) {
+        int key = get(action);
+        return Input.Keys.toString(key);
     }
 
     public static Control at(int i) {

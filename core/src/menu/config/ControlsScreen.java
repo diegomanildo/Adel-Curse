@@ -1,6 +1,5 @@
 package menu.config;
 
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import game.utilities.Control;
 import game.utilities.Controls;
@@ -19,7 +18,7 @@ public final class ControlsScreen extends BasicOptionsScreen {
         for (int i = 0; i < Controls.size(); i++) {
             Control c = Controls.at(i);
             Label controlLabel = new Label(c.getAction() + ": ");
-            TextButton controlButton = new TextButton(Input.Keys.toString(c.getKey()), () -> Render.setScreen(new PressAKeyScreen(backScreen, c)));
+            TextButton controlButton = new TextButton(c.getStringKey(), () -> Render.setScreen(new PressAKeyScreen(backScreen, c)));
 
             table.add(controlLabel).left();
             table.add(controlButton).center().width(45f).height(45f).padBottom(10f);
