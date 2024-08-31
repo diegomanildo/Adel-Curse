@@ -47,6 +47,13 @@ public class Actor extends com.badlogic.gdx.scenes.scene2d.Actor {
         return collidesWith(new Hitbox(other.getX(), other.getY(), other.getWidth(), other.getHeight()));
     }
 
+    public boolean insideOf(Hitbox other) {
+        return hitbox.x >= other.x &&
+                hitbox.x + hitbox.width <= other.x + other.width &&
+                hitbox.y >= other.y &&
+                hitbox.y + hitbox.height <= other.y + other.height;
+    }
+
     public Hitbox getHitbox() {
         return hitbox;
     }

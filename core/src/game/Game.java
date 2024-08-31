@@ -8,6 +8,7 @@ import game.levels.Level1;
 import game.utilities.Camera2D;
 import game.utilities.Direction;
 import game.utilities.Entities;
+import game.utilities.Hitbox;
 import utilities.SubScreen;
 import utilities.Timer;
 
@@ -47,9 +48,35 @@ public final class Game extends SubScreen {
     public void render(float delta) {
         super.render(delta);
 
+        correctPositions();
         if (!adel.collidesWith(level.getCamera().getHitbox())) {
             moveCamera();
         }
+    }
+
+    private void correctPositions() {
+        Hitbox roomHitbox = level.getHitbox();
+
+        float left = roomHitbox.x;
+        float right = roomHitbox.x + roomHitbox.width;
+        float bottom = roomHitbox.y;
+        float top = roomHitbox.y + roomHitbox.height;
+
+        entities.forEach(e -> {
+            // Verifica y ajusta la posición en el eje X
+            if (e.getX() < left) {
+                e.setPosition(left, e.getY());
+            } else if (e.getX() + e.getWidth() > right) {
+                e.setPosition(right - e.getWidth(), e.getY());
+            }
+
+            // Verifica y ajusta la posición en el eje Y
+            if (e.getY() < bottom) {
+                e.setPosition(e.getX(), bottom);
+            } else if (e.getY() + e.getHeight() > top) {
+                e.setPosition(e.getX(), top - e.getHeight());
+            }
+        });
     }
 
     @Override

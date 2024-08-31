@@ -1,6 +1,5 @@
 package game.levels;
 
-import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -11,6 +10,7 @@ import game.rooms.Room;
 import game.rooms.ShopRoom;
 import game.utilities.Camera2D;
 import game.utilities.Direction;
+import game.utilities.Hitbox;
 import utilities.Group;
 import utilities.Render;
 import utilities.Screen;
@@ -20,13 +20,14 @@ public abstract class Level extends Group {
     private Song levelSong;
     private Song auxSong;
 
-    public static Camera camera;
+    public static Camera2D camera;
     private OrthogonalTiledMapRenderer renderer;
     private final GameMap map;
     private boolean isInShop;
     private boolean isInBoss;
 
     private static final float OFFSET = 34f;
+    private static final float PADDING = 31f;
 
     protected Level(Song levelSong, int quantity, int rows, int cols, RoomsArray rooms) {
         this.levelSong = levelSong;
@@ -123,5 +124,9 @@ public abstract class Level extends Group {
 
     public float getInitY() {
         return map.playerInitPosition.y;
+    }
+
+    public Hitbox getHitbox() {
+        return new Hitbox(camera.getLeft() + PADDING, camera.getBottom() + PADDING, camera.viewportWidth - PADDING * 2f, camera.viewportHeight - PADDING * 2f);
     }
 }

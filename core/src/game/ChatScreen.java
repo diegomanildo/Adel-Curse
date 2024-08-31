@@ -37,11 +37,6 @@ public class ChatScreen extends SubScreen {
             setWrap(true);
             setAlignment(Align.center);
         }
-
-        @Override
-        public void act(float delta) {
-            super.act(delta);
-        }
     }
 
     public final ChatBox big;
