@@ -5,10 +5,8 @@ import game.entities.characters.playables.Adel;
 import game.entities.characters.playables.Playable;
 import game.levels.Level;
 import game.levels.Level1;
-import game.utilities.Camera2D;
-import game.utilities.Direction;
-import game.utilities.Entities;
-import game.utilities.Hitbox;
+import game.map.Door;
+import game.utilities.*;
 import utilities.SubScreen;
 import utilities.Timer;
 
@@ -18,6 +16,7 @@ public final class Game extends SubScreen {
     private final Timer timer;
     private final Level1 level;
     private final Adel adel;
+    private static final float TRANSITION_TIME = FADE_TIME / 3f;
 
     public Game() {
         super();
@@ -49,6 +48,7 @@ public final class Game extends SubScreen {
         super.render(delta);
 
         correctPositions();
+        checkDoors();
         if (!adel.collidesWith(level.getCamera().getHitbox())) {
             moveCamera();
         }
@@ -57,26 +57,35 @@ public final class Game extends SubScreen {
     private void correctPositions() {
         Hitbox roomHitbox = level.getHitbox();
 
-        float left = roomHitbox.x;
-        float right = roomHitbox.x + roomHitbox.width;
-        float bottom = roomHitbox.y;
-        float top = roomHitbox.y + roomHitbox.height;
-
         entities.forEach(e -> {
-            // Verifica y ajusta la posición en el eje X
-            if (e.getX() < left) {
-                e.setPosition(left, e.getY());
-            } else if (e.getX() + e.getWidth() > right) {
-                e.setPosition(right - e.getWidth(), e.getY());
+            if (e.getX() < roomHitbox.getLeft()) {
+                e.setPosition(roomHitbox.getLeft(), e.getY());
+            } else if (e.getX() + e.getWidth() > roomHitbox.getRight()) {
+                e.setPosition(roomHitbox.getRight() - e.getWidth(), e.getY());
             }
 
-            // Verifica y ajusta la posición en el eje Y
-            if (e.getY() < bottom) {
-                e.setPosition(e.getX(), bottom);
-            } else if (e.getY() + e.getHeight() > top) {
-                e.setPosition(e.getX(), top - e.getHeight());
+            if (e.getY() < roomHitbox.getBottom()) {
+                e.setPosition(e.getX(), roomHitbox.getBottom());
+            } else if (e.getY() + e.getHeight() > roomHitbox.getTop()) {
+                e.setPosition(e.getX(), roomHitbox.getTop() - e.getHeight());
             }
         });
+    }
+
+    private void checkDoors() {
+        for (Playable player : entities.getPlayers()) {
+            for (Door door : level.getDoors()) {
+                if (player.getBounds().collidesWith(door.getHitbox())) {
+                    GameScreen.chat.createTiny("Press " + Controls.getCharacter(GameAction.INTERACT));
+
+                    if (!level.getCamera().isMoving() && Controls.isJustPressed(GameAction.INTERACT)) {
+                        moveCamera(door.getDirection());
+                    }
+                } else {
+                    GameScreen.chat.removeTiny();
+                }
+            }
+        }
     }
 
     @Override
@@ -97,56 +106,76 @@ public final class Game extends SubScreen {
         Camera2D camera = level.getCamera();
         if (camera.isMoving())
             return;
-        float transitionTime = FADE_TIME / 3f;
 
         if (adel.getY() < camera.getBottom()) {
-            moveCameraDown(camera, transitionTime);
+            moveCamera(Direction.DOWN);
         } else if (adel.getY() > camera.getTop()) {
-            moveCameraUp(camera, transitionTime);
+            moveCamera(Direction.UP);
         }
 
         if (adel.getX() < camera.getLeft()) {
-            moveCameraLeft(camera, transitionTime);
+            moveCamera(Direction.LEFT);
         } else if (adel.getX() > camera.getRight()) {
-            moveCameraRight(camera, transitionTime);
+            moveCamera(Direction.RIGHT);
         }
     }
 
-    private void moveCameraDown(Camera2D camera, float transitionTime) {
-        camera.moveTo(camera.position.x, camera.position.y - camera.viewportHeight, transitionTime, () -> {
+    private void moveCamera(Direction direction) {
+        Camera2D camera = level.getCamera();
+
+        switch (direction) {
+            case DOWN:
+                moveCameraDown(camera);
+                break;
+            case UP:
+                moveCameraUp(camera);
+                break;
+            case RIGHT:
+                moveCameraRight(camera);
+                break;
+            case LEFT:
+                moveCameraLeft(camera);
+                break;
+            default:
+                throw new RuntimeException("Invalid direction: " + direction);
+        }
+    }
+
+    private void moveCameraDown(Camera2D camera) {
+        camera.moveTo(camera.position.x, camera.position.y - camera.viewportHeight, TRANSITION_TIME, () -> {
             camera.setPosition(camera.position.x, camera.position.y + 2f * camera.viewportHeight);
             level.changeRoom(Direction.DOWN);
-            camera.moveTo(camera.position.x, camera.position.y - camera.viewportHeight, transitionTime, () -> {
+            camera.moveTo(camera.position.x, camera.position.y - camera.viewportHeight, TRANSITION_TIME, () -> {
                 adel.setPosition(adel.getX(), camera.getTop() - adel.getHeight() / 2f);
             });
         });
     }
 
-    private void moveCameraUp(Camera2D camera, float transitionTime) {
-        camera.moveTo(camera.position.x, camera.position.y + camera.viewportHeight, transitionTime, () -> {
+    private void moveCameraUp(Camera2D camera) {
+        camera.moveTo(camera.position.x, camera.position.y + camera.viewportHeight, TRANSITION_TIME, () -> {
             camera.setPosition(camera.position.x, camera.position.y - 2f * camera.viewportHeight);
             level.changeRoom(Direction.UP);
-            camera.moveTo(camera.position.x, camera.position.y + camera.viewportHeight, transitionTime, () -> {
+            camera.moveTo(camera.position.x, camera.position.y + camera.viewportHeight, TRANSITION_TIME, () -> {
                 adel.setPosition(adel.getX(), camera.getBottom() + adel.getHeight() / 2f);
             });
         });
     }
 
-    private void moveCameraRight(Camera2D camera, float transitionTime) {
-        camera.moveTo(camera.position.x + camera.viewportWidth, camera.position.y, transitionTime, () -> {
+    private void moveCameraRight(Camera2D camera) {
+        camera.moveTo(camera.position.x + camera.viewportWidth, camera.position.y, TRANSITION_TIME, () -> {
             camera.setPosition(camera.position.x - 2f * camera.viewportWidth, camera.position.y);
             level.changeRoom(Direction.RIGHT);
-            camera.moveTo(camera.position.x + camera.viewportWidth, camera.position.y, transitionTime, () -> {
+            camera.moveTo(camera.position.x + camera.viewportWidth, camera.position.y, TRANSITION_TIME, () -> {
                 adel.setPosition(camera.getLeft() + adel.getWidth() / 2f, adel.getY());
             });
         });
     }
 
-    private void moveCameraLeft(Camera2D camera, float transitionTime) {
-        camera.moveTo(camera.position.x - camera.viewportWidth, camera.position.y, transitionTime, () -> {
+    private void moveCameraLeft(Camera2D camera) {
+        camera.moveTo(camera.position.x - camera.viewportWidth, camera.position.y, TRANSITION_TIME, () -> {
             camera.setPosition(camera.position.x + 2f * camera.viewportWidth, camera.position.y);
             level.changeRoom(Direction.LEFT);
-            camera.moveTo(camera.position.x - camera.viewportWidth, camera.position.y, transitionTime, () -> {
+            camera.moveTo(camera.position.x - camera.viewportWidth, camera.position.y, TRANSITION_TIME, () -> {
                 adel.setPosition(camera.getRight() - adel.getWidth() / 2f, adel.getY());
             });
         });

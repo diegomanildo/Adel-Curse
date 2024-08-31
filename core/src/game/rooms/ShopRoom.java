@@ -43,7 +43,7 @@ public final class ShopRoom extends Room {
             if (player.collidesWith(shopKeeper.getBounds())) {
                 GameScreen.chat.createTiny("Press " + Controls.getCharacter(GameAction.INTERACT));
 
-                if (Controls.isPressed(GameAction.INTERACT)) {
+                if (Controls.isJustPressed(GameAction.INTERACT)) {
                     GameScreen.shopScreen.setShow(true);
                 }
             } else {

@@ -1,5 +1,8 @@
 package game.utilities;
 
+import com.badlogic.gdx.graphics.Color;
+import utilities.ShapeRenderer;
+
 public final class Hitbox {
     public float x;
     public float y;
@@ -33,5 +36,36 @@ public final class Hitbox {
     @Override
     public String toString() {
         return "[x=" + x + ", y=" + y + ", width=" + width + ", height=" + height + "]";
+    }
+
+    public void drawShape(ShapeRenderer sr) {
+        sr.begin();
+        sr.set(ShapeRenderer.ShapeType.Line);
+        sr.setColor(Color.WHITE);
+        sr.rect(x, y, width, height);
+        sr.end();
+    }
+
+    public float getLeft() {
+        return x;
+    }
+
+    public float getRight() {
+        return getLeft() + width;
+    }
+
+    public float getBottom() {
+        return y;
+    }
+
+    public float getTop() {
+        return getBottom() + height;
+    }
+
+    public boolean collidesWith(Hitbox other) {
+        return x < other.x + other.width &&
+                x + width > other.x &&
+                y < other.y + other.height &&
+                y + height > other.y;
     }
 }

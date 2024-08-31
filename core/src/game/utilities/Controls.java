@@ -96,4 +96,8 @@ public class Controls {
     public static boolean isPressed(GameAction action) {
         return Gdx.input.isKeyPressed(get(action));
     }
+
+    public static boolean isJustPressed(GameAction action) {
+        return Gdx.input.isKeyJustPressed(get(action));
+    }
 }

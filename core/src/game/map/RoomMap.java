@@ -34,7 +34,7 @@ public class RoomMap extends Group {
         createRoomAt(initialRow, initialColumn, roomTypes.getInitialRoom());
         initRoom = new Vector2(initialRow, initialColumn);
 
-        generateMap(quantity - 1); // Subtract 1 since the initial room is already created
+        generateMap(quantity - 1); // Subtract 1 because the initial room is already created
         placeBossRoom();
         placeShopRoom();
     }
@@ -53,7 +53,15 @@ public class RoomMap extends Group {
         }
 
         try {
-            map[row][column] = roomClass.getDeclaredConstructor().newInstance();
+            Room room = roomClass.getDeclaredConstructor().newInstance();
+
+            Room leftRoom = (column > 0) ? map[row][column - 1] : null;
+            Room rightRoom = (column < columns - 1) ? map[row][column + 1] : null;
+            Room upRoom = (row > 0) ? map[row - 1][column] : null;
+            Room downRoom = (row < rows - 1) ? map[row + 1][column] : null;
+
+            room.createDoors(leftRoom, rightRoom, upRoom, downRoom);
+            map[row][column] = room;
         } catch(InvocationTargetException e) {
             throw new RuntimeException(e);
         } catch(Exception e) {

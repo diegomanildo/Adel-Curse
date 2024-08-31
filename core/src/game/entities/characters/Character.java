@@ -8,7 +8,6 @@ import game.entities.GameEntity;
 import game.entities.Statistics;
 import game.levels.Level;
 import game.utilities.Bullet;
-import game.utilities.Camera2D;
 import game.utilities.Direction;
 import utilities.FilePaths;
 import utilities.Label;
@@ -135,7 +134,7 @@ public abstract class Character extends GameEntity implements Statistics {
         for (int i = 0; i < bullets.size(); i++) {
             bullets.get(i).update(Gdx.graphics.getDeltaTime());
 
-            if (bullets.get(i).outOfBounds((Camera2D) Level.camera) || bullets.get(i).collidesWithEnemy(getDamage())) {
+            if (bullets.get(i).outOfBounds(Level.camera) || bullets.get(i).collidesWithEnemy(getDamage())) {
                 bullets.get(i).impact();
                 bullets.remove(i);
                 Log.debug("Bullet remove, bullets in screen: " + bullets.size());

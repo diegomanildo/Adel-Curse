@@ -1,8 +1,9 @@
 package game.levels;
 
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Matrix4;
+import game.map.Door;
 import game.map.GameMap;
 import game.map.RoomsArray;
 import game.rooms.BossRoom;
@@ -53,14 +54,14 @@ public abstract class Level extends Group {
     public void act(float delta) {
         super.act(delta);
         renderer = new OrthogonalTiledMapRenderer(map.getCurrent().getMap());
-        ((Camera2D) camera).zoom = Render.isDebugging() ? 2f : 1f;
+        camera.zoom = Render.isDebugging() ? 2f : 1f;
         camera.update();
     }
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
-        renderer.setView((OrthographicCamera) camera);
+        renderer.setView(camera);
         renderer.render();
     }
 
@@ -111,7 +112,7 @@ public abstract class Level extends Group {
     }
 
     public Camera2D getCamera() {
-        return (Camera2D) camera;
+        return camera;
     }
 
     public GameMap getMap() {
@@ -128,5 +129,18 @@ public abstract class Level extends Group {
 
     public Hitbox getHitbox() {
         return new Hitbox(camera.getLeft() + PADDING, camera.getBottom() + PADDING, camera.viewportWidth - PADDING * 2f, camera.viewportHeight - PADDING * 2f);
+    }
+
+    public Door[] getDoors() {
+        if (Render.isDebugging()) {
+            Matrix4 mat = Render.sr.getProjectionMatrix();
+            Render.sr.setProjectionMatrix(camera.combined);
+            for (Door door : map.getCurrent().getDoors()) {
+                door.getHitbox().drawShape(Render.sr);
+            }
+            Render.sr.setProjectionMatrix(mat);
+        }
+
+        return map.getCurrent().getDoors();
     }
 }
