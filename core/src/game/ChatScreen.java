@@ -31,7 +31,7 @@ public class ChatScreen extends SubScreen {
         }
     }
 
-    private static class TinyChatBox extends ChatBox {
+    private class TinyChatBox extends ChatBox {
         public TinyChatBox() {
             setFontScale(1.25f);
             setWrap(true);

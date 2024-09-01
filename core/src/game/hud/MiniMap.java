@@ -29,7 +29,9 @@ public class MiniMap extends Group {
     @Override
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
-        batch.end(); // End the batch to start ShapeRenderer
+
+        // End the batch before starting ShapeRenderer
+        batch.end();
 
         Render.sr.begin(ShapeRenderer.ShapeType.Filled);
 
@@ -62,35 +64,12 @@ public class MiniMap extends Group {
                     float y = getY() + (row - minRow) * (cellSize + PADDING);
 
                     // Draw room with black border
-                    Render.sr.set(com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType.Line);
+                    Render.sr.set(ShapeRenderer.ShapeType.Line);
                     Render.sr.setColor(Color.BLACK);
                     Render.sr.rect(x, y, cellSize + PADDING, cellSize + PADDING);
-                    Render.sr.set(com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType.Filled);
-//                    Render.sr.setColor(Color.GRAY);
-//                    Render.sr.rect(x + PADDING / 2f, y + PADDING / 2f, cellSize, cellSize);
-
-                    // Draw room's interior
-                    switch (room.getKind()) {
-                        case BOSS:
-                            drawIcon(batch, skullIcon, x + PADDING / 2f, y + PADDING / 2f, cellSize, cellSize);
-                            break;
-                        case SHOP:
-//                            Render.sr.setColor(Color.YELLOW);
-//                            Render.sr.rect(x + PADDING / 2f, y + PADDING / 2f, cellSize, cellSize);
-                            drawIcon(batch, shopIcon, x + PADDING / 2f, y + PADDING / 2f, cellSize, cellSize);
-                            break;
-                        case CURRENT:
-//                            Render.sr.setColor(Color.GREEN);
-//                            Render.sr.rect(x + PADDING / 2f, y + PADDING / 2f, cellSize, cellSize);
-                            drawIcon(batch, adelIcon, x + PADDING / 2f, y + PADDING / 2f, cellSize, cellSize);
-                            break;
-                        case OTHER:
-                            Render.sr.setColor(Color.GRAY);
-                            Render.sr.rect(x + PADDING / 2f, y + PADDING / 2f, cellSize, cellSize);
-                            break;
-                        default:
-                            throw new RuntimeException("Room kind " + room.getKind() + " not recognized");
-                    }
+                    Render.sr.set(ShapeRenderer.ShapeType.Filled);
+                    Render.sr.setColor(room.getKind().getColor());
+                    Render.sr.rect(x + PADDING / 2f, y + PADDING / 2f, cellSize, cellSize);
                 }
             }
         }
@@ -104,12 +83,39 @@ public class MiniMap extends Group {
         Render.sr.rect(getX(), getY(), getWidth(), getHeight());
 
         Render.sr.end();
+
+        // Now begin the batch again to draw the icons
         batch.begin();
+
+        // Draw the icons
+        for (int row = minRow; row <= maxRow; row++) {
+            for (int col = minCol; col <= maxCol; col++) {
+                Room room = gameMap.getRoomAt(row, col);
+                if (room != null) {
+                    float x = getX() + (col - minCol) * (cellSize + PADDING);
+                    float y = getY() + (row - minRow) * (cellSize + PADDING);
+
+                    switch (room.getKind()) {
+                        case BOSS:
+                            drawIcon(batch, skullIcon, x + PADDING / 2f, y + PADDING / 2f, cellSize, cellSize);
+                            break;
+                        case SHOP:
+                            drawIcon(batch, shopIcon, x + PADDING / 2f, y + PADDING / 2f, cellSize, cellSize);
+                            break;
+                        case CURRENT:
+                            drawIcon(batch, adelIcon, x + PADDING / 2f, y + PADDING / 2f, cellSize, cellSize);
+                            break;
+                        case OTHER:
+                            break;
+                        default:
+                            throw new RuntimeException("Room kind " + room.getKind() + " not recognized");
+                    }
+                }
+            }
+        }
     }
 
     private static void drawIcon(Batch batch, Texture icon, float x, float y, float width, float height) {
-        batch.begin();
         batch.draw(icon, x, y, width, height);
-        batch.end();
     }
 }

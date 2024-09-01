@@ -109,10 +109,6 @@ public class ChatBox extends Label {
         return inTransition;
     }
 
-    public boolean isShowing() {
-        return getStage() != null;
-    }
-
     private static boolean equals(String s1, String s2) {
         if (s1.length() != s2.length()) {
             return false;
@@ -125,5 +121,9 @@ public class ChatBox extends Label {
         }
 
         return true;
+    }
+
+    public boolean isShowing() {
+        return getStage() != null;
     }
 }

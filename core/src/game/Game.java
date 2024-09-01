@@ -69,7 +69,7 @@ public final class Game extends SubScreen {
     private void checkDoors() {
         for (Playable player : entities.getPlayers()) {
             for (Door door : level.getDoors()) {
-                if (player.collidesWith(door.getHitbox())) {
+                if (player.getBounds().collidesWith(door.getHitbox())) {
                     GameScreen.chat.createTiny("Press " + Controls.getCharacter(GameAction.INTERACT));
 
                     if (!level.getCamera().isMoving() && Controls.isJustPressed(GameAction.INTERACT)) {
