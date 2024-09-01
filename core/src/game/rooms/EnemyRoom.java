@@ -9,7 +9,7 @@ public abstract class EnemyRoom extends Room {
     protected EnemyRoom(String mapFile, EntityClassList entitiesClasses, int quantityOfEntities) {
         super(mapFile);
         this.entitiesClasses = entitiesClasses;
-        generateEntities(quantityOfEntities);
+//        generateEntities(quantityOfEntities);
     }
 
     private void generateEntities(int quantity) {

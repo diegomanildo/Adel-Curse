@@ -96,22 +96,22 @@ public class Room extends Group {
 
     public void createDoors(Room leftRoom, Room rightRoom, Room upRoom, Room downRoom) {
         if (leftRoom != null) {
-            doors.add(LEFT);
+            addDoor(LEFT);
             leftRoom.addDoor(RIGHT);
         }
 
         if (rightRoom != null) {
-            doors.add(RIGHT);
+            addDoor(RIGHT);
             rightRoom.addDoor(LEFT);
         }
 
         if (upRoom != null) {
-            doors.add(UP);
+            addDoor(UP);
             upRoom.addDoor(DOWN);
         }
 
         if (downRoom != null) {
-            doors.add(DOWN);
+            addDoor(DOWN);
             downRoom.addDoor(UP);
         }
     }

@@ -57,8 +57,8 @@ public class RoomMap extends Group {
 
             Room leftRoom = (column > 0) ? map[row][column - 1] : null;
             Room rightRoom = (column < columns - 1) ? map[row][column + 1] : null;
-            Room upRoom = (row > 0) ? map[row - 1][column] : null;
-            Room downRoom = (row < rows - 1) ? map[row + 1][column] : null;
+            Room downRoom = (row > 0) ? map[row - 1][column] : null;
+            Room upRoom = (row < rows - 1) ? map[row + 1][column] : null;
 
             room.createDoors(leftRoom, rightRoom, upRoom, downRoom);
             map[row][column] = room;

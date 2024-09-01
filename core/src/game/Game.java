@@ -1,12 +1,14 @@
 package game;
 
 import game.entities.GameEntity;
+import game.entities.characters.Character;
 import game.entities.characters.playables.Adel;
 import game.entities.characters.playables.Playable;
 import game.levels.Level;
 import game.levels.Level1;
 import game.map.Door;
 import game.utilities.*;
+import utilities.Render;
 import utilities.SubScreen;
 import utilities.Timer;
 
@@ -56,26 +58,18 @@ public final class Game extends SubScreen {
 
     private void correctPositions() {
         Hitbox roomHitbox = level.getHitbox();
-
-        entities.forEach(e -> {
-            if (e.getX() < roomHitbox.getLeft()) {
-                e.setPosition(roomHitbox.getLeft(), e.getY());
-            } else if (e.getX() + e.getWidth() > roomHitbox.getRight()) {
-                e.setPosition(roomHitbox.getRight() - e.getWidth(), e.getY());
+        for (Character c : entities.getCharacters()) {
+            if (c == adel && Render.isDebugging()) {
+                continue;
             }
-
-            if (e.getY() < roomHitbox.getBottom()) {
-                e.setPosition(e.getX(), roomHitbox.getBottom());
-            } else if (e.getY() + e.getHeight() > roomHitbox.getTop()) {
-                e.setPosition(e.getX(), roomHitbox.getTop() - e.getHeight());
-            }
-        });
+            c.correctPosition(roomHitbox);
+        }
     }
 
     private void checkDoors() {
         for (Playable player : entities.getPlayers()) {
             for (Door door : level.getDoors()) {
-                if (player.getBounds().collidesWith(door.getHitbox())) {
+                if (player.collidesWith(door.getHitbox())) {
                     GameScreen.chat.createTiny("Press " + Controls.getCharacter(GameAction.INTERACT));
 
                     if (!level.getCamera().isMoving() && Controls.isJustPressed(GameAction.INTERACT)) {

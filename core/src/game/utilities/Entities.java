@@ -1,6 +1,7 @@
 package game.utilities;
 
 import game.entities.GameEntity;
+import game.entities.characters.Character;
 import game.entities.characters.enemies.Enemy;
 import game.entities.characters.playables.Playable;
 
@@ -25,5 +26,15 @@ public class Entities extends ArrayList<GameEntity> {
             }
         }
         return players;
+    }
+
+    public ArrayList<Character> getCharacters() {
+        ArrayList<Character> characters = new ArrayList<>();
+        for (GameEntity entity : this) {
+            if (entity instanceof Character) {
+                characters.add((Character) entity);
+            }
+        }
+        return characters;
     }
 }

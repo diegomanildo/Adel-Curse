@@ -9,6 +9,7 @@ import game.entities.Statistics;
 import game.levels.Level;
 import game.utilities.Bullet;
 import game.utilities.Direction;
+import game.utilities.Hitbox;
 import utilities.FilePaths;
 import utilities.Label;
 import utilities.Log;
@@ -159,6 +160,20 @@ public abstract class Character extends GameEntity implements Statistics {
     public void drawDebug(ShapeRenderer shapes) {
         super.drawDebug(shapes);
         bullets.forEach(b -> b.drawDebug(shapes));
+    }
+
+    public void correctPosition(Hitbox roomHitbox) {
+        if (getX() < roomHitbox.getLeft()) {
+            setPosition(roomHitbox.getLeft(), getY());
+        } else if (getX() + getWidth() > roomHitbox.getRight()) {
+            setPosition(roomHitbox.getRight() - getWidth(), getY());
+        }
+
+        if (getY() < roomHitbox.getBottom()) {
+            setPosition(getX(), roomHitbox.getBottom());
+        } else if (getY() + getHeight() > roomHitbox.getTop()) {
+            setPosition(getX(), roomHitbox.getTop() - getHeight());
+        }
     }
 
     @Override
