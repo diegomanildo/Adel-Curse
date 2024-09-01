@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import game.map.GameMap;
 import game.rooms.Room;
+import utilities.FilePaths;
 import utilities.Group;
 import utilities.Render;
 import utilities.ShapeRenderer;
@@ -12,25 +13,30 @@ import utilities.ShapeRenderer;
 public class MiniMap extends Group {
     private static final float PADDING = 4f;
 
+    public static class Icon extends Texture {
+        public Icon(String fileName) {
+            super(FilePaths.ICONS + fileName);
+        }
+    }
+
     private final GameMap gameMap;
     private final float cellSize;
-    private final Texture adelIcon;
-    private final Texture shopIcon;
-    private final Texture skullIcon;
+    private final Icon adelIcon;
+    private final Icon shopIcon;
+    private final Icon skullIcon;
 
     public MiniMap(GameMap gameMap, float cellSize) {
         this.gameMap = gameMap;
         this.cellSize = cellSize;
-        this.adelIcon = new Texture("imgs/icons/adel.png");
-        this.shopIcon = new Texture("imgs/icons/shop.png");
-        this.skullIcon = new Texture("imgs/icons/skull.png");
+        this.adelIcon = new Icon("adel.png");
+        this.shopIcon = new Icon("shop.png");
+        this.skullIcon = new Icon("skull.png");
     }
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
 
-        // End the batch before starting ShapeRenderer
         batch.end();
 
         Render.sr.begin(ShapeRenderer.ShapeType.Filled);
@@ -55,7 +61,7 @@ public class MiniMap extends Group {
             }
         }
 
-        // Draw the rooms within the occupied bounds
+        // Draw the rooms
         for (int row = minRow; row <= maxRow; row++) {
             for (int col = minCol; col <= maxCol; col++) {
                 Room room = gameMap.getRoomAt(row, col);
@@ -63,7 +69,7 @@ public class MiniMap extends Group {
                     float x = getX() + (col - minCol) * (cellSize + PADDING);
                     float y = getY() + (row - minRow) * (cellSize + PADDING);
 
-                    // Draw room with black border
+                    // Draw black border
                     Render.sr.set(ShapeRenderer.ShapeType.Line);
                     Render.sr.setColor(Color.BLACK);
                     Render.sr.rect(x, y, cellSize + PADDING, cellSize + PADDING);
@@ -97,13 +103,13 @@ public class MiniMap extends Group {
 
                     switch (room.getKind()) {
                         case BOSS:
-                            drawIcon(batch, skullIcon, x + PADDING / 2f, y + PADDING / 2f, cellSize, cellSize);
+                            batch.draw(skullIcon, x + PADDING / 2f, y + PADDING / 2f, cellSize, cellSize);
                             break;
                         case SHOP:
-                            drawIcon(batch, shopIcon, x + PADDING / 2f, y + PADDING / 2f, cellSize, cellSize);
+                            batch.draw(shopIcon, x + PADDING / 2f, y + PADDING / 2f, cellSize, cellSize);
                             break;
                         case CURRENT:
-                            drawIcon(batch, adelIcon, x + PADDING / 2f, y + PADDING / 2f, cellSize, cellSize);
+                            batch.draw(adelIcon, x + PADDING / 2f, y + PADDING / 2f, cellSize, cellSize);
                             break;
                         case OTHER:
                             break;
@@ -113,9 +119,5 @@ public class MiniMap extends Group {
                 }
             }
         }
-    }
-
-    private static void drawIcon(Batch batch, Texture icon, float x, float y, float width, float height) {
-        batch.draw(icon, x, y, width, height);
     }
 }
