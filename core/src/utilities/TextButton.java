@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import utilities.audio.Sound;
 
 public final class TextButton extends com.badlogic.gdx.scenes.scene2d.ui.TextButton {
@@ -23,9 +23,17 @@ public final class TextButton extends com.badlogic.gdx.scenes.scene2d.ui.TextBut
         this(text, () -> {});
     }
 
+    public TextButton(Actor actor) {
+        this("");
+        setSize(actor.getWidth(), actor.getHeight());
+        add(actor).center();
+    }
+
     public void addChangeListener(Runnable action) {
-        addListener(new ChangeListener() {
-            public void changed(ChangeEvent event, Actor actor) {
+        addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
                 pressedSound.play();
                 action.run();
             }
@@ -36,16 +44,15 @@ public final class TextButton extends com.badlogic.gdx.scenes.scene2d.ui.TextBut
         addListener(new InputListener() {
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                hoveredSound.play();
-
-                getLabel().setColor(Color.YELLOW);
                 super.enter(event, x, y, pointer, fromActor);
+                hoveredSound.play();
+                getLabel().setColor(Color.YELLOW);
             }
 
             @Override
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                getLabel().setColor(Color.WHITE);
                 super.exit(event, x, y, pointer, toActor);
+                getLabel().setColor(Color.WHITE);
             }
         });
     }

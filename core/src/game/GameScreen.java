@@ -2,6 +2,7 @@ package game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.math.Matrix4;
 import game.hud.Hud;
 import menu.BasicMainMenuScreen;
 import menu.MainMenuScreen;
@@ -14,6 +15,7 @@ public final class GameScreen extends Screen {
     public static Hud hud = new Hud();
     public static PauseScreen pause = new PauseScreen(GameScreen::exit);
     public static ShopScreen shopScreen = new ShopScreen();
+    private static Matrix4 oldShapeRendererMatrix;
 
     public GameScreen() {
         super();
@@ -29,6 +31,9 @@ public final class GameScreen extends Screen {
     public void show() {
         super.show();
         BasicMainMenuScreen.backgroundSong.fadeOut(FADE_TIME);
+
+        oldShapeRendererMatrix = Render.sr.getTransformMatrix();
+        Render.sr.setProjectionMatrix(game.getLevel().getCamera().combined);
     }
 
     @Override
@@ -45,6 +50,8 @@ public final class GameScreen extends Screen {
     }
 
     public static void exit() {
+        Render.sr.setProjectionMatrix(oldShapeRendererMatrix);
+
         game.getLevel().getSong().fadeOut(FADE_TIME);
         BasicMainMenuScreen.backgroundSong.fadeIn(FADE_TIME, true);
         Render.setScreen(new MainMenuScreen());

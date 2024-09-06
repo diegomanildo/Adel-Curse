@@ -16,6 +16,6 @@ public final class Level1 extends Level {
     );
 
     public Level1() {
-        super(new Song("Music", "game/music/UndeadIntro.mp3", "game/music/Undead.mp3"), 3, 10, 10, ROOMS);
+        super(new Song("Music", "game/music/UndeadIntro.mp3", "game/music/Undead.mp3"), 15, 10, 10, ROOMS);
     }
 }

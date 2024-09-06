@@ -18,9 +18,9 @@ public class Hud extends SubScreen {
         this.player = GameScreen.game.getPlayer();
         this.hpLabel = new Label();
         this.timerLabel = new Label();
+        this.itemListShower = new ItemListShower(player.getItems());
         HpBar hpBar = new HpBar(player);
         MiniMap miniMap = new MiniMap(GameScreen.game.getLevel().getMap(), 25f);
-        itemListShower = new ItemListShower(player.getItems());
 
         Table table = new Table();
         table.setFillParent(true);
@@ -30,11 +30,11 @@ public class Hud extends SubScreen {
         stack.add(hpBar);
         stack.add(hpLabel);
 
-        table.add(stack).left().top().width(hpBar.getWidth()).height(hpBar.getHeight()).pad(10f).expandX();
-        table.add(timerLabel).left().top().pad(10f).expandX();
-        table.add(miniMap).right().top().pad(10f).expandX();
+        table.add(stack).left().top().width(hpBar.getWidth()).height(hpBar.getHeight()).pad(10f);
+        table.add(timerLabel).center().top().pad(10f).expandX();
+        table.add(miniMap).right().top().pad(10f);
         table.row();
-        table.add(itemListShower).colspan(3).right().top().pad(20f).padRight(30f).expandX();
+        table.add(itemListShower).colspan(3).center().top().pad(20f).padRight(30f).expandX();
 
         stage.addActor(table);
     }

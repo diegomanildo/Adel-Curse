@@ -7,6 +7,7 @@ import utilities.FilePaths;
 import utilities.Log;
 
 public abstract class Item extends GameAnimation {
+    public static final float SIZE = 32f;
     public static final ItemList ITEMS = new ItemList(
             Bomb.class,
             Candy.class,
@@ -28,7 +29,7 @@ public abstract class Item extends GameAnimation {
         this.owner = null;
         this.quality = quality;
         this.description = description;
-        setSize(16, 16);
+        setSize(SIZE, SIZE);
     }
 
     public void addToOwner() {
@@ -74,5 +75,10 @@ public abstract class Item extends GameAnimation {
         }
 
         return ret.toString();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return obj instanceof Item && this.getName().equals(((Item) obj).getName());
     }
 }

@@ -1,10 +1,11 @@
-package game.utilities;
+package game.entities;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import game.Game;
-import game.entities.GameEntity;
 import game.entities.characters.enemies.Enemy;
+import game.utilities.Camera2D;
+import game.utilities.Direction;
 
 public final class Bullet extends GameEntity {
     private boolean impacted;

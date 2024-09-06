@@ -1,14 +1,12 @@
 package game;
 
 import game.entities.GameEntity;
-import game.entities.characters.Character;
 import game.entities.characters.playables.Adel;
 import game.entities.characters.playables.Playable;
 import game.levels.Level;
 import game.levels.Level1;
 import game.map.Door;
 import game.utilities.*;
-import utilities.Render;
 import utilities.SubScreen;
 import utilities.Timer;
 
@@ -58,12 +56,7 @@ public final class Game extends SubScreen {
 
     private void correctPositions() {
         Hitbox roomHitbox = level.getHitbox();
-        for (Character c : entities.getCharacters()) {
-            if (c == adel && Render.isDebugging()) {
-                continue;
-            }
-            c.correctPosition(roomHitbox);
-        }
+        entities.getCharacters().forEach(c -> c.correctPosition(roomHitbox));
     }
 
     private void checkDoors() {

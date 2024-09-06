@@ -14,7 +14,7 @@ public class ShopScreen extends SubScreen {
     public ShopScreen() {
         super();
         setShow(false);
-        Store store = new Store();
+        Store store = new Store(() -> setShow(false));
 
         table = new Table();
         table.setFillParent(true);
