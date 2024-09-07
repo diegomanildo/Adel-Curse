@@ -3,6 +3,7 @@ package game.levels;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Matrix4;
+import game.GameScreen;
 import game.map.Door;
 import game.map.GameMap;
 import game.map.RoomsArray;
@@ -48,6 +49,13 @@ public abstract class Level extends Group {
     public void show() {
         super.show();
         levelSong.fadeIn(Screen.FADE_TIME, true);
+        GameScreen.chat.createFull("Adel habia vivido una vida sencilla, sin grandes ambiciones ni logros destacables. Era un joven amable, pero siempre sentia que le faltaba algo para cumplir su proposito. Un dia, mientras caminaba por las calles vacias de su ciudad, un accidente lo alcanzo y, en un parpadeo, su vida mortal llego a su fin.\n" +
+                "\n" +
+                "Al despertar, Adel no se encontraba en el cielo, ni en un tranquilo descanso eterno. En su lugar, estaba en un desierto de oscuridad y fuego: el inframundo. Montañas de piedra negra se levantaban sobre un rio de lava que serpenteaba en la distancia. Extrañas criaturas susurraban en las sombras, y el aire estaba cargado de miedo y desesperanza.\n" +
+                "\n" +
+                "De repente, una figura imponente se acerco a él. Un ser encapuchado, con alas desgarradas y ojos llameantes, le hablo con una voz grave: \"Adel, has sido enviado aqui porque tu alma no ha sido juzgada. No fuiste ni malvado ni virtuoso. Tu destino esta en tus manos. Para alcanzar el cielo, deberas superar los desafios de este reino oscuro. Si fracasas, te quedaras aqui por toda la eternidad.\"\n" +
+                "\n" +
+                "Sin otra opcion, Adel acepto el desafio. Comenzo su travesia a traves de las tierras infernales, enfrentandose a grotescas bestias que surgian del suelo ardiente");
     }
 
     @Override

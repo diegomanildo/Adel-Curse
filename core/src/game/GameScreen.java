@@ -21,10 +21,10 @@ public final class GameScreen extends Screen {
         super();
 
         addSubScreen(game);
-        addSubScreen(hud);
         addSubScreen(chat);
         addSubScreen(shopScreen);
         addSubScreen(pause);
+        addSubScreen(hud);
     }
 
     @Override

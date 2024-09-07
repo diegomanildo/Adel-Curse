@@ -8,14 +8,23 @@ import utilities.Render;
 import utilities.SubScreen;
 
 public class ChatScreen extends SubScreen {
-    private static final float PADDING = 200f;
+    private static final float BIG_PADDING = 200f;
+    private static final float FULL_PADDING = 100f;
     private static final float TYPING_TIME = 0.025f;
 
-    private class BigChatBox extends ChatBox {
-        public BigChatBox() {
+    private static abstract class CommonChatBox extends ChatBox {
+        public CommonChatBox() {
             setFontScale(1.25f);
             setWrap(true);
             setAlignment(Align.topLeft);
+        }
+    }
+
+    private static class BigChatBox extends CommonChatBox {
+        @Override
+        public void startTransition(float transitionTime, boolean reproduceSound) {
+            super.startTransition(transitionTime, reproduceSound);
+            GameScreen.game.pause();
         }
 
         @Override
@@ -25,27 +34,46 @@ public class ChatScreen extends SubScreen {
                 if (isInTransition()) {
                     complete();
                 } else {
-                    removeBig();
+                    remove();
                 }
             }
         }
+
+        @Override
+        public boolean remove() {
+            GameScreen.game.resume();
+            return super.remove();
+        }
     }
 
-    private class TinyChatBox extends ChatBox {
+    private static class TinyChatBox extends CommonChatBox {
         public TinyChatBox() {
-            setFontScale(1.25f);
-            setWrap(true);
+            super();
             setAlignment(Align.center);
         }
     }
 
+    public final ChatBox full;
     public final ChatBox big;
     public final ChatBox tiny;
 
     public ChatScreen() {
         super();
+        full = new BigChatBox();
         big = new BigChatBox();
         tiny = new TinyChatBox();
+    }
+
+    public void createFull(String text) {
+        if (full.isShowing()) {
+            return;
+        }
+
+        full.setText(text);
+        full.setSize(Render.screenSize.width - FULL_PADDING * 2f, Render.screenSize.height - FULL_PADDING * 2f);
+        full.setPosition(FULL_PADDING, FULL_PADDING);
+        stage.addActor(full);
+        full.startTransition(text.length() * TYPING_TIME);
     }
 
     public void createBig(String text) {
@@ -53,9 +81,8 @@ public class ChatScreen extends SubScreen {
             return;
         }
 
-        GameScreen.game.pause();
         big.setText(text);
-        big.setSize(Render.screenSize.width - PADDING * 2f, 150f);
+        big.setSize(Render.screenSize.width - BIG_PADDING * 2f, 150f);
         big.setPosition((Render.screenSize.width - big.getWidth()) / 2f, 40f);
         stage.addActor(big);
         big.startTransition(text.length() * TYPING_TIME);
@@ -71,11 +98,6 @@ public class ChatScreen extends SubScreen {
         tiny.setPosition((Render.screenSize.width - tiny.getWidth()) / 2f, 40f);
         stage.addActor(tiny);
         tiny.startTransition(text.length() * TYPING_TIME, false);
-    }
-
-    public void removeBig() {
-        GameScreen.game.resume();
-        big.remove();
     }
 
     public void removeTiny() {

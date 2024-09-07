@@ -86,7 +86,7 @@ public class ChatBox extends Label {
 
         Render.sr.begin(ShapeRenderer.ShapeType.Filled);
 
-        // Fondo negro
+        // Black background
         Render.sr.setColor(Color.BLACK);
         Render.sr.rect(getX(), getY(), getWidth(), getHeight());
 
@@ -94,7 +94,7 @@ public class ChatBox extends Label {
 
         Render.sr.begin(ShapeRenderer.ShapeType.Line);
 
-        // Borde blanco
+        // White border
         Render.sr.setColor(Color.WHITE);
         Render.sr.rect(getX(), getY(), getWidth(), getHeight());
 
@@ -109,6 +109,10 @@ public class ChatBox extends Label {
         return inTransition;
     }
 
+    public boolean isShowing() {
+        return getStage() != null;
+    }
+
     private static boolean equals(String s1, String s2) {
         if (s1.length() != s2.length()) {
             return false;
@@ -121,9 +125,5 @@ public class ChatBox extends Label {
         }
 
         return true;
-    }
-
-    public boolean isShowing() {
-        return getStage() != null;
     }
 }

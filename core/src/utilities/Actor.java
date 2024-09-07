@@ -91,6 +91,15 @@ public class Actor extends com.badlogic.gdx.scenes.scene2d.Actor {
         }
     }
 
+    public float getOpacity() {
+        return getColor().a;
+    }
+
+    public void setOpacity(float opacity) {
+        Color c = getColor();
+        setColor(c.r, c.g, c.b, opacity);
+    }
+
     public void dispose() {
 
     }
