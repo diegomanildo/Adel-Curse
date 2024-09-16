@@ -19,6 +19,8 @@ import utilities.Screen;
 import utilities.audio.Song;
 
 public abstract class Level extends Group {
+    private static final String START_TEXT_KEY = "StartText";
+
     private Song levelSong;
     private Song auxSong;
 
@@ -49,7 +51,7 @@ public abstract class Level extends Group {
     public void show() {
         super.show();
         levelSong.fadeIn(Screen.FADE_TIME, true);
-        GameScreen.chat.createFull("Adel habia vivido una vida sencilla, sin grandes ambiciones ni logros destacables. Era un joven amable, pero siempre sentia que le faltaba algo para cumplir su proposito. Un dia, mientras caminaba por las calles vacias de su ciudad, un accidente lo alcanzo y, en un parpadeo, su vida mortal llego a su fin.\n" +
+        GameScreen.chat.createFull(START_TEXT_KEY, "Adel habia vivido una vida sencilla, sin grandes ambiciones ni logros destacables. Era un joven amable, pero siempre sentia que le faltaba algo para cumplir su proposito. Un dia, mientras caminaba por las calles vacias de su ciudad, un accidente lo alcanzo y, en un parpadeo, su vida mortal llego a su fin.\n" +
                 "\n" +
                 "Al despertar, Adel no se encontraba en el cielo, ni en un tranquilo descanso eterno. En su lugar, estaba en un desierto de oscuridad y fuego: el inframundo. Montañas de piedra negra se levantaban sobre un rio de lava que serpenteaba en la distancia. Extrañas criaturas susurraban en las sombras, y el aire estaba cargado de miedo y desesperanza.\n" +
                 "\n" +

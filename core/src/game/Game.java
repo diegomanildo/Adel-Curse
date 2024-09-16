@@ -63,13 +63,13 @@ public final class Game extends SubScreen {
         for (Playable player : entities.getPlayers()) {
             for (Door door : level.getDoors()) {
                 if (player.getBounds().collidesWith(door.getHitbox())) {
-                    GameScreen.chat.createTiny("Press " + Controls.getCharacter(GameAction.INTERACT));
+                    GameScreen.chat.createTiny(door.getDirection().name(), "Press " + Controls.getCharacter(GameAction.INTERACT));
 
                     if (!level.getCamera().isMoving() && Controls.isJustPressed(GameAction.INTERACT)) {
                         moveCamera(door.getDirection());
                     }
                 } else {
-                    GameScreen.chat.removeTiny();
+                    GameScreen.chat.removeChat(door.getDirection().name());
                 }
             }
         }

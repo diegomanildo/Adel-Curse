@@ -13,6 +13,12 @@ public class Stage extends com.badlogic.gdx.scenes.scene2d.Stage {
         super(viewport);
     }
 
+    @Override
+    public void addActor(com.badlogic.gdx.scenes.scene2d.Actor actor) {
+        super.addActor(actor);
+        Log.debug(actor.toString() + "added");
+    }
+
     public void show() {
         Array<com.badlogic.gdx.scenes.scene2d.Actor> actors = getActors();
         for (int i = 0; i < actors.size; i++) {

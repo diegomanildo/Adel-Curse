@@ -27,7 +27,7 @@ public class Log {
     private static int messageIndex = 1;
 
     private static void print(Colors color, String prefix, String msg) {
-        System.out.println("" + color + messageIndex++ + " [" + prefix + "] " + msg + Colors.RESET);
+        System.out.println("" + color + messageIndex++ + " [" + prefix + "] " + Colors.RESET + msg);
     }
 
     public static void log(String msg) {

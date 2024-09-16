@@ -7,20 +7,33 @@ import game.utilities.ChatBox;
 import utilities.Render;
 import utilities.SubScreen;
 
+import java.util.HashMap;
+
 public class ChatScreen extends SubScreen {
     private static final float BIG_PADDING = 200f;
     private static final float FULL_PADDING = 100f;
     private static final float TYPING_TIME = 0.025f;
 
     private static abstract class CommonChatBox extends ChatBox {
+        private String key;
+
         public CommonChatBox() {
+            super();
             setFontScale(1.25f);
             setWrap(true);
             setAlignment(Align.topLeft);
         }
+
+        public String getKey() {
+            return key;
+        }
+
+        public void setKey(String key) {
+            this.key = key;
+        }
     }
 
-    private static class BigChatBox extends CommonChatBox {
+    private class BigChatBox extends CommonChatBox {
         @Override
         public void startTransition(float transitionTime, boolean reproduceSound) {
             super.startTransition(transitionTime, reproduceSound);
@@ -42,7 +55,15 @@ public class ChatScreen extends SubScreen {
         @Override
         public boolean remove() {
             GameScreen.game.resume();
+            chats.remove(getKey());
             return super.remove();
+        }
+    }
+
+    private class FullChatBox extends BigChatBox {
+        public FullChatBox() {
+            super();
+            setBounds(FULL_PADDING, FULL_PADDING, Render.screenSize.width - FULL_PADDING * 2f, Render.screenSize.height - FULL_PADDING * 2f);
         }
     }
 
@@ -53,54 +74,58 @@ public class ChatScreen extends SubScreen {
         }
     }
 
-    public final ChatBox full;
-    public final ChatBox big;
-    public final ChatBox tiny;
+    private final HashMap<String, CommonChatBox> chats;
 
     public ChatScreen() {
         super();
-        full = new BigChatBox();
-        big = new BigChatBox();
-        tiny = new TinyChatBox();
+        chats = new HashMap<>();
     }
 
-    public void createFull(String text) {
-        if (full.isShowing()) {
+    public void createFull(String key, String text) {
+        FullChatBox chat = new FullChatBox();
+
+        chat.setText(text);
+        chat.setSize(Render.screenSize.width - FULL_PADDING * 2f, Render.screenSize.height - FULL_PADDING * 2f);
+        chat.setPosition(FULL_PADDING, FULL_PADDING);
+
+        createChat(key, chat, true);
+    }
+
+    public void createBig(String key, String text) {
+        BigChatBox chat = new BigChatBox();
+
+        chat.setText(text);
+        chat.setSize(Render.screenSize.width - BIG_PADDING * 2f, 150f);
+        chat.setPosition((Render.screenSize.width - chat.getWidth()) / 2f, 40f);
+
+        createChat(key, chat, true);
+    }
+
+    public void createTiny(String key, String text) {
+        TinyChatBox chat = new TinyChatBox();
+
+        chat.setText(text);
+        chat.setSize(text.length() * 15f, 40f);
+        chat.setPosition((Render.screenSize.width - chat.getWidth()) / 2f, 40f);
+
+        createChat(key, chat, false);
+    }
+
+    private void createChat(String key, CommonChatBox chat, boolean reproduceSound) {
+        if (!chats.containsKey(key)) {
+            chat.setKey(key);
+            stage.addActor(chat);
+            chat.startTransition(chat.text.length() * TYPING_TIME, reproduceSound);
+
+            chats.put(key, chat);
+        }
+    }
+
+    public void removeChat(String key) {
+        if (!chats.containsKey(key)) {
             return;
         }
 
-        full.setText(text);
-        full.setSize(Render.screenSize.width - FULL_PADDING * 2f, Render.screenSize.height - FULL_PADDING * 2f);
-        full.setPosition(FULL_PADDING, FULL_PADDING);
-        stage.addActor(full);
-        full.startTransition(text.length() * TYPING_TIME);
-    }
-
-    public void createBig(String text) {
-        if (big.isShowing()) {
-            return;
-        }
-
-        big.setText(text);
-        big.setSize(Render.screenSize.width - BIG_PADDING * 2f, 150f);
-        big.setPosition((Render.screenSize.width - big.getWidth()) / 2f, 40f);
-        stage.addActor(big);
-        big.startTransition(text.length() * TYPING_TIME);
-    }
-
-    public void createTiny(String text) {
-        if (tiny.isShowing()) {
-            return;
-        }
-
-        tiny.setText(text);
-        tiny.setSize(text.length() * 15f, 40f);
-        tiny.setPosition((Render.screenSize.width - tiny.getWidth()) / 2f, 40f);
-        stage.addActor(tiny);
-        tiny.startTransition(text.length() * TYPING_TIME, false);
-    }
-
-    public void removeTiny() {
-        tiny.remove();
+        chats.remove(key).remove();
     }
 }

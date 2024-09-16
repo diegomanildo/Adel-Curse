@@ -9,7 +9,7 @@ import utilities.ShapeRenderer;
 import utilities.audio.Sound;
 
 public class ChatBox extends Label {
-    private String text;
+    public String text;
     private final Sound typing;
     private float transitionTime;
     private boolean inTransition;

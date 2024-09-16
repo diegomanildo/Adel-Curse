@@ -32,6 +32,19 @@ public class Actor extends com.badlogic.gdx.scenes.scene2d.Actor {
         return getY() + getHeight() / 2f;
     }
 
+    public void centerX(com.badlogic.gdx.scenes.scene2d.Actor other) {
+        setX(other.getX() + (other.getWidth() - getWidth()) / 2f);
+    }
+
+    public void centerY(com.badlogic.gdx.scenes.scene2d.Actor other) {
+        setY(other.getY() + (other.getHeight() - getHeight()) / 2f);
+    }
+
+    public void center(com.badlogic.gdx.scenes.scene2d.Actor other) {
+        centerX(other);
+        centerY(other);
+    }
+
     public boolean collidesWith(Hitbox other) {
         return hitbox.collidesWith(other);
     }
