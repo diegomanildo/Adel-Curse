@@ -16,7 +16,6 @@ public class Timer {
         if (!running) {
             startTime = System.currentTimeMillis();
             running = true;
-            paused = false;
         }
     }
 
@@ -36,7 +35,7 @@ public class Timer {
     }
 
     public void pause() {
-        if (running && !paused) {
+        if (!paused) {
             this.pauseTime = System.currentTimeMillis();
             this.paused = true;
         }

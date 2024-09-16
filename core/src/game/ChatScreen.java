@@ -122,10 +122,8 @@ public class ChatScreen extends SubScreen {
     }
 
     public void removeChat(String key) {
-        if (!chats.containsKey(key)) {
-            return;
+        if (chats.containsKey(key)) {
+            chats.remove(key).remove();
         }
-
-        chats.remove(key).remove();
     }
 }
