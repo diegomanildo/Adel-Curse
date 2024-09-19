@@ -3,13 +3,16 @@ package game.rooms;
 import game.entities.GameEntity;
 import game.utilities.EntityClassList;
 
+import java.util.Random;
+
 public abstract class EnemyRoom extends Room {
     private final EntityClassList entitiesClasses;
+    private static Random random = new Random();
 
     protected EnemyRoom(String mapFile, EntityClassList entitiesClasses, int quantityOfEntities) {
         super(mapFile);
         this.entitiesClasses = entitiesClasses;
-//        generateEntities(quantityOfEntities);
+        generateEntities(quantityOfEntities);
     }
 
     private void generateEntities(int quantity) {
@@ -20,8 +23,8 @@ public abstract class EnemyRoom extends Room {
     }
 
     private void generateEntity() {
-        float x = (float) (Math.random() * getWidth());
-        float y = (float) (Math.random() * getHeight());
+        float x = random.nextFloat() * getWidth();
+        float y = random.nextFloat() * getHeight();
 
         GameEntity entity = getRandomEntityAt(x, y);
 

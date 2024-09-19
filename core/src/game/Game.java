@@ -49,9 +49,6 @@ public final class Game extends SubScreen {
 
         correctPositions();
         checkDoors();
-        if (!adel.collidesWith(level.getCamera().getHitbox())) {
-            moveCamera();
-        }
     }
 
     private void correctPositions() {
@@ -87,24 +84,6 @@ public final class Game extends SubScreen {
         super.resume();
         entities.forEach(GameEntity::resume);
         timer.resume();
-    }
-
-    private void moveCamera() {
-        Camera2D camera = level.getCamera();
-        if (camera.isMoving())
-            return;
-
-        if (adel.getY() < camera.getBottom()) {
-            moveCamera(Direction.DOWN);
-        } else if (adel.getY() > camera.getTop()) {
-            moveCamera(Direction.UP);
-        }
-
-        if (adel.getX() < camera.getLeft()) {
-            moveCamera(Direction.LEFT);
-        } else if (adel.getX() > camera.getRight()) {
-            moveCamera(Direction.RIGHT);
-        }
     }
 
     private void moveCamera(Direction direction) {

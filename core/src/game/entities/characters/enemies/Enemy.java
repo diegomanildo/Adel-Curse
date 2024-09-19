@@ -3,6 +3,7 @@ package game.entities.characters.enemies;
 import game.entities.characters.Character;
 
 public abstract class Enemy extends Character {
+    private boolean first = false;
 
     public Enemy(Stats stats, String texturePath, String bulletTexturePath, int columns, int rows) {
         super(stats, texturePath, bulletTexturePath, columns, rows);
@@ -14,5 +15,7 @@ public abstract class Enemy extends Character {
 
     @Override
     protected void update(float delta) {
+        // Mover aca
+        // move(Direction.UP);
     }
 }
