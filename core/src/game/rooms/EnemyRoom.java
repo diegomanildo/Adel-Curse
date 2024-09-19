@@ -1,18 +1,25 @@
 package game.rooms;
 
+import game.GameScreen;
 import game.entities.GameEntity;
 import game.utilities.EntityClassList;
-import game.GameScreen;
 
 import java.util.Random;
 
 public abstract class EnemyRoom extends Room {
     private final EntityClassList entitiesClasses;
     private static Random random = new Random();
+    private final int quantityOfEntities;
 
     protected EnemyRoom(String mapFile, EntityClassList entitiesClasses, int quantityOfEntities) {
         super(mapFile);
         this.entitiesClasses = entitiesClasses;
+        this.quantityOfEntities = quantityOfEntities;
+    }
+
+    @Override
+    public void show() {
+        super.show();
         generateEntities(quantityOfEntities);
     }
 
