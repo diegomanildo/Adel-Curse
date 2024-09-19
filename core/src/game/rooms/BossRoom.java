@@ -12,7 +12,7 @@ public final class BossRoom extends Room {
         super("boss/boss_1.tmx", RoomKinds.BOSS);
         song = new Song("Music", "songs/Death to Eva.mp3");
         deadEye = new DeadEye();
-        deadEye.center(this);
+        deadEye.setPosition(172f, 115f);
         createEntity(deadEye);
     }
 }

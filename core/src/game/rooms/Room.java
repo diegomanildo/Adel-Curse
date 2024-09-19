@@ -74,10 +74,12 @@ public class Room extends Group {
         return doors.toArray(new Door[0]);
     }
 
+    @Override
     public float getWidth() {
         return map.getProperties().get("width", Integer.class) * map.getProperties().get("tilewidth", Integer.class);
     }
 
+    @Override
     public float getHeight() {
         return map.getProperties().get("height", Integer.class) * map.getProperties().get("tileheight", Integer.class);
     }
