@@ -31,14 +31,14 @@ public abstract class EnemyRoom extends Room {
     }
 
     private void generateEntity() {
-       float x, y;
-        do{
+       float x=0, y=0;
+       // do{
             x = random.nextFloat() * getWidth();
-        }while(x == GameScreen.game.getPlayer().getX());
+       // }while(x == GameScreen.game.getPlayer().getX());
 
-        do{
+       // do{
             y = random.nextFloat() * getHeight();
-        }while(x == GameScreen.game.getPlayer().getY());
+       // }while(x == GameScreen.game.getPlayer().getY());
 
         GameEntity entity = getRandomEntityAt(x, y);
 
