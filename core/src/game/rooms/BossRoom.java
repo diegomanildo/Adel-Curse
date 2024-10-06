@@ -13,6 +13,11 @@ public final class BossRoom extends Room {
         song = new Song("Music", "songs/Death to Eva.mp3");
         deadEye = new DeadEye();
         deadEye.setPosition(172f, 115f);
+    }
+
+    @Override
+    public void show() {
+        super.show();
         createEntity(deadEye);
     }
 }

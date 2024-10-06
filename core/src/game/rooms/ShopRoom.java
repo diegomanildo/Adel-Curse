@@ -27,12 +27,12 @@ public final class ShopRoom extends Room {
 
         shopKeeper = new ShopKeeper();
         shopKeeper.setPosition(172f, 115f);
-        createEntity(shopKeeper);
     }
 
     @Override
     public void show() {
         super.show();
+        createEntity(shopKeeper);
         GameScreen.chat.createBig(SHOP_KEY, "Hola! Bienvenido a la Tienda! Soy el vendedor. Aqui podras comprar items a cambio de monedas. No te pases de listo.");
     }
 

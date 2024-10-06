@@ -40,8 +40,8 @@ public final class Hitbox {
 
     public void drawShape(ShapeRenderer sr) {
         sr.begin();
+        sr.setColor(Color.GREEN);
         sr.set(ShapeRenderer.ShapeType.Line);
-        sr.setColor(Color.WHITE);
         sr.rect(x, y, width, height);
         sr.end();
     }

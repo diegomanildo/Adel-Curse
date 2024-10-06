@@ -2,6 +2,7 @@ package game.map;
 
 import com.badlogic.gdx.math.Vector2;
 import game.rooms.BossRoom;
+import game.rooms.EnemyRoom;
 import game.rooms.Room;
 import utilities.Group;
 
@@ -31,7 +32,7 @@ public class RoomMap extends Group {
         // Generate the initial room at the middle
         int initialRow = rows / 2;
         int initialColumn = columns / 2;
-        createRoomAt(initialRow, initialColumn, roomTypes.getInitialRoom());
+        createRoomAt(initialRow, initialColumn, roomTypes.getInitialRoom(), true);
         initRoom = new Vector2(initialRow, initialColumn);
 
         generateMap(quantity - 1); // Subtract 1 because the initial room is already created
@@ -47,13 +48,17 @@ public class RoomMap extends Group {
         }
     }
 
-    private void createRoomAt(int row, int column, Class<? extends Room> roomClass) {
+    private void createRoomAt(int row, int column, Class<? extends Room> roomClass, boolean initRoom) {
         if (roomClass == null) {
             roomClass = roomTypes.random();
         }
 
         try {
             Room room = roomClass.getDeclaredConstructor().newInstance();
+
+            if (initRoom && room instanceof EnemyRoom) {
+                ((EnemyRoom) room).setSpawn(false);
+            }
 
             Room leftRoom = (column > 0) ? map[row][column - 1] : null;
             Room rightRoom = (column < columns - 1) ? map[row][column + 1] : null;
@@ -72,7 +77,7 @@ public class RoomMap extends Group {
     }
 
     private void createRoomAt(int row, int column) {
-        createRoomAt(row, column, null);
+        createRoomAt(row, column, null, false);
     }
 
     private void addAdjacentPositions(int row, int column) {
@@ -111,7 +116,7 @@ public class RoomMap extends Group {
         }
 
         if (farthestRoomPos != null) {
-            createRoomAt((int) farthestRoomPos.x, (int) farthestRoomPos.y, roomTypes.getBossRoom());
+            createRoomAt((int) farthestRoomPos.x, (int) farthestRoomPos.y, roomTypes.getBossRoom(), false);
         }
     }
 
@@ -130,7 +135,7 @@ public class RoomMap extends Group {
         // Place the ShopRoom in a random location from the available spots
         if (!possibleLocations.isEmpty()) {
             Vector2 shopPosition = possibleLocations.get(RANDOM.nextInt(possibleLocations.size()));
-            createRoomAt((int) shopPosition.x, (int) shopPosition.y, roomTypes.getShopRoom());
+            createRoomAt((int) shopPosition.x, (int) shopPosition.y, roomTypes.getShopRoom(), false);
         }
     }
 

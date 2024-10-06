@@ -25,7 +25,7 @@ public final class Game extends SubScreen {
 
         level = new Level1();
         adel = new Adel();
-            adel.setPosition(level.getInitX() - adel.getWidth() / 2f, level.getInitY() - adel.getHeight() / 2f);
+        adel.setPosition(level.getInitX() - adel.getWidth() / 2f, level.getInitY() - adel.getHeight() / 2f);
 
         stage.addActor(level);
         stage.addActor(adel);
@@ -47,7 +47,7 @@ public final class Game extends SubScreen {
     public void render(float delta) {
         super.render(delta);
 
-        //correctPositions();
+        correctPositions();
         checkDoors();
     }
 
@@ -57,6 +57,7 @@ public final class Game extends SubScreen {
     }
 
     private void checkDoors() {
+        level.getHitbox();
         for (Playable player : entities.getPlayers()) {
             for (Door door : level.getDoors()) {
                 if (player.getBounds().collidesWith(door.getHitbox())) {

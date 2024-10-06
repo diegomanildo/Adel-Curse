@@ -31,7 +31,7 @@ public abstract class Level extends Group {
     private boolean isInBoss;
 
     private static final float OFFSET = 34f;
-    private static final float PADDING = 31f;
+    private static final Hitbox HITBOX = new Hitbox(48f, 48f, 272f, 144f);
 
     protected Level(Song levelSong, int quantity, int rows, int cols, RoomsArray rooms) {
         this.levelSong = levelSong;
@@ -64,7 +64,6 @@ public abstract class Level extends Group {
     public void act(float delta) {
         super.act(delta);
         renderer = new OrthogonalTiledMapRenderer(map.getCurrent().getMap());
-        camera.zoom = Render.isDebugging() ? 2f : 1f;
         camera.update();
     }
 
@@ -138,7 +137,13 @@ public abstract class Level extends Group {
     }
 
     public Hitbox getHitbox() {
-        return new Hitbox(camera.getLeft() + PADDING, camera.getBottom() + PADDING, camera.viewportWidth - PADDING * 2f, camera.viewportHeight - PADDING * 2f);
+        if (Render.isDebugging()) {
+            Matrix4 mat = Render.sr.getProjectionMatrix();
+            Render.sr.setProjectionMatrix(camera.combined);
+            HITBOX.drawShape(Render.sr);
+            Render.sr.setProjectionMatrix(mat);
+        }
+        return HITBOX;
     }
 
     public Door[] getDoors() {

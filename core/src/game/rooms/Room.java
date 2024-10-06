@@ -39,17 +39,10 @@ public class Room extends Group {
         this.doors = other.doors;
     }
 
-    @Override
-    public void show() {
-        super.show();
-        entities.forEach(e -> {
-            getStage().addActor(e);
-            Game.entities.add(e);
-        });
-    }
-
     public void createEntity(GameEntity e) {
         entities.add(e);
+        getStage().addActor(e);
+        Game.entities.add(e);
     }
 
     @Override
