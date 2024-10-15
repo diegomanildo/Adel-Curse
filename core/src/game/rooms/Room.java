@@ -4,11 +4,13 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import game.Game;
 import game.entities.GameEntity;
+import game.entities.items.*;
 import game.map.Door;
 import game.map.RoomKinds;
 import game.utilities.Direction;
 import game.utilities.Entities;
 import game.utilities.Hitbox;
+import game.utilities.ItemList;
 import utilities.FilePaths;
 import utilities.Group;
 
@@ -24,12 +26,24 @@ public class Room extends Group {
     private RoomKinds roomKind;
     protected final Entities entities;
     private final ArrayList<Door> doors;
+    private ItemList itemList;
 
     protected Room(String mapFile, RoomKinds roomKind) {
         this.map = new TmxMapLoader().load(FilePaths.ROOMS + mapFile);
         this.roomKind = roomKind;
         this.entities = new Entities();
         this.doors = new ArrayList<>();
+        this.itemList = new ItemList(
+                Bomb.class,
+                Candy.class,
+                Cap.class,
+                Diamond.class,
+                Mushroom.class,
+                RandomCard.class,
+                Shell.class,
+                SkeletonMask.class,
+                UpCard.class
+        );
     }
 
     private Room(Room other) {
@@ -115,5 +129,31 @@ public class Room extends Group {
         if (!doors.contains(door)) {
             doors.add(door);
         }
+    }
+
+    @Override
+    public void show() {
+        super.show();
+        createItems(); // Crear ítems al mostrar la sala
+    }
+
+    public void createItems() {
+        Item randomItem;
+        randomItem = itemList.getRandomItem();
+        randomItem.setPosition(LEFT.getHitbox().x + 20, LEFT.getHitbox().y + 5);
+        getStage().addActor(randomItem);
+
+        randomItem = itemList.getRandomItem();
+        randomItem.setPosition(RIGHT.getHitbox().x - 20, RIGHT.getHitbox().y + 5);
+        getStage().addActor(randomItem);
+
+        randomItem = itemList.getRandomItem();
+        randomItem.setPosition(UP.getHitbox().x - 5, RIGHT.getHitbox().y + 60);
+        getStage().addActor(randomItem);
+
+        randomItem = itemList.getRandomItem();
+        randomItem.setPosition(UP.getHitbox().x - 5, RIGHT.getHitbox().y - 60);
+        getStage().addActor(randomItem);
+
     }
 }
