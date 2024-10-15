@@ -57,7 +57,7 @@ public class RoomMap extends Group {
             Room room = roomClass.getDeclaredConstructor().newInstance();
 
             if (initRoom && room instanceof EnemyRoom) {
-                ((EnemyRoom) room).setSpawn(false);
+                ((EnemyRoom) room).setSpawnEntities(false);
             }
 
             Room leftRoom = (column > 0) ? map[row][column - 1] : null;

@@ -10,40 +10,27 @@ import game.map.RoomKinds;
 import game.utilities.Direction;
 import game.utilities.Entities;
 import game.utilities.Hitbox;
-import game.utilities.ItemList;
 import utilities.FilePaths;
 import utilities.Group;
 
 import java.util.ArrayList;
 
 public class Room extends Group {
-    private static final Door LEFT = new Door(Direction.LEFT, new Hitbox(20f, 110f, 38f, 20f));
-    private static final Door RIGHT = new Door(Direction.RIGHT, new Hitbox(310f, 110f, 38f, 20f));
-    private static final Door UP = new Door(Direction.UP, new Hitbox(174f, 190f, 20f, 30f));
-    private static final Door DOWN = new Door(Direction.DOWN, new Hitbox(174f, 20f, 20f, 30f));
+    protected static final Door LEFT = new Door(Direction.LEFT, new Hitbox(20f, 110f, 38f, 20f));
+    protected static final Door RIGHT = new Door(Direction.RIGHT, new Hitbox(310f, 110f, 38f, 20f));
+    protected static final Door UP = new Door(Direction.UP, new Hitbox(174f, 190f, 20f, 30f));
+    protected static final Door DOWN = new Door(Direction.DOWN, new Hitbox(174f, 20f, 20f, 30f));
 
     private final TiledMap map;
     private RoomKinds roomKind;
     protected final Entities entities;
     private final ArrayList<Door> doors;
-    private ItemList itemList;
 
     protected Room(String mapFile, RoomKinds roomKind) {
         this.map = new TmxMapLoader().load(FilePaths.ROOMS + mapFile);
         this.roomKind = roomKind;
         this.entities = new Entities();
         this.doors = new ArrayList<>();
-        this.itemList = new ItemList(
-                Bomb.class,
-                Candy.class,
-                Cap.class,
-                Diamond.class,
-                Mushroom.class,
-                RandomCard.class,
-                Shell.class,
-                SkeletonMask.class,
-                UpCard.class
-        );
     }
 
     private Room(Room other) {
@@ -134,26 +121,5 @@ public class Room extends Group {
     @Override
     public void show() {
         super.show();
-        createItems(); // Crear ítems al mostrar la sala
-    }
-
-    public void createItems() {
-        Item randomItem;
-        randomItem = itemList.getRandomItem();
-        randomItem.setPosition(LEFT.getHitbox().x + 20, LEFT.getHitbox().y + 5);
-        getStage().addActor(randomItem);
-
-        randomItem = itemList.getRandomItem();
-        randomItem.setPosition(RIGHT.getHitbox().x - 20, RIGHT.getHitbox().y + 5);
-        getStage().addActor(randomItem);
-
-        randomItem = itemList.getRandomItem();
-        randomItem.setPosition(UP.getHitbox().x - 5, RIGHT.getHitbox().y + 60);
-        getStage().addActor(randomItem);
-
-        randomItem = itemList.getRandomItem();
-        randomItem.setPosition(UP.getHitbox().x - 5, RIGHT.getHitbox().y - 60);
-        getStage().addActor(randomItem);
-
     }
 }

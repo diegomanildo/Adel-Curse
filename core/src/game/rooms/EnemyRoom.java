@@ -2,8 +2,12 @@ package game.rooms;
 
 import game.GameScreen;
 import game.entities.GameEntity;
+import game.entities.items.Item;
+import game.map.Door;
+import game.utilities.Direction;
 import game.utilities.EntityClassList;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 public abstract class EnemyRoom extends Room {
@@ -11,7 +15,18 @@ public abstract class EnemyRoom extends Room {
     private final EntityClassList entitiesClasses;
     private static final Random random = new Random();
     private final int quantityOfEntities;
-    private boolean spawn = true;
+    private boolean spawnEntities = true;
+
+    private boolean spawnItems = false;
+    private final ArrayList<Item> itemList = new ArrayList<>();
+    private boolean spawnLeft = false;
+    private boolean spawnRight = false;
+    private boolean spawnUp = false;
+    private boolean spawnDown = false;
+    private Item itemLeft;
+    private Item itemRight;
+    private Item itemUp;
+    private Item itemDown;
 
     protected EnemyRoom(String mapFile, EntityClassList entitiesClasses, int quantityOfEntities) {
         super(mapFile);
@@ -22,9 +37,10 @@ public abstract class EnemyRoom extends Room {
     @Override
     public void show() {
         super.show();
-        if (spawn) {
+        if (spawnEntities) {
             generateEntities(quantityOfEntities);
         }
+        createItems();
     }
 
     private void generateEntities(int quantity) {
@@ -59,11 +75,41 @@ public abstract class EnemyRoom extends Room {
         return entity;
     }
 
-    public boolean getSpawn() {
-        return spawn;
+    public boolean getSpawnEntities() {
+        return spawnEntities;
     }
 
-    public void setSpawn(boolean spawn) {
-        this.spawn = spawn;
+    private void createItems() {
+        if(!spawnLeft){
+            itemLeft = Item.ITEMS.getRandomItem();
+            itemLeft.setPosition(LEFT.getHitbox().x, LEFT.getHitbox().y);
+            spawnLeft = true;
+        }
+        createEntity(itemLeft);
+
+        if(!spawnRight){
+            itemRight = Item.ITEMS.getRandomItem();
+            itemRight.setPosition(RIGHT.getHitbox().x, RIGHT.getHitbox().y );
+            spawnRight = true;
+        }
+        createEntity(itemRight);
+
+        if(!spawnUp){
+            itemUp = Item.ITEMS.getRandomItem();
+            itemUp.setPosition(UP.getHitbox().x , UP.getHitbox().y);
+            spawnUp = true;
+        }
+        createEntity(itemUp);
+
+        if(!spawnDown){
+            itemDown = Item.ITEMS.getRandomItem();
+            itemDown.setPosition(DOWN.getHitbox().x, DOWN.getHitbox().y );
+            spawnDown = true;
+        }
+        createEntity(itemDown);
+    }
+
+    public void setSpawnEntities(boolean spawnEntities) {
+        this.spawnEntities = spawnEntities;
     }
 }
