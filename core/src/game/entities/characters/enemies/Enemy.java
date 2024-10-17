@@ -16,6 +16,40 @@ public abstract class Enemy extends Character {
         super(stats, texturePath, bulletTexturePath);
     }
 
+    public void target(float playerX, float playerY, float enemyX, float enemyY){
+        if(intoRangeX(playerX, enemyX)){
+            if(leftOrRight(playerX, enemyX)) {
+                shoot(Direction.RIGHT);
+            } else{
+              shoot(Direction.LEFT);
+            }
+        } else {
+            if(intoRangeY(playerY, enemyY)){
+                if(upOrDown(playerY, enemyY)){
+                    shoot(Direction.UP);
+                }else{
+                    shoot(Direction.DOWN);
+                }
+            }
+        }
+    }
+
+    public boolean intoRangeY(float playerY, float enemyY){
+        return enemyY > (playerY - 1f) || enemyY < (playerY + 1f); //true si esta en el rango de disparo X
+    }
+
+    public boolean intoRangeX(float playerX, float enemyX){
+        return enemyX > (playerX - 1f) || enemyX < (playerX + 1f); //true si esta en el rango de disparo Y
+    }
+
+    public boolean leftOrRight(float playerX, float enemyX){
+        return enemyX < playerX; //devuelve true si dispara a la derecha
+    }
+
+    public boolean upOrDown(float playerY, float enemyY){
+        return enemyY < playerY; //devuelve true si dispara a arriba
+    }
+
     @Override
     protected void update(float delta) {
         float playerX = GameScreen.game.getPlayer().getX();
@@ -25,6 +59,8 @@ public abstract class Enemy extends Character {
         float enemyY = getY();
 
         float distanceToPlayer = calculateDistance(playerX, playerY, enemyX, enemyY);
+
+        target(playerX, playerY, enemyX, enemyY);
 
         Direction direction;
 
