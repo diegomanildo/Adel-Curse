@@ -7,6 +7,8 @@ import game.Game;
 import game.entities.Bullet;
 import game.entities.GameEntity;
 import game.entities.Statistics;
+import game.entities.characters.enemies.Enemy;
+import game.entities.characters.playables.Playable;
 import game.levels.Level;
 import game.utilities.Direction;
 import game.utilities.Hitbox;
@@ -120,7 +122,7 @@ public abstract class Character extends GameEntity implements Statistics {
 
     // Creates a shoot
     private void createShoot(int animationIndex, Direction bulletDirection) {
-        Bullet b = new Bullet(FilePaths.CHARACTERS + bulletTexturePath, bulletDirection, 0.2f);
+        Bullet b = new Bullet(this, FilePaths.CHARACTERS + bulletTexturePath, bulletDirection, 0.2f);
         b.setAnimation(animationIndex);
         float bulletSize = getHeight() / 2f;
         b.setSize(bulletSize, bulletSize);
@@ -134,8 +136,17 @@ public abstract class Character extends GameEntity implements Statistics {
     private void updateBullets() {
         for (int i = 0; i < bullets.size(); i++) {
             bullets.get(i).update(Gdx.graphics.getDeltaTime());
+            boolean collides;
 
-            if (bullets.get(i).outOfBounds(Level.camera) || bullets.get(i).collidesWithEnemy(getDamage())) {
+            if (this instanceof Playable) {
+                collides = bullets.get(i).collidesWithEnemy(getDamage());
+            } else if (this instanceof Enemy) {
+                collides = bullets.get(i).collidesWithPlayer(getDamage());
+            } else {
+                throw new RuntimeException("Invalid instance of Character: " + this.getClass().getSimpleName());
+            }
+
+            if (bullets.get(i).outOfBounds(Level.camera) || collides) {
                 bullets.get(i).impact();
                 bullets.remove(i);
                 Log.debug("Bullet remove, bullets in screen: " + bullets.size());

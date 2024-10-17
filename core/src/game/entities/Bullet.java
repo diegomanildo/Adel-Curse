@@ -3,19 +3,22 @@ package game.entities;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import game.Game;
+import game.entities.characters.Character;
 import game.entities.characters.enemies.Enemy;
 import game.utilities.Camera2D;
 import game.utilities.Direction;
 
 public final class Bullet extends GameEntity {
+    private final Character owner;
     private boolean impacted;
     private float impactTime;
     private final float impactDuration;
 
     private final Direction direction;
 
-    public Bullet(String texturePath, Direction direction, float frameDuration) {
+    public Bullet(Character owner, String texturePath, Direction direction, float frameDuration) {
         super(texturePath, 2, 5, frameDuration);
+        this.owner = owner;
         this.impacted = false;
         this.impactTime = 0f;
         this.impactDuration = 0.5f;
@@ -80,8 +83,19 @@ public final class Bullet extends GameEntity {
     // Check if the parent is not the same entity and if collides with the bullet
     public boolean collidesWithEnemy(int damageReceived) {
         for (Enemy e : Game.entities.getEnemies()) {
-            if (e.collidesWith(this)) {
+            if (e.collidesWith(this) && e != owner) {
                 e.damage(damageReceived);
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public boolean collidesWithPlayer(int damageReceived) {
+        for (Character c : Game.entities.getPlayers()) {
+            if (c.collidesWith(this) && c != owner) {
+                c.damage(damageReceived);
                 return true;
             }
         }
