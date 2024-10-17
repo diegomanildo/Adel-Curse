@@ -17,29 +17,28 @@ public abstract class Enemy extends Character {
     }
 
     public void target(float playerX, float playerY, float enemyX, float enemyY){
-        if(intoRangeX(playerX, enemyX)){
+        if(intoRangeX(playerY, enemyY)){
             if(leftOrRight(playerX, enemyX)) {
                 shoot(Direction.RIGHT);
             } else{
-              shoot(Direction.LEFT);
+                shoot(Direction.LEFT);
             }
-        } else {
-            if(intoRangeY(playerY, enemyY)){
-                if(upOrDown(playerY, enemyY)){
-                    shoot(Direction.UP);
-                }else{
-                    shoot(Direction.DOWN);
-                }
+        }
+        if(intoRangeY(playerX, enemyX)){
+            if(upOrDown(playerY, enemyY)){
+                shoot(Direction.UP);
+            }else{
+                shoot(Direction.DOWN);
             }
         }
     }
 
-    public boolean intoRangeY(float playerY, float enemyY){
-        return enemyY > (playerY - 1f) || enemyY < (playerY + 1f); //true si esta en el rango de disparo X
+    public boolean intoRangeY(float playerX, float enemyX){
+        return enemyX > (playerX - 1.5f) && enemyX < (playerX + 1.5f); //true si esta en el rango de disparo X
     }
 
-    public boolean intoRangeX(float playerX, float enemyX){
-        return enemyX > (playerX - 1f) || enemyX < (playerX + 1f); //true si esta en el rango de disparo Y
+    public boolean intoRangeX(float playerY, float enemyY){
+        return enemyY > (playerY - 1.5f) && enemyY < (playerY + 1.5f); //true si esta en el rango de disparo Y
     }
 
     public boolean leftOrRight(float playerX, float enemyX){
