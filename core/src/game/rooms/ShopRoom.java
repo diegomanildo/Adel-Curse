@@ -17,9 +17,6 @@ public final class ShopRoom extends Room {
     private static final String SHOP_KEY = "Shop";
     private static final String INTERACT_KEY = "Interact";
 
-    private final int itemsQuantity = 3;
-    private boolean spawnItems = false;
-
     public static Song shopSong = new Song("Music", "game/music/ShopIntro.mp3", "game/music/Shop.mp3");
     private final ArrayList<Item> items;
     private final ShopKeeper shopKeeper;
@@ -37,7 +34,6 @@ public final class ShopRoom extends Room {
         super.show();
         createEntity(shopKeeper);
         GameScreen.chat.createBig(SHOP_KEY, "Hola! Bienvenido a la Tienda! Soy el vendedor. Aqui podras comprar items a cambio de monedas. No te pases de listo.");
-        createItems();
     }
 
     @Override
@@ -56,30 +52,6 @@ public final class ShopRoom extends Room {
             } else {
                 GameScreen.chat.removeChat(INTERACT_KEY);
             }
-        }
-    }
-
-    private void createItems(){
-        if(!spawnItems){
-            for(int i = 0; i < itemsQuantity ; i++){
-                items.add(Item.ITEMS.getRandomItem());
-            }
-            itemsPosition(items);
-        }
-    }
-
-    private void itemsPosition(ArrayList<Item> items){
-        for(int i = 0; i < itemsQuantity; i++){
-            if(i == 0){
-                items.get(i).setPosition(142, 113);
-                items.get(i).setSize(20f, 20f);
-                createEntity(items.get(i));
-            } else {
-                items.get(i).setPosition(items.get(i - 1).getX() + 32, items.get(i - 1).getY());
-                items.get(i).setSize(20f, 20f);
-                createEntity(items.get(i));
-            }
-
         }
     }
 
