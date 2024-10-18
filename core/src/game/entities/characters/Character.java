@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import game.Game;
+import game.GameScreen;
 import game.entities.Bullet;
 import game.entities.GameEntity;
 import game.entities.Statistics;
@@ -239,6 +240,7 @@ public abstract class Character extends GameEntity implements Statistics {
         Log.debug(getClass().getSimpleName() + " death in x " + getX() + " y " + getY());
         remove();
         Game.entities.remove(this);
+        GameScreen.deathScreen.playerDead();
         Log.debug("Enemies: " + Game.entities.size());
     }
 }
