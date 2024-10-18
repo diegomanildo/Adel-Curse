@@ -15,6 +15,7 @@ public final class GameScreen extends Screen {
     public static Hud hud = new Hud();
     public static PauseScreen pause = new PauseScreen(GameScreen::exit);
     public static ShopScreen shopScreen = new ShopScreen();
+    public static DeathScreen death = new DeathScreen(GameScreen::exit);
     private static Matrix4 oldShapeRendererMatrix;
 
     public GameScreen() {
@@ -25,6 +26,7 @@ public final class GameScreen extends Screen {
         addSubScreen(hud);
         addSubScreen(shopScreen);
         addSubScreen(pause);
+        addSubScreen(death);
     }
 
     @Override
