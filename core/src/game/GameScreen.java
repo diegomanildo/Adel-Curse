@@ -13,9 +13,9 @@ public final class GameScreen extends Screen {
     public static ChatScreen chat = new ChatScreen();
     public static Game game = new Game();
     public static Hud hud = new Hud();
-    public static PauseScreen pause = new PauseScreen(GameScreen::exit);
+    public static PauseScreen pauseScreen = new PauseScreen(GameScreen::exit);
     public static ShopScreen shopScreen = new ShopScreen();
-    public static DeathScreen death = new DeathScreen(GameScreen::exit);
+    public static DeathScreen deathScreen = new DeathScreen(GameScreen::exit);
     private static Matrix4 oldShapeRendererMatrix;
 
     public GameScreen() {
@@ -25,8 +25,8 @@ public final class GameScreen extends Screen {
         addSubScreen(chat);
         addSubScreen(hud);
         addSubScreen(shopScreen);
-        addSubScreen(pause);
-        addSubScreen(death);
+        addSubScreen(pauseScreen);
+        addSubScreen(deathScreen);
     }
 
     @Override
@@ -43,7 +43,7 @@ public final class GameScreen extends Screen {
         super.handleInput();
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
-            pause.setShow(true);
+            pauseScreen.setShow(true);
         } else if (Gdx.input.isKeyJustPressed(Input.Keys.SHIFT_LEFT)) {
             game.getPlayer().setVelocity(game.getPlayer().getVelocity() * 2f);
         } else if (Gdx.input.isKeyJustPressed(Input.Keys.F1)) {
