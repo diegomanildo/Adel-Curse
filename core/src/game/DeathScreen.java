@@ -1,6 +1,9 @@
 package game;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.utils.Array;
+import menu.config.SettingsScreen;
+import utilities.Image;
 import utilities.Render;
 import utilities.SubScreen;
 import utilities.TextButton;
@@ -14,11 +17,21 @@ public class DeathScreen extends SubScreen {
         Table table = new Table();
         table.setFillParent(true);
 
-        TextButton backButton = new TextButton(Render.currentLanguage.backToMenuBtn(), backFunction);
+        Array<TextButton> buttons = new Array<>();
 
-        table.add(backButton).center().width(200f).height(45f).padBottom(10f);
-        table.row();
+        buttons.addAll(
+                new TextButton(Render.currentLanguage.playBtn()), //playButton
+                new TextButton(Render.currentLanguage.backToMenuBtn(), backFunction)//backButton
+        );
 
+        buttons.forEach(b -> {
+            table.add(b).center().width(200f).height(45f).padBottom(10f);
+            table.row();
+        });
+
+        Image image = new Image("backgrounds/deathScreen.png");
+
+        stage.addActor(image);
         stage.addActor(table);
     }
 
