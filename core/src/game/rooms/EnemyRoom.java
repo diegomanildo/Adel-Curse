@@ -18,7 +18,7 @@ public abstract class EnemyRoom extends Room {
     private boolean spawnEntities = true;
 
     private boolean spawnItems = false;
-    private final ArrayList<Item> itemList = new ArrayList<>();
+    private ArrayList<Item> itemList = new ArrayList<>();
     private boolean spawnLeft = false;
     private boolean spawnRight = false;
     private boolean spawnUp = false;
@@ -41,6 +41,30 @@ public abstract class EnemyRoom extends Room {
             generateEntities(quantityOfEntities);
         }
         createItems();
+        takeItems();
+    }
+
+    private void takeItems(){
+        if (GameScreen.game.getPlayer().collidesWith(Room.LEFT.getHitbox())) {
+            //System.out.println("add item:" + GameScreen.game.getPlayer().getItems().get(0).getName());
+            GameScreen.game.getPlayer().addItem(itemLeft);
+            removeActor(itemLeft);
+        }
+        if (GameScreen.game.getPlayer().collidesWith(Room.RIGHT.getHitbox())) {
+            //System.out.println("add item:" + GameScreen.game.getPlayer().getItems().get(0).getName());
+            GameScreen.game.getPlayer().addItem(itemRight);
+            removeActor(itemRight);
+        }
+        if (GameScreen.game.getPlayer().collidesWith(Room.UP.getHitbox())) {
+            GameScreen.game.getPlayer().addItem(itemUp);
+            //System.out.println("add item:" + GameScreen.game.getPlayer().getItems().get(0).getName());
+            removeActor(itemUp);
+        }
+        if (GameScreen.game.getPlayer().collidesWith(Room.DOWN.getHitbox())) {
+            //System.out.println("add item:" + GameScreen.game.getPlayer().getItems().get(0).getName());
+            GameScreen.game.getPlayer().addItem(itemDown);
+            removeActor(itemDown);
+        }
     }
 
     private void generateEntities(int quantity) {
@@ -81,7 +105,6 @@ public abstract class EnemyRoom extends Room {
 
     private void createItems() {
         Door[] doors = getDoors();
-        System.out.print("doors: ");
         for(int i = 0; i < doors.length; i++){
             Direction direction = doors[i].getDirection();
 
@@ -93,7 +116,10 @@ public abstract class EnemyRoom extends Room {
                         itemLeft.setSize(20f, 20f);
                         spawnLeft = true;
                     }
-                    createEntity(itemLeft);
+                    if(itemLeft != null){
+                        createEntity(itemLeft);
+                        itemList.add(itemLeft);
+                    }
                     break;
                 }
                 case RIGHT:{
@@ -103,7 +129,10 @@ public abstract class EnemyRoom extends Room {
                         itemRight.setSize(20f, 20f);
                         spawnRight = true;
                     }
-                    createEntity(itemRight);
+                    if(itemRight != null){
+                        createEntity(itemRight);
+                        itemList.add(itemRight);
+                    }
                     break;
                 }
                 case UP:{
@@ -113,7 +142,10 @@ public abstract class EnemyRoom extends Room {
                         itemUp.setSize(20f, 20f);
                         spawnUp = true;
                     }
-                    createEntity(itemUp);
+                    if(itemUp != null){
+                        createEntity(itemUp);
+                        itemList.add(itemUp);
+                    }
                     break;
                 }
                 case DOWN:
@@ -123,7 +155,10 @@ public abstract class EnemyRoom extends Room {
                         itemDown.setSize(20f, 20f);
                         spawnDown = true;
                     }
-                    createEntity(itemDown);
+                    if(itemDown != null){
+                        createEntity(itemDown);
+                        itemList.add(itemDown);
+                    }
                     break;
             }
         }
