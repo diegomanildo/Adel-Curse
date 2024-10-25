@@ -76,6 +76,10 @@ public abstract class Playable extends Character {
     }
 
     public void addItem(Item i) {
+        if (i.getOwner() == null) {
+            i.changeOwnerTo(this);
+            i.addToOwner();
+        }
         items.add(i);
     }
 

@@ -21,8 +21,10 @@ public class ItemListShower extends Group {
     private void update(ArrayList<Item> items) {
         clear();
         for (Item item : items) {
-            item.setStop(true);
-            addActor(item);
+            if (item != null) {
+                item.setStop(true);
+                addActor(item);
+            }
         }
         arrangeItems();
     }

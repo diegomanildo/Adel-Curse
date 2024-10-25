@@ -9,6 +9,7 @@ public class Diamond extends Item {
 
     @Override
     protected void applyEffect() {
-        owner.setFrames(FilePaths.IMAGES + "characters/adelDiamond/adelDiamond.png", owner.getColumns(), owner.getRows(), owner.getFrameDuration());
+        owner.setFrames(FilePaths.IMAGES + "characters/adel/adelDiamond.png", owner.getColumns(), owner.getRows(), owner.getFrameDuration());
+        owner.addArmor(3);
     }
 }

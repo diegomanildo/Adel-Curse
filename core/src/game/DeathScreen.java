@@ -10,7 +10,7 @@ import utilities.TextButton;
 import game.GameScreen;
 
 public class DeathScreen extends SubScreen {
-    public DeathScreen(Runnable backFunction){
+    public DeathScreen(Runnable backFunction) {
         super();
         setShow(false);
 
@@ -35,8 +35,8 @@ public class DeathScreen extends SubScreen {
         stage.addActor(table);
     }
 
-    public void playerDead(){
-        if(GameScreen.game.getPlayer().isDeath()){
+    public void playerDead() {
+        if(GameScreen.game.getPlayer().isDeath()) {
             setShow(true);
         }
     }
@@ -49,9 +49,5 @@ public class DeathScreen extends SubScreen {
         } else {
             GameScreen.game.resume();
         }
-    }
-
-    @Override
-    public void show(){
     }
 }

@@ -25,7 +25,7 @@ public abstract class Character extends GameEntity implements Statistics {
     private final Stats stats;
 
     private final ArrayList<Bullet> bullets;
-    private final String bulletTexturePath;
+    private String bulletTexturePath;
 
     private final Sound deathSound;
     private final Sound shootSound;
@@ -186,6 +186,14 @@ public abstract class Character extends GameEntity implements Statistics {
         } else if (getY() + getHeight() > roomHitbox.getTop()) {
             setPosition(getX(), roomHitbox.getTop() - getHeight());
         }
+    }
+
+    public String getBulletTexturePath() {
+        return bulletTexturePath;
+    }
+
+    public void setBulletTexturePath(String bulletTexturePath) {
+        this.bulletTexturePath = bulletTexturePath;
     }
 
     @Override
