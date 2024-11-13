@@ -2,12 +2,9 @@ package game;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Array;
-import menu.config.SettingsScreen;
 import utilities.Image;
-import utilities.Render;
 import utilities.SubScreen;
 import utilities.TextButton;
-import game.GameScreen;
 
 public class DeathScreen extends SubScreen {
     public DeathScreen(Runnable backFunction){
@@ -20,8 +17,8 @@ public class DeathScreen extends SubScreen {
         Array<TextButton> buttons = new Array<>();
 
         buttons.addAll(
-                new TextButton(Render.currentLanguage.playBtn()), //playButton
-                new TextButton(Render.currentLanguage.backToMenuBtn(), backFunction)//backButton
+                new TextButton("Jugar"), //playButton
+                new TextButton("Volver al menu", backFunction)//backButton
         );
 
         buttons.forEach(b -> {

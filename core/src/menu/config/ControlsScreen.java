@@ -30,6 +30,6 @@ public final class ControlsScreen extends BasicOptionsScreen {
 
     @Override
     protected String getTitleScreen() {
-        return Render.currentLanguage.controlsBtn();
+        return "Controles";
     }
 }

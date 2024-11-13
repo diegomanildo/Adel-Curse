@@ -1,18 +1,14 @@
 package menu.config;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Array;
-import languages.Language;
 import utilities.*;
 import utilities.audio.Channels;
 
 public final class SettingsScreen extends BasicOptionsScreen {
     private final SelectBox<String> resolutionSelectBox;
     private final SelectBox<String> fpsSelectBox;
-    private final SelectBox<String> languageSelectBox;
     private final CheckBox fullscreenCheckBox;
 
     private static class VolumeEditor {
@@ -84,14 +80,9 @@ public final class SettingsScreen extends BasicOptionsScreen {
                 "240"
         );
 
-        Array<String> languages = new Array<>();
-        for (Language l : Language.getLanguages()) {
-            languages.add(l.name());
-        }
-
-        globalVolumeEditor = new VolumeEditor(Channels.GLOBAL_CHANNEL, Render.currentLanguage.globalVolume());
-        musicVolumeEditor = new VolumeEditor("Music", Render.currentLanguage.musicVolume());
-        sfxVolumeEditor = new VolumeEditor("Sfx", Render.currentLanguage.sfxVolume());
+        globalVolumeEditor = new VolumeEditor(Channels.GLOBAL_CHANNEL, "Volumen Global");
+        musicVolumeEditor = new VolumeEditor("Music", "Volumen Musica");
+        sfxVolumeEditor = new VolumeEditor("Sfx", "Volumen sfx");
 
         resolutionSelectBox = new SelectBox<>();
         resolutionSelectBox.setItems(resolutions);
@@ -99,32 +90,18 @@ public final class SettingsScreen extends BasicOptionsScreen {
         fpsSelectBox = new SelectBox<>();
         fpsSelectBox.setItems(fpsOptions);
 
-        languageSelectBox = new SelectBox<>();
-        languageSelectBox.setItems(languages);
+        fullscreenCheckBox = new CheckBox("Pantalla completa");
 
-        languageSelectBox.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                Render.currentLanguage = Language.get(languageSelectBox.getSelected());
-            }
-        });
+        TextButton applyBtn = new TextButton("Aplicar", this::applySettings);
 
-        fullscreenCheckBox = new CheckBox(Render.currentLanguage.fullScreen());
-
-        TextButton applyBtn = new TextButton(Render.currentLanguage.apply(), this::applySettings);
-
-        table.add(new Label(Render.currentLanguage.language())).padTop(20f).padBottom(20f).left().row();
-        table.add(languageSelectBox).padBottom(10f).row();
-
-
-        table.add(new Label(Render.currentLanguage.video())).padTop(20f).padBottom(20f).left().row();
-        table.add(new Label(Render.currentLanguage.resolution() + ":")).left();
+        table.add(new Label("Video")).padTop(20f).padBottom(20f).left().row();
+        table.add(new Label("Resolucion:")).left();
         table.add(resolutionSelectBox).padBottom(10f).row();
-        table.add(new Label(Render.currentLanguage.fps() + ":")).left();
+        table.add(new Label("Fps:")).left();
         table.add(fpsSelectBox).padBottom(10f).row();
         table.add(fullscreenCheckBox).colspan(2).left().padBottom(10f).row();
 
-        table.add(new Label(Render.currentLanguage.volume())).padTop(20f).padBottom(20f).left().row();
+        table.add(new Label("Volumen")).padTop(20f).padBottom(20f).left().row();
         globalVolumeEditor.addToTable(table);
         musicVolumeEditor.addToTable(table);
         sfxVolumeEditor.addToTable(table);
@@ -159,9 +136,6 @@ public final class SettingsScreen extends BasicOptionsScreen {
         // Set the current FPS
         fpsSelectBox.setSelected(String.valueOf(Render.fps));
 
-        // Set the language
-        languageSelectBox.setSelected(Render.currentLanguage.name());
-
         // Set the fullScreen
         fullscreenCheckBox.setChecked(Gdx.graphics.isFullscreen());
 
@@ -173,6 +147,6 @@ public final class SettingsScreen extends BasicOptionsScreen {
 
     @Override
     protected String getTitleScreen() {
-        return Render.currentLanguage.settingsBtn();
+        return "Configuracion";
     }
 }

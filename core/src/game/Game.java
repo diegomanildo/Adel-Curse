@@ -7,6 +7,7 @@ import game.levels.Level;
 import game.levels.Level1;
 import game.map.Door;
 import game.utilities.*;
+import utilities.Actor;
 import utilities.SubScreen;
 import utilities.Timer;
 
@@ -158,5 +159,11 @@ public final class Game extends SubScreen {
 
     public Timer getTimer() {
         return timer;
+    }
+
+    @Override
+    public void dispose() {
+        super.dispose();
+        entities.forEach(Actor::dispose);
     }
 }

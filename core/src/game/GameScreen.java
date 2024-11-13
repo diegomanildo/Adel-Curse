@@ -7,19 +7,28 @@ import game.hud.Hud;
 import menu.BasicMainMenuScreen;
 import menu.MainMenuScreen;
 import utilities.Render;
+import utilities.SaveFile;
 import utilities.Screen;
 
 public final class GameScreen extends Screen {
-    public static ChatScreen chat = new ChatScreen();
-    public static Game game = new Game();
-    public static Hud hud = new Hud();
-    public static PauseScreen pauseScreen = new PauseScreen(GameScreen::exit);
-    public static ShopScreen shopScreen = new ShopScreen();
-    public static DeathScreen deathScreen = new DeathScreen(GameScreen::exit);
+    public static ChatScreen chat;
+    public static Game game;
+    public static Hud hud;
+    public static PauseScreen pauseScreen;
+    public static ShopScreen shopScreen;
+    public static DeathScreen deathScreen;
     private static Matrix4 oldShapeRendererMatrix;
+    private final SaveFile saveFile;
 
-    public GameScreen() {
+    public GameScreen(SaveFile saveFile) {
         super();
+        this.saveFile = saveFile;
+        chat = new ChatScreen();
+        game = new Game();
+        hud = new Hud();
+        pauseScreen = new PauseScreen(GameScreen::exit);
+        shopScreen = new ShopScreen();
+        deathScreen = new DeathScreen(GameScreen::exit);
 
         addSubScreen(game);
         addSubScreen(chat);
@@ -27,6 +36,10 @@ public final class GameScreen extends Screen {
         addSubScreen(shopScreen);
         addSubScreen(pauseScreen);
         addSubScreen(deathScreen);
+    }
+
+    public GameScreen() {
+        this(null);
     }
 
     @Override

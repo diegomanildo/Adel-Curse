@@ -4,7 +4,6 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import game.Game;
 import game.entities.GameEntity;
-import game.entities.items.*;
 import game.map.Door;
 import game.map.RoomKinds;
 import game.utilities.Direction;
@@ -121,5 +120,11 @@ public class Room extends Group {
     @Override
     public void show() {
         super.show();
+    }
+
+    @Override
+    public void dispose() {
+        super.dispose();
+        map.dispose();
     }
 }

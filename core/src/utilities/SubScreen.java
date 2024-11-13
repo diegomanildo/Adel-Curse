@@ -3,6 +3,9 @@ package utilities;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import game.utilities.Camera2D;
 
@@ -49,6 +52,15 @@ public abstract class SubScreen extends ScreenAdapter {
     }
 
     public void dispose() {
+        Array<Actor> acts = stage.getActors();
+        Array<Disposable> ownActors = new Array<>();
+        acts.forEach(actor -> {
+            if (actor instanceof utilities.Actor || actor instanceof utilities.Group) {
+                ownActors.add((Disposable) actor);
+            }
+        });
+
+        ownActors.forEach(Disposable::dispose);
         stage.dispose();
         stage.clear();
     }

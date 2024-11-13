@@ -20,4 +20,10 @@ public final class BossRoom extends Room {
         super.show();
         createEntity(deadEye);
     }
+
+    @Override
+    public void dispose() {
+        super.dispose();
+        deadEye.dispose();
+    }
 }

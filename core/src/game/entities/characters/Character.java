@@ -13,10 +13,7 @@ import game.entities.characters.playables.Playable;
 import game.levels.Level;
 import game.utilities.Direction;
 import game.utilities.Hitbox;
-import utilities.FilePaths;
-import utilities.Label;
-import utilities.Log;
-import utilities.Timer;
+import utilities.*;
 import utilities.audio.Sound;
 
 import java.util.ArrayList;
@@ -242,5 +239,13 @@ public abstract class Character extends GameEntity implements Statistics {
         Game.entities.remove(this);
         GameScreen.deathScreen.playerDead();
         Log.debug("Enemies: " + Game.entities.size());
+    }
+
+    @Override
+    public void dispose() {
+        super.dispose();
+        deathSound.dispose();
+        shootSound.dispose();
+        bullets.forEach(Actor::dispose);
     }
 }

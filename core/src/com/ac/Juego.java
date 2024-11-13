@@ -12,4 +12,10 @@ public final class Juego extends Game {
 		Render.app = this;
 		Render.app.setScreen(new MainMenuScreen());
 	}
+
+	@Override
+	public void dispose() {
+		super.dispose();
+		Render.sr.dispose();
+	}
 }

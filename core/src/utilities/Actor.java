@@ -4,10 +4,11 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.utils.Disposable;
 import game.utilities.Camera2D;
 import game.utilities.Hitbox;
 
-public class Actor extends com.badlogic.gdx.scenes.scene2d.Actor {
+public class Actor extends com.badlogic.gdx.scenes.scene2d.Actor implements Disposable {
     private final Hitbox hitbox;
 
     public Actor() {
