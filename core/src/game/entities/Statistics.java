@@ -44,6 +44,11 @@ public interface Statistics {
 
     int getDamage();
     void setDamage(int damage);
+
+    default void addDamage(int damage) {
+        setDamage(getDamage() + damage);
+    }
+
     default void damage(int damageReceived) {
         if (getArmor() > 0) {
             int remainingDamage = damageReceived - getArmor();

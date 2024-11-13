@@ -6,6 +6,7 @@ import game.entities.characters.playables.Playable;
 import game.levels.Level;
 import game.levels.Level1;
 import game.map.Door;
+import game.rooms.EnemyRoom;
 import game.utilities.*;
 import utilities.Actor;
 import utilities.SubScreen;
@@ -18,6 +19,8 @@ public final class Game extends SubScreen {
     private final Level1 level;
     private final Adel adel;
     private static final float TRANSITION_TIME = FADE_TIME / 3f;
+
+    public Func onDoorsChanged;
 
     public Game() {
         super();
@@ -65,6 +68,10 @@ public final class Game extends SubScreen {
                     GameScreen.chat.createTiny(door.getDirection().name(), "Press " + Controls.getCharacter(GameAction.INTERACT));
 
                     if (!level.getCamera().isMoving() && Controls.isJustPressed(GameAction.INTERACT)) {
+                        if (onDoorsChanged != null) {
+                            onDoorsChanged.run(door.getDirection());
+                        }
+
                         moveCamera(door.getDirection());
                     }
                 } else {

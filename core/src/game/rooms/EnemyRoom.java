@@ -2,10 +2,12 @@ package game.rooms;
 
 import game.GameScreen;
 import game.entities.GameEntity;
+import game.entities.characters.playables.Playable;
 import game.entities.items.Item;
+import game.levels.Level;
 import game.map.Door;
-import game.utilities.Direction;
-import game.utilities.EntityClassList;
+import game.utilities.*;
+import game.Game;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -16,8 +18,6 @@ public abstract class EnemyRoom extends Room {
     private static final Random random = new Random();
     private final int quantityOfEntities;
     private boolean spawnEntities = true;
-
-    private boolean spawnItems = false;
     private ArrayList<Item> itemList = new ArrayList<>();
     private boolean spawnLeft = false;
     private boolean spawnRight = false;
@@ -41,30 +41,32 @@ public abstract class EnemyRoom extends Room {
             generateEntities(quantityOfEntities);
         }
         createItems();
-        takeItems();
-    }
-
-    private void takeItems(){
-        if (GameScreen.game.getPlayer().collidesWith(Room.LEFT.getHitbox())) {
-            //System.out.println("add item:" + GameScreen.game.getPlayer().getItems().get(0).getName());
-            GameScreen.game.getPlayer().addItem(itemLeft);
-            removeActor(itemLeft);
-        }
-        if (GameScreen.game.getPlayer().collidesWith(Room.RIGHT.getHitbox())) {
-            //System.out.println("add item:" + GameScreen.game.getPlayer().getItems().get(0).getName());
-            GameScreen.game.getPlayer().addItem(itemRight);
-            removeActor(itemRight);
-        }
-        if (GameScreen.game.getPlayer().collidesWith(Room.UP.getHitbox())) {
-            GameScreen.game.getPlayer().addItem(itemUp);
-            //System.out.println("add item:" + GameScreen.game.getPlayer().getItems().get(0).getName());
-            removeActor(itemUp);
-        }
-        if (GameScreen.game.getPlayer().collidesWith(Room.DOWN.getHitbox())) {
-            //System.out.println("add item:" + GameScreen.game.getPlayer().getItems().get(0).getName());
-            GameScreen.game.getPlayer().addItem(itemDown);
-            removeActor(itemDown);
-        }
+        GameScreen.game.onDoorsChanged = direction -> {
+            switch (direction) {
+                case LEFT: {
+                    GameScreen.game.getPlayer().addItem(itemLeft);
+                    removeActor(itemLeft);
+                    break;
+                }
+                case RIGHT: {
+                    GameScreen.game.getPlayer().addItem(itemRight);
+                    removeActor(itemRight);
+                    break;
+                }
+                case UP: {
+                    GameScreen.game.getPlayer().addItem(itemUp);
+                    removeActor(itemUp);
+                    break;
+                }
+                case DOWN: {
+                    GameScreen.game.getPlayer().addItem(itemDown);
+                    removeActor(itemDown);
+                    break;
+                }
+                default:
+                    throw new RuntimeException("Direction " + direction + " isn´t a valid direction");
+            }
+        };
     }
 
     private void generateEntities(int quantity) {
@@ -107,7 +109,6 @@ public abstract class EnemyRoom extends Room {
         Door[] doors = getDoors();
         for(int i = 0; i < doors.length; i++){
             Direction direction = doors[i].getDirection();
-
             switch(direction){
                 case LEFT:{
                     if(!spawnLeft){

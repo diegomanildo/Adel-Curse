@@ -7,6 +7,6 @@ public class UpCard extends Item {
 
     @Override
     protected void applyEffect() {
-
+        owner.addHp(2);
     }
 }
