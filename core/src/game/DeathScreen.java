@@ -3,6 +3,7 @@ package game;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Array;
 import utilities.Image;
+import utilities.Render;
 import utilities.SubScreen;
 import utilities.TextButton;
 
@@ -17,7 +18,7 @@ public class DeathScreen extends SubScreen {
         Array<TextButton> buttons = new Array<>();
 
         buttons.addAll(
-                new TextButton("Jugar"), //playButton
+                new TextButton("Reintentar", () -> Render.setScreen(new GameScreen(null))), //playButton
                 new TextButton("Volver al menu", backFunction)//backButton
         );
 

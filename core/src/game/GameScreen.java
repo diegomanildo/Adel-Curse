@@ -18,13 +18,11 @@ public final class GameScreen extends Screen {
     public static ShopScreen shopScreen;
     public static DeathScreen deathScreen;
     private static Matrix4 oldShapeRendererMatrix;
-    private final SaveFile saveFile;
 
     public GameScreen(SaveFile saveFile) {
         super();
-        this.saveFile = saveFile;
         chat = new ChatScreen();
-        game = new Game();
+        game = saveFile != null && saveFile.hasGame() ? saveFile.getGame() : new Game(saveFile);
         hud = new Hud();
         pauseScreen = new PauseScreen(GameScreen::exit);
         shopScreen = new ShopScreen();
@@ -36,10 +34,6 @@ public final class GameScreen extends Screen {
         addSubScreen(shopScreen);
         addSubScreen(pauseScreen);
         addSubScreen(deathScreen);
-    }
-
-    public GameScreen() {
-        this(null);
     }
 
     @Override

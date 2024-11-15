@@ -9,6 +9,7 @@ import game.map.Door;
 import game.rooms.EnemyRoom;
 import game.utilities.*;
 import utilities.Actor;
+import utilities.SaveFile;
 import utilities.SubScreen;
 import utilities.Timer;
 
@@ -19,11 +20,13 @@ public final class Game extends SubScreen {
     private final Level1 level;
     private final Adel adel;
     private static final float TRANSITION_TIME = FADE_TIME / 3f;
+    private final SaveFile saveFile;
 
     public Func onDoorsChanged;
 
-    public Game() {
+    public Game(SaveFile saveFile) {
         super();
+        this.saveFile = saveFile;
         timer = new Timer();
         entities = new Entities();
 
@@ -156,6 +159,10 @@ public final class Game extends SubScreen {
         });
     }
 
+    public void save() {
+        saveFile.save(this);
+    }
+
     public Playable getPlayer() {
         return adel;
     }
@@ -172,5 +179,9 @@ public final class Game extends SubScreen {
     public void dispose() {
         super.dispose();
         entities.forEach(Actor::dispose);
+    }
+
+    public SaveFile getSaveFile() {
+        return saveFile;
     }
 }
