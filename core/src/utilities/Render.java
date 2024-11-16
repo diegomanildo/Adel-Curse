@@ -15,6 +15,7 @@ public class Render {
     public static ShapeRenderer sr = new ShapeRenderer();
 
     public static int fps = 60;
+    public static boolean startGame = false;
 
     private static boolean debug = false;
 

@@ -4,10 +4,9 @@ import game.GameScreen;
 import game.entities.GameEntity;
 import game.entities.characters.playables.Playable;
 import game.entities.items.Item;
-import game.levels.Level;
 import game.map.Door;
-import game.utilities.*;
-import game.Game;
+import game.utilities.Direction;
+import game.utilities.EntityClassList;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -42,24 +41,25 @@ public abstract class EnemyRoom extends Room {
         }
         createItems();
         GameScreen.game.onDoorsChanged = direction -> {
+            Playable player = GameScreen.game.getPlayers().get(0);
             switch (direction) {
                 case LEFT: {
-                    GameScreen.game.getPlayer().addItem(itemLeft);
+                    player.addItem(itemLeft);
                     removeActor(itemLeft);
                     break;
                 }
                 case RIGHT: {
-                    GameScreen.game.getPlayer().addItem(itemRight);
+                    player.addItem(itemRight);
                     removeActor(itemRight);
                     break;
                 }
                 case UP: {
-                    GameScreen.game.getPlayer().addItem(itemUp);
+                    player.addItem(itemUp);
                     removeActor(itemUp);
                     break;
                 }
                 case DOWN: {
-                    GameScreen.game.getPlayer().addItem(itemDown);
+                    player.addItem(itemDown);
                     removeActor(itemDown);
                     break;
                 }
@@ -77,8 +77,8 @@ public abstract class EnemyRoom extends Room {
     }
 
     private void generateEntity() {
-        float playerX = GameScreen.game.getPlayer().getX();
-        float playerY = GameScreen.game.getPlayer().getY();
+        float playerX = GameScreen.game.getPlayers().get(0).getX();
+        float playerY = GameScreen.game.getPlayers().get(0).getY();
 
         float x, y;
 

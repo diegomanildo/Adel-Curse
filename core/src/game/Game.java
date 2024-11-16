@@ -1,47 +1,48 @@
 package game;
 
 import game.entities.GameEntity;
-import game.entities.characters.playables.Adel;
 import game.entities.characters.playables.Playable;
 import game.levels.Level;
 import game.levels.Level1;
 import game.map.Door;
-import game.rooms.EnemyRoom;
 import game.utilities.*;
 import utilities.Actor;
-import utilities.SaveFile;
 import utilities.SubScreen;
 import utilities.Timer;
+
+import java.util.ArrayList;
 
 public final class Game extends SubScreen {
     public static Entities entities;
 
     private final Timer timer;
     private final Level1 level;
-    private final Adel adel;
     private static final float TRANSITION_TIME = FADE_TIME / 3f;
-    private final SaveFile saveFile;
 
     public Func onDoorsChanged;
 
-    public Game(SaveFile saveFile) {
+    public Game() {
         super();
-        this.saveFile = saveFile;
         timer = new Timer();
         entities = new Entities();
 
         level = new Level1();
-        adel = new Adel();
-        adel.setPosition(level.getInitX() - adel.getWidth() / 2f, level.getInitY() - adel.getHeight() / 2f);
+//        adel = new Adel();
+//        adel.setPosition(level.getInitX() - adel.getWidth() / 2f, level.getInitY() - adel.getHeight() / 2f);
 
         stage.addActor(level);
-        stage.addActor(adel);
+//        stage.addActor(adel);
 
         stage.getActors().forEach(actor -> {
             if (actor instanceof GameEntity) {
                 entities.add((GameEntity) actor);
             }
         });
+    }
+
+    public void createPlayer(Playable player) {
+        stage.addActor(player);
+        entities.add(player);
     }
 
     @Override
@@ -124,7 +125,7 @@ public final class Game extends SubScreen {
             camera.setPosition(camera.position.x, camera.position.y + 2f * camera.viewportHeight);
             level.changeRoom(Direction.DOWN);
             camera.moveTo(camera.position.x, camera.position.y - camera.viewportHeight, TRANSITION_TIME, () -> {
-                adel.setPosition(adel.getX(), camera.getTop() - adel.getHeight() / 2f);
+                getPlayers().forEach(p -> p.setPosition(p.getX(), camera.getTop() - p.getHeight() / 2f));
             });
         });
     }
@@ -134,7 +135,7 @@ public final class Game extends SubScreen {
             camera.setPosition(camera.position.x, camera.position.y - 2f * camera.viewportHeight);
             level.changeRoom(Direction.UP);
             camera.moveTo(camera.position.x, camera.position.y + camera.viewportHeight, TRANSITION_TIME, () -> {
-                adel.setPosition(adel.getX(), camera.getBottom() + adel.getHeight() / 2f);
+                getPlayers().forEach(p -> p.setPosition(p.getX(), camera.getBottom() + p.getHeight() / 2f));
             });
         });
     }
@@ -144,7 +145,7 @@ public final class Game extends SubScreen {
             camera.setPosition(camera.position.x - 2f * camera.viewportWidth, camera.position.y);
             level.changeRoom(Direction.RIGHT);
             camera.moveTo(camera.position.x + camera.viewportWidth, camera.position.y, TRANSITION_TIME, () -> {
-                adel.setPosition(camera.getLeft() + adel.getWidth() / 2f, adel.getY());
+                getPlayers().forEach(p -> p.setPosition(camera.getLeft() + p.getWidth() / 2f, p.getY()));
             });
         });
     }
@@ -154,17 +155,13 @@ public final class Game extends SubScreen {
             camera.setPosition(camera.position.x + 2f * camera.viewportWidth, camera.position.y);
             level.changeRoom(Direction.LEFT);
             camera.moveTo(camera.position.x - camera.viewportWidth, camera.position.y, TRANSITION_TIME, () -> {
-                adel.setPosition(camera.getRight() - adel.getWidth() / 2f, adel.getY());
+                getPlayers().forEach(p -> p.setPosition(camera.getRight() - p.getWidth() / 2f, p.getY()));
             });
         });
     }
 
-    public void save() {
-        saveFile.save(this);
-    }
-
-    public Playable getPlayer() {
-        return adel;
+    public ArrayList<Playable> getPlayers() {
+        return entities.getPlayers();
     }
 
     public Level getLevel() {
@@ -179,9 +176,5 @@ public final class Game extends SubScreen {
     public void dispose() {
         super.dispose();
         entities.forEach(Actor::dispose);
-    }
-
-    public SaveFile getSaveFile() {
-        return saveFile;
     }
 }

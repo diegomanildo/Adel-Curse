@@ -3,8 +3,8 @@ package menu;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Array;
+import game.GameScreen;
 import menu.config.ControlsScreen;
-import menu.config.SaveFilesScreen;
 import menu.config.SettingsScreen;
 import utilities.Render;
 import utilities.TextButton;
@@ -18,7 +18,7 @@ public final class MainMenuScreen extends BasicMainMenuScreen {
         buttons.addAll(
                 new TextButton("Jugar", () -> {
                     backgroundSong.fadeOut(FADE_TIME);
-                    Render.setScreen(new SaveFilesScreen(new MainMenuScreen()));
+                    Render.setScreen(new GameScreen());
                 }),
                 new TextButton("Controles", () -> Render.setScreen(new ControlsScreen(new MainMenuScreen()))),
                 new TextButton("Configuracion", () -> Render.setScreen(new SettingsScreen(new MainMenuScreen()))),

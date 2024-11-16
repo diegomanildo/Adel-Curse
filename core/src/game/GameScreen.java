@@ -3,11 +3,11 @@ package game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Matrix4;
+import game.entities.characters.playables.Adel;
 import game.hud.Hud;
 import menu.BasicMainMenuScreen;
 import menu.MainMenuScreen;
 import utilities.Render;
-import utilities.SaveFile;
 import utilities.Screen;
 
 public final class GameScreen extends Screen {
@@ -19,10 +19,13 @@ public final class GameScreen extends Screen {
     public static DeathScreen deathScreen;
     private static Matrix4 oldShapeRendererMatrix;
 
-    public GameScreen(SaveFile saveFile) {
+    public GameScreen() {
         super();
         chat = new ChatScreen();
-        game = saveFile != null && saveFile.hasGame() ? saveFile.getGame() : new Game(saveFile);
+        game = new Game();
+        Adel p1 = new Adel();
+        p1.setPosition(game.getLevel().getInitX() - p1.getWidth() / 2f, game.getLevel().getInitY() - p1.getHeight() / 2f);
+        game.createPlayer(p1);
         hud = new Hud();
         pauseScreen = new PauseScreen(GameScreen::exit);
         shopScreen = new ShopScreen();
@@ -51,10 +54,6 @@ public final class GameScreen extends Screen {
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
             pauseScreen.setShow(true);
-        } else if (Gdx.input.isKeyJustPressed(Input.Keys.SHIFT_LEFT)) {
-            game.getPlayer().setVelocity(game.getPlayer().getVelocity() * 2f);
-        } else if (Gdx.input.isKeyJustPressed(Input.Keys.F1)) {
-            game.getPlayer().damage(1);
         }
     }
 

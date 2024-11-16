@@ -128,7 +128,9 @@ public abstract class Character extends GameEntity implements Statistics {
         b.setVelocity(getVelocity() * 2f);
         bullets.add(b);
 
-        shootSound.play();
+        if (this instanceof Playable) {
+            shootSound.play();
+        }
     }
 
     private void updateBullets() {
