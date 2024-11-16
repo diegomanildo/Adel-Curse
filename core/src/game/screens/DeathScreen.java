@@ -20,7 +20,7 @@ public class DeathScreen extends SubScreen {
         Array<TextButton> buttons = new Array<>();
 
         buttons.addAll(
-                new TextButton("Reintentar", () -> Render.setScreen(new Game())), //playButton
+                new TextButton("Reintentar", () -> Render.setScreen(new Game(Game.game.getClass()))), //playButton
                 new TextButton("Volver al menu", backFunction)//backButton
         );
 

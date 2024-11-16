@@ -4,7 +4,6 @@ import game.Game;
 import game.entities.GameEntity;
 import game.entities.characters.playables.Playable;
 import game.levels.Level;
-import game.levels.Level1;
 import game.map.Door;
 import game.utilities.*;
 import utilities.Actor;
@@ -13,43 +12,23 @@ import utilities.Timer;
 
 import java.util.ArrayList;
 
-public final class GameScreen extends SubScreen {
+public class AbstractGameScreen extends SubScreen {
+    protected static final float TRANSITION_TIME = FADE_TIME / 3f;
+
     public static Entities entities;
 
-    private final Timer timer;
-    private final Level1 level;
-    private static final float TRANSITION_TIME = FADE_TIME / 3f;
-
+    protected Timer timer;
+    protected Level level;
     public Func onDoorsChanged;
-
-    public GameScreen() {
-        super();
-        timer = new Timer();
-        entities = new Entities();
-
-        level = new Level1();
-//        adel = new Adel();
-//        adel.setPosition(level.getInitX() - adel.getWidth() / 2f, level.getInitY() - adel.getHeight() / 2f);
-
-        stage.addActor(level);
-//        stage.addActor(adel);
-
-        stage.getActors().forEach(actor -> {
-            if (actor instanceof GameEntity) {
-                entities.add((GameEntity) actor);
-            }
-        });
-    }
-
-    public void createPlayer(Playable player) {
-        stage.addActor(player);
-        entities.add(player);
-    }
 
     @Override
     public void show() {
         super.show();
         timer.start();
+    }
+
+    public void createPlayer(Playable player) {
+        stage.addActor(player);
     }
 
     @Override

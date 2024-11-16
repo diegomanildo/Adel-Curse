@@ -10,7 +10,7 @@ import game.entities.Statistics;
 import game.entities.characters.enemies.Enemy;
 import game.entities.characters.playables.Playable;
 import game.levels.Level;
-import game.screens.GameScreen;
+import game.screens.OnePlayerGameScreen;
 import game.utilities.Direction;
 import game.utilities.Hitbox;
 import utilities.*;
@@ -246,9 +246,9 @@ public abstract class Character extends GameEntity implements Statistics {
         deathSound.play();
         Log.debug(getClass().getSimpleName() + " death in x " + getX() + " y " + getY());
         remove();
-        GameScreen.entities.remove(this);
+        OnePlayerGameScreen.entities.remove(this);
         Game.deathScreen.playerDead();
-        Log.debug("Enemies: " + GameScreen.entities.size());
+        Log.debug("Enemies: " + OnePlayerGameScreen.entities.size());
     }
 
     @Override

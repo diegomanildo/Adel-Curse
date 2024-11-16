@@ -23,7 +23,7 @@ public class PauseScreen extends SubScreen {
                 new TextButton("Reanudar", () -> setShow(false)),
                 new TextButton("Configuracion", () -> {
                     backFunction.run();
-                    Render.setScreen(new SettingsScreen(new Game()));
+                    Render.setScreen(new SettingsScreen(new Game(Game.game.getClass())));
                 }),
                 new TextButton("Volver al menu", backFunction)
         );

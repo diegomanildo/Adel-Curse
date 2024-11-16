@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import game.Game;
+import game.screens.MutiplayerGameScreen;
 import utilities.Label;
 import utilities.Render;
 
@@ -22,7 +23,7 @@ public class WaitingMenuScreen extends BasicMainMenuScreen {
         super.render(delta);
         if (Render.startGame) {
             backgroundSong.fadeOut(FADE_TIME);
-            Render.setScreen(new Game());
+            Render.setScreen(new Game(MutiplayerGameScreen.class));
         }
     }
 

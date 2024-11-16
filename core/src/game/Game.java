@@ -3,7 +3,6 @@ package game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Matrix4;
-import game.entities.characters.playables.Adel;
 import game.hud.Hud;
 import game.screens.*;
 import menu.BasicMainMenuScreen;
@@ -12,27 +11,28 @@ import utilities.Render;
 import utilities.Screen;
 
 public final class Game extends Screen {
+    public static AbstractGameScreen game;
     public static ChatScreen chat;
-    public static GameScreen game;
     public static Hud hud;
     public static PauseScreen pauseScreen;
     public static ShopScreen shopScreen;
     public static DeathScreen deathScreen;
     private static Matrix4 oldShapeRendererMatrix;
 
-    public Game() {
+    public Game(Class<? extends AbstractGameScreen> game) {
         super();
+        try {
+            Game.game = game.newInstance();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
         chat = new ChatScreen();
-        game = new GameScreen();
-        Adel p1 = new Adel();
-        p1.setPosition(game.getLevel().getInitX() - p1.getWidth() / 2f, game.getLevel().getInitY() - p1.getHeight() / 2f);
-        game.createPlayer(p1);
         hud = new Hud();
         pauseScreen = new PauseScreen(Game::exit);
         shopScreen = new ShopScreen();
         deathScreen = new DeathScreen(Game::exit);
 
-        addSubScreen(game);
+        addSubScreen(Game.game);
         addSubScreen(chat);
         addSubScreen(hud);
         addSubScreen(shopScreen);
