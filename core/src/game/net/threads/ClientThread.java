@@ -1,36 +1,26 @@
 package game.net.threads;
 
 
+import game.net.GameData;
+import game.net.Messages;
 import utilities.Render;
 
-import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 
 public class ClientThread extends Thread {
     public static final int PORT = 22121;
-    public static final String CONNECT_MESSAGE = "Connect";
+    public static final String SPECIAL_CHARACTER = ServerThread.SPECIAL_CHARACTER;
 
     private InetAddress ip;
-    private final DatagramSocket connexion;
+    private final DatagramSocket socket;
     private boolean end;
 
     public ClientThread() {
         try {
             ip = InetAddress.getByName("255.255.255.255");
-            connexion = new DatagramSocket();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-        sendMessage(CONNECT_MESSAGE);
-    }
-
-    private void sendMessage(String message) {
-        byte[] data = message.getBytes();
-        DatagramPacket datagramPacket = new DatagramPacket(data, data.length, ip, PORT);
-        try {
-            connexion.send(datagramPacket);
+            socket = new DatagramSocket();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -43,9 +33,9 @@ public class ClientThread extends Thread {
         while (!end) {
             DatagramPacket packet = new DatagramPacket(new byte[1024], 1024);
             try {
-                connexion.receive(packet);
+                socket.receive(packet);
                 processMessage(packet);
-            } catch (IOException e) {
+            } catch (Exception e) {
                 throw new RuntimeException(e);
             }
         }
@@ -53,10 +43,39 @@ public class ClientThread extends Thread {
 
     private void processMessage(DatagramPacket packet) {
         String message = new String(packet.getData()).trim();
-        if (message.equals(ServerThread.OK_MESSAGE)) {
-            ip = packet.getAddress();
-        } else if (message.equals(ServerThread.START_MESSAGE)) {
-            Render.startGame = true;
+        String[] parts = message.split(SPECIAL_CHARACTER);
+
+        switch (parts[0]) {
+            case Messages.CONNECTION:
+                handleConnection(parts[1], Integer.parseInt(parts[2]), packet.getAddress());
+                break;
+            case Messages.START_GAME:
+                Render.startGame = true;
+                break;
         }
+    }
+
+    private void handleConnection(String state, int clientNumber, InetAddress ip) {
+        this.ip = ip;
+        switch (state) {
+            case Messages.SUCCESSFUL:
+                GameData.clientNumber = clientNumber;
+                break;
+        }
+    }
+
+    private void sendMessage(String message) {
+        byte[] data = message.getBytes();
+        DatagramPacket datagramPacket = new DatagramPacket(data, data.length, ip, PORT);
+        try {
+            socket.send(datagramPacket);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void end() {
+        end = true;
+        socket.close();
     }
 }

@@ -1,180 +1,68 @@
 package game;
 
-import game.entities.GameEntity;
-import game.entities.characters.playables.Playable;
-import game.levels.Level;
-import game.levels.Level1;
-import game.map.Door;
-import game.utilities.*;
-import utilities.Actor;
-import utilities.SubScreen;
-import utilities.Timer;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.math.Matrix4;
+import game.entities.characters.playables.Adel;
+import game.hud.Hud;
+import game.screens.*;
+import menu.BasicMainMenuScreen;
+import menu.MainMenuScreen;
+import utilities.Render;
+import utilities.Screen;
 
-import java.util.ArrayList;
-
-public final class Game extends SubScreen {
-    public static Entities entities;
-
-    private final Timer timer;
-    private final Level1 level;
-    private static final float TRANSITION_TIME = FADE_TIME / 3f;
-
-    public Func onDoorsChanged;
+public final class Game extends Screen {
+    public static ChatScreen chat;
+    public static GameScreen game;
+    public static Hud hud;
+    public static PauseScreen pauseScreen;
+    public static ShopScreen shopScreen;
+    public static DeathScreen deathScreen;
+    private static Matrix4 oldShapeRendererMatrix;
 
     public Game() {
         super();
-        timer = new Timer();
-        entities = new Entities();
+        chat = new ChatScreen();
+        game = new GameScreen();
+        Adel p1 = new Adel();
+        p1.setPosition(game.getLevel().getInitX() - p1.getWidth() / 2f, game.getLevel().getInitY() - p1.getHeight() / 2f);
+        game.createPlayer(p1);
+        hud = new Hud();
+        pauseScreen = new PauseScreen(Game::exit);
+        shopScreen = new ShopScreen();
+        deathScreen = new DeathScreen(Game::exit);
 
-        level = new Level1();
-//        adel = new Adel();
-//        adel.setPosition(level.getInitX() - adel.getWidth() / 2f, level.getInitY() - adel.getHeight() / 2f);
-
-        stage.addActor(level);
-//        stage.addActor(adel);
-
-        stage.getActors().forEach(actor -> {
-            if (actor instanceof GameEntity) {
-                entities.add((GameEntity) actor);
-            }
-        });
-    }
-
-    public void createPlayer(Playable player) {
-        stage.addActor(player);
-        entities.add(player);
+        addSubScreen(game);
+        addSubScreen(chat);
+        addSubScreen(hud);
+        addSubScreen(shopScreen);
+        addSubScreen(pauseScreen);
+        addSubScreen(deathScreen);
     }
 
     @Override
     public void show() {
         super.show();
-        timer.start();
+        BasicMainMenuScreen.backgroundSong.fadeOut(FADE_TIME);
+
+        oldShapeRendererMatrix = Render.sr.getTransformMatrix();
+        Render.sr.setProjectionMatrix(game.getLevel().getCamera().combined);
     }
 
     @Override
-    public void render(float delta) {
-        super.render(delta);
+    protected void handleInput() {
+        super.handleInput();
 
-        correctPositions();
-        checkDoors();
-    }
-
-    private void correctPositions() {
-        Hitbox roomHitbox = level.getHitbox();
-        entities.getCharacters().forEach(c -> c.correctPosition(roomHitbox));
-    }
-
-    private void checkDoors() {
-        level.getHitbox();
-        for (Playable player : entities.getPlayers()) {
-            for (Door door : level.getDoors()) {
-                if (player.getBounds().collidesWith(door.getHitbox())) {
-                    GameScreen.chat.createTiny(door.getDirection().name(), "Press " + Controls.getCharacter(GameAction.INTERACT));
-
-                    if (!level.getCamera().isMoving() && Controls.isJustPressed(GameAction.INTERACT)) {
-                        if (onDoorsChanged != null) {
-                            onDoorsChanged.run(door.getDirection());
-                        }
-
-                        moveCamera(door.getDirection());
-                    }
-                } else {
-                    GameScreen.chat.removeChat(door.getDirection().name());
-                }
-            }
+        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+            pauseScreen.setShow(true);
         }
     }
 
-    @Override
-    public void pause() {
-        super.pause();
-        entities.forEach(GameEntity::pause);
-        timer.pause();
-    }
+    public static void exit() {
+        Render.sr.setProjectionMatrix(oldShapeRendererMatrix);
 
-    @Override
-    public void resume() {
-        super.resume();
-        entities.forEach(GameEntity::resume);
-        timer.resume();
-    }
-
-    private void moveCamera(Direction direction) {
-        Camera2D camera = level.getCamera();
-
-        switch (direction) {
-            case DOWN:
-                moveCameraDown(camera);
-                break;
-            case UP:
-                moveCameraUp(camera);
-                break;
-            case RIGHT:
-                moveCameraRight(camera);
-                break;
-            case LEFT:
-                moveCameraLeft(camera);
-                break;
-            default:
-                throw new RuntimeException("Invalid direction: " + direction);
-        }
-    }
-
-    private void moveCameraDown(Camera2D camera) {
-        camera.moveTo(camera.position.x, camera.position.y - camera.viewportHeight, TRANSITION_TIME, () -> {
-            camera.setPosition(camera.position.x, camera.position.y + 2f * camera.viewportHeight);
-            level.changeRoom(Direction.DOWN);
-            camera.moveTo(camera.position.x, camera.position.y - camera.viewportHeight, TRANSITION_TIME, () -> {
-                getPlayers().forEach(p -> p.setPosition(p.getX(), camera.getTop() - p.getHeight() / 2f));
-            });
-        });
-    }
-
-    private void moveCameraUp(Camera2D camera) {
-        camera.moveTo(camera.position.x, camera.position.y + camera.viewportHeight, TRANSITION_TIME, () -> {
-            camera.setPosition(camera.position.x, camera.position.y - 2f * camera.viewportHeight);
-            level.changeRoom(Direction.UP);
-            camera.moveTo(camera.position.x, camera.position.y + camera.viewportHeight, TRANSITION_TIME, () -> {
-                getPlayers().forEach(p -> p.setPosition(p.getX(), camera.getBottom() + p.getHeight() / 2f));
-            });
-        });
-    }
-
-    private void moveCameraRight(Camera2D camera) {
-        camera.moveTo(camera.position.x + camera.viewportWidth, camera.position.y, TRANSITION_TIME, () -> {
-            camera.setPosition(camera.position.x - 2f * camera.viewportWidth, camera.position.y);
-            level.changeRoom(Direction.RIGHT);
-            camera.moveTo(camera.position.x + camera.viewportWidth, camera.position.y, TRANSITION_TIME, () -> {
-                getPlayers().forEach(p -> p.setPosition(camera.getLeft() + p.getWidth() / 2f, p.getY()));
-            });
-        });
-    }
-
-    private void moveCameraLeft(Camera2D camera) {
-        camera.moveTo(camera.position.x - camera.viewportWidth, camera.position.y, TRANSITION_TIME, () -> {
-            camera.setPosition(camera.position.x + 2f * camera.viewportWidth, camera.position.y);
-            level.changeRoom(Direction.LEFT);
-            camera.moveTo(camera.position.x - camera.viewportWidth, camera.position.y, TRANSITION_TIME, () -> {
-                getPlayers().forEach(p -> p.setPosition(camera.getRight() - p.getWidth() / 2f, p.getY()));
-            });
-        });
-    }
-
-    public ArrayList<Playable> getPlayers() {
-        return entities.getPlayers();
-    }
-
-    public Level getLevel() {
-        return level;
-    }
-
-    public Timer getTimer() {
-        return timer;
-    }
-
-    @Override
-    public void dispose() {
-        super.dispose();
-        entities.forEach(Actor::dispose);
+        game.getLevel().getSong().fadeOut(FADE_TIME);
+        BasicMainMenuScreen.backgroundSong.fadeIn(FADE_TIME, true);
+        Render.setScreen(new MainMenuScreen());
     }
 }

@@ -1,6 +1,6 @@
 package game.entities.characters.enemies;
 
-import game.GameScreen;
+import game.Game;
 import game.entities.characters.Character;
 import game.entities.characters.playables.Playable;
 import game.utilities.Direction;
@@ -54,7 +54,7 @@ public abstract class Enemy extends Character {
 
     @Override
     protected void update(float delta) {
-        ArrayList<Playable> players = GameScreen.game.getPlayers();
+        ArrayList<Playable> players = Game.game.getPlayers();
         if (players.isEmpty()) {
             return;
         }

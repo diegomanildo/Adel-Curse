@@ -1,6 +1,6 @@
 package game.rooms;
 
-import game.GameScreen;
+import game.Game;
 import game.entities.GameEntity;
 import game.entities.characters.playables.Playable;
 import game.entities.items.Item;
@@ -40,8 +40,8 @@ public abstract class EnemyRoom extends Room {
             generateEntities(quantityOfEntities);
         }
         createItems();
-        GameScreen.game.onDoorsChanged = direction -> {
-            Playable player = GameScreen.game.getPlayers().get(0);
+        Game.game.onDoorsChanged = direction -> {
+            Playable player = Game.game.getPlayers().get(0);
             switch (direction) {
                 case LEFT: {
                     player.addItem(itemLeft);
@@ -77,8 +77,8 @@ public abstract class EnemyRoom extends Room {
     }
 
     private void generateEntity() {
-        float playerX = GameScreen.game.getPlayers().get(0).getX();
-        float playerY = GameScreen.game.getPlayers().get(0).getY();
+        float playerX = Game.game.getPlayers().get(0).getX();
+        float playerY = Game.game.getPlayers().get(0).getY();
 
         float x, y;
 

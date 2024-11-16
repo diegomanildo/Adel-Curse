@@ -4,13 +4,13 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import game.Game;
-import game.GameScreen;
 import game.entities.Bullet;
 import game.entities.GameEntity;
 import game.entities.Statistics;
 import game.entities.characters.enemies.Enemy;
 import game.entities.characters.playables.Playable;
 import game.levels.Level;
+import game.screens.GameScreen;
 import game.utilities.Direction;
 import game.utilities.Hitbox;
 import utilities.*;
@@ -246,9 +246,9 @@ public abstract class Character extends GameEntity implements Statistics {
         deathSound.play();
         Log.debug(getClass().getSimpleName() + " death in x " + getX() + " y " + getY());
         remove();
-        Game.entities.remove(this);
-        GameScreen.deathScreen.playerDead();
-        Log.debug("Enemies: " + Game.entities.size());
+        GameScreen.entities.remove(this);
+        Game.deathScreen.playerDead();
+        Log.debug("Enemies: " + GameScreen.entities.size());
     }
 
     @Override

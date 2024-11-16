@@ -1,6 +1,6 @@
 package game.rooms;
 
-import game.GameScreen;
+import game.Game;
 import game.entities.characters.enemies.bosses.DeadEye;
 import game.map.RoomKinds;
 import utilities.audio.Song;
@@ -25,7 +25,7 @@ public final class BossRoom extends Room {
     @Override
     public void act(float delta) {
         super.act(delta);
-        if (GameScreen.deathScreen.isShowing()) {
+        if (Game.deathScreen.isShowing()) {
             song.stop();
         }
     }

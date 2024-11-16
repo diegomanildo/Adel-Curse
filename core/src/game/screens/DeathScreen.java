@@ -1,7 +1,8 @@
-package game;
+package game.screens;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Array;
+import game.Game;
 import game.entities.characters.playables.Playable;
 import utilities.Image;
 import utilities.Render;
@@ -19,7 +20,7 @@ public class DeathScreen extends SubScreen {
         Array<TextButton> buttons = new Array<>();
 
         buttons.addAll(
-                new TextButton("Reintentar", () -> Render.setScreen(new GameScreen())), //playButton
+                new TextButton("Reintentar", () -> Render.setScreen(new Game())), //playButton
                 new TextButton("Volver al menu", backFunction)//backButton
         );
 
@@ -35,7 +36,7 @@ public class DeathScreen extends SubScreen {
     }
 
     public void playerDead() {
-        for (Playable player : GameScreen.game.getPlayers()) {
+        for (Playable player : Game.game.getPlayers()) {
             if (!player.isDeath()) {
                 return;
             }
@@ -48,9 +49,9 @@ public class DeathScreen extends SubScreen {
     public void setShow(boolean show) {
         super.setShow(show);
         if (show) {
-            GameScreen.game.pause();
+            Game.game.pause();
         } else {
-            GameScreen.game.resume();
+            Game.game.resume();
         }
     }
 }

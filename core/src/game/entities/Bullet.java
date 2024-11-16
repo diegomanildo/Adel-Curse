@@ -2,9 +2,9 @@ package game.entities;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import game.Game;
 import game.entities.characters.Character;
 import game.entities.characters.enemies.Enemy;
+import game.screens.GameScreen;
 import game.utilities.Camera2D;
 import game.utilities.Direction;
 
@@ -82,7 +82,7 @@ public final class Bullet extends GameEntity {
 
     // Check if the parent is not the same entity and if collides with the bullet
     public boolean collidesWithEnemy(int damageReceived) {
-        for (Enemy e : Game.entities.getEnemies()) {
+        for (Enemy e : GameScreen.entities.getEnemies()) {
             if (e.collidesWith(this) && e != owner) {
                 e.damage(damageReceived);
                 return true;
@@ -93,7 +93,7 @@ public final class Bullet extends GameEntity {
     }
 
     public boolean collidesWithPlayer(int damageReceived) {
-        for (Character c : Game.entities.getPlayers()) {
+        for (Character c : GameScreen.entities.getPlayers()) {
             if (c.collidesWith(this) && c != owner) {
                 c.damage(damageReceived);
                 return true;

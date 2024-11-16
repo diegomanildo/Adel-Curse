@@ -1,8 +1,9 @@
-package game;
+package game.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.utils.Align;
+import game.Game;
 import game.utilities.ChatBox;
 import utilities.Render;
 import utilities.SubScreen;
@@ -37,7 +38,7 @@ public class ChatScreen extends SubScreen {
         @Override
         public void startTransition(float transitionTime, boolean reproduceSound) {
             super.startTransition(transitionTime, reproduceSound);
-            GameScreen.game.pause();
+            Game.game.pause();
         }
 
         @Override
@@ -54,7 +55,7 @@ public class ChatScreen extends SubScreen {
 
         @Override
         public boolean remove() {
-            GameScreen.game.resume();
+            Game.game.resume();
             chats.remove(getKey());
             return super.remove();
         }

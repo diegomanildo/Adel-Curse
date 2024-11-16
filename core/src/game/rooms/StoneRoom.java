@@ -1,6 +1,5 @@
 package game.rooms;
 
-import game.GameScreen;
 import game.entities.characters.enemies.Skeleton;
 import game.utilities.EntityClassList;
 

@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup;
 import com.badlogic.gdx.utils.Array;
-import game.GameScreen;
+import game.Game;
 import game.entities.items.Item;
 import utilities.Image;
 import utilities.Label;
@@ -48,7 +48,7 @@ public class Store extends WidgetGroup {
             item.setSize(finalItem.getWidth() * SIZE_MULTIPLIER, finalItem.getHeight() * SIZE_MULTIPLIER);
             itemButton.addChangeListener(() -> {
                 finalItem.setSize(finalItem.getWidth() / SIZE_MULTIPLIER, finalItem.getHeight() / SIZE_MULTIPLIER);
-                finalItem.changeOwnerTo(GameScreen.game.getPlayers().get(0));
+                finalItem.changeOwnerTo(Game.game.getPlayers().get(0));
                 finalItem.addToOwner();
                 itemButton.remove();
             });

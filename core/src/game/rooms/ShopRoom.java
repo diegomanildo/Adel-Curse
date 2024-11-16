@@ -2,11 +2,11 @@ package game.rooms;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import game.Game;
-import game.GameScreen;
 import game.entities.ShopKeeper;
 import game.entities.characters.playables.Playable;
 import game.entities.items.Item;
 import game.map.RoomKinds;
+import game.screens.GameScreen;
 import game.utilities.Controls;
 import game.utilities.GameAction;
 import utilities.audio.Song;
@@ -33,24 +33,24 @@ public final class ShopRoom extends Room {
     public void show() {
         super.show();
         createEntity(shopKeeper);
-        GameScreen.chat.createBig(SHOP_KEY, "Hola! Bienvenido a la Tienda! Soy el vendedor. Aqui podras comprar items a cambio de monedas. No te pases de listo.");
+        Game.chat.createBig(SHOP_KEY, "Hola! Bienvenido a la Tienda! Soy el vendedor. Aqui podras comprar items a cambio de monedas. No te pases de listo.");
     }
 
     @Override
     public void act(float delta) {
         super.act(delta);
 
-        ArrayList<Playable> players = Game.entities.getPlayers();
+        ArrayList<Playable> players = GameScreen.entities.getPlayers();
 
         for (Playable player : players) {
             if (player.collidesWith(shopKeeper.getBounds())) {
-                GameScreen.chat.createTiny(INTERACT_KEY, "Press " + Controls.getCharacter(GameAction.INTERACT));
+                Game.chat.createTiny(INTERACT_KEY, "Press " + Controls.getCharacter(GameAction.INTERACT));
 
                 if (Controls.isJustPressed(GameAction.INTERACT)) {
-                    GameScreen.shopScreen.setShow(true);
+                    Game.shopScreen.setShow(true);
                 }
             } else {
-                GameScreen.chat.removeChat(INTERACT_KEY);
+                Game.chat.removeChat(INTERACT_KEY);
             }
         }
     }

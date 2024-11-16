@@ -1,6 +1,7 @@
 package game.net.threads;
 
-import game.net.Direction;
+import game.net.Client;
+import game.net.Messages;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -8,29 +9,18 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 
 public class ServerThread extends Thread {
-    public static final String OK_MESSAGE = "OK";
-    public static final String START_MESSAGE = "Start";
+    public static final String SPECIAL_CHARACTER = "!";
     public static final int PORT = 22121;
-    private static final int MAX_CLIENTS = 3;
+    private static final int MAX_CLIENTS = 2;
 
-    private final DatagramSocket connexion;
+    private final DatagramSocket socket;
     private boolean end;
-    private final Direction[] clients = new Direction[MAX_CLIENTS];
-    private int clientsConnected = 0;
+    private Client[] clients = new Client[MAX_CLIENTS];
+    private int clientsConnected;
 
     public ServerThread() {
         try {
-            connexion = new DatagramSocket(PORT);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    private void sendMessage(String message, InetAddress ip, int port) {
-        byte[] data = message.getBytes();
-        DatagramPacket datagramPacket = new DatagramPacket(data, data.length, ip, port);
-        try {
-            connexion.send(datagramPacket);
+            socket = new DatagramSocket(PORT);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -39,11 +29,12 @@ public class ServerThread extends Thread {
     @Override
     public void run() {
         super.run();
+        System.out.println("Server started");
 
         while (!end) {
             DatagramPacket packet = new DatagramPacket(new byte[1024], 1024);
             try {
-                connexion.receive(packet);
+                socket.receive(packet);
                 processMessage(packet);
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -53,22 +44,74 @@ public class ServerThread extends Thread {
 
     private void processMessage(DatagramPacket packet) {
         String message = new String(packet.getData()).trim();
-        System.out.println("Message = " + message);
-        if (!message.equals(ClientThread.CONNECT_MESSAGE)) {
-            return;
-        }
-        if (clientsConnected >= MAX_CLIENTS) {
-            return;
-        }
+        System.out.println("Message: " + message);
+        String[] parts = message.split(SPECIAL_CHARACTER);
 
-        System.out.println("Client " + clientsConnected + " connected");
-        clients[clientsConnected] = new Direction(packet.getAddress(), packet.getPort());
-        sendMessage(OK_MESSAGE, clients[clientsConnected].getIp(), clients[clientsConnected].getPort());
-        clientsConnected++;
-        if (clientsConnected == MAX_CLIENTS) {
-            for (int i = 0; i < clientsConnected; i++) {
-                sendMessage(START_MESSAGE, clients[i].getIp(), clients[i].getPort());
+        switch (parts[0]) {
+            case Messages.CONNECT:
+                boolean goodConnected = connectClient(packet);
+                if (goodConnected && clients.length == MAX_CLIENTS) {
+                    sendMessageToAll(Messages.START_GAME);
+                }
+                break;
+            case Messages.DISCONNECT:
+
+        }
+    }
+
+    private boolean connectClient(DatagramPacket packet) {
+        if (clients.length < MAX_CLIENTS) {
+            if (!clientExists(packet.getAddress(), packet.getPort())) {
+                addClient(packet);
+                sendMessage(Messages.CONNECT + SPECIAL_CHARACTER + Messages.SUCCESSFUL + SPECIAL_CHARACTER + (clientsConnected - 1), packet.getAddress(), packet.getPort());
+                return true;
             }
         }
+
+        return false;
+    }
+
+    private boolean clientExists(InetAddress address, int port) {
+        for (int i = 0; i < clientsConnected; i++) {
+            if (clients[i].getIp().equals(address) && clients[i].getPort() == port) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void addClient(DatagramPacket packet) {
+        clients[clientsConnected] = new Client(packet.getAddress(), packet.getPort(), clients.length);
+        clientsConnected++;
+        System.out.println("Cliente conectado");
+    }
+
+    public void sendMessage(String msg, InetAddress ip, int port){
+        byte[] data = msg.getBytes();
+        DatagramPacket packet = new DatagramPacket(data, data.length, ip, port);
+        try {
+            socket.send(packet);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void sendMessageToAll(String msg){
+        if (clientsConnected == 0) {
+            return;
+        }
+        for (int i = 0; i < clientsConnected; i++) {
+            sendMessage(msg, clients[i].getIp(), clients[i].getPort());
+        }
+    }
+
+    public void clearClients() {
+        clients = new Client[MAX_CLIENTS];
+        clientsConnected = 0;
+    }
+
+    public void end() {
+        end = true;
+        socket.close();
     }
 }

@@ -2,7 +2,7 @@ package game.hud;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import game.GameScreen;
+import game.Game;
 import game.entities.characters.playables.Playable;
 import utilities.Label;
 import utilities.SubScreen;
@@ -15,12 +15,12 @@ public class Hud extends SubScreen {
 
     public Hud() {
         super();
-        this.player = GameScreen.game.getPlayers().get(0);
+        this.player = Game.game.getPlayers().get(0);
         this.hpLabel = new Label();
         this.timerLabel = new Label();
         this.itemListShower = new ItemListShower(player.getItems());
         HpBar hpBar = new HpBar(player);
-        MiniMap miniMap = new MiniMap(GameScreen.game.getLevel().getMap(), 25f);
+        MiniMap miniMap = new MiniMap(Game.game.getLevel().getMap(), 25f);
 
         Table table = new Table();
         table.setFillParent(true);
@@ -44,9 +44,9 @@ public class Hud extends SubScreen {
         super.render(delta);
         hpLabel.setText(player.getHp() + "/" + player.getMaxHp() + " HP");
 
-        long hours = (long) GameScreen.game.getTimer().getHours();
-        long minutes = (long) GameScreen.game.getTimer().getMinutes();
-        long seconds = (long) GameScreen.game.getTimer().getSeconds();
+        long hours = (long) Game.game.getTimer().getHours();
+        long minutes = (long) Game.game.getTimer().getMinutes();
+        long seconds = (long) Game.game.getTimer().getSeconds();
 
         timerLabel.setText(String.format("Time: %02d:%02d:%02d", hours, minutes, seconds));
     }

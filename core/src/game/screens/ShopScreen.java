@@ -1,8 +1,9 @@
-package game;
+package game.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import game.Game;
 import game.hud.Store;
 import utilities.Render;
 import utilities.SubScreen;
@@ -26,9 +27,9 @@ public class ShopScreen extends SubScreen {
     public void setShow(boolean show) {
         super.setShow(show);
         if (show) {
-            GameScreen.game.pause();
+            Game.game.pause();
         } else {
-            GameScreen.game.resume();
+            Game.game.resume();
         }
     }
 

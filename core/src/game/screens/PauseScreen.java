@@ -1,7 +1,8 @@
-package game;
+package game.screens;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Array;
+import game.Game;
 import menu.config.SettingsScreen;
 import utilities.Render;
 import utilities.SubScreen;
@@ -22,7 +23,7 @@ public class PauseScreen extends SubScreen {
                 new TextButton("Reanudar", () -> setShow(false)),
                 new TextButton("Configuracion", () -> {
                     backFunction.run();
-                    Render.setScreen(new SettingsScreen(new GameScreen()));
+                    Render.setScreen(new SettingsScreen(new Game()));
                 }),
                 new TextButton("Volver al menu", backFunction)
         );
@@ -39,9 +40,9 @@ public class PauseScreen extends SubScreen {
     public void setShow(boolean show) {
         super.setShow(show);
         if (show) {
-            GameScreen.game.pause();
+            Game.game.pause();
         } else {
-            GameScreen.game.resume();
+            Game.game.resume();
         }
     }
 }
