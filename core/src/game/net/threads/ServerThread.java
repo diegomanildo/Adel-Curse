@@ -55,7 +55,9 @@ public class ServerThread extends Thread {
                 }
                 break;
             case Messages.DISCONNECT:
-
+                break;
+            default:
+                throw new RuntimeException("Message not recognized: " + parts[0]);
         }
     }
 

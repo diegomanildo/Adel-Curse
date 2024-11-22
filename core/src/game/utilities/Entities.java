@@ -18,6 +18,17 @@ public class Entities extends ArrayList<GameEntity> {
         return enemies;
     }
 
+    @SuppressWarnings("unchecked")
+    public <T extends GameEntity> T getEntity(int id) {
+        for (GameEntity e : this) {
+            if (e.getId() == id) {
+                return (T) e;
+            }
+        }
+
+        throw new RuntimeException("Entity with id " + id + "was not found.");
+    }
+
     public ArrayList<Playable> getPlayers() {
         ArrayList<Playable> players = new ArrayList<>();
         for (GameEntity entity : this) {

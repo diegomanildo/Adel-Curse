@@ -9,7 +9,8 @@ public enum GameAction {
     SHOOT_UP,
     SHOOT_DOWN,
     SHOOT_LEFT,
-    SHOOT_RIGHT, INTERACT;
+    SHOOT_RIGHT,
+    INTERACT;
 
     @Override
     public String toString() {

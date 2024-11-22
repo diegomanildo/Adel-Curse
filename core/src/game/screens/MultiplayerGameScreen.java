@@ -3,13 +3,15 @@ package game.screens;
 import game.entities.GameEntity;
 import game.entities.characters.playables.Adel;
 import game.levels.Level1;
+import game.net.GameData;
+import game.net.NetworkActionsListener;
 import game.utilities.Entities;
-import utilities.Timer;
 
-public final class MutiplayerGameScreen extends AbstractGameScreen {
-    public MutiplayerGameScreen() {
+import java.util.ArrayList;
+
+public final class MultiplayerGameScreen extends AbstractGameScreen implements NetworkActionsListener {
+    public MultiplayerGameScreen() {
         super();
-        timer = new Timer();
         entities = new Entities();
 
         level = new Level1();
@@ -20,13 +22,30 @@ public final class MutiplayerGameScreen extends AbstractGameScreen {
         p2.setPosition(level.getInitX() - p2.getWidth() / 2f, level.getInitY() - p2.getHeight() / 2f);
 
         stage.addActor(level);
-        createPlayer(p1);
-        createPlayer(p2);
+        stage.addActor(p1);
+        stage.addActor(p2);
 
         stage.getActors().forEach(actor -> {
             if (actor instanceof GameEntity) {
                 entities.add((GameEntity) actor);
             }
         });
+
+        GameData.networkListener = this;
+    }
+
+    @Override
+    public void moveEntity(int id, float x, float y) {
+        entities.getEntity(id).setPosition(x, y);
+    }
+
+    @Override
+    public void gameOver() {
+
+    }
+
+    @Override
+    public ArrayList<GameEntity> getEntities() {
+        return entities;
     }
 }

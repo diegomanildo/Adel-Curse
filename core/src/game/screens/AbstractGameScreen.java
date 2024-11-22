@@ -17,18 +17,19 @@ public class AbstractGameScreen extends SubScreen {
 
     public static Entities entities;
 
-    protected Timer timer;
+    private final Timer timer;
     protected Level level;
     public Func onDoorsChanged;
+
+    public AbstractGameScreen() {
+        super();
+        timer = new Timer();
+    }
 
     @Override
     public void show() {
         super.show();
         timer.start();
-    }
-
-    public void createPlayer(Playable player) {
-        stage.addActor(player);
     }
 
     @Override
