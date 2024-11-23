@@ -1,6 +1,5 @@
 package game.net.threads;
 
-
 import game.net.GameData;
 import game.net.Messages;
 import utilities.Render;
@@ -16,6 +15,8 @@ public class ClientThread extends Thread {
     private InetAddress ip;
     private final DatagramSocket socket;
     private boolean end;
+    private boolean connected;
+    private int id;
 
     public ClientThread() {
         try {
@@ -32,6 +33,9 @@ public class ClientThread extends Thread {
 
         while (!end) {
             DatagramPacket packet = new DatagramPacket(new byte[1024], 1024);
+            if (!connected) {
+                sendMessage(Messages.CONNECT);
+            }
             try {
                 socket.receive(packet);
                 processMessage(packet);
@@ -39,6 +43,8 @@ public class ClientThread extends Thread {
                 throw new RuntimeException(e);
             }
         }
+
+        socket.close();
     }
 
     private void processMessage(DatagramPacket packet) {
@@ -48,6 +54,9 @@ public class ClientThread extends Thread {
         switch (parts[0]) {
             case Messages.CONNECTION:
                 handleConnection(parts[1], Integer.parseInt(parts[2]), packet.getAddress());
+                break;
+            case Messages.DISCONNECT:
+                connected = false;
                 break;
             case Messages.START_GAME:
                 Render.startGame = true;
@@ -64,7 +73,8 @@ public class ClientThread extends Thread {
     private void handleConnection(String state, int clientNumber, InetAddress ip) {
         this.ip = ip;
         if (state.equals(Messages.SUCCESSFUL)) {
-            GameData.clientNumber = clientNumber;
+            id = clientNumber;
+            connected = true;
         }
     }
 
@@ -87,7 +97,12 @@ public class ClientThread extends Thread {
     }
 
     public void end() {
+        sendMessage(Messages.DISCONNECT + SPECIAL_CHARACTER + id);
         end = true;
-        socket.close();
+        connected = false;
+    }
+
+    public boolean isConnected() {
+        return connected;
     }
 }

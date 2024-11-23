@@ -5,12 +5,12 @@ import java.net.InetAddress;
 public class Client {
     private final InetAddress ip;
     private final int port;
-    private final int number;
+    private final int id;
 
-    public Client(InetAddress ip, int port, int number) {
+    public Client(InetAddress ip, int port, int id) {
         this.ip = ip;
         this.port = port;
-        this.number = number;
+        this.id = id;
     }
 
     public InetAddress getIp() {
@@ -21,7 +21,7 @@ public class Client {
         return port;
     }
 
-    public int getNumber() {
-        return number;
+    public int getId() {
+        return id;
     }
 }

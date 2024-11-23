@@ -1,5 +1,4 @@
 package game.entities;
-
 import game.utilities.MovableObject;
 
 public abstract class GameEntity extends MovableObject {

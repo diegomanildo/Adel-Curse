@@ -12,4 +12,5 @@ public class Messages {
     public static final String ENTITY = "entity";
     public static final String CHANGE = "change";
     public static final String CREATE = "create";
+    public static final String CREATE_LEVEL = CREATE + "_level";
 }

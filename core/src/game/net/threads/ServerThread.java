@@ -15,7 +15,7 @@ public class ServerThread extends Thread {
 
     private final DatagramSocket socket;
     private boolean end;
-    private Client[] clients = new Client[MAX_CLIENTS];
+    private final Client[] clients = new Client[MAX_CLIENTS];
     private int clientsConnected;
 
     public ServerThread() {
@@ -26,10 +26,14 @@ public class ServerThread extends Thread {
         }
     }
 
+    private void console(Object obj) {
+        System.out.println("[SERVER] " + obj);
+    }
+
     @Override
     public void run() {
         super.run();
-        System.out.println("Server started");
+        console("Started on port " + PORT);
 
         while (!end) {
             DatagramPacket packet = new DatagramPacket(new byte[1024], 1024);
@@ -44,17 +48,19 @@ public class ServerThread extends Thread {
 
     private void processMessage(DatagramPacket packet) {
         String message = new String(packet.getData()).trim();
-        System.out.println("Message: " + message);
         String[] parts = message.split(SPECIAL_CHARACTER);
 
         switch (parts[0]) {
             case Messages.CONNECT:
                 boolean goodConnected = connectClient(packet);
-                if (goodConnected && clients.length == MAX_CLIENTS) {
+                if (goodConnected && clientsConnected == MAX_CLIENTS) {
                     sendMessageToAll(Messages.START_GAME);
+                    sendMessageToAll(Messages.CREATE_LEVEL);
                 }
                 break;
             case Messages.DISCONNECT:
+                int index = Integer.parseInt(parts[1]);
+                removeClient(index);
                 break;
             default:
                 throw new RuntimeException("Message not recognized: " + parts[0]);
@@ -62,10 +68,10 @@ public class ServerThread extends Thread {
     }
 
     private boolean connectClient(DatagramPacket packet) {
-        if (clients.length < MAX_CLIENTS) {
+        if (clientsConnected < MAX_CLIENTS) {
             if (!clientExists(packet.getAddress(), packet.getPort())) {
+                sendMessage(Messages.CONNECTION + SPECIAL_CHARACTER + Messages.SUCCESSFUL + SPECIAL_CHARACTER + clientsConnected, packet.getAddress(), packet.getPort());
                 addClient(packet);
-                sendMessage(Messages.CONNECT + SPECIAL_CHARACTER + Messages.SUCCESSFUL + SPECIAL_CHARACTER + (clientsConnected - 1), packet.getAddress(), packet.getPort());
                 return true;
             }
         }
@@ -83,9 +89,22 @@ public class ServerThread extends Thread {
     }
 
     private void addClient(DatagramPacket packet) {
+        console("Client " + (clientsConnected + 1) + " connected");
         clients[clientsConnected] = new Client(packet.getAddress(), packet.getPort(), clients.length);
         clientsConnected++;
-        System.out.println("Cliente conectado");
+    }
+
+    private void removeClient(int index) {
+        if (clients[index] == null || !clientExists(clients[index].getIp(), clients[index].getPort())) {
+            return;
+        }
+
+        sendMessage(Messages.DISCONNECT, clients[index].getIp(), clients[index].getPort());
+        console("Client " + (index + 1) + " disconnected");
+        clients[index] = null;
+        clientsConnected--;
+        System.arraycopy(clients, index + 1, clients, index, clientsConnected - index);
+        clients[clientsConnected] = null;
     }
 
     public void sendMessage(String msg, InetAddress ip, int port){
@@ -108,12 +127,15 @@ public class ServerThread extends Thread {
     }
 
     public void clearClients() {
-        clients = new Client[MAX_CLIENTS];
-        clientsConnected = 0;
+        for (int i = 0; i < clientsConnected; i++) {
+            removeClient(i);
+        }
     }
 
     public void end() {
+        clearClients();
         end = true;
         socket.close();
+        console("Closed");
     }
 }
