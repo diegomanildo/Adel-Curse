@@ -8,7 +8,6 @@ import game.net.threads.ClientThread;
 import game.screens.MultiplayerGameScreen;
 import utilities.Label;
 import utilities.Render;
-import utilities.Utils;
 
 public class WaitingMenuScreen extends BasicMainMenuScreen {
     private final Label label;
@@ -20,7 +19,6 @@ public class WaitingMenuScreen extends BasicMainMenuScreen {
         Table table = new Table();
         table.setFillParent(true);
 
-        Utils.sleep(500); // Sleep time for connect client
         label = new Label();
 
         table.add(label);

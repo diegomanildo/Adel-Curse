@@ -9,7 +9,7 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 
 public class ServerThread extends Thread {
-    public static final String SPECIAL_CHARACTER = "!";
+    public static final String SP_C = "!";
     public static final int PORT = 22121;
     private static final int MAX_CLIENTS = 2;
 
@@ -48,7 +48,7 @@ public class ServerThread extends Thread {
 
     private void processMessage(DatagramPacket packet) {
         String message = new String(packet.getData()).trim();
-        String[] parts = message.split(SPECIAL_CHARACTER);
+        String[] parts = message.split(SP_C);
 
         switch (parts[0]) {
             case Messages.CONNECT:
@@ -61,6 +61,9 @@ public class ServerThread extends Thread {
                 int index = Integer.parseInt(parts[1]);
                 removeClient(index);
                 break;
+            case Messages.POSITION:
+                updateEntityPosition(parts);
+                break;
             default:
                 throw new RuntimeException("Message not recognized: " + parts[0]);
         }
@@ -69,7 +72,7 @@ public class ServerThread extends Thread {
     private boolean connectClient(DatagramPacket packet) {
         if (clientsConnected < MAX_CLIENTS) {
             if (!clientExists(packet.getAddress(), packet.getPort())) {
-                sendMessage(Messages.CONNECTION + SPECIAL_CHARACTER + Messages.SUCCESSFUL + SPECIAL_CHARACTER + clientsConnected, packet.getAddress(), packet.getPort());
+                sendMessage(Messages.CONNECTION + SP_C + Messages.SUCCESSFUL + SP_C + clientsConnected, packet.getAddress(), packet.getPort());
                 addClient(packet);
                 return true;
             }
@@ -106,7 +109,15 @@ public class ServerThread extends Thread {
         clients[clientsConnected] = null;
     }
 
-    public void sendMessage(String msg, InetAddress ip, int port){
+    private void updateEntityPosition(String[] parts) {
+        int clientId = Integer.parseInt(parts[1]);
+        int entityId = Integer.parseInt(parts[2]);
+        float x = Float.parseFloat(parts[3]);
+        float y = Float.parseFloat(parts[4]);
+        sendMessageToAllExpect(clientId, Messages.POSITION + SP_C + entityId + SP_C + x + SP_C + y);
+    }
+
+    public void sendMessage(String msg, InetAddress ip, int port) {
         byte[] data = msg.getBytes();
         DatagramPacket packet = new DatagramPacket(data, data.length, ip, port);
         try {
@@ -116,12 +127,18 @@ public class ServerThread extends Thread {
         }
     }
 
-    public void sendMessageToAll(String msg){
+    public void sendMessageToAll(String msg) {
+        sendMessageToAllExpect(-1, msg);
+    }
+
+    public void sendMessageToAllExpect(int clientId, String msg) {
         if (clientsConnected == 0) {
             return;
         }
         for (int i = 0; i < clientsConnected; i++) {
-            sendMessage(msg, clients[i].getIp(), clients[i].getPort());
+            if (i != clientId) {
+                sendMessage(msg, clients[i].getIp(), clients[i].getPort());
+            }
         }
     }
 

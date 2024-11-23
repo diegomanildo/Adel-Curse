@@ -8,5 +8,6 @@ public class Messages {
     public static final String SUCCESSFUL = "successful";
 
     public static final String START_GAME = "start";
-    public static final String GAME_OVER = "game_over";
+
+    public static final String POSITION = "position";
 }

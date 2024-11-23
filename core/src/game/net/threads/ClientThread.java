@@ -10,7 +10,7 @@ import java.net.InetAddress;
 
 public class ClientThread extends Thread {
     public static final int PORT = 22121;
-    public static final String SPECIAL_CHARACTER = ServerThread.SPECIAL_CHARACTER;
+    public static final String SP_C = ServerThread.SP_C; // Special character
 
     private InetAddress ip;
     private final DatagramSocket socket;
@@ -48,7 +48,7 @@ public class ClientThread extends Thread {
 
     private void processMessage(DatagramPacket packet) {
         String message = new String(packet.getData()).trim();
-        String[] parts = message.split(SPECIAL_CHARACTER);
+        String[] parts = message.split(SP_C);
 
         switch (parts[0]) {
             case Messages.CONNECTION:
@@ -57,11 +57,12 @@ public class ClientThread extends Thread {
             case Messages.DISCONNECTION:
                 connected = false;
                 break;
+            case Messages.POSITION:
+                GameData.networkListener.moveEntity(Integer.parseInt(parts[1]), Float.parseFloat(parts[2]), Float.parseFloat(parts[3]));
+                break;
             case Messages.START_GAME:
                 Render.startGame = true;
                 break;
-            case Messages.GAME_OVER:
-                GameData.networkListener.gameOver();
             default:
                 throw new RuntimeException("Message not recognized: " + parts[0]);
         }
@@ -86,12 +87,16 @@ public class ClientThread extends Thread {
     }
 
     public void end() {
-        sendMessage(Messages.DISCONNECT + SPECIAL_CHARACTER + GameData.clientNumber);
+        sendMessage(Messages.DISCONNECT + SP_C + GameData.clientNumber);
         end = true;
         connected = false;
     }
 
     public boolean isConnected() {
         return connected;
+    }
+
+    public void updateEntityPosition(int entityId, float x, float y) {
+        sendMessage(Messages.POSITION + SP_C + GameData.clientNumber + SP_C + entityId + SP_C + x + SP_C + y);
     }
 }
