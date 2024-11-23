@@ -16,7 +16,6 @@ public class ClientThread extends Thread {
     private final DatagramSocket socket;
     private boolean end;
     private boolean connected;
-    private int id;
 
     public ClientThread() {
         try {
@@ -55,14 +54,12 @@ public class ClientThread extends Thread {
             case Messages.CONNECTION:
                 handleConnection(parts[1], Integer.parseInt(parts[2]), packet.getAddress());
                 break;
-            case Messages.DISCONNECT:
+            case Messages.DISCONNECTION:
                 connected = false;
                 break;
             case Messages.START_GAME:
                 Render.startGame = true;
                 break;
-            case Messages.ENTITY:
-                handleEntity(parts);
             case Messages.GAME_OVER:
                 GameData.networkListener.gameOver();
             default:
@@ -73,16 +70,8 @@ public class ClientThread extends Thread {
     private void handleConnection(String state, int clientNumber, InetAddress ip) {
         this.ip = ip;
         if (state.equals(Messages.SUCCESSFUL)) {
-            id = clientNumber;
+            GameData.clientNumber = clientNumber;
             connected = true;
-        }
-    }
-
-    private void handleEntity(String[] parts) {
-        if (parts[1].equals(Messages.CHANGE)) {
-            GameData.networkListener.moveEntity(Integer.parseInt(parts[2]), Float.parseFloat(parts[3]), Float.parseFloat(parts[4]));
-        } else {
-            throw new RuntimeException("Message not recognized: " + parts[1]);
         }
     }
 
@@ -97,7 +86,7 @@ public class ClientThread extends Thread {
     }
 
     public void end() {
-        sendMessage(Messages.DISCONNECT + SPECIAL_CHARACTER + id);
+        sendMessage(Messages.DISCONNECT + SPECIAL_CHARACTER + GameData.clientNumber);
         end = true;
         connected = false;
     }

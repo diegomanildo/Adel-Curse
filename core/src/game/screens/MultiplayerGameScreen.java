@@ -1,5 +1,6 @@
 package game.screens;
 
+import game.Game;
 import game.entities.GameEntity;
 import game.entities.characters.playables.Adel;
 import game.levels.Level1;
@@ -35,6 +36,14 @@ public final class MultiplayerGameScreen extends AbstractGameScreen implements N
         });
 
         GameData.networkListener = this;
+    }
+
+    @Override
+    public void render(float delta) {
+        super.render(delta);
+        if (!client.isConnected()) {
+            Game.deathScreen.playerDead();
+        }
     }
 
     @Override

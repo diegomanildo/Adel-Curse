@@ -48,7 +48,7 @@ public class Store extends WidgetGroup {
             item.setSize(finalItem.getWidth() * SIZE_MULTIPLIER, finalItem.getHeight() * SIZE_MULTIPLIER);
             itemButton.addChangeListener(() -> {
                 finalItem.setSize(finalItem.getWidth() / SIZE_MULTIPLIER, finalItem.getHeight() / SIZE_MULTIPLIER);
-                finalItem.changeOwnerTo(Game.game.getPlayers().get(0));
+                finalItem.changeOwnerTo(Game.game.getPlayer());
                 finalItem.addToOwner();
                 itemButton.remove();
             });

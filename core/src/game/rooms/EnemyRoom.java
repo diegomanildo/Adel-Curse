@@ -41,7 +41,7 @@ public abstract class EnemyRoom extends Room {
         }
         createItems();
         Game.game.onDoorsChanged = direction -> {
-            Playable player = Game.game.getPlayers().get(0);
+            Playable player = Game.game.getPlayer();
             switch (direction) {
                 case LEFT: {
                     player.addItem(itemLeft);
@@ -77,8 +77,8 @@ public abstract class EnemyRoom extends Room {
     }
 
     private void generateEntity() {
-        float playerX = Game.game.getPlayers().get(0).getX();
-        float playerY = Game.game.getPlayers().get(0).getY();
+        float playerX = Game.game.getPlayer().getX();
+        float playerY = Game.game.getPlayer().getY();
 
         float x, y;
 

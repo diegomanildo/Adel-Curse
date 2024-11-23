@@ -2,10 +2,7 @@ package game.entities.characters.enemies;
 
 import game.Game;
 import game.entities.characters.Character;
-import game.entities.characters.playables.Playable;
 import game.utilities.Direction;
-
-import java.util.ArrayList;
 
 public abstract class Enemy extends Character {
     private static final float SAFE_DISTANCE = 100f;
@@ -54,12 +51,8 @@ public abstract class Enemy extends Character {
 
     @Override
     protected void update(float delta) {
-        ArrayList<Playable> players = Game.game.getPlayers();
-        if (players.isEmpty()) {
-            return;
-        }
-        float playerX = players.get(0).getX();
-        float playerY = players.get(0).getY();
+        float playerX = Game.game.getPlayer().getX();
+        float playerY = Game.game.getPlayer().getY();
 
         float enemyX = getX();
         float enemyY = getY();

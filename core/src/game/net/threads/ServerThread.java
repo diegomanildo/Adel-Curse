@@ -55,7 +55,6 @@ public class ServerThread extends Thread {
                 boolean goodConnected = connectClient(packet);
                 if (goodConnected && clientsConnected == MAX_CLIENTS) {
                     sendMessageToAll(Messages.START_GAME);
-                    sendMessageToAll(Messages.CREATE_LEVEL);
                 }
                 break;
             case Messages.DISCONNECT:
@@ -99,7 +98,7 @@ public class ServerThread extends Thread {
             return;
         }
 
-        sendMessage(Messages.DISCONNECT, clients[index].getIp(), clients[index].getPort());
+        sendMessage(Messages.DISCONNECTION, clients[index].getIp(), clients[index].getPort());
         console("Client " + (index + 1) + " disconnected");
         clients[index] = null;
         clientsConnected--;

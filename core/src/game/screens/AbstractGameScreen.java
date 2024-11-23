@@ -2,9 +2,11 @@ package game.screens;
 
 import game.Game;
 import game.entities.GameEntity;
+import game.entities.characters.playables.Adel;
 import game.entities.characters.playables.Playable;
 import game.levels.Level;
 import game.map.Door;
+import game.net.GameData;
 import game.utilities.*;
 import utilities.Actor;
 import utilities.SubScreen;
@@ -85,60 +87,54 @@ public class AbstractGameScreen extends SubScreen {
 
         switch (direction) {
             case DOWN:
-                moveCameraDown(camera);
+                camera.moveTo(camera.position.x, camera.position.y - camera.viewportHeight, TRANSITION_TIME, () -> {
+                    camera.setPosition(camera.position.x, camera.position.y + 2f * camera.viewportHeight);
+                    level.changeRoom(Direction.DOWN);
+                    camera.moveTo(camera.position.x, camera.position.y - camera.viewportHeight, TRANSITION_TIME, () -> {
+                        getPlayer().setPosition(getPlayer().getX(), camera.getTop() - getPlayer().getHeight() / 2f);
+                    });
+                });
                 break;
             case UP:
-                moveCameraUp(camera);
+                camera.moveTo(camera.position.x, camera.position.y + camera.viewportHeight, TRANSITION_TIME, () -> {
+                    camera.setPosition(camera.position.x, camera.position.y - 2f * camera.viewportHeight);
+                    level.changeRoom(Direction.UP);
+                    camera.moveTo(camera.position.x, camera.position.y + camera.viewportHeight, TRANSITION_TIME, () -> {
+                        getPlayer().setPosition(getPlayer().getX(), camera.getBottom() + getPlayer().getHeight() / 2f);
+                    });
+                });
                 break;
             case RIGHT:
-                moveCameraRight(camera);
+                camera.moveTo(camera.position.x + camera.viewportWidth, camera.position.y, TRANSITION_TIME, () -> {
+                    camera.setPosition(camera.position.x - 2f * camera.viewportWidth, camera.position.y);
+                    level.changeRoom(Direction.RIGHT);
+                    camera.moveTo(camera.position.x + camera.viewportWidth, camera.position.y, TRANSITION_TIME, () -> {
+                        getPlayer().setPosition(camera.getLeft() + getPlayer().getWidth() / 2f, getPlayer().getY());
+                    });
+                });
                 break;
             case LEFT:
-                moveCameraLeft(camera);
+                camera.moveTo(camera.position.x - camera.viewportWidth, camera.position.y, TRANSITION_TIME, () -> {
+                    camera.setPosition(camera.position.x + 2f * camera.viewportWidth, camera.position.y);
+                    level.changeRoom(Direction.LEFT);
+                    camera.moveTo(camera.position.x - camera.viewportWidth, camera.position.y, TRANSITION_TIME, () -> {
+                        getPlayer().setPosition(camera.getRight() - getPlayer().getWidth() / 2f, getPlayer().getY());
+                    });
+                });
                 break;
             default:
                 throw new RuntimeException("Invalid direction: " + direction);
         }
     }
 
-    private void moveCameraDown(Camera2D camera) {
-        camera.moveTo(camera.position.x, camera.position.y - camera.viewportHeight, TRANSITION_TIME, () -> {
-            camera.setPosition(camera.position.x, camera.position.y + 2f * camera.viewportHeight);
-            level.changeRoom(Direction.DOWN);
-            camera.moveTo(camera.position.x, camera.position.y - camera.viewportHeight, TRANSITION_TIME, () -> {
-                getPlayers().forEach(p -> p.setPosition(p.getX(), camera.getTop() - p.getHeight() / 2f));
-            });
-        });
-    }
-
-    private void moveCameraUp(Camera2D camera) {
-        camera.moveTo(camera.position.x, camera.position.y + camera.viewportHeight, TRANSITION_TIME, () -> {
-            camera.setPosition(camera.position.x, camera.position.y - 2f * camera.viewportHeight);
-            level.changeRoom(Direction.UP);
-            camera.moveTo(camera.position.x, camera.position.y + camera.viewportHeight, TRANSITION_TIME, () -> {
-                getPlayers().forEach(p -> p.setPosition(p.getX(), camera.getBottom() + p.getHeight() / 2f));
-            });
-        });
-    }
-
-    private void moveCameraRight(Camera2D camera) {
-        camera.moveTo(camera.position.x + camera.viewportWidth, camera.position.y, TRANSITION_TIME, () -> {
-            camera.setPosition(camera.position.x - 2f * camera.viewportWidth, camera.position.y);
-            level.changeRoom(Direction.RIGHT);
-            camera.moveTo(camera.position.x + camera.viewportWidth, camera.position.y, TRANSITION_TIME, () -> {
-                getPlayers().forEach(p -> p.setPosition(camera.getLeft() + p.getWidth() / 2f, p.getY()));
-            });
-        });
-    }
-
-    private void moveCameraLeft(Camera2D camera) {
-        camera.moveTo(camera.position.x - camera.viewportWidth, camera.position.y, TRANSITION_TIME, () -> {
-            camera.setPosition(camera.position.x + 2f * camera.viewportWidth, camera.position.y);
-            level.changeRoom(Direction.LEFT);
-            camera.moveTo(camera.position.x - camera.viewportWidth, camera.position.y, TRANSITION_TIME, () -> {
-                getPlayers().forEach(p -> p.setPosition(camera.getRight() - p.getWidth() / 2f, p.getY()));
-            });
-        });
+    public Playable getPlayer() {
+        if (getPlayers().isEmpty()) {
+            return new Adel();
+        } else if (this instanceof OnePlayerGameScreen) {
+            return getPlayers().get(0);
+        } else {
+            return getPlayers().get(GameData.clientNumber);
+        }
     }
 
     public ArrayList<Playable> getPlayers() {

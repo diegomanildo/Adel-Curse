@@ -15,7 +15,7 @@ public class Hud extends SubScreen {
 
     public Hud() {
         super();
-        this.player = Game.game.getPlayers().get(0);
+        this.player = Game.game.getPlayer();
         this.hpLabel = new Label();
         this.timerLabel = new Label();
         this.itemListShower = new ItemListShower(player.getItems());
