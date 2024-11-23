@@ -5,7 +5,7 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import game.entities.GameEntity;
 import game.map.Door;
 import game.map.RoomKinds;
-import game.screens.OnePlayerGameScreen;
+import game.screens.AbstractGameScreen;
 import game.utilities.Direction;
 import game.utilities.Entities;
 import game.utilities.Hitbox;
@@ -42,7 +42,7 @@ public class Room extends Group {
     public void createEntity(GameEntity e) {
         entities.add(e);
         getStage().addActor(e);
-        OnePlayerGameScreen.entities.add(e);
+        AbstractGameScreen.entities.add(e);
     }
 
     @Override
@@ -50,7 +50,7 @@ public class Room extends Group {
         boolean b = super.remove();
         entities.forEach(e -> {
             e.remove();
-            OnePlayerGameScreen.entities.remove(e);
+            AbstractGameScreen.entities.remove(e);
         });
         return b;
     }

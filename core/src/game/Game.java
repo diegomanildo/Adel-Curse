@@ -10,7 +10,11 @@ import menu.MainMenuScreen;
 import utilities.Render;
 import utilities.Screen;
 
-public final class Game extends Screen {
+import java.io.Serializable;
+
+public final class Game extends Screen implements Serializable {
+    private static final long serialVersionUID = 1234234L;
+
     public static AbstractGameScreen game;
     public static ChatScreen chat;
     public static Hud hud;
@@ -21,10 +25,12 @@ public final class Game extends Screen {
 
     public Game(Class<? extends AbstractGameScreen> game) {
         super();
-        try {
-            Game.game = game.newInstance();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        if (Game.game == null) {
+            try {
+                Game.game = game.newInstance();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
         }
         chat = new ChatScreen();
         hud = new Hud();

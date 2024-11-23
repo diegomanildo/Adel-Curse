@@ -64,6 +64,9 @@ public class ServerThread extends Thread {
             case Messages.POSITION:
                 updateEntityPosition(parts);
                 break;
+            case Messages.ROOM_CHANGED:
+                changeRoom(parts);
+                break;
             default:
                 throw new RuntimeException("Message not recognized: " + parts[0]);
         }
@@ -115,6 +118,12 @@ public class ServerThread extends Thread {
         float x = Float.parseFloat(parts[3]);
         float y = Float.parseFloat(parts[4]);
         sendMessageToAllExpect(clientId, Messages.POSITION + SP_C + entityId + SP_C + x + SP_C + y);
+    }
+
+    private void changeRoom(String[] parts) {
+        int clientId = Integer.parseInt(parts[1]);
+        String direction = parts[2];
+        sendMessageToAllExpect(clientId, Messages.ROOM_CHANGED + SP_C + direction);
     }
 
     public void sendMessage(String msg, InetAddress ip, int port) {

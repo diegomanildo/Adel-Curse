@@ -82,7 +82,7 @@ public class AbstractGameScreen extends SubScreen {
         timer.resume();
     }
 
-    private void moveCamera(Direction direction) {
+    protected void moveCamera(Direction direction) {
         Camera2D camera = level.getCamera();
 
         switch (direction) {

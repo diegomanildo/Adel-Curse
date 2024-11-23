@@ -10,4 +10,5 @@ public class Messages {
     public static final String START_GAME = "start";
 
     public static final String POSITION = "position";
+    public static final String ROOM_CHANGED = "room_changed";
 }

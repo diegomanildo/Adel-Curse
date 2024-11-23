@@ -107,65 +107,62 @@ public abstract class EnemyRoom extends Room {
 
     private void createItems() {
         Door[] doors = getDoors();
-        for(int i = 0; i < doors.length; i++){
-            Direction direction = doors[i].getDirection();
-            switch(direction){
-                case LEFT:{
-                    if(!spawnLeft){
+        for (Door door : doors) {
+            Direction direction = door.getDirection();
+            switch (direction) {
+                case LEFT: {
+                    if (!spawnLeft) {
                         itemLeft = Item.ITEMS.getRandomItem();
                         itemLeft.setPosition(LEFT.getHitbox().x + 5, LEFT.getHitbox().y);
                         itemLeft.setSize(20f, 20f);
                         spawnLeft = true;
                     }
-                    if(itemLeft != null){
+                    if (itemLeft != null) {
                         createEntity(itemLeft);
                         itemList.add(itemLeft);
                     }
                     break;
                 }
-                case RIGHT:{
-                    if(!spawnRight){
+                case RIGHT: {
+                    if (!spawnRight) {
                         itemRight = Item.ITEMS.getRandomItem();
                         itemRight.setPosition(RIGHT.getHitbox().x + 13, RIGHT.getHitbox().y + 1);
                         itemRight.setSize(20f, 20f);
                         spawnRight = true;
                     }
-                    if(itemRight != null){
+                    if (itemRight != null) {
                         createEntity(itemRight);
                         itemList.add(itemRight);
                     }
                     break;
                 }
-                case UP:{
-                    if(!spawnUp){
+                case UP: {
+                    if (!spawnUp) {
                         itemUp = Item.ITEMS.getRandomItem();
                         itemUp.setPosition(UP.getHitbox().x, UP.getHitbox().y + 7);
                         itemUp.setSize(20f, 20f);
                         spawnUp = true;
                     }
-                    if(itemUp != null){
+                    if (itemUp != null) {
                         createEntity(itemUp);
                         itemList.add(itemUp);
                     }
                     break;
                 }
                 case DOWN:
-                    if(!spawnDown){
+                    if (!spawnDown) {
                         itemDown = Item.ITEMS.getRandomItem();
                         itemDown.setPosition(DOWN.getHitbox().x, DOWN.getHitbox().y + 3);
                         itemDown.setSize(20f, 20f);
                         spawnDown = true;
                     }
-                    if(itemDown != null){
+                    if (itemDown != null) {
                         createEntity(itemDown);
                         itemList.add(itemDown);
                     }
                     break;
             }
         }
-
-
-
     }
 
     public void setSpawnEntities(boolean spawnEntities) {

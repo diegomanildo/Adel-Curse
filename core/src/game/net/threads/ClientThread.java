@@ -1,12 +1,19 @@
 package game.net.threads;
 
+import game.levels.Level;
 import game.net.GameData;
 import game.net.Messages;
+import game.utilities.Direction;
 import utilities.Render;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.util.Base64;
 
 public class ClientThread extends Thread {
     public static final int PORT = 22121;
@@ -16,6 +23,7 @@ public class ClientThread extends Thread {
     private final DatagramSocket socket;
     private boolean end;
     private boolean connected;
+    private Level level;
 
     public ClientThread() {
         try {
@@ -60,6 +68,9 @@ public class ClientThread extends Thread {
             case Messages.POSITION:
                 GameData.networkListener.moveEntity(Integer.parseInt(parts[1]), Float.parseFloat(parts[2]), Float.parseFloat(parts[3]));
                 break;
+            case Messages.ROOM_CHANGED:
+                GameData.networkListener.changeRoom(Direction.parseDirection(parts[1]));
+                break;
             case Messages.START_GAME:
                 Render.startGame = true;
                 break;
@@ -98,5 +109,37 @@ public class ClientThread extends Thread {
 
     public void updateEntityPosition(int entityId, float x, float y) {
         sendMessage(Messages.POSITION + SP_C + GameData.clientNumber + SP_C + entityId + SP_C + x + SP_C + y);
+    }
+
+    public void roomChanged(Direction direction) {
+        sendMessage(Messages.ROOM_CHANGED + SP_C + GameData.clientNumber + SP_C + direction);
+    }
+
+    private String getEncrypted(Object obj) {
+        try {
+            ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
+            ObjectOutputStream objStream = new ObjectOutputStream(byteStream);
+            objStream.writeObject(obj);
+            objStream.flush();
+
+            byte[] gameBytes = byteStream.toByteArray();
+
+            return Base64.getEncoder().encodeToString(gameBytes);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    private <T> T decrypt(String text) {
+        try {
+            byte[] gameBytes = Base64.getDecoder().decode(text);
+
+            ByteArrayInputStream byteStream = new ByteArrayInputStream(gameBytes);
+            ObjectInputStream objStream = new ObjectInputStream(byteStream);
+            return (T) objStream.readObject();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }

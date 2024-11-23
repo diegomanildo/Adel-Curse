@@ -7,6 +7,7 @@ import game.levels.Level1;
 import game.net.GameData;
 import game.net.NetworkActionsListener;
 import game.net.threads.ClientThread;
+import game.utilities.Direction;
 import game.utilities.Entities;
 
 public final class MultiplayerGameScreen extends AbstractGameScreen implements NetworkActionsListener {
@@ -59,5 +60,16 @@ public final class MultiplayerGameScreen extends AbstractGameScreen implements N
     @Override
     public void moveEntity(int id, float x, float y) {
         entities.getEntity(id).setPosition(x, y);
+    }
+
+    @Override
+    protected void moveCamera(Direction direction) {
+        super.moveCamera(direction);
+        client.roomChanged(direction);
+    }
+
+    @Override
+    public void changeRoom(Direction direction) {
+        super.moveCamera(direction);
     }
 }
