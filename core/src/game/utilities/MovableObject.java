@@ -4,21 +4,15 @@ import com.badlogic.gdx.Gdx;
 
 public abstract class MovableObject extends GameAnimation {
     private float velocity;
+    protected Direction direction = Direction.NONE;
 
     public MovableObject(String texturePath, int columns, int rows, float frameDuration) {
         super(texturePath, columns, rows, frameDuration);
     }
 
-    public float getVelocity() {
-        return velocity;
-    }
-
-    public void setVelocity(float velocity) {
-        this.velocity = velocity;
-    }
-
     // Move character with a direction chosen
-    protected void move(Direction direction) {
+    public void move(Direction direction) {
+        this.direction = direction;
         int moveIndex;
         float x = getX();
         float y = getY();
@@ -71,5 +65,17 @@ public abstract class MovableObject extends GameAnimation {
 
         setAnimation(moveIndex);
         setPosition(x, y);
+    }
+
+    public float getVelocity() {
+        return velocity;
+    }
+
+    public void setVelocity(float velocity) {
+        this.velocity = velocity;
+    }
+
+    public Direction getDirection() {
+        return direction;
     }
 }

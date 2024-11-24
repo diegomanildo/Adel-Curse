@@ -48,7 +48,7 @@ public abstract class Playable extends Character {
     }
 
     private void moveCharacter() {
-        Direction direction = Direction.NONE;
+        direction = Direction.NONE;
 
         if (Controls.isPressed(GameAction.UP)) {
             if (Controls.isPressed(GameAction.LEFT)) {

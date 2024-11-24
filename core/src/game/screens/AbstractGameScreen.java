@@ -2,6 +2,7 @@ package game.screens;
 
 import game.Game;
 import game.entities.GameEntity;
+import game.entities.characters.Character;
 import game.entities.characters.playables.Adel;
 import game.entities.characters.playables.Playable;
 import game.levels.Level;
@@ -16,8 +17,6 @@ import java.util.ArrayList;
 
 public class AbstractGameScreen extends SubScreen {
     protected static final float TRANSITION_TIME = FADE_TIME / 3f;
-
-    public static Entities entities;
 
     private final Timer timer;
     protected Level level;
@@ -44,12 +43,56 @@ public class AbstractGameScreen extends SubScreen {
 
     private void correctPositions() {
         Hitbox roomHitbox = level.getHitbox();
-        entities.getCharacters().forEach(c -> c.correctPosition(roomHitbox));
+        ArrayList<Character> characters = getEntities().getCharacters();
+
+        for (int i = 0; i < characters.size(); i++) {
+            characters.get(i).correctPosition(roomHitbox);
+
+            for (int j = i + 1; j < characters.size(); j++) {
+                Character c1 = characters.get(i);
+                Character c2 = characters.get(j);
+
+                if (c1.getHitbox().collidesWith(c2.getHitbox())) {
+                    resolveCollision(c1, c2);
+                }
+            }
+        }
+    }
+
+    private void resolveCollision(Character c1, Character c2) {
+        Hitbox hitbox1 = c1.getHitbox();
+        Hitbox hitbox2 = c2.getHitbox();
+
+        float centerX1 = hitbox1.x + hitbox1.width / 2;
+        float centerY1 = hitbox1.y + hitbox1.height / 2;
+        float centerX2 = hitbox2.x + hitbox2.width / 2;
+        float centerY2 = hitbox2.y + hitbox2.height / 2;
+
+        float overlapX = Math.min(hitbox1.getRight(), hitbox2.getRight()) - Math.max(hitbox1.getLeft(), hitbox2.getLeft());
+        float overlapY = Math.min(hitbox1.getTop(), hitbox2.getTop()) - Math.max(hitbox1.getBottom(), hitbox2.getBottom());
+
+        if (overlapX < overlapY) {
+            if (centerX1 < centerX2) {
+                c1.setPosition(c1.getX() - overlapX / 2, c1.getY());
+                c2.setPosition(c2.getX() + overlapX / 2, c2.getY());
+            } else {
+                c1.setPosition(c1.getX() + overlapX / 2, c1.getY());
+                c2.setPosition(c2.getX() - overlapX / 2, c2.getY());
+            }
+        } else {
+            if (centerY1 < centerY2) {
+                c1.setPosition(c1.getX(), c1.getY() - overlapY / 2);
+                c2.setPosition(c2.getX(), c2.getY() + overlapY / 2);
+            } else {
+                c1.setPosition(c1.getX(), c1.getY() + overlapY / 2);
+                c2.setPosition(c2.getX(), c2.getY() - overlapY / 2);
+            }
+        }
     }
 
     private void checkDoors() {
         level.getHitbox();
-        for (Playable player : entities.getPlayers()) {
+        for (Playable player : getEntities().getPlayers()) {
             for (Door door : level.getDoors()) {
                 if (player.getBounds().collidesWith(door.getHitbox())) {
                     Game.chat.createTiny(door.getDirection().name(), "Press " + Controls.getCharacter(GameAction.INTERACT));
@@ -71,14 +114,14 @@ public class AbstractGameScreen extends SubScreen {
     @Override
     public void pause() {
         super.pause();
-        entities.forEach(GameEntity::pause);
+        getEntities().forEach(GameEntity::pause);
         timer.pause();
     }
 
     @Override
     public void resume() {
         super.resume();
-        entities.forEach(GameEntity::resume);
+        getEntities().forEach(GameEntity::resume);
         timer.resume();
     }
 
@@ -137,8 +180,20 @@ public class AbstractGameScreen extends SubScreen {
         }
     }
 
+    public Entities getEntities() {
+        Entities entities = new Entities();
+
+        stage.getActors().forEach(actor -> {
+            if (actor instanceof GameEntity) {
+                entities.add((GameEntity) actor);
+            }
+        });
+
+        return entities;
+    }
+
     public ArrayList<Playable> getPlayers() {
-        return entities.getPlayers();
+        return getEntities().getPlayers();
     }
 
     public Level getLevel() {
@@ -152,6 +207,6 @@ public class AbstractGameScreen extends SubScreen {
     @Override
     public void dispose() {
         super.dispose();
-        entities.forEach(Actor::dispose);
+        getEntities().forEach(Actor::dispose);
     }
 }

@@ -1,6 +1,6 @@
 package game.net.threads;
 
-import game.levels.Level;
+import game.Game;
 import game.net.GameData;
 import game.net.Messages;
 import game.utilities.Direction;
@@ -23,7 +23,6 @@ public class ClientThread extends Thread {
     private final DatagramSocket socket;
     private boolean end;
     private boolean connected;
-    private Level level;
 
     public ClientThread() {
         try {
@@ -59,20 +58,26 @@ public class ClientThread extends Thread {
         String[] parts = message.split(SP_C);
 
         switch (parts[0]) {
-            case Messages.CONNECTION:
+            case Messages.CONNECT:
                 handleConnection(parts[1], Integer.parseInt(parts[2]), packet.getAddress());
                 break;
-            case Messages.DISCONNECTION:
+            case Messages.DISCONNECT:
                 connected = false;
                 break;
             case Messages.POSITION:
-                GameData.networkListener.moveEntity(Integer.parseInt(parts[1]), Float.parseFloat(parts[2]), Float.parseFloat(parts[3]));
+                GameData.networkListener.moveEntity(Integer.parseInt(parts[1]), Direction.parseDirection(parts[2]));
                 break;
             case Messages.ROOM_CHANGED:
                 GameData.networkListener.changeRoom(Direction.parseDirection(parts[1]));
                 break;
             case Messages.START_GAME:
                 Render.startGame = true;
+                break;
+            case Messages.END_GAME:
+                if (Game.deathScreen != null) {
+                    Game.deathScreen.playerDead();
+                    System.out.println("[Client " + GameData.clientNumber + "] Ended game");
+                }
                 break;
             default:
                 throw new RuntimeException("Message not recognized: " + parts[0]);
@@ -107,8 +112,8 @@ public class ClientThread extends Thread {
         return connected;
     }
 
-    public void updateEntityPosition(int entityId, float x, float y) {
-        sendMessage(Messages.POSITION + SP_C + GameData.clientNumber + SP_C + entityId + SP_C + x + SP_C + y);
+    public void updateEntityPosition(int entityId, Direction direction) {
+        sendMessage(Messages.POSITION + SP_C + GameData.clientNumber + SP_C + entityId + SP_C + direction);
     }
 
     public void roomChanged(Direction direction) {

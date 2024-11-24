@@ -2,6 +2,7 @@ package game.net.threads;
 
 import game.net.Client;
 import game.net.Messages;
+import game.utilities.Direction;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -9,7 +10,7 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 
 public class ServerThread extends Thread {
-    public static final String SP_C = "!";
+    public static final String SP_C = "!"; // Special character
     public static final int PORT = 22121;
     private static final int MAX_CLIENTS = 2;
 
@@ -73,15 +74,13 @@ public class ServerThread extends Thread {
     }
 
     private boolean connectClient(DatagramPacket packet) {
-        if (clientsConnected < MAX_CLIENTS) {
-            if (!clientExists(packet.getAddress(), packet.getPort())) {
-                sendMessage(Messages.CONNECTION + SP_C + Messages.SUCCESSFUL + SP_C + clientsConnected, packet.getAddress(), packet.getPort());
-                addClient(packet);
-                return true;
-            }
+        if (clientsConnected >= MAX_CLIENTS || clientExists(packet.getAddress(), packet.getPort())) {
+            return false;
         }
 
-        return false;
+        sendMessage(Messages.CONNECT + SP_C + Messages.SUCCESSFUL + SP_C + clientsConnected, packet.getAddress(), packet.getPort());
+        addClient(packet);
+        return true;
     }
 
     private boolean clientExists(InetAddress address, int port) {
@@ -104,20 +103,23 @@ public class ServerThread extends Thread {
             return;
         }
 
-        sendMessage(Messages.DISCONNECTION, clients[index].getIp(), clients[index].getPort());
+        sendMessage(Messages.DISCONNECT, clients[index].getIp(), clients[index].getPort());
         console("Client " + (index + 1) + " disconnected");
         clients[index] = null;
         clientsConnected--;
         System.arraycopy(clients, index + 1, clients, index, clientsConnected - index);
         clients[clientsConnected] = null;
+
+        if (clientsConnected + 1 >= MAX_CLIENTS && clientsConnected < MAX_CLIENTS) {
+            sendMessageToAll(Messages.END_GAME);
+        }
     }
 
     private void updateEntityPosition(String[] parts) {
         int clientId = Integer.parseInt(parts[1]);
         int entityId = Integer.parseInt(parts[2]);
-        float x = Float.parseFloat(parts[3]);
-        float y = Float.parseFloat(parts[4]);
-        sendMessageToAllExpect(clientId, Messages.POSITION + SP_C + entityId + SP_C + x + SP_C + y);
+        Direction direction = Direction.parseDirection(parts[3]);
+        sendMessageToAllExpect(clientId, Messages.POSITION + SP_C + entityId + SP_C + direction);
     }
 
     private void changeRoom(String[] parts) {

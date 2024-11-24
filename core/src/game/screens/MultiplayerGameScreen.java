@@ -8,7 +8,6 @@ import game.net.GameData;
 import game.net.NetworkActionsListener;
 import game.net.threads.ClientThread;
 import game.utilities.Direction;
-import game.utilities.Entities;
 
 public final class MultiplayerGameScreen extends AbstractGameScreen implements NetworkActionsListener {
     public static final int PLAYER1_ID = -1;
@@ -18,7 +17,6 @@ public final class MultiplayerGameScreen extends AbstractGameScreen implements N
 
     public MultiplayerGameScreen() {
         super();
-        entities = new Entities();
 
         level = new Level1();
         Adel p1 = new Adel();
@@ -33,12 +31,6 @@ public final class MultiplayerGameScreen extends AbstractGameScreen implements N
         stage.addActor(p1);
         stage.addActor(p2);
 
-        stage.getActors().forEach(actor -> {
-            if (actor instanceof GameEntity) {
-                entities.add((GameEntity) actor);
-            }
-        });
-
         GameData.networkListener = this;
     }
 
@@ -52,14 +44,14 @@ public final class MultiplayerGameScreen extends AbstractGameScreen implements N
         stage.getActors().forEach(actor -> {
             if (actor instanceof GameEntity) {
                 GameEntity e = (GameEntity)actor;
-                client.updateEntityPosition(e.getId(), e.getX(), e.getY());
+                client.updateEntityPosition(e.getId(), e.getDirection());
             }
         });
     }
 
     @Override
-    public void moveEntity(int id, float x, float y) {
-        entities.getEntity(id).setPosition(x, y);
+    public void moveEntity(int id, Direction direction) {
+        getEntities().getEntity(id).move(direction);
     }
 
     @Override
@@ -72,4 +64,12 @@ public final class MultiplayerGameScreen extends AbstractGameScreen implements N
     public void changeRoom(Direction direction) {
         super.moveCamera(direction);
     }
+
+    // Override for not pause/resume the game
+    @Override
+    public void pause() {}
+
+    // Override for not pause/resume the game
+    @Override
+    public void resume() {}
 }

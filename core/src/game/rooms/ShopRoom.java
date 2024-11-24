@@ -6,7 +6,6 @@ import game.entities.ShopKeeper;
 import game.entities.characters.playables.Playable;
 import game.entities.items.Item;
 import game.map.RoomKinds;
-import game.screens.OnePlayerGameScreen;
 import game.utilities.Controls;
 import game.utilities.GameAction;
 import utilities.audio.Song;
@@ -40,7 +39,7 @@ public final class ShopRoom extends Room {
     public void act(float delta) {
         super.act(delta);
 
-        ArrayList<Playable> players = OnePlayerGameScreen.entities.getPlayers();
+        ArrayList<Playable> players = Game.game.getEntities().getPlayers();
 
         for (Playable player : players) {
             if (player.collidesWith(shopKeeper.getBounds())) {
