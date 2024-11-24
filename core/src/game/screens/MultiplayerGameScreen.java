@@ -3,6 +3,7 @@ package game.screens;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import game.Game;
 import game.entities.GameEntity;
+import game.entities.characters.Character;
 import game.entities.characters.playables.Adel;
 import game.levels.Level1;
 import game.net.GameData;
@@ -48,6 +49,10 @@ public final class MultiplayerGameScreen extends AbstractGameScreen implements N
                 GameEntity e = (GameEntity)actor;
                 client.updateEntityPosition(e.getId(), e.getDirection());
             }
+            if (actor instanceof Character) {
+                Character c = (Character)actor;
+                client.updateEntityShoot(c.getId(), c.getDirection());
+            }
         }
     }
 
@@ -57,6 +62,11 @@ public final class MultiplayerGameScreen extends AbstractGameScreen implements N
         if (e != null) {
             e.move(direction);
         }
+    }
+
+    @Override
+    public void shootEntity(int id, Direction direction) {
+
     }
 
     @Override

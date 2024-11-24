@@ -67,6 +67,9 @@ public class ClientThread extends Thread {
             case Messages.POSITION:
                 GameData.networkListener.moveEntity(Integer.parseInt(parts[1]), Direction.parseDirection(parts[2]));
                 break;
+            case Messages.SHOOT:
+                GameData.networkListener.shootEntity(Integer.parseInt(parts[1]), Direction.parseDirection(parts[2]));
+                break;
             case Messages.ROOM_CHANGED:
                 GameData.networkListener.changeRoom(Direction.parseDirection(parts[1]));
                 break;
@@ -87,7 +90,7 @@ public class ClientThread extends Thread {
     private void handleConnection(String state, int clientNumber, InetAddress ip) {
         this.ip = ip;
         if (state.equals(Messages.SUCCESSFUL)) {
-            GameData.clientNumber = clientNumber;
+            GameData.clientNumber = clientNumber + 1;
             connected = true;
         }
     }
@@ -114,6 +117,10 @@ public class ClientThread extends Thread {
 
     public void updateEntityPosition(int entityId, Direction direction) {
         sendMessage(Messages.POSITION + SP_C + GameData.clientNumber + SP_C + entityId + SP_C + direction);
+    }
+
+    public void updateEntityShoot(int entityId, Direction direction) {
+        sendMessage(Messages.SHOOT + SP_C + GameData.clientNumber + SP_C + entityId + SP_C + direction);
     }
 
     public void roomChanged(Direction direction) {

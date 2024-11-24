@@ -3,6 +3,8 @@ package game.entities.characters.playables;
 import game.Game;
 import game.entities.characters.Character;
 import game.entities.items.Item;
+import game.net.GameData;
+import game.screens.OnePlayerGameScreen;
 import game.utilities.Controls;
 import game.utilities.Direction;
 import game.utilities.GameAction;
@@ -22,8 +24,10 @@ public abstract class Playable extends Character {
 
     @Override
     public void update(float delta) {
-        moveCharacter();
-        shoot();
+        if (Game.game instanceof OnePlayerGameScreen || Math.abs(getId()) == GameData.clientNumber) {
+            moveCharacter();
+            shoot();
+        }
     }
 
     private void shoot() {

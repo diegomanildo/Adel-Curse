@@ -65,6 +65,9 @@ public class ServerThread extends Thread {
             case Messages.POSITION:
                 updateEntityPosition(parts);
                 break;
+            case Messages.SHOOT:
+                updateShoot(parts);
+                break;
             case Messages.ROOM_CHANGED:
                 changeRoom(parts);
                 break;
@@ -120,6 +123,13 @@ public class ServerThread extends Thread {
         int entityId = Integer.parseInt(parts[2]);
         Direction direction = Direction.parseDirection(parts[3]);
         sendMessageToAllExpect(clientId, Messages.POSITION + SP_C + entityId + SP_C + direction);
+    }
+
+    private void updateShoot(String[] parts) {
+        int clientId = Integer.parseInt(parts[1]);
+        int entityId = Integer.parseInt(parts[2]);
+        Direction direction = Direction.parseDirection(parts[3]);
+        sendMessageToAllExpect(clientId, Messages.SHOOT + SP_C + entityId + SP_C + direction);
     }
 
     private void changeRoom(String[] parts) {

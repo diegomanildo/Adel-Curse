@@ -9,5 +9,6 @@ public class Messages {
     public static final String END_GAME = "end_game";
 
     public static final String POSITION = "position";
+    public static final String SHOOT = "shoot";
     public static final String ROOM_CHANGED = "room_changed";
 }

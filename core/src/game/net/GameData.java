@@ -14,5 +14,10 @@ public class GameData {
         public void changeRoom(Direction direction) {
 
         }
+
+        @Override
+        public void shootEntity(int id, Direction direction) {
+
+        }
     };
 }
