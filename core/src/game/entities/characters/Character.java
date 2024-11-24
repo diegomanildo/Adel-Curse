@@ -82,7 +82,7 @@ public abstract class Character extends GameEntity implements Statistics {
     protected abstract void update(float delta);
 
     // Creates a bullet and then shoots it
-    protected void shoot(Direction bulletDirection) {
+    public void shoot(Direction bulletDirection) {
         shootTime.start();
 
         int moveIndex;

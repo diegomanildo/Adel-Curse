@@ -96,7 +96,7 @@ public class ServerThread extends Thread {
     }
 
     private void addClient(DatagramPacket packet) {
-        console("Client " + (clientsConnected + 1) + " connected");
+        console("Client " + clientsConnected + " connected");
         clients[clientsConnected] = new Client(packet.getAddress(), packet.getPort(), clients.length);
         clientsConnected++;
     }
@@ -107,7 +107,7 @@ public class ServerThread extends Thread {
         }
 
         sendMessage(Messages.DISCONNECT, clients[index].getIp(), clients[index].getPort());
-        console("Client " + (index + 1) + " disconnected");
+        console("Client " + index + " disconnected");
         clients[index] = null;
         clientsConnected--;
         System.arraycopy(clients, index + 1, clients, index, clientsConnected - index);
@@ -121,8 +121,9 @@ public class ServerThread extends Thread {
     private void updateEntityPosition(String[] parts) {
         int clientId = Integer.parseInt(parts[1]);
         int entityId = Integer.parseInt(parts[2]);
-        Direction direction = Direction.parseDirection(parts[3]);
-        sendMessageToAllExpect(clientId, Messages.POSITION + SP_C + entityId + SP_C + direction);
+        float x = Float.parseFloat(parts[3]);
+        float y = Float.parseFloat(parts[4]);
+        sendMessageToAllExpect(clientId, Messages.POSITION + SP_C + entityId + SP_C + x + SP_C + y);
     }
 
     private void updateShoot(String[] parts) {

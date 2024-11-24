@@ -24,13 +24,22 @@ public abstract class Playable extends Character {
 
     @Override
     public void update(float delta) {
-        if (Game.game instanceof OnePlayerGameScreen || Math.abs(getId()) == GameData.clientNumber) {
-            moveCharacter();
-            shoot();
+        moveCharacter();
+        shoot();
+    }
+
+    @Override
+    public void move(Direction direction) {
+        if (online_canExecute()) {
+            super.move(direction);
         }
     }
 
     private void shoot() {
+        if (!online_canExecute()) {
+            return;
+        }
+
         Direction direction = Direction.NONE;
 
         boolean shootEnabled = true;
@@ -104,5 +113,9 @@ public abstract class Playable extends Character {
 
     public ArrayList<Item> getItems() {
         return items;
+    }
+
+    private boolean online_canExecute() {
+        return Game.game instanceof OnePlayerGameScreen || Math.abs(getId()) == (GameData.clientNumber + 1);
     }
 }

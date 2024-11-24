@@ -1,4 +1,6 @@
 package game.entities;
+import game.screens.MultiplayerGameScreen;
+import game.utilities.Direction;
 import game.utilities.MovableObject;
 
 public abstract class GameEntity extends MovableObject {
@@ -8,6 +10,15 @@ public abstract class GameEntity extends MovableObject {
 
     public GameEntity(String texturePath, int columns, int rows, float frameDuration) {
         super(texturePath, columns, rows, frameDuration);
+    }
+
+    @Override
+    public void move(Direction direction) {
+        super.move(direction);
+
+        if (MultiplayerGameScreen.client != null) {
+            MultiplayerGameScreen.client.updateEntityPosition(getId(), getX(), getY());
+        }
     }
 
     public int getId() {

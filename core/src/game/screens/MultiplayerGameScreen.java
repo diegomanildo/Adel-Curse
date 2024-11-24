@@ -1,9 +1,6 @@
 package game.screens;
 
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import game.Game;
-import game.entities.GameEntity;
-import game.entities.characters.Character;
 import game.entities.characters.playables.Adel;
 import game.levels.Level1;
 import game.net.GameData;
@@ -42,31 +39,11 @@ public final class MultiplayerGameScreen extends AbstractGameScreen implements N
         if (!client.isConnected()) {
             Game.deathScreen.playerDead();
         }
-
-        for (int i = 0; i < stage.getActors().size; i++) {
-            Actor actor = stage.getActors().get(i);
-            if (actor instanceof GameEntity) {
-                GameEntity e = (GameEntity)actor;
-                client.updateEntityPosition(e.getId(), e.getDirection());
-            }
-            if (actor instanceof Character) {
-                Character c = (Character)actor;
-                client.updateEntityShoot(c.getId(), c.getDirection());
-            }
-        }
     }
 
     @Override
-    public void moveEntity(int id, Direction direction) {
-        GameEntity e = getEntities().getEntity(id);
-        if (e != null) {
-            e.move(direction);
-        }
-    }
-
-    @Override
-    public void shootEntity(int id, Direction direction) {
-
+    public void moveEntity(int id, float x, float y) {
+        getEntities().getEntity(id).setPosition(x, y);
     }
 
     @Override
