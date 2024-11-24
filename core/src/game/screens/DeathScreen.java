@@ -3,6 +3,7 @@ package game.screens;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Array;
 import game.Game;
+import game.entities.GameEntity;
 import game.entities.characters.playables.Playable;
 import utilities.Image;
 import utilities.Render;
@@ -49,9 +50,11 @@ public class DeathScreen extends SubScreen {
     public void setShow(boolean show) {
         super.setShow(show);
         if (show) {
-            Game.game.pause();
+            Game.game.getEntities().forEach(GameEntity::pause);
+            Game.game.getTimer().pause();
         } else {
-            Game.game.resume();
+            Game.game.getEntities().forEach(GameEntity::resume);
+            Game.game.getTimer().resume();
         }
     }
 }

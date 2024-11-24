@@ -245,7 +245,6 @@ public abstract class Character extends GameEntity implements Statistics {
         deathSound.play();
         remove();
         Game.game.getEntities().remove(this);
-        Game.deathScreen.playerDead();
     }
 
     @Override

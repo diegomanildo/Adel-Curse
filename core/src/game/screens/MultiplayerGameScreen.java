@@ -1,5 +1,6 @@
 package game.screens;
 
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import game.Game;
 import game.entities.GameEntity;
 import game.entities.characters.playables.Adel;
@@ -41,17 +42,21 @@ public final class MultiplayerGameScreen extends AbstractGameScreen implements N
             Game.deathScreen.playerDead();
         }
 
-        stage.getActors().forEach(actor -> {
+        for (int i = 0; i < stage.getActors().size; i++) {
+            Actor actor = stage.getActors().get(i);
             if (actor instanceof GameEntity) {
                 GameEntity e = (GameEntity)actor;
                 client.updateEntityPosition(e.getId(), e.getDirection());
             }
-        });
+        }
     }
 
     @Override
     public void moveEntity(int id, Direction direction) {
-        getEntities().getEntity(id).move(direction);
+        GameEntity e = getEntities().getEntity(id);
+        if (e != null) {
+            e.move(direction);
+        }
     }
 
     @Override

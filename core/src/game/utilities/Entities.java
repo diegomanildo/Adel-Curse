@@ -26,7 +26,7 @@ public class Entities extends ArrayList<GameEntity> {
             }
         }
 
-        throw new RuntimeException("Entity with id " + id + "was not found.");
+        return null;
     }
 
     public ArrayList<Playable> getPlayers() {

@@ -1,5 +1,6 @@
 package game.entities.characters.playables;
 
+import game.Game;
 import game.entities.characters.Character;
 import game.entities.items.Item;
 import game.utilities.Controls;
@@ -73,6 +74,12 @@ public abstract class Playable extends Character {
         }
 
         move(direction);
+    }
+
+    @Override
+    protected void onDeath() {
+        Game.deathScreen.playerDead();
+        super.onDeath();
     }
 
     public void addItem(Item i) {

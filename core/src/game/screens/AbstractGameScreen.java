@@ -176,18 +176,23 @@ public class AbstractGameScreen extends SubScreen {
         } else if (this instanceof OnePlayerGameScreen) {
             return getPlayers().get(0);
         } else {
-            return getPlayers().get(GameData.clientNumber);
+            try {
+                return getPlayers().get(GameData.clientNumber);
+            } catch (IndexOutOfBoundsException e) {
+                return new Adel();
+            }
         }
     }
 
     public Entities getEntities() {
         Entities entities = new Entities();
 
-        stage.getActors().forEach(actor -> {
+        for (int i = 0; i < stage.getActors().size; i++) {
+            com.badlogic.gdx.scenes.scene2d.Actor actor = stage.getActors().get(i);
             if (actor instanceof GameEntity) {
                 entities.add((GameEntity) actor);
             }
-        });
+        }
 
         return entities;
     }
