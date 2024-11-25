@@ -34,7 +34,7 @@ public class Hud extends SubScreen {
         table.add(timerLabel).center().top().pad(10f).expandX();
         table.add(miniMap).right().top().pad(10f);
         table.row();
-        table.add(itemListShower).colspan(3).center().top().pad(20f).padRight(30f).expandX();
+        table.add(itemListShower).colspan(3).right().top().pad(20f).padRight(30f).expandX();
 
         stage.addActor(table);
     }

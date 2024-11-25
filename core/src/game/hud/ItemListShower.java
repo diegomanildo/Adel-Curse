@@ -6,6 +6,7 @@ import utilities.Group;
 import java.util.ArrayList;
 
 public class ItemListShower extends Group {
+    private static final int MAX_ITEMS_PER_ROW = 5;
     private final ArrayList<Item> items;
 
     public ItemListShower(ArrayList<Item> items) {
@@ -32,11 +33,16 @@ public class ItemListShower extends Group {
     private void arrangeItems() {
         float xOffset = 10f;
         float yOffset = 10f;
+        float currentY = 0f;
         float currentX = 0f;
 
         for (int i = getChildren().size - 1; i >= 0; i--) {
-            getChildren().get(i).setPosition(currentX, yOffset);
+            getChildren().get(i).setPosition(currentX, currentY);
             currentX -= getChildren().get(i).getWidth() + xOffset;
+            if (i % MAX_ITEMS_PER_ROW == 0) {
+                currentX = 0f;
+                currentY -= getChildren().get(i).getHeight() + yOffset;
+            }
         }
     }
 }

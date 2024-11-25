@@ -4,7 +4,7 @@ public enum FilePaths {
     IMAGES("imgs/"),
     AUDIO("audio/"),
     FONTS("fonts/"),
-    BACKGROUNDS(IMAGES + "backgrounds/"),
+    BACKGROUNDS("backgrounds/"),
     CHARACTERS(IMAGES + "characters/"),
     ITEMS(IMAGES + "items/"),
     ICONS(IMAGES + "icons/"),

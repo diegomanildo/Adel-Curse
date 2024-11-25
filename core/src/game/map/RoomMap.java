@@ -5,15 +5,13 @@ import game.rooms.BossRoom;
 import game.rooms.EnemyRoom;
 import game.rooms.Room;
 import utilities.Group;
+import utilities.Utils;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class RoomMap extends Group {
-    private static final Random RANDOM = new Random();
-
     private final Room[][] map;
     private final int rows;
     private final int columns;
@@ -42,7 +40,7 @@ public class RoomMap extends Group {
 
     private void generateMap(int quantity) {
         while (quantity > 0 && !openPositions.isEmpty()) {
-            Vector2 position = openPositions.remove(RANDOM.nextInt(openPositions.size()));
+            Vector2 position = openPositions.remove(Utils.r.nextInt(openPositions.size()));
             createRoomAt((int) position.x, (int) position.y);
             quantity--;
         }
@@ -134,7 +132,7 @@ public class RoomMap extends Group {
 
         // Place the ShopRoom in a random location from the available spots
         if (!possibleLocations.isEmpty()) {
-            Vector2 shopPosition = possibleLocations.get(RANDOM.nextInt(possibleLocations.size()));
+            Vector2 shopPosition = possibleLocations.get(Utils.r.nextInt(possibleLocations.size()));
             createRoomAt((int) shopPosition.x, (int) shopPosition.y, roomTypes.getShopRoom(), false);
         }
     }
