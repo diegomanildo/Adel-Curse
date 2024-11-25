@@ -4,32 +4,28 @@ import game.Game;
 import game.entities.characters.Character;
 import game.entities.characters.playables.Adel;
 import game.levels.Level1;
+import game.net.Client;
 import game.net.GameData;
 import game.net.NetworkActionsListener;
-import game.net.threads.Client;
+import game.net.Server;
 import game.utilities.Direction;
 
 public final class MultiplayerGameScreen extends AbstractGameScreen implements NetworkActionsListener {
-    public static final int PLAYER1_ID = -1;
-    public static final int PLAYER2_ID = -2;
+    public static final int PLAYERS = Server.MAX_CLIENTS;
 
     public static Client client;
 
     public MultiplayerGameScreen() {
         super();
-
         level = new Level1();
-        Adel p1 = new Adel();
-        p1.setPosition(level.getInitX() - p1.getWidth() / 2f, level.getInitY() - p1.getHeight() / 2f);
-        p1.setId(PLAYER1_ID);
-
-        Adel p2 = new Adel();
-        p2.setPosition(level.getInitX() - p2.getWidth() / 2f, level.getInitY() - p2.getHeight() / 2f);
-        p2.setId(PLAYER2_ID);
-
         stage.addActor(level);
-        stage.addActor(p1);
-        stage.addActor(p2);
+
+        for (int i = 0; i < PLAYERS; i++) {
+            Adel player = new Adel(i);
+            player.setPosition(level.getInitX() - player.getWidth() / 2f, level.getInitY() - player.getHeight() / 2f);
+            player.setId(-(i + 1));
+            stage.addActor(player);
+        }
 
         GameData.networkListener = this;
     }

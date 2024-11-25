@@ -1,7 +1,5 @@
-package game.net.threads;
+package game.net;
 
-import game.net.ClientData;
-import game.net.Messages;
 import game.utilities.Direction;
 
 import java.io.IOException;
@@ -12,7 +10,7 @@ import java.net.InetAddress;
 public class Server extends Thread {
     public static final String SP_C = "!"; // Special character
     public static final int PORT = 22121;
-    private static final int MAX_CLIENTS = 2;
+    public static final int MAX_CLIENTS = 2;
 
     private final DatagramSocket socket;
     private boolean end;

@@ -3,15 +3,18 @@ package menu;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import game.net.threads.Client;
+import game.net.Client;
 import game.screens.MultiplayerGameScreen;
+import menu.config.BasicOptionsScreen;
 import utilities.Label;
 import utilities.Render;
+import utilities.Screen;
 
-public class WaitingMenuScreen extends BasicMainMenuScreen {
+public class WaitingMenuScreen extends BasicOptionsScreen {
     private final Label label;
 
-    public WaitingMenuScreen() {
+    public WaitingMenuScreen(Screen backScreen) {
+        super(backScreen);
         MultiplayerGameScreen.client = new Client();
         MultiplayerGameScreen.client.start();
 
@@ -38,6 +41,11 @@ public class WaitingMenuScreen extends BasicMainMenuScreen {
             backgroundSong.fadeOut(FADE_TIME);
             Render.setScreenToGame(MultiplayerGameScreen.class);
         }
+    }
+
+    @Override
+    protected String getTitleScreen() {
+        return "";
     }
 
     @Override

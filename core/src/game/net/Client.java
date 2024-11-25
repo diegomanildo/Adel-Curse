@@ -1,7 +1,5 @@
-package game.net.threads;
+package game.net;
 
-import game.net.GameData;
-import game.net.Messages;
 import game.utilities.Direction;
 import utilities.Render;
 
