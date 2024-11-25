@@ -1,7 +1,7 @@
 package game.rooms;
 
 import game.Game;
-import game.entities.characters.enemies.bosses.DeadEye;
+import game.entities.characters.enemies.DeadEye;
 import game.map.RoomKinds;
 import utilities.audio.Song;
 

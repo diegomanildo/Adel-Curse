@@ -18,10 +18,7 @@ import utilities.Render;
 import utilities.Screen;
 import utilities.audio.Song;
 
-import java.io.Serializable;
-
-public abstract class Level extends Group implements Serializable {
-    private static final long serialVersionUID = 6236234L;
+public abstract class Level extends Group {
     private static final String START_TEXT_KEY = "StartText";
 
     private Song levelSong;

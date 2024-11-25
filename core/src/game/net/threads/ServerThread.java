@@ -114,7 +114,7 @@ public class ServerThread extends Thread {
         clients[clientsConnected] = null;
 
         if (clientsConnected + 1 >= MAX_CLIENTS && clientsConnected < MAX_CLIENTS) {
-            sendMessageToAll(Messages.END_GAME);
+            sendMessageToAllExpect(index, Messages.END_GAME);
         }
     }
 
