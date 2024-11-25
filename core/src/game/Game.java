@@ -26,19 +26,19 @@ public final class Game extends Screen {
         if (game == MultiplayerGameScreen.class) {
             System.out.println("You are client n°" + GameData.clientNumber);
         }
-        if (Game.game == null) {
-            try {
-                Game.game = game.newInstance();
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
+
+        try {
+            Game.game = game.newInstance();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
+
         chat = new ChatScreen();
         hud = new Hud();
-        pauseScreen = new PauseScreen(Game::exit);
+        pauseScreen = new PauseScreen();
         shopScreen = new ShopScreen();
-        deathScreen = new DeathScreen(Game::exit);
-        winScreen = new WinScreen(Game::exit);
+        deathScreen = new DeathScreen();
+        winScreen = new WinScreen();
 
         addSubScreen(Game.game);
         addSubScreen(chat);
@@ -65,18 +65,21 @@ public final class Game extends Screen {
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
             pauseScreen.setShow(true);
         } else if (Gdx.input.isKeyJustPressed(Input.Keys.F1)) {
-            pauseScreen.setShow(true);
+            game.getPlayer().setDamage(50);
         }
     }
 
     public static void exit() {
         Render.sr.setProjectionMatrix(oldShapeRendererMatrix);
-
-        game.getLevel().getSong().fadeOut(FADE_TIME);
-        BasicMainMenuScreen.backgroundSong.fadeIn(FADE_TIME, true);
+        changeSong();
         if (MultiplayerGameScreen.client != null) {
             MultiplayerGameScreen.client.end();
         }
         Gdx.app.postRunnable(() -> Render.setScreen(new MainMenuScreen()));
+    }
+
+    public static void changeSong() {
+        game.getLevel().getSong().fadeOut(FADE_TIME);
+        BasicMainMenuScreen.backgroundSong.fadeIn(FADE_TIME, true);
     }
 }

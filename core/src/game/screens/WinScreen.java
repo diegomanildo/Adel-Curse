@@ -7,7 +7,7 @@ import utilities.Render;
 import utilities.TextButton;
 
 public class WinScreen extends ImageSubScreen {
-    public WinScreen(Runnable backFunction) {
+    public WinScreen() {
         super("backgrounds/deathScreen.png");
         setShow(false);
 
@@ -17,8 +17,8 @@ public class WinScreen extends ImageSubScreen {
         Array<TextButton> buttons = new Array<>();
 
         buttons.addAll(
-                new TextButton("Reintentar", () -> Render.setScreen(new Game(Game.game.getClass()))), //playButton
-                new TextButton("Volver al menu", backFunction)//backButton
+                new TextButton("Reintentar", Render::setScreenToGame), //playButton
+                new TextButton("Volver al menu", Game::exit)//backButton
         );
 
         buttons.forEach(b -> {
