@@ -1,6 +1,7 @@
 package game.screens;
 
 import game.Game;
+import game.entities.characters.Character;
 import game.entities.characters.playables.Adel;
 import game.levels.Level1;
 import game.net.GameData;
@@ -50,6 +51,16 @@ public final class MultiplayerGameScreen extends AbstractGameScreen implements N
     protected void moveCamera(Direction direction) {
         super.moveCamera(direction);
         client.roomChanged(direction);
+    }
+
+    @Override
+    public void createShoot(int id, Direction direction) {
+        ((Character)getEntities().getEntity(id)).shoot(direction);
+    }
+
+    @Override
+    public void endGame() {
+        Game.exit();
     }
 
     @Override

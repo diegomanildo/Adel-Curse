@@ -104,8 +104,4 @@ public abstract class GameAnimation extends Actor {
     public void setStop(boolean stop) {
         this.stopped = stop;
     }
-
-    public void setTextureRegion(String texturePath, int columns, int rows){
-        this.frames = getFrames(texturePath, columns, rows);
-    }
 }

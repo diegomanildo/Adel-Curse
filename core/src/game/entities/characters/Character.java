@@ -10,6 +10,7 @@ import game.entities.Statistics;
 import game.entities.characters.enemies.Enemy;
 import game.entities.characters.playables.Playable;
 import game.levels.Level;
+import game.screens.MultiplayerGameScreen;
 import game.utilities.Direction;
 import game.utilities.Hitbox;
 import utilities.*;
@@ -114,6 +115,10 @@ public abstract class Character extends GameEntity implements Statistics {
             } else {
                 shootTime.reset();
             }
+        }
+
+        if (MultiplayerGameScreen.client != null) {
+            MultiplayerGameScreen.client.createShoot(getId(), bulletDirection);
         }
     }
 

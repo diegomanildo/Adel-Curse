@@ -66,7 +66,7 @@ public class ServerThread extends Thread {
                 updateEntityPosition(parts);
                 break;
             case Messages.SHOOT:
-                updateShoot(parts);
+                createShoot(parts);
                 break;
             case Messages.ROOM_CHANGED:
                 changeRoom(parts);
@@ -81,7 +81,7 @@ public class ServerThread extends Thread {
             return false;
         }
 
-        sendMessage(Messages.CONNECT + SP_C + Messages.SUCCESSFUL + SP_C + clientsConnected, packet.getAddress(), packet.getPort());
+        sendMessage(Messages.CONNECT + SP_C + clientsConnected, packet.getAddress(), packet.getPort());
         addClient(packet);
         return true;
     }
@@ -126,7 +126,7 @@ public class ServerThread extends Thread {
         sendMessageToAllExpect(clientId, Messages.POSITION + SP_C + entityId + SP_C + x + SP_C + y);
     }
 
-    private void updateShoot(String[] parts) {
+    private void createShoot(String[] parts) {
         int clientId = Integer.parseInt(parts[1]);
         int entityId = Integer.parseInt(parts[2]);
         Direction direction = Direction.parseDirection(parts[3]);

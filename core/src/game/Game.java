@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Matrix4;
 import game.hud.Hud;
+import game.net.GameData;
 import game.screens.*;
 import menu.BasicMainMenuScreen;
 import menu.MainMenuScreen;
@@ -25,6 +26,9 @@ public final class Game extends Screen implements Serializable {
 
     public Game(Class<? extends AbstractGameScreen> game) {
         super();
+        if (game == MultiplayerGameScreen.class) {
+            System.out.println("You are client n°" + GameData.clientNumber);
+        }
         if (Game.game == null) {
             try {
                 Game.game = game.newInstance();
@@ -61,6 +65,8 @@ public final class Game extends Screen implements Serializable {
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
             pauseScreen.setShow(true);
+        } else if (Gdx.input.isKeyJustPressed(Input.Keys.F1)) {
+            game.getPlayer().damage(1);
         }
     }
 
@@ -69,6 +75,9 @@ public final class Game extends Screen implements Serializable {
 
         game.getLevel().getSong().fadeOut(FADE_TIME);
         BasicMainMenuScreen.backgroundSong.fadeIn(FADE_TIME, true);
-        Render.setScreen(new MainMenuScreen());
+        if (MultiplayerGameScreen.client != null) {
+            MultiplayerGameScreen.client.end();
+        }
+        Gdx.app.postRunnable(() -> Render.setScreen(new MainMenuScreen()));
     }
 }

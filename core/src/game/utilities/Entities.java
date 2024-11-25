@@ -1,5 +1,6 @@
 package game.utilities;
 
+import com.badlogic.gdx.utils.Array;
 import game.entities.GameEntity;
 import game.entities.characters.Character;
 import game.entities.characters.enemies.Enemy;
@@ -29,8 +30,8 @@ public class Entities extends ArrayList<GameEntity> {
         return null;
     }
 
-    public ArrayList<Playable> getPlayers() {
-        ArrayList<Playable> players = new ArrayList<>();
+    public Array<Playable> getPlayers() {
+        Array<Playable> players = new Array<>();
         for (GameEntity entity : this) {
             if (entity instanceof Playable) {
                 players.add((Playable) entity);

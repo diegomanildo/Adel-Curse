@@ -25,12 +25,7 @@ public class PauseScreen extends SubScreen {
                     backFunction.run();
                     Render.setScreen(new SettingsScreen(new Game(Game.game.getClass())));
                 }),
-                new TextButton("Volver al menu", () -> {
-                    if (MultiplayerGameScreen.client != null) {
-                        MultiplayerGameScreen.client.end();
-                    }
-                    backFunction.run();
-                })
+                new TextButton("Volver al menu", backFunction)
         );
 
         buttons.forEach(b -> {

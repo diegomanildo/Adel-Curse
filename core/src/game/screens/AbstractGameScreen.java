@@ -1,5 +1,6 @@
 package game.screens;
 
+import com.badlogic.gdx.utils.Array;
 import game.Game;
 import game.entities.GameEntity;
 import game.entities.characters.Character;
@@ -134,7 +135,7 @@ public class AbstractGameScreen extends SubScreen {
                     camera.setPosition(camera.position.x, camera.position.y + 2f * camera.viewportHeight);
                     level.changeRoom(Direction.DOWN);
                     camera.moveTo(camera.position.x, camera.position.y - camera.viewportHeight, TRANSITION_TIME, () -> {
-                        getPlayer().setPosition(getPlayer().getX(), camera.getTop() - getPlayer().getHeight() / 2f);
+                        getPlayers().forEach(p -> p.setPosition(p.getX(), camera.getTop() - p.getHeight() / 2f));
                     });
                 });
                 break;
@@ -143,7 +144,7 @@ public class AbstractGameScreen extends SubScreen {
                     camera.setPosition(camera.position.x, camera.position.y - 2f * camera.viewportHeight);
                     level.changeRoom(Direction.UP);
                     camera.moveTo(camera.position.x, camera.position.y + camera.viewportHeight, TRANSITION_TIME, () -> {
-                        getPlayer().setPosition(getPlayer().getX(), camera.getBottom() + getPlayer().getHeight() / 2f);
+                        getPlayers().forEach(p -> p.setPosition(p.getX(), camera.getBottom() + p.getHeight() / 2f));
                     });
                 });
                 break;
@@ -152,7 +153,7 @@ public class AbstractGameScreen extends SubScreen {
                     camera.setPosition(camera.position.x - 2f * camera.viewportWidth, camera.position.y);
                     level.changeRoom(Direction.RIGHT);
                     camera.moveTo(camera.position.x + camera.viewportWidth, camera.position.y, TRANSITION_TIME, () -> {
-                        getPlayer().setPosition(camera.getLeft() + getPlayer().getWidth() / 2f, getPlayer().getY());
+                        getPlayers().forEach(p -> p.setPosition(camera.getLeft() + p.getWidth() / 2f, p.getY()));
                     });
                 });
                 break;
@@ -161,7 +162,7 @@ public class AbstractGameScreen extends SubScreen {
                     camera.setPosition(camera.position.x + 2f * camera.viewportWidth, camera.position.y);
                     level.changeRoom(Direction.LEFT);
                     camera.moveTo(camera.position.x - camera.viewportWidth, camera.position.y, TRANSITION_TIME, () -> {
-                        getPlayer().setPosition(camera.getRight() - getPlayer().getWidth() / 2f, getPlayer().getY());
+                        getPlayers().forEach(p -> p.setPosition(camera.getRight() - p.getWidth() / 2f, p.getY()));
                     });
                 });
                 break;
@@ -197,7 +198,7 @@ public class AbstractGameScreen extends SubScreen {
         return entities;
     }
 
-    public ArrayList<Playable> getPlayers() {
+    public Array<Playable> getPlayers() {
         return getEntities().getPlayers();
     }
 

@@ -1,30 +1,28 @@
 package game.net.threads;
 
-import game.Game;
 import game.net.GameData;
 import game.net.Messages;
 import game.utilities.Direction;
 import utilities.Render;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
-import java.util.Base64;
 
 public class ClientThread extends Thread {
     public static final int PORT = 22121;
     public static final String SP_C = ServerThread.SP_C; // Special character
 
     private InetAddress ip;
-    private final DatagramSocket socket;
+    private DatagramSocket socket;
     private boolean end;
     private boolean connected;
 
     public ClientThread() {
+        initAll();
+    }
+
+    private void initAll() {
         try {
             ip = InetAddress.getByName("255.255.255.255");
             socket = new DatagramSocket();
@@ -36,6 +34,7 @@ public class ClientThread extends Thread {
     @Override
     public void run() {
         super.run();
+        initAll();
 
         while (!end) {
             DatagramPacket packet = new DatagramPacket(new byte[1024], 1024);
@@ -59,7 +58,9 @@ public class ClientThread extends Thread {
 
         switch (parts[0]) {
             case Messages.CONNECT:
-                handleConnection(parts[1], Integer.parseInt(parts[2]), packet.getAddress());
+                GameData.clientNumber = Integer.parseInt(parts[1]);
+                connected = true;
+                ip = packet.getAddress();
                 break;
             case Messages.DISCONNECT:
                 GameData.clientNumber = -1;
@@ -68,9 +69,9 @@ public class ClientThread extends Thread {
             case Messages.POSITION:
                 GameData.networkListener.moveEntity(Integer.parseInt(parts[1]), Float.parseFloat(parts[2]), Float.parseFloat(parts[3]));
                 break;
-//            case Messages.SHOOT:
-//                GameData.networkListener.shootEntity(Integer.parseInt(parts[1]), Direction.parseDirection(parts[2]));
-//                break;
+            case Messages.SHOOT:
+                GameData.networkListener.createShoot(Integer.parseInt(parts[1]), Direction.parseDirection(parts[2]));
+                break;
             case Messages.ROOM_CHANGED:
                 GameData.networkListener.changeRoom(Direction.parseDirection(parts[1]));
                 break;
@@ -78,21 +79,10 @@ public class ClientThread extends Thread {
                 Render.startGame = true;
                 break;
             case Messages.END_GAME:
-                if (Game.deathScreen != null) {
-                    Game.deathScreen.playerDead();
-                    System.out.println("[Client " + GameData.clientNumber + "] Ended game");
-                }
+                GameData.networkListener.endGame();
                 break;
             default:
                 throw new RuntimeException("Message not recognized: " + parts[0]);
-        }
-    }
-
-    private void handleConnection(String state, int clientNumber, InetAddress ip) {
-        this.ip = ip;
-        if (state.equals(Messages.SUCCESSFUL)) {
-            GameData.clientNumber = clientNumber;
-            connected = true;
         }
     }
 
@@ -113,7 +103,7 @@ public class ClientThread extends Thread {
     }
 
     public boolean isConnected() {
-        return connected;
+        return GameData.clientNumber != GameData.NOT_CONNECTED;
     }
 
     public void updateEntityPosition(int entityId, float x, float y) {
@@ -124,6 +114,10 @@ public class ClientThread extends Thread {
         sendMessage(Messages.ROOM_CHANGED + SP_C + GameData.clientNumber + SP_C + direction);
     }
 
+    public void createShoot(int entityId, Direction direction) {
+        sendMessage(Messages.SHOOT + SP_C + GameData.clientNumber + SP_C + entityId + SP_C + direction);
+    }
+    /*
     private String getEncrypted(Object obj) {
         try {
             ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
@@ -151,4 +145,5 @@ public class ClientThread extends Thread {
             throw new RuntimeException(e);
         }
     }
+    */
 }

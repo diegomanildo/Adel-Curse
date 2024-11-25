@@ -1,6 +1,7 @@
 package game.rooms;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.utils.Array;
 import game.Game;
 import game.entities.ShopKeeper;
 import game.entities.characters.playables.Playable;
@@ -39,7 +40,7 @@ public final class ShopRoom extends Room {
     public void act(float delta) {
         super.act(delta);
 
-        ArrayList<Playable> players = Game.game.getEntities().getPlayers();
+        Array<Playable> players = Game.game.getEntities().getPlayers();
 
         for (Playable player : players) {
             if (player.collidesWith(shopKeeper.getBounds())) {

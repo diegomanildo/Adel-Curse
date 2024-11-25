@@ -51,8 +51,8 @@ public abstract class Enemy extends Character {
 
     @Override
     protected void update(float delta) {
-        float playerX = Game.game.getPlayer().getX();
-        float playerY = Game.game.getPlayer().getY();
+        float playerX = Game.game.getPlayers().random().getX();
+        float playerY = Game.game.getPlayers().random().getY();
 
         float enemyX = getX();
         float enemyY = getY();
