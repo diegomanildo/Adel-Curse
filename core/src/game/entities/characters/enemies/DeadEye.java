@@ -11,6 +11,6 @@ public class DeadEye extends Enemy {
     @Override
     protected void onDeath() {
         super.onDeath();
-        Game.deathScreen.setShow(true);
+        Game.winScreen.setShow(true);
     }
 }

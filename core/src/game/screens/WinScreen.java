@@ -8,7 +8,7 @@ import utilities.TextButton;
 
 public class WinScreen extends ImageSubScreen {
     public WinScreen() {
-        super("backgrounds/deathScreen.png");
+        super("backgrounds/winScreen.png");
         setShow(false);
 
         Table table = new Table();
