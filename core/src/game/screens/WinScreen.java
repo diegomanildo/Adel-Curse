@@ -3,13 +3,11 @@ package game.screens;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Array;
 import game.Game;
-import game.entities.GameEntity;
-import game.entities.characters.playables.Playable;
 import utilities.Render;
 import utilities.TextButton;
 
-public class DeathScreen extends ImageSubScreen {
-    public DeathScreen(Runnable backFunction) {
+public class WinScreen extends ImageSubScreen {
+    public WinScreen(Runnable backFunction) {
         super("backgrounds/deathScreen.png");
         setShow(false);
 
@@ -29,27 +27,5 @@ public class DeathScreen extends ImageSubScreen {
         });
 
         stage.addActor(table);
-    }
-
-    public void playerDead() {
-        for (Playable player : Game.game.getPlayers()) {
-            if (!player.isDeath()) {
-                return;
-            }
-        }
-
-        setShow(true);
-    }
-
-    @Override
-    public void setShow(boolean show) {
-        super.setShow(show);
-        if (show) {
-            Game.game.getEntities().forEach(GameEntity::pause);
-            Game.game.getTimer().pause();
-        } else {
-            Game.game.getEntities().forEach(GameEntity::resume);
-            Game.game.getTimer().resume();
-        }
     }
 }

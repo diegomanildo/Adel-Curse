@@ -11,17 +11,14 @@ import menu.MainMenuScreen;
 import utilities.Render;
 import utilities.Screen;
 
-import java.io.Serializable;
-
-public final class Game extends Screen implements Serializable {
-    private static final long serialVersionUID = 1234234L;
-
+public final class Game extends Screen {
     public static AbstractGameScreen game;
     public static ChatScreen chat;
     public static Hud hud;
     public static PauseScreen pauseScreen;
     public static ShopScreen shopScreen;
     public static DeathScreen deathScreen;
+    public static WinScreen winScreen;
     private static Matrix4 oldShapeRendererMatrix;
 
     public Game(Class<? extends AbstractGameScreen> game) {
@@ -41,6 +38,7 @@ public final class Game extends Screen implements Serializable {
         pauseScreen = new PauseScreen(Game::exit);
         shopScreen = new ShopScreen();
         deathScreen = new DeathScreen(Game::exit);
+        winScreen = new WinScreen(Game::exit);
 
         addSubScreen(Game.game);
         addSubScreen(chat);
@@ -48,6 +46,7 @@ public final class Game extends Screen implements Serializable {
         addSubScreen(shopScreen);
         addSubScreen(pauseScreen);
         addSubScreen(deathScreen);
+        addSubScreen(winScreen);
     }
 
     @Override
@@ -66,7 +65,7 @@ public final class Game extends Screen implements Serializable {
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
             pauseScreen.setShow(true);
         } else if (Gdx.input.isKeyJustPressed(Input.Keys.F1)) {
-            game.getPlayer().damage(1);
+            pauseScreen.setShow(true);
         }
     }
 
