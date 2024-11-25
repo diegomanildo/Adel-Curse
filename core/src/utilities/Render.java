@@ -5,6 +5,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.ScreenUtils;
+import game.Game;
+import game.screens.AbstractGameScreen;
+import game.screens.MultiplayerGameScreen;
+import game.screens.OnePlayerGameScreen;
 
 import java.lang.management.ManagementFactory;
 
@@ -39,6 +43,27 @@ public class Render {
 
     public static void clear(Color c) {
         clear(c.r, c.g, c.b, c.a);
+    }
+
+    public static Class<? extends AbstractGameScreen> getGameClass() {
+        Class<?> clazz = Game.game.getClass();
+
+        if (clazz.equals(OnePlayerGameScreen.class)) {
+            return OnePlayerGameScreen.class;
+        } else if (clazz.equals(MultiplayerGameScreen.class)) {
+            return MultiplayerGameScreen.class;
+        } else {
+            throw new RuntimeException("Class " + clazz.getSimpleName() + " not implemented");
+        }
+    }
+
+    public static void setScreenToGame(Class<? extends AbstractGameScreen> gameClass) {
+        Class<? extends AbstractGameScreen> gClass = gameClass != null ? gameClass : getGameClass();
+        setScreen(new Game(gClass));
+    }
+
+    public static void setScreenToGame() {
+        setScreenToGame(null);
     }
 
     public static void setScreen(Screen s, boolean firstTime) {

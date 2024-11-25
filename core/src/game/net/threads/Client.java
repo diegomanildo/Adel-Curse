@@ -9,16 +9,16 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 
-public class ClientThread extends Thread {
+public class Client extends Thread {
     public static final int PORT = 22121;
-    public static final String SP_C = ServerThread.SP_C; // Special character
+    public static final String SP_C = Server.SP_C; // Special character
 
     private InetAddress ip;
     private DatagramSocket socket;
     private boolean end;
     private boolean connected;
 
-    public ClientThread() {
+    public Client() {
         initAll();
     }
 

@@ -3,8 +3,7 @@ package menu;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import game.Game;
-import game.net.threads.ClientThread;
+import game.net.threads.Client;
 import game.screens.MultiplayerGameScreen;
 import utilities.Label;
 import utilities.Render;
@@ -13,7 +12,7 @@ public class WaitingMenuScreen extends BasicMainMenuScreen {
     private final Label label;
 
     public WaitingMenuScreen() {
-        MultiplayerGameScreen.client = new ClientThread();
+        MultiplayerGameScreen.client = new Client();
         MultiplayerGameScreen.client.start();
 
         Table table = new Table();
@@ -37,7 +36,7 @@ public class WaitingMenuScreen extends BasicMainMenuScreen {
 
         if (Render.startGame) {
             backgroundSong.fadeOut(FADE_TIME);
-            Render.setScreen(new Game(MultiplayerGameScreen.class));
+            Render.setScreenToGame(MultiplayerGameScreen.class);
         }
     }
 

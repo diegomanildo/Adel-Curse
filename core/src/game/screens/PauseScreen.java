@@ -3,13 +3,11 @@ package game.screens;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Array;
 import game.Game;
-import menu.config.SettingsScreen;
-import utilities.Render;
 import utilities.SubScreen;
 import utilities.TextButton;
 
 public class PauseScreen extends SubScreen {
-    public PauseScreen(Runnable backFunction) {
+    public PauseScreen() {
         super();
 
         setShow(false);
@@ -21,11 +19,7 @@ public class PauseScreen extends SubScreen {
 
         buttons.addAll(
                 new TextButton("Reanudar", () -> setShow(false)),
-                new TextButton("Configuracion", () -> {
-                    backFunction.run();
-                    Render.setScreen(new SettingsScreen(new Game(Game.game.getClass())));
-                }),
-                new TextButton("Volver al menu", backFunction)
+                new TextButton("Volver al menu", Game::exit)
         );
 
         buttons.forEach(b -> {

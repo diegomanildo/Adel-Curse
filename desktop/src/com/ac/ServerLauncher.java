@@ -1,10 +1,10 @@
 package com.ac;
 
-import game.net.threads.ServerThread;
+import game.net.threads.Server;
 
 public class ServerLauncher {
 	public static void main(String[] args) {
-		ServerThread sv = new ServerThread();
+		Server sv = new Server();
 		sv.start();
 	}
 }

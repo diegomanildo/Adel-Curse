@@ -1,6 +1,6 @@
 package game.net.threads;
 
-import game.net.Client;
+import game.net.ClientData;
 import game.net.Messages;
 import game.utilities.Direction;
 
@@ -9,17 +9,17 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 
-public class ServerThread extends Thread {
+public class Server extends Thread {
     public static final String SP_C = "!"; // Special character
     public static final int PORT = 22121;
     private static final int MAX_CLIENTS = 2;
 
     private final DatagramSocket socket;
     private boolean end;
-    private final Client[] clients = new Client[MAX_CLIENTS];
+    private final ClientData[] clients = new ClientData[MAX_CLIENTS];
     private int clientsConnected;
 
-    public ServerThread() {
+    public Server() {
         try {
             socket = new DatagramSocket(PORT);
         } catch (Exception e) {
@@ -97,7 +97,7 @@ public class ServerThread extends Thread {
 
     private void addClient(DatagramPacket packet) {
         console("Client " + clientsConnected + " connected");
-        clients[clientsConnected] = new Client(packet.getAddress(), packet.getPort(), clients.length);
+        clients[clientsConnected] = new ClientData(packet.getAddress(), packet.getPort(), clients.length);
         clientsConnected++;
     }
 

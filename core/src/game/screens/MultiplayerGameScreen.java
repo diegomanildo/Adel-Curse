@@ -6,14 +6,14 @@ import game.entities.characters.playables.Adel;
 import game.levels.Level1;
 import game.net.GameData;
 import game.net.NetworkActionsListener;
-import game.net.threads.ClientThread;
+import game.net.threads.Client;
 import game.utilities.Direction;
 
 public final class MultiplayerGameScreen extends AbstractGameScreen implements NetworkActionsListener {
     public static final int PLAYER1_ID = -1;
     public static final int PLAYER2_ID = -2;
 
-    public static ClientThread client;
+    public static Client client;
 
     public MultiplayerGameScreen() {
         super();
