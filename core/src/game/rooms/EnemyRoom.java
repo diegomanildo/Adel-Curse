@@ -5,10 +5,12 @@ import game.entities.GameEntity;
 import game.entities.characters.playables.Playable;
 import game.entities.items.Item;
 import game.map.Door;
+import game.net.GameData;
+import game.net.Server;
+import game.screens.MultiplayerGameScreen;
 import game.utilities.Direction;
 import game.utilities.EntityClassList;
 
-import java.util.ArrayList;
 import java.util.Random;
 
 public abstract class EnemyRoom extends Room {
@@ -17,7 +19,6 @@ public abstract class EnemyRoom extends Room {
     private static final Random random = new Random();
     private final int quantityOfEntities;
     private boolean spawnEntities = true;
-    private ArrayList<Item> itemList = new ArrayList<>();
     private boolean spawnLeft = false;
     private boolean spawnRight = false;
     private boolean spawnUp = false;
@@ -77,6 +78,10 @@ public abstract class EnemyRoom extends Room {
     }
 
     private void generateEntity() {
+        if (MultiplayerGameScreen.client == null || GameData.clientNumber != Server.OWNER) {
+            return;
+        }
+
         float playerX = Game.game.getPlayer().getX();
         float playerY = Game.game.getPlayer().getY();
 
@@ -101,10 +106,6 @@ public abstract class EnemyRoom extends Room {
         return entity;
     }
 
-    public boolean getSpawnEntities() {
-        return spawnEntities;
-    }
-
     private void createItems() {
         Door[] doors = getDoors();
         for (Door door : doors) {
@@ -118,8 +119,7 @@ public abstract class EnemyRoom extends Room {
                         spawnLeft = true;
                     }
                     if (itemLeft != null) {
-                        getStage().addActor(itemLeft);
-                        itemList.add(itemLeft);
+                        createEntity(itemLeft);
                     }
                     break;
                 }
@@ -131,8 +131,7 @@ public abstract class EnemyRoom extends Room {
                         spawnRight = true;
                     }
                     if (itemRight != null) {
-                        getStage().addActor(itemRight);
-                        itemList.add(itemRight);
+                        createEntity(itemRight);
                     }
                     break;
                 }
@@ -144,8 +143,7 @@ public abstract class EnemyRoom extends Room {
                         spawnUp = true;
                     }
                     if (itemUp != null) {
-                        getStage().addActor(itemUp);
-                        itemList.add(itemUp);
+                        createEntity(itemUp);
                     }
                     break;
                 }
@@ -157,8 +155,7 @@ public abstract class EnemyRoom extends Room {
                         spawnDown = true;
                     }
                     if (itemDown != null) {
-                        getStage().addActor(itemDown);
-                        itemList.add(itemDown);
+                        createEntity(itemDown);
                     }
                     break;
             }

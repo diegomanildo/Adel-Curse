@@ -1,8 +1,5 @@
 package game.map;
 
-import game.entities.GameEntity;
-import game.entities.characters.Character;
-import game.entities.characters.enemies.Enemy;
 import game.rooms.BossRoom;
 import game.rooms.Room;
 import game.rooms.ShopRoom;
@@ -49,26 +46,21 @@ public class MapConverter {
         for (int row = 0; row < roomsMap.length; row++) {
             for (int column = 0; column < roomsMap[row].length; column++) {
                 Room room = roomsMap[row][column];
-                StringBuilder traducedCharacter;
+                String traducedCharacter;
 
                 if (room == null) {
-                    traducedCharacter = new StringBuilder(" ");
+                    traducedCharacter = " ";
                 } else if (room instanceof BossRoom) {
-                    traducedCharacter = new StringBuilder("B");
+                    traducedCharacter = "B";
                 } else if (room instanceof ShopRoom) {
-                    traducedCharacter = new StringBuilder("S");
+                    traducedCharacter = "S";
                 } else if (room instanceof StoneRoom1) {
-                    traducedCharacter = new StringBuilder("E"); // Enemy Room
-                    StoneRoom1 stoneRoom = (StoneRoom1)room;
-
-                    for (Enemy enemy : stoneRoom.getEntities().getEnemies()) {
-                        traducedCharacter.append(enemy.toString()).append(SPLIT_CHAR3);
-                    }
+                    traducedCharacter = "E"; // Enemy Room
                 } else {
                     throw new RuntimeException("Unexpected room " + room.getClass().getSimpleName());
                 }
 
-                stringMap[row][column] = traducedCharacter.toString();
+                stringMap[row][column] = traducedCharacter;
             }
         }
 
@@ -109,15 +101,6 @@ public class MapConverter {
                     roomsMap[row][column] = roomClass == null ? null : roomClass.newInstance();
                 } catch (Exception e) {
                     throw new RuntimeException(e);
-                }
-
-                if (roomClass != null && roomsMap[row][column] != null && roomClass.equals(StoneRoom1.class)) {
-                    String[] split = character.split(SPLIT_CHAR3);
-                    for (int i = 1; i < split.length; i++) {
-                        String enemy = split[i];
-                        GameEntity e = Character.parseCharacter(enemy);
-                        roomsMap[row][column].createEntity(e);
-                    }
                 }
             }
         }

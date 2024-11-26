@@ -13,4 +13,6 @@ public class Messages {
 
     public static final String CREATE_LEVEL = "create_level";
     public static final String INIT_LEVEL = "initialize_level";
+    public static final String CREATE_ENTITY = "create_entity";
+    public static final String HP = "hp";
 }

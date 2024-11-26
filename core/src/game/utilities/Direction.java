@@ -18,6 +18,11 @@ public enum Direction {
             }
         }
 
+        StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
+        System.out.println("Stack trace del hilo actual:");
+        for (StackTraceElement element : stackTraceElements) {
+            System.out.println(element);
+        }
         throw new RuntimeException("Invalid direction: " + text);
     }
 }

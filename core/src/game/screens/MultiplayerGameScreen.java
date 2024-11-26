@@ -1,6 +1,7 @@
 package game.screens;
 
 import game.Game;
+import game.entities.GameEntity;
 import game.entities.characters.playables.Adel;
 import game.levels.Level1;
 import game.map.RoomMap;
@@ -40,6 +41,11 @@ public final class MultiplayerGameScreen extends AbstractGameScreen implements N
     }
 
     @Override
+    public void createEntity(GameEntity entity) {
+        level.getMap().getCurrent().createEntity(entity);
+    }
+
+    @Override
     public void moveEntity(int id, float x, float y, Direction direction) {
         getEntities().forEach(e -> {
             if (e.getId() == id) {
@@ -72,6 +78,15 @@ public final class MultiplayerGameScreen extends AbstractGameScreen implements N
     @Override
     public void initializeLevel(Room[][] rooms) {
         RoomMap.map = rooms;
+    }
+
+    @Override
+    public void updateHp(int id, int hp) {
+        getEntities().getCharacters().forEach(c -> {
+            if (c.getId() == id) {
+                c.setHp(hp);
+            }
+        });
     }
 
     @Override

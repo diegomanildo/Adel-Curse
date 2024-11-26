@@ -1,5 +1,6 @@
 package game.net;
 
+import game.entities.GameEntity;
 import game.map.MapConverter;
 import game.map.RoomMap;
 import game.utilities.Direction;
@@ -45,7 +46,7 @@ public class Client extends Thread {
                 socket.receive(packet);
                 processMessage(packet);
             } catch (Exception e) {
-                throw new RuntimeException(e);
+                throw new RuntimeException("\nClient " + GameData.clientNumber + ": " + e);
             }
         }
 
@@ -72,11 +73,17 @@ public class Client extends Thread {
             case Messages.INIT_LEVEL:
                 GameData.networkListener.initializeLevel(MapConverter.convertToMap(parts[1]));
                 break;
+            case Messages.CREATE_ENTITY:
+                GameData.networkListener.createEntity(GameEntity.parseEntity(parts[1]));
+                break;
             case Messages.POSITION:
                 GameData.networkListener.moveEntity(Integer.parseInt(parts[1]), Float.parseFloat(parts[2]), Float.parseFloat(parts[3]), Direction.parseDirection(parts[4]));
                 break;
             case Messages.SHOOT:
                 GameData.networkListener.createShoot(Integer.parseInt(parts[1]), Direction.parseDirection(parts[2]));
+                break;
+            case Messages.HP:
+                GameData.networkListener.updateHp(Integer.parseInt(parts[1]), Integer.parseInt(parts[2]));
                 break;
             case Messages.ROOM_CHANGED:
                 GameData.networkListener.changeRoom(Direction.parseDirection(parts[1]));
@@ -122,6 +129,14 @@ public class Client extends Thread {
 
     public void createShoot(int entityId, Direction direction) {
         sendMessage(Messages.SHOOT + SP_C + GameData.clientNumber + SP_C + entityId + SP_C + direction);
+    }
+
+    public void createEntity(GameEntity e) {
+        sendMessage(Messages.CREATE_ENTITY + SP_C + GameData.clientNumber + SP_C + e.toString());
+    }
+
+    public void updateHp(int hp) {
+        sendMessage(Messages.HP + SP_C + GameData.clientNumber + SP_C + hp);
     }
 
     /*

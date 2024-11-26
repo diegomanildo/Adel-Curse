@@ -67,8 +67,14 @@ public class Server extends java.lang.Thread {
                 int index = Integer.parseInt(parts[1]);
                 removeClient(index);
                 break;
+            case Messages.CREATE_ENTITY:
+                createEntity(parts);
+                break;
             case Messages.INIT_LEVEL:
                 sendMessageToAllExpect(OWNER, Messages.INIT_LEVEL + SP_C + parts[1]);
+                break;
+            case Messages.HP:
+                updateHp(parts);
                 break;
             case Messages.POSITION:
                 updateEntityPosition(parts);
@@ -126,6 +132,11 @@ public class Server extends java.lang.Thread {
         }
     }
 
+    private void createEntity(String[] parts) {
+        int clientId = Integer.parseInt(parts[1]);
+        sendMessageToAllExpect(clientId, Messages.CREATE_ENTITY + SP_C + parts[2]);
+    }
+
     private void updateEntityPosition(String[] parts) {
         int clientId = Integer.parseInt(parts[1]);
         int entityId = Integer.parseInt(parts[2]);
@@ -144,8 +155,15 @@ public class Server extends java.lang.Thread {
 
     private void changeRoom(String[] parts) {
         int clientId = Integer.parseInt(parts[1]);
-        String direction = parts[2];
+        Direction direction = Direction.parseDirection(parts[2]);
         sendMessageToAllExpect(clientId, Messages.ROOM_CHANGED + SP_C + direction);
+    }
+
+    private void updateHp(String[] parts) {
+        int clientId = Integer.parseInt(parts[1]);
+        int entityId = Integer.parseInt(parts[2]);
+        int hp = Integer.parseInt(parts[3]);
+        sendMessageToAllExpect(clientId, Messages.HP + SP_C + entityId + SP_C + hp);
     }
 
     public void sendMessage(String msg, int index) {

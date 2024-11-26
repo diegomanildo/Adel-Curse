@@ -5,6 +5,9 @@ import game.Game;
 import game.entities.GameEntity;
 import game.map.Door;
 import game.map.RoomKinds;
+import game.net.GameData;
+import game.net.Server;
+import game.screens.MultiplayerGameScreen;
 import game.utilities.Direction;
 import game.utilities.Entities;
 import game.utilities.Hitbox;
@@ -40,9 +43,13 @@ public class Room extends Group {
     }
 
     public void createEntity(GameEntity e) {
-        entities.add(e);
-        getStage().addActor(e);
-        Game.game.getEntities().add(e);
+        if (MultiplayerGameScreen.client != null && GameData.clientNumber == Server.OWNER) {
+            MultiplayerGameScreen.client.createEntity(e);
+        } else {
+            entities.add(e);
+            getStage().addActor(e);
+            Game.game.getEntities().add(e);
+        }
     }
 
     @Override

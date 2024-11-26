@@ -40,4 +40,37 @@ public abstract class GameEntity extends MovableObject {
     public void setId(int id) {
         this.id = id;
     }
+
+    public static final String SP_C = "¿";
+
+    @Override
+    public String toString() {
+        return getClass().getName() + SP_C + getX() + SP_C + getY() + SP_C + getId();
+    }
+
+    public static GameEntity parseEntity(String character) {
+        String[] parts = character.split(SP_C);
+        GameEntity g;
+
+        try {
+            Class<?> clazz = Class.forName(parts[0]);
+            Object ent = clazz.getDeclaredConstructor().newInstance();
+            if (ent instanceof GameEntity) {
+                g = (GameEntity) ent;
+            } else {
+                throw new RuntimeException("Unexpected class: " + clazz);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        float x = Float.parseFloat(parts[1]);
+        float y = Float.parseFloat(parts[2]);
+
+        int id = Integer.parseInt(parts[3]);
+
+        g.setPosition(x, y);
+        g.setId(id);
+        return g;
+    }
 }

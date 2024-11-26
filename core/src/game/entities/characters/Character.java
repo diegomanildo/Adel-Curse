@@ -7,9 +7,7 @@ import game.Game;
 import game.entities.Bullet;
 import game.entities.GameEntity;
 import game.entities.Statistics;
-import game.entities.characters.enemies.DeadEye;
 import game.entities.characters.enemies.Enemy;
-import game.entities.characters.enemies.Skeleton;
 import game.entities.characters.playables.Playable;
 import game.levels.Level;
 import game.screens.MultiplayerGameScreen;
@@ -86,23 +84,21 @@ public abstract class Character extends GameEntity implements Statistics {
 
     // Creates a bullet and then shoots it
     public void shoot(Direction bulletDirection, boolean threwByServer) {
-        Gdx.app.postRunnable(() -> {
-            shootTime.start();
+        shootTime.start();
 
-            int bulletIndex = getBulletIndex(bulletDirection);
+        int bulletIndex = getBulletIndex(bulletDirection);
 
-            setAnimation(bulletIndex);
+        setAnimation(bulletIndex);
 
-            if (threwByServer || shootTime.getSeconds() > 0.5f || !firstShoot) {
-                createBullet(bulletIndex - 4, bulletDirection, threwByServer);
+        if (threwByServer || shootTime.getSeconds() > 0.5f || !firstShoot) {
+            createBullet(bulletIndex - 4, bulletDirection, threwByServer);
 
-                if (!firstShoot) {
-                    firstShoot = true;
-                } else {
-                    shootTime.reset();
-                }
+            if (!firstShoot) {
+                firstShoot = true;
+            } else {
+                shootTime.reset();
             }
-        });
+        }
     }
 
     public void shoot(Direction bulletDirection) {
@@ -225,6 +221,9 @@ public abstract class Character extends GameEntity implements Statistics {
         if (isDeath()) {
             onDeath();
         }
+        if (MultiplayerGameScreen.client != null) {
+            MultiplayerGameScreen.client.updateHp(hp);
+        }
     }
 
     @Override
@@ -270,35 +269,5 @@ public abstract class Character extends GameEntity implements Statistics {
         deathSound.dispose();
         shootSound.dispose();
         bullets.forEach(Actor::dispose);
-    }
-
-    public static final String SP_C = "¿";
-
-    @Override
-    public String toString() {
-        return getClass().getSimpleName() + SP_C + getX() + SP_C + getY() + SP_C + getId();
-    }
-
-    public static GameEntity parseCharacter(String character) {
-        GameEntity g;
-
-        String[] parts = character.split(SP_C);
-
-        if (parts[0].equals(Skeleton.class.getSimpleName())) {
-            g = new Skeleton();
-        } else if (parts[0].equals(DeadEye.class.getSimpleName())) {
-            g = new DeadEye();
-        } else {
-            throw new RuntimeException("Invalid class " + parts[0]);
-        }
-
-        float x = Float.parseFloat(parts[1]);
-        float y = Float.parseFloat(parts[2]);
-
-        int id = g.getId();
-
-        g.setPosition(x, y);
-        g.setId(id);
-        return g;
     }
 }
