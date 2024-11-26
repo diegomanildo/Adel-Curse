@@ -20,8 +20,6 @@ public class RoomMap extends Group {
     public final Vector2 initRoom; // Initial room position
     private final List<Vector2> openPositions = new ArrayList<>();
 
-    public static MapConverter stringMap;
-
     public RoomMap(int quantity, int rows, int columns, RoomsArray roomTypes) {
         this.rows = rows;
         this.columns = columns;
@@ -46,8 +44,6 @@ public class RoomMap extends Group {
             createRoomAt((int) position.x, (int) position.y);
             quantity--;
         }
-
-        stringMap = new MapConverter(map);
     }
 
     private void createRoomAt(int row, int column, Class<? extends Room> roomClass, boolean initRoom) {
