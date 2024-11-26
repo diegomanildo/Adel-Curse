@@ -1,5 +1,7 @@
 package game.net;
 
+import game.map.MapConverter;
+import game.map.RoomMap;
 import game.utilities.Direction;
 import utilities.Render;
 
@@ -63,6 +65,12 @@ public class Client extends Thread {
             case Messages.DISCONNECT:
                 GameData.clientNumber = -1;
                 connected = false;
+                break;
+            case Messages.CREATE_LEVEL:
+                sendMessage(Messages.INIT_LEVEL + SP_C + MapConverter.convertToString(RoomMap.map));
+                break;
+            case Messages.INIT_LEVEL:
+                GameData.networkListener.initializeLevel(MapConverter.convertToMap(parts[1]));
                 break;
             case Messages.POSITION:
                 GameData.networkListener.moveEntity(Integer.parseInt(parts[1]), Float.parseFloat(parts[2]), Float.parseFloat(parts[3]));

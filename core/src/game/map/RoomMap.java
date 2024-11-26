@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RoomMap extends Group {
-    private final Room[][] map;
+    public static Room[][] map;
     private final int rows;
     private final int columns;
     private final RoomsArray roomTypes;

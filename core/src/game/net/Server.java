@@ -7,7 +7,8 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 
-public class Server extends Thread {
+public class Server extends java.lang.Thread {
+    private static final int OWNER = 0;
     public static final String SP_C = "!"; // Special character
     public static final int PORT = 22121;
     public static final int MAX_CLIENTS = 2;
@@ -54,11 +55,20 @@ public class Server extends Thread {
                 boolean goodConnected = connectClient(packet);
                 if (goodConnected && clientsConnected == MAX_CLIENTS) {
                     sendMessageToAll(Messages.START_GAME);
+                    try {
+                        sleep(200);
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                    sendMessage(Messages.CREATE_LEVEL, OWNER);
                 }
                 break;
             case Messages.DISCONNECT:
                 int index = Integer.parseInt(parts[1]);
                 removeClient(index);
+                break;
+            case Messages.INIT_LEVEL:
+                sendMessageToAllExpect(OWNER, Messages.INIT_LEVEL + SP_C + parts[1]);
                 break;
             case Messages.POSITION:
                 updateEntityPosition(parts);
@@ -135,6 +145,10 @@ public class Server extends Thread {
         int clientId = Integer.parseInt(parts[1]);
         String direction = parts[2];
         sendMessageToAllExpect(clientId, Messages.ROOM_CHANGED + SP_C + direction);
+    }
+
+    public void sendMessage(String msg, int index) {
+        sendMessage(msg, clients[index].getIp(), clients[index].getPort());
     }
 
     public void sendMessage(String msg, InetAddress ip, int port) {

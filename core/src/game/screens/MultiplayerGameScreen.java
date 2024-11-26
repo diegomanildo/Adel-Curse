@@ -4,10 +4,12 @@ import game.Game;
 import game.entities.characters.Character;
 import game.entities.characters.playables.Adel;
 import game.levels.Level1;
+import game.map.RoomMap;
 import game.net.Client;
 import game.net.GameData;
 import game.net.NetworkActionsListener;
 import game.net.Server;
+import game.rooms.Room;
 import game.utilities.Direction;
 
 public final class MultiplayerGameScreen extends AbstractGameScreen implements NetworkActionsListener {
@@ -57,6 +59,11 @@ public final class MultiplayerGameScreen extends AbstractGameScreen implements N
     @Override
     public void endGame() {
         Game.exit();
+    }
+
+    @Override
+    public void initializeLevel(Room[][] rooms) {
+        RoomMap.map = rooms;
     }
 
     @Override
