@@ -86,8 +86,23 @@ public abstract class Character extends GameEntity implements Statistics {
     public void shoot(Direction bulletDirection) {
         shootTime.start();
 
-        int moveIndex;
+        int bulletIndex = getBulletIndex(bulletDirection);
 
+        setAnimation(bulletIndex);
+
+        if (shootTime.getSeconds() > 0.5f || !firstShoot) {
+            createShoot(bulletIndex - 4, bulletDirection);
+
+            if (!firstShoot) {
+                firstShoot = true;
+            } else {
+                shootTime.reset();
+            }
+        }
+    }
+
+    private int getBulletIndex(Direction bulletDirection) {
+        int moveIndex;
         switch (bulletDirection) {
             case DOWN:
                 moveIndex = 4;
@@ -104,22 +119,7 @@ public abstract class Character extends GameEntity implements Statistics {
             default:
                 throw new RuntimeException("The direction " + bulletDirection + " is not valid");
         }
-
-        setAnimation(moveIndex);
-
-        if (shootTime.getSeconds() > 0.5f || !firstShoot) {
-            createShoot(moveIndex - 4, bulletDirection);
-
-            if (!firstShoot) {
-                firstShoot = true;
-            } else {
-                shootTime.reset();
-            }
-        }
-
-        if (MultiplayerGameScreen.client != null) {
-            MultiplayerGameScreen.client.createShoot(getId(), bulletDirection);
-        }
+        return moveIndex;
     }
 
     // Creates a shoot
@@ -131,6 +131,10 @@ public abstract class Character extends GameEntity implements Statistics {
         b.setPosition(getX() + b.getWidth() / 2f, getY() + b.getHeight() / 2f);
         b.setVelocity(getVelocity() * 2f);
         bullets.add(b);
+
+        if (MultiplayerGameScreen.client != null) {
+            MultiplayerGameScreen.client.createShoot(getId(), bulletDirection);
+        }
 
         if (this instanceof Playable) {
             shootSound.play();

@@ -41,8 +41,9 @@ public final class MultiplayerGameScreen extends AbstractGameScreen implements N
     }
 
     @Override
-    public void moveEntity(int id, float x, float y) {
+    public void moveEntity(int id, float x, float y, Direction direction) {
         getEntities().getEntity(id).setPosition(x, y);
+        getEntities().getEntity(id).setDirection(direction);
     }
 
     @Override

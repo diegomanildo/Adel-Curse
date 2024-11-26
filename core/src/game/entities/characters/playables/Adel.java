@@ -6,6 +6,6 @@ public class Adel extends Playable {
     }
 
     public Adel(int index) {
-        super(new Stats(6, 1), "adel/adel" + index + ".png", "adel/bullet.png");
+        super(new Stats(6, 1), "adel/adel" + index + ".png", "adel/bullet" + index + ".png");
     }
 }

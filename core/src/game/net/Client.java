@@ -70,10 +70,10 @@ public class Client extends Thread {
                 sendMessage(Messages.INIT_LEVEL + SP_C + MapConverter.convertToString(RoomMap.map));
                 break;
             case Messages.INIT_LEVEL:
-                GameData.networkListener.initializeLevel(MapConverter.convertToMap(parts[1]));
+//                GameData.networkListener.initializeLevel(MapConverter.convertToMap(parts[1]));
                 break;
             case Messages.POSITION:
-                GameData.networkListener.moveEntity(Integer.parseInt(parts[1]), Float.parseFloat(parts[2]), Float.parseFloat(parts[3]));
+                GameData.networkListener.moveEntity(Integer.parseInt(parts[1]), Float.parseFloat(parts[2]), Float.parseFloat(parts[3]), Direction.parseDirection(parts[4]));
                 break;
             case Messages.SHOOT:
                 GameData.networkListener.createShoot(Integer.parseInt(parts[1]), Direction.parseDirection(parts[2]));
@@ -112,8 +112,8 @@ public class Client extends Thread {
         return GameData.clientNumber != GameData.NOT_CONNECTED;
     }
 
-    public void updateEntityPosition(int entityId, float x, float y) {
-        sendMessage(Messages.POSITION + SP_C + GameData.clientNumber + SP_C + entityId + SP_C + x + SP_C + y);
+    public void updateEntityPosition(int entityId, float x, float y, Direction direction) {
+        sendMessage(Messages.POSITION + SP_C + GameData.clientNumber + SP_C + entityId + SP_C + x + SP_C + y + SP_C + direction);
     }
 
     public void roomChanged(Direction direction) {

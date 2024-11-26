@@ -17,7 +17,7 @@ public abstract class GameEntity extends MovableObject {
         super.move(direction);
 
         if (MultiplayerGameScreen.client != null) {
-            MultiplayerGameScreen.client.updateEntityPosition(getId(), getX(), getY());
+            MultiplayerGameScreen.client.updateEntityPosition(getId(), getX(), getY(), getDirection());
         }
     }
 

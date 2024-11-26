@@ -21,9 +21,9 @@ public class AssetManager extends com.badlogic.gdx.assets.AssetManager {
         load("imgs/characters/adel/adel2.png", Texture.class);
         load("imgs/characters/adel/adelDiamond.png", Texture.class);
         load("imgs/characters/adel/blackBullet.png", Texture.class);
-        load("imgs/characters/adel/bullet.png", Texture.class);
-        load("imgs/characters/adel/bulletGreen.png", Texture.class);
-        load("imgs/characters/adel/bulletRed.png", Texture.class);
+        load("imgs/characters/adel/bullet0.png", Texture.class);
+        load("imgs/characters/adel/bullet1.png", Texture.class);
+        load("imgs/characters/adel/bullet2.png", Texture.class);
 
         load("imgs/characters/deadEye/deadEye.png", Texture.class);
         load("imgs/characters/deadEye/bullet.png", Texture.class);

@@ -131,7 +131,8 @@ public class Server extends java.lang.Thread {
         int entityId = Integer.parseInt(parts[2]);
         float x = Float.parseFloat(parts[3]);
         float y = Float.parseFloat(parts[4]);
-        sendMessageToAllExpect(clientId, Messages.POSITION + SP_C + entityId + SP_C + x + SP_C + y);
+        Direction direction = Direction.parseDirection(parts[5]);
+        sendMessageToAllExpect(clientId, Messages.POSITION + SP_C + entityId + SP_C + x + SP_C + y + SP_C + direction);
     }
 
     private void createShoot(String[] parts) {
