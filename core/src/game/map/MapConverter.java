@@ -64,7 +64,7 @@ public class MapConverter {
 
     public static Room[][] convertToMap(String map) {
         String[][] stringMap = unflat(map);
-        Room[][] roomsMap = new Room[stringMap.length][stringMap[0].length];
+        Room[][] roomsMap = new Room[stringMap.length][maxLength(stringMap)];
 
         for (int row = 0; row < roomsMap.length; row++) {
             for (int column = 0; column < roomsMap[row].length; column++) {
@@ -100,5 +100,17 @@ public class MapConverter {
         }
 
         return roomsMap;
+    }
+
+    private static int maxLength(String[][] stringMap) {
+        int maxLength = 0;
+
+        for (String[] row : stringMap) {
+            if (row != null) {
+                maxLength = Math.max(maxLength, row.length);
+            }
+        }
+
+        return maxLength;
     }
 }

@@ -1,7 +1,6 @@
 package game.rooms;
 
 import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import game.Game;
 import game.entities.GameEntity;
 import game.map.Door;
@@ -11,6 +10,7 @@ import game.utilities.Entities;
 import game.utilities.Hitbox;
 import utilities.FilePaths;
 import utilities.Group;
+import utilities.Render;
 
 import java.util.ArrayList;
 
@@ -26,7 +26,7 @@ public class Room extends Group {
     private final ArrayList<Door> doors;
 
     protected Room(String mapFile, RoomKinds roomKind) {
-        this.map = new TmxMapLoader().load(FilePaths.ROOMS + mapFile);
+        this.map = Render.assetManager.get(FilePaths.ROOMS + mapFile);
         this.roomKind = roomKind;
         this.entities = new Entities();
         this.doors = new ArrayList<>();
