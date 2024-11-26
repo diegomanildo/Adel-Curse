@@ -1,6 +1,5 @@
 package game.net;
 
-import game.levels.Level;
 import game.rooms.Room;
 import game.utilities.Direction;
 
@@ -9,6 +8,6 @@ public interface NetworkActionsListener {
     void changeRoom(Direction direction);
     void createShoot(int id, Direction direction);
     void endGame();
-    Level getLevel();
     void initializeLevel(Room[][] rooms);
+    void removeEntity(int id);
 }

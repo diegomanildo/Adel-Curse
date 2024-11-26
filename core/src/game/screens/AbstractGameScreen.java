@@ -93,21 +93,19 @@ public class AbstractGameScreen extends SubScreen {
 
     private void checkDoors() {
         level.getHitbox();
-        for (Playable player : getEntities().getPlayers()) {
-            for (Door door : level.getDoors()) {
-                if (player.getBounds().collidesWith(door.getHitbox())) {
-                    Game.chat.createTiny(door.getDirection().name(), "Press " + Controls.getCharacter(GameAction.INTERACT));
+        for (Door door : level.getDoors()) {
+            if (getPlayer().getBounds().collidesWith(door.getHitbox())) {
+                Game.chat.createTiny(door.getDirection().name(), "Press " + Controls.getCharacter(GameAction.INTERACT));
 
-                    if (!level.getCamera().isMoving() && Controls.isJustPressed(GameAction.INTERACT)) {
-                        if (onDoorsChanged != null) {
-                            onDoorsChanged.run(door.getDirection());
-                        }
-
-                        moveCamera(door.getDirection());
+                if (!level.getCamera().isMoving() && Controls.isJustPressed(GameAction.INTERACT)) {
+                    if (onDoorsChanged != null) {
+                        onDoorsChanged.run(door.getDirection());
                     }
-                } else {
-                    Game.chat.removeChat(door.getDirection().name());
+
+                    moveCamera(door.getDirection());
                 }
+            } else {
+                Game.chat.removeChat(door.getDirection().name());
             }
         }
     }
@@ -174,7 +172,9 @@ public class AbstractGameScreen extends SubScreen {
     public Playable getPlayer() {
         if (getPlayers().isEmpty()) {
             return new Adel();
-        } else if (this instanceof OnePlayerGameScreen) {
+        }
+
+        if (this instanceof OnePlayerGameScreen) {
             return getPlayers().get(0);
         } else {
             try {

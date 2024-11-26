@@ -1,8 +1,18 @@
 package game.map;
 
-import game.rooms.*;
+import game.entities.GameEntity;
+import game.entities.characters.Character;
+import game.entities.characters.enemies.Enemy;
+import game.rooms.BossRoom;
+import game.rooms.Room;
+import game.rooms.ShopRoom;
+import game.rooms.StoneRoom1;
 
 public class MapConverter {
+    private static final String SPLIT_CHAR1 = ",";
+    private static final String SPLIT_CHAR2 = "\n";
+    private static final String SPLIT_CHAR3 = "__";
+
     private static String flat(String[][] stringMap) {
         StringBuilder builder = new StringBuilder();
 
@@ -10,11 +20,11 @@ public class MapConverter {
             for (int column = 0; column < stringMap[row].length; column++) {
                 builder.append(stringMap[row][column] == null ? " " : stringMap[row][column]);
                 if (column < stringMap[row].length - 1) {
-                    builder.append(",");
+                    builder.append(SPLIT_CHAR1);
                 }
             }
             if (row < stringMap.length - 1) {
-                builder.append("\n");
+                builder.append(SPLIT_CHAR2);
             }
         }
 
@@ -22,12 +32,12 @@ public class MapConverter {
     }
 
     private static String[][] unflat(String flatString) {
-        String[] rows = flatString.split("\n");
+        String[] rows = flatString.split(SPLIT_CHAR2);
         int numRows = rows.length;
         String[][] stringMap = new String[numRows][];
 
         for (int row = 0; row < numRows; row++) {
-            stringMap[row] = rows[row].split(",");
+            stringMap[row] = rows[row].split(SPLIT_CHAR1);
         }
 
         return stringMap;
@@ -39,23 +49,26 @@ public class MapConverter {
         for (int row = 0; row < roomsMap.length; row++) {
             for (int column = 0; column < roomsMap[row].length; column++) {
                 Room room = roomsMap[row][column];
-                String traducedCharacter;
+                StringBuilder traducedCharacter;
 
                 if (room == null) {
-                    traducedCharacter = " ";
+                    traducedCharacter = new StringBuilder(" ");
                 } else if (room instanceof BossRoom) {
-                    traducedCharacter = "B";
+                    traducedCharacter = new StringBuilder("B");
                 } else if (room instanceof ShopRoom) {
-                    traducedCharacter = "S";
-                } else if (room instanceof StoneRoom) {
-                    traducedCharacter = "I";
-                } else if (room instanceof EnemyRoom) {
-                    traducedCharacter = "E";
+                    traducedCharacter = new StringBuilder("S");
+                } else if (room instanceof StoneRoom1) {
+                    traducedCharacter = new StringBuilder("E"); // Enemy Room
+                    StoneRoom1 stoneRoom = (StoneRoom1)room;
+
+                    for (Enemy enemy : stoneRoom.getEntities().getEnemies()) {
+                        traducedCharacter.append(enemy.toString()).append(SPLIT_CHAR3);
+                    }
                 } else {
                     throw new RuntimeException("Unexpected room " + room.getClass().getSimpleName());
                 }
 
-                stringMap[row][column] = traducedCharacter;
+                stringMap[row][column] = traducedCharacter.toString();
             }
         }
 
@@ -64,10 +77,14 @@ public class MapConverter {
 
     public static Room[][] convertToMap(String map) {
         String[][] stringMap = unflat(map);
-        Room[][] roomsMap = new Room[stringMap.length][maxLength(stringMap)];
 
-        for (int row = 0; row < roomsMap.length; row++) {
-            for (int column = 0; column < roomsMap[row].length; column++) {
+        int rows = stringMap.length;
+        int columns = maxLength(stringMap);
+
+        Room[][] roomsMap = new Room[rows][columns];
+
+        for (int row = 0; row < rows; row++) {
+            for (int column = 0; column < stringMap[row].length; column++) {
                 String character = stringMap[row][column];
                 Class<? extends Room> roomClass;
 
@@ -81,11 +98,8 @@ public class MapConverter {
                     case "S":
                         roomClass = ShopRoom.class;
                         break;
-                    case "I":
-                        roomClass = StoneRoom1.class;
-                        break;
                     case "E":
-                        roomClass = EnemyRoom.class;
+                        roomClass = StoneRoom1.class;
                         break;
                     default:
                         throw new RuntimeException("Unexpected character: \"" + character + "\"");
@@ -95,6 +109,15 @@ public class MapConverter {
                     roomsMap[row][column] = roomClass == null ? null : roomClass.newInstance();
                 } catch (Exception e) {
                     throw new RuntimeException(e);
+                }
+
+                if (roomClass != null && roomsMap[row][column] != null && roomClass.equals(StoneRoom1.class)) {
+                    String[] split = character.split(SPLIT_CHAR3);
+                    for (int i = 1; i < split.length; i++) {
+                        String enemy = split[i];
+                        GameEntity e = Character.parseCharacter(enemy);
+                        roomsMap[row][column].createEntity(e);
+                    }
                 }
             }
         }

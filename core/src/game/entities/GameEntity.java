@@ -34,10 +34,6 @@ public abstract class GameEntity extends MovableObject {
     }
 
     public void setId(int id) {
-        if (id < 0 || id > ids) {
-            this.id = id;
-        } else {
-            throw new RuntimeException("Id " + id + " is not valid");
-        }
+        this.id = id;
     }
 }

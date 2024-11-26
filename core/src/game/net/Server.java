@@ -56,7 +56,7 @@ public class Server extends java.lang.Thread {
                 if (goodConnected && clientsConnected == MAX_CLIENTS) {
                     sendMessageToAll(Messages.START_GAME);
                     try {
-                        sleep(200);
+                        sleep(100);
                     } catch (Exception e) {
                         throw new RuntimeException(e);
                     }

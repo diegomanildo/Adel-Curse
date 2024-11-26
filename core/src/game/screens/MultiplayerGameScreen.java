@@ -54,7 +54,7 @@ public final class MultiplayerGameScreen extends AbstractGameScreen implements N
 
     @Override
     public void createShoot(int id, Direction direction) {
-        ((Character)getEntities().getEntity(id)).shoot(direction);
+        ((Character)getEntities().getEntity(id)).shoot(direction, true);
     }
 
     @Override
@@ -65,6 +65,12 @@ public final class MultiplayerGameScreen extends AbstractGameScreen implements N
     @Override
     public void initializeLevel(Room[][] rooms) {
         RoomMap.map = rooms;
+    }
+
+    @Override
+    public void removeEntity(int id) {
+        getEntities().getEntity(id).remove();
+        getEntities().remove(getEntities().getEntity(id));
     }
 
     @Override

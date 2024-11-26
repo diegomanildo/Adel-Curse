@@ -89,6 +89,10 @@ public class Room extends Group {
         this.roomKind = roomKind;
     }
 
+    public Entities getEntities() {
+        return entities;
+    }
+
     public void createDoors(Room leftRoom, Room rightRoom, Room upRoom, Room downRoom) {
         if (leftRoom != null) {
             addDoor(LEFT);
