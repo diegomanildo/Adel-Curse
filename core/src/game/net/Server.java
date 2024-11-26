@@ -8,7 +8,7 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 
 public class Server extends java.lang.Thread {
-    private static final int OWNER = 0;
+    public static final int OWNER = 0;
     public static final String SP_C = "!"; // Special character
     public static final int PORT = 22121;
     public static final int MAX_CLIENTS = 2;

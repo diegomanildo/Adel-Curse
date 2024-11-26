@@ -118,7 +118,7 @@ public abstract class EnemyRoom extends Room {
                         spawnLeft = true;
                     }
                     if (itemLeft != null) {
-                        createEntity(itemLeft);
+                        getStage().addActor(itemLeft);
                         itemList.add(itemLeft);
                     }
                     break;
@@ -131,7 +131,7 @@ public abstract class EnemyRoom extends Room {
                         spawnRight = true;
                     }
                     if (itemRight != null) {
-                        createEntity(itemRight);
+                        getStage().addActor(itemRight);
                         itemList.add(itemRight);
                     }
                     break;
@@ -144,7 +144,7 @@ public abstract class EnemyRoom extends Room {
                         spawnUp = true;
                     }
                     if (itemUp != null) {
-                        createEntity(itemUp);
+                        getStage().addActor(itemUp);
                         itemList.add(itemUp);
                     }
                     break;
@@ -157,7 +157,7 @@ public abstract class EnemyRoom extends Room {
                         spawnDown = true;
                     }
                     if (itemDown != null) {
-                        createEntity(itemDown);
+                        getStage().addActor(itemDown);
                         itemList.add(itemDown);
                     }
                     break;

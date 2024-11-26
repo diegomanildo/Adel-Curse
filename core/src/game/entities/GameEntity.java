@@ -16,9 +16,13 @@ public abstract class GameEntity extends MovableObject {
     public void move(Direction direction) {
         super.move(direction);
 
-        if (MultiplayerGameScreen.client != null) {
+        if (MultiplayerGameScreen.client != null && online_canSendToServer()) {
             MultiplayerGameScreen.client.updateEntityPosition(getId(), getX(), getY(), getDirection());
         }
+    }
+
+    protected boolean online_canSendToServer() {
+        return true;
     }
 
     public int getId() {

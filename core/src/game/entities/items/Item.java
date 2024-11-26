@@ -1,13 +1,12 @@
 package game.entities.items;
 
-import game.entities.GameEntity;
 import game.entities.characters.playables.Playable;
 import game.utilities.GameAnimation;
 import game.utilities.ItemList;
 import utilities.FilePaths;
 import utilities.Log;
 
-public abstract class Item extends GameEntity {
+public abstract class Item extends GameAnimation {
     public static final float SIZE = 32f;
     public static final ItemList ITEMS = new ItemList(
             Bomb.class,

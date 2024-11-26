@@ -9,5 +9,4 @@ public interface NetworkActionsListener {
     void createShoot(int id, Direction direction);
     void endGame();
     void initializeLevel(Room[][] rooms);
-    void removeEntity(int id);
 }

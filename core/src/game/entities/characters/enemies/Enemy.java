@@ -2,6 +2,9 @@ package game.entities.characters.enemies;
 
 import game.Game;
 import game.entities.characters.Character;
+import game.entities.characters.playables.Playable;
+import game.net.GameData;
+import game.net.Server;
 import game.utilities.Direction;
 
 public abstract class Enemy extends Character {
@@ -10,6 +13,11 @@ public abstract class Enemy extends Character {
     public Enemy(Stats stats, String texturePath, String bulletTexturePath, int columns, int rows) {
         super(stats, texturePath, bulletTexturePath, columns, rows);
         setVelocity(getVelocity() / 2f);
+    }
+
+    @Override
+    protected boolean online_canSendToServer() {
+        return super.online_canSendToServer() && GameData.clientNumber == Server.OWNER;
     }
 
     public Enemy(Stats stats, String texturePath, String bulletTexturePath) {
@@ -51,8 +59,13 @@ public abstract class Enemy extends Character {
 
     @Override
     protected void update(float delta) {
-        float playerX = Game.game.getPlayers().random().getX();
-        float playerY = Game.game.getPlayers().random().getY();
+        Playable player = Game.game.getPlayers().random();
+        if (player == null) {
+            return;
+        }
+
+        float playerX = player.getX();
+        float playerY = player.getY();
 
         float enemyX = getX();
         float enemyY = getY();

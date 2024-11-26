@@ -1,7 +1,6 @@
 package game.screens;
 
 import game.Game;
-import game.entities.characters.Character;
 import game.entities.characters.playables.Adel;
 import game.levels.Level1;
 import game.map.RoomMap;
@@ -42,8 +41,12 @@ public final class MultiplayerGameScreen extends AbstractGameScreen implements N
 
     @Override
     public void moveEntity(int id, float x, float y, Direction direction) {
-        getEntities().getEntity(id).setPosition(x, y);
-        getEntities().getEntity(id).setDirection(direction);
+        getEntities().forEach(e -> {
+            if (e.getId() == id) {
+                e.setPosition(x, y);
+                e.setDirection(direction);
+            }
+        });
     }
 
     @Override
@@ -54,7 +57,11 @@ public final class MultiplayerGameScreen extends AbstractGameScreen implements N
 
     @Override
     public void createShoot(int id, Direction direction) {
-        ((Character)getEntities().getEntity(id)).shoot(direction, true);
+        getEntities().getCharacters().forEach(c -> {
+            if (c.getId() == id) {
+                c.shoot(direction, true);
+            }
+        });
     }
 
     @Override
@@ -65,12 +72,6 @@ public final class MultiplayerGameScreen extends AbstractGameScreen implements N
     @Override
     public void initializeLevel(Room[][] rooms) {
         RoomMap.map = rooms;
-    }
-
-    @Override
-    public void removeEntity(int id) {
-        getEntities().getEntity(id).remove();
-        getEntities().remove(getEntities().getEntity(id));
     }
 
     @Override
