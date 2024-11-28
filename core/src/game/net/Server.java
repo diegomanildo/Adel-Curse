@@ -77,17 +77,10 @@ public class Server extends Thread {
                 sendMessageToAllExpect(OWNER, Messages.INIT_LEVEL + SP_C + parts[1]);
                 break;
             }
-            case Messages.CREATE_ENTITY: {
-                internalSleep(200);
+            case Messages.ROOM_CHANGED: {
                 int clientId = Integer.parseInt(parts[1]);
-                sendMessageToAllExpect(clientId, Messages.CREATE_ENTITY + SP_C + parts[2]);
-                break;
-            }
-            case Messages.HP: {
-                int clientId = Integer.parseInt(parts[1]);
-                int entityId = Integer.parseInt(parts[2]);
-                int hp = Integer.parseInt(parts[3]);
-                sendMessageToAllExpect(clientId, Messages.HP + SP_C + entityId + SP_C + hp);
+                Direction direction = Direction.parseDirection(parts[2]);
+                sendMessageToAllExpect(clientId, Messages.ROOM_CHANGED + SP_C + direction);
                 break;
             }
             case Messages.POSITION: {
@@ -106,10 +99,38 @@ public class Server extends Thread {
                 sendMessageToAllExpect(clientId, Messages.SHOOT + SP_C + entityId + SP_C + direction);
                 break;
             }
-            case Messages.ROOM_CHANGED: {
+            case Messages.CREATE_ENTITY: {
+                internalSleep(200);
                 int clientId = Integer.parseInt(parts[1]);
-                Direction direction = Direction.parseDirection(parts[2]);
-                sendMessageToAllExpect(clientId, Messages.ROOM_CHANGED + SP_C + direction);
+                sendMessageToAllExpect(clientId, Messages.CREATE_ENTITY + SP_C + parts[2]);
+                break;
+            }
+            case Messages.HP: {
+                int clientId = Integer.parseInt(parts[1]);
+                int entityId = Integer.parseInt(parts[2]);
+                int hp = Integer.parseInt(parts[3]);
+                sendMessageToAllExpect(clientId, Messages.HP + SP_C + entityId + SP_C + hp);
+                break;
+            }
+            case Messages.MAX_HP: {
+                int clientId = Integer.parseInt(parts[1]);
+                int entityId = Integer.parseInt(parts[2]);
+                int maxHp = Integer.parseInt(parts[3]);
+                sendMessageToAllExpect(clientId, Messages.MAX_HP + SP_C + entityId + SP_C + maxHp);
+                break;
+            }
+            case Messages.DAMAGE: {
+                int clientId = Integer.parseInt(parts[1]);
+                int entityId = Integer.parseInt(parts[2]);
+                int damage = Integer.parseInt(parts[3]);
+                sendMessageToAllExpect(clientId, Messages.DAMAGE + SP_C + entityId + SP_C + damage);
+                break;
+            }
+            case Messages.ARMOR: {
+                int clientId = Integer.parseInt(parts[1]);
+                int entityId = Integer.parseInt(parts[2]);
+                int armor = Integer.parseInt(parts[3]);
+                sendMessageToAllExpect(clientId, Messages.ARMOR + SP_C + entityId + SP_C + armor);
                 break;
             }
             default:
