@@ -78,7 +78,7 @@ public abstract class EnemyRoom extends Room {
     }
 
     private void generateEntity() {
-        if (MultiplayerGameScreen.client == null || GameData.clientNumber != Server.OWNER) {
+        if (Game.game instanceof MultiplayerGameScreen && (MultiplayerGameScreen.client == null || GameData.clientNumber != Server.OWNER)) {
             return;
         }
 
