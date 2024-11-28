@@ -73,7 +73,7 @@ public final class Game extends Screen {
     }
 
     public static void restart() {
-        if (game instanceof MultiplayerGameScreen && !MultiplayerGameScreen.client.isSendingData()) {
+        if (MultiplayerGameScreen.client != null && !MultiplayerGameScreen.client.isSendingData()) {
             MultiplayerGameScreen.client.restart();
         }
         Render.setScreenToGame();

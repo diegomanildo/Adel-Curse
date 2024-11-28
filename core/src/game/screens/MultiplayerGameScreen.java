@@ -46,9 +46,9 @@ public final class MultiplayerGameScreen extends AbstractGameScreen implements N
     }
 
     @Override
-    public void moveEntity(int id, float x, float y, Direction direction) {
+    public void moveEntity(int entityId, float x, float y, Direction direction) {
         getEntities().forEach(e -> {
-            if (e.getId() == id) {
+            if (e.getId() == entityId) {
                 e.setPosition(x, y);
                 e.setDirection(direction);
             }
@@ -62,9 +62,9 @@ public final class MultiplayerGameScreen extends AbstractGameScreen implements N
     }
 
     @Override
-    public void createShoot(int id, Direction direction) {
+    public void createShoot(int entityId, Direction direction) {
         getEntities().getCharacters().forEach(c -> {
-            if (c.getId() == id) {
+            if (c.getId() == entityId) {
                 c.shoot(direction, true);
             }
         });
@@ -81,10 +81,37 @@ public final class MultiplayerGameScreen extends AbstractGameScreen implements N
     }
 
     @Override
-    public void updateHp(int id, int hp) {
+    public void updateHp(int entityId, int hp) {
         getEntities().getCharacters().forEach(c -> {
-            if (c.getId() == id) {
+            if (c.getId() == entityId) {
                 c.setHp(hp);
+            }
+        });
+    }
+
+    @Override
+    public void updateMaxHp(int entityId, int maxHp) {
+        getEntities().getCharacters().forEach(c -> {
+            if (c.getId() == entityId) {
+                c.setMaxHp(maxHp);
+            }
+        });
+    }
+
+    @Override
+    public void updateDamage(int entityId, int damage) {
+        getEntities().getCharacters().forEach(c -> {
+            if (c.getId() == entityId) {
+                c.setDamage(damage);
+            }
+        });
+    }
+
+    @Override
+    public void updateArmor(int entityId, int armor) {
+        getEntities().getCharacters().forEach(c -> {
+            if (c.getId() == entityId) {
+                c.setArmor(armor);
             }
         });
     }

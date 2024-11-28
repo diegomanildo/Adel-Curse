@@ -234,6 +234,9 @@ public abstract class Character extends GameEntity implements Statistics {
     @Override
     public void setMaxHp(int maxHp) {
         stats.maxHp = maxHp;
+        if (MultiplayerGameScreen.client != null && !MultiplayerGameScreen.client.isSendingData()) {
+            MultiplayerGameScreen.client.updateMaxHp(getId(), maxHp);
+        }
     }
 
     @Override
@@ -244,6 +247,9 @@ public abstract class Character extends GameEntity implements Statistics {
     @Override
     public void setDamage(int damage) {
         stats.damage = damage;
+        if (MultiplayerGameScreen.client != null && !MultiplayerGameScreen.client.isSendingData()) {
+            MultiplayerGameScreen.client.updateDamage(getId(), damage);
+        }
     }
 
     @Override
@@ -254,6 +260,9 @@ public abstract class Character extends GameEntity implements Statistics {
     @Override
     public void setArmor(int armor) {
         stats.armor = armor;
+        if (MultiplayerGameScreen.client != null && !MultiplayerGameScreen.client.isSendingData()) {
+            MultiplayerGameScreen.client.updateArmor(getId(), armor);
+        }
     }
 
     protected void onDeath() {

@@ -59,64 +59,54 @@ public class Client extends Thread {
     private void processMessage(DatagramPacket packet) {
         String message = new String(packet.getData()).trim();
         String[] parts = message.split(SP_C);
+        isSendingData = true;
 
         switch (parts[0]) {
-            case Messages.CONNECT: {
+            case Messages.CONNECT:
                 GameData.clientNumber = Integer.parseInt(parts[1]);
                 ip = packet.getAddress();
                 break;
-            }
-            case Messages.DISCONNECT: {
+            case Messages.DISCONNECT:
                 break;
-            }
-            case Messages.START_GAME: {
+            case Messages.START_GAME:
                 Render.startGame = true;
                 break;
-            }
-            case Messages.RESTART_GAME: {
-                isSendingData = true;
+            case Messages.RESTART_GAME:
                 Game.restart();
                 break;
-            }
-            case Messages.END_GAME: {
-                isSendingData = true;
+            case Messages.END_GAME:
                 GameData.networkListener.endGame();
                 break;
-            }
-            case Messages.CREATE_LEVEL: {
+            case Messages.CREATE_LEVEL:
                 sendMessage(Messages.INIT_LEVEL + SP_C + MapConverter.convertToString(RoomMap.map));
                 break;
-            }
-            case Messages.INIT_LEVEL: {
-                isSendingData = true;
+            case Messages.INIT_LEVEL:
                 GameData.networkListener.initializeLevel(MapConverter.convertToMap(parts[1]));
                 break;
-            }
-            case Messages.ROOM_CHANGED: {
-                isSendingData = true;
+            case Messages.ROOM_CHANGED:
                 GameData.networkListener.changeRoom(Direction.parseDirection(parts[1]));
                 break;
-            }
-            case Messages.POSITION: {
-                isSendingData = true;
+            case Messages.POSITION:
                 GameData.networkListener.moveEntity(Integer.parseInt(parts[1]), Float.parseFloat(parts[2]), Float.parseFloat(parts[3]), Direction.parseDirection(parts[4]));
                 break;
-            }
-            case Messages.SHOOT: {
-                isSendingData = true;
+            case Messages.SHOOT:
                 GameData.networkListener.createShoot(Integer.parseInt(parts[1]), Direction.parseDirection(parts[2]));
                 break;
-            }
-            case Messages.CREATE_ENTITY: {
-                isSendingData = true;
+            case Messages.CREATE_ENTITY:
                 GameData.networkListener.createEntity(GameEntity.parseEntity(parts[1]));
                 break;
-            }
-            case Messages.HP: {
-                isSendingData = true;
+            case Messages.HP:
                 GameData.networkListener.updateHp(Integer.parseInt(parts[1]), Integer.parseInt(parts[2]));
                 break;
-            }
+            case Messages.MAX_HP:
+                GameData.networkListener.updateMaxHp(Integer.parseInt(parts[1]), Integer.parseInt(parts[2]));
+                break;
+            case Messages.DAMAGE:
+                GameData.networkListener.updateDamage(Integer.parseInt(parts[1]), Integer.parseInt(parts[2]));
+                break;
+            case Messages.ARMOR:
+                GameData.networkListener.updateArmor(Integer.parseInt(parts[1]), Integer.parseInt(parts[2]));
+                break;
             default:
                 throw new RuntimeException("Message not recognized: " + parts[0]);
         }
@@ -134,12 +124,16 @@ public class Client extends Thread {
         }
     }
 
-    public void updateEntityPosition(int entityId, float x, float y, Direction direction) {
-        sendMessage(Messages.POSITION + SP_C + GameData.clientNumber + SP_C + entityId + SP_C + x + SP_C + y + SP_C + direction);
+    public void restart() {
+        sendMessage(Messages.RESTART_GAME + SP_C + GameData.clientNumber);
     }
 
     public void roomChanged(Direction direction) {
         sendMessage(Messages.ROOM_CHANGED + SP_C + GameData.clientNumber + SP_C + direction);
+    }
+
+    public void updateEntityPosition(int entityId, float x, float y, Direction direction) {
+        sendMessage(Messages.POSITION + SP_C + GameData.clientNumber + SP_C + entityId + SP_C + x + SP_C + y + SP_C + direction);
     }
 
     public void createShoot(int entityId, Direction direction) {
@@ -154,8 +148,16 @@ public class Client extends Thread {
         sendMessage(Messages.HP + SP_C + GameData.clientNumber + SP_C + id + SP_C + hp);
     }
 
-    public void restart() {
-        sendMessage(Messages.RESTART_GAME + SP_C + GameData.clientNumber);
+    public void updateMaxHp(int id, int maxHp) {
+        sendMessage(Messages.MAX_HP + SP_C + GameData.clientNumber + SP_C + id + SP_C + maxHp);
+    }
+
+    public void updateDamage(int id, int damage) {
+        sendMessage(Messages.DAMAGE + SP_C + GameData.clientNumber + SP_C + id + SP_C + damage);
+    }
+
+    public void updateArmor(int id, int armor) {
+        sendMessage(Messages.ARMOR + SP_C + GameData.clientNumber + SP_C + id + SP_C + armor);
     }
 
     public boolean isConnected() {
