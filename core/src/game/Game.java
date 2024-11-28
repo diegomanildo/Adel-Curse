@@ -3,6 +3,7 @@ package game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Matrix4;
+import game.entities.items.Mushroom;
 import game.hud.Hud;
 import game.net.GameData;
 import game.screens.*;
@@ -69,6 +70,8 @@ public final class Game extends Screen {
             game.getPlayer().setDamage(50);
         } else if (Gdx.input.isKeyJustPressed(Input.Keys.F2)) {
             game.getPlayer().damage(1);
+        } else if (Gdx.input.isKeyJustPressed(Input.Keys.F3)) {
+            game.getPlayer().addItem(new Mushroom());
         }
     }
 

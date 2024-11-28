@@ -89,6 +89,9 @@ public class Client extends Thread {
             case Messages.POSITION:
                 GameData.networkListener.moveEntity(Integer.parseInt(parts[1]), Float.parseFloat(parts[2]), Float.parseFloat(parts[3]), Direction.parseDirection(parts[4]));
                 break;
+            case Messages.SIZE:
+                GameData.networkListener.changeSizeEntity(Integer.parseInt(parts[1]), Float.parseFloat(parts[2]), Float.parseFloat(parts[3]));
+                break;
             case Messages.SHOOT:
                 GameData.networkListener.createShoot(Integer.parseInt(parts[1]), Direction.parseDirection(parts[2]));
                 break;
@@ -136,12 +139,16 @@ public class Client extends Thread {
         sendMessage(Messages.POSITION + SP_C + GameData.clientNumber + SP_C + entityId + SP_C + x + SP_C + y + SP_C + direction);
     }
 
+    public void updateEntitySize(int entityId, float width, float height) {
+        sendMessage(Messages.SIZE + SP_C + GameData.clientNumber + SP_C + entityId + SP_C + width + SP_C + height);
+    }
+
     public void createShoot(int entityId, Direction direction) {
         sendMessage(Messages.SHOOT + SP_C + GameData.clientNumber + SP_C + entityId + SP_C + direction);
     }
 
     public void createEntity(GameEntity e) {
-        sendMessage(Messages.CREATE_ENTITY + SP_C + GameData.clientNumber + SP_C + e.toString());
+        sendMessage(Messages.CREATE_ENTITY + SP_C + GameData.clientNumber + SP_C + e);
     }
 
     public void updateHp(int id, int hp) {

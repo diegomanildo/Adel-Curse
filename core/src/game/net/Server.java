@@ -92,6 +92,14 @@ public class Server extends Thread {
                 sendMessageToAllExpect(clientId, Messages.POSITION + SP_C + entityId + SP_C + x + SP_C + y + SP_C + direction);
                 break;
             }
+            case Messages.SIZE: {
+                int clientId = Integer.parseInt(parts[1]);
+                int entityId = Integer.parseInt(parts[2]);
+                float width = Float.parseFloat(parts[3]);
+                float height = Float.parseFloat(parts[4]);
+                sendMessageToAllExpect(clientId, Messages.SIZE + SP_C + entityId + SP_C + width + SP_C + height);
+                break;
+            }
             case Messages.SHOOT: {
                 int clientId = Integer.parseInt(parts[1]);
                 int entityId = Integer.parseInt(parts[2]);

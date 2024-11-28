@@ -9,10 +9,8 @@ public final class LoadingScreen extends Screen {
     public LoadingScreen() {
         super();
 
-        float step = Utils.r.nextFloat(0.1f, 0.5f);
-
-        progressBar = new ProgressBar(0f, 100f, step, false);
-        Image background = new Image(FilePaths.BACKGROUNDS + "loadingScreen.png");
+        progressBar = new ProgressBar(0f, 1f, 0.01f, false);
+        Image background = new Image(FilePaths.BACKGROUNDS + "bgScreen.png");
         background.setSize(Render.screenSize.width, Render.screenSize.height);
 
         Table table = new Table();
@@ -22,16 +20,19 @@ public final class LoadingScreen extends Screen {
 
         stage.addActor(background);
         stage.addActor(table);
+
+        // Start the loading
+        Render.assetManager.queueAssets();
     }
 
     @Override
     public void render(float delta) {
         super.render(delta);
 
-        progressBar.setValue(progressBar.getValue() + progressBar.getStepSize());
-
-        if (progressBar.getValue() == progressBar.getMaxValue()) {
+        if (Render.assetManager.update()) {
             Render.setScreen(new MainMenuScreen());
         }
+
+        progressBar.setValue(Render.assetManager.getProgress());
     }
 }

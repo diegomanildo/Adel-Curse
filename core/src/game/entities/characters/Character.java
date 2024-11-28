@@ -56,6 +56,14 @@ public abstract class Character extends GameEntity implements Statistics {
     }
 
     @Override
+    public void setSize(float width, float height) {
+        super.setSize(width, height);
+        if (MultiplayerGameScreen.client != null && !MultiplayerGameScreen.client.isSendingData()) {
+            MultiplayerGameScreen.client.updateEntitySize(getId(), width, height);
+        }
+    }
+
+    @Override
     public void pause() {
         super.pause();
         bullets.forEach(GameEntity::pause);

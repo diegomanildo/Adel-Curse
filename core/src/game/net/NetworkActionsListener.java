@@ -7,6 +7,7 @@ import game.utilities.Direction;
 public interface NetworkActionsListener {
     void createEntity(GameEntity entity);
     void moveEntity(int entityId, float x, float y, Direction direction);
+    void changeSizeEntity(int entityId, float width, float height);
     void changeRoom(Direction direction);
     void createShoot(int entityId, Direction direction);
     void endGame();

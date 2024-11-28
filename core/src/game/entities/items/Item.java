@@ -9,7 +9,6 @@ import utilities.Log;
 public abstract class Item extends GameEntity {
     public static final float SIZE = 32f;
     public static final ItemList ITEMS = new ItemList(
-            Bomb.class,
             Candy.class,
             Cap.class,
             Diamond.class,

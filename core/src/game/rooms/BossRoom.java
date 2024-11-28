@@ -1,5 +1,6 @@
 package game.rooms;
 
+import com.badlogic.gdx.utils.Array;
 import game.Game;
 import game.entities.characters.enemies.DeadEye;
 import game.map.RoomKinds;
@@ -9,9 +10,16 @@ public final class BossRoom extends Room {
     public static Song song;
     private final DeadEye deadEye;
 
+    private static Array<String> bossSongs = new Array<>();
+
+    static {
+        bossSongs.add("songs/deathToEva.mp3");
+        bossSongs.add("songs/spiderFunk.mp3");
+    }
+
     public BossRoom() {
         super("boss/boss_1.tmx", RoomKinds.BOSS);
-        song = new Song("Music", "songs/Death to Eva.mp3");
+        song = new Song("Music", bossSongs.random());
         deadEye = new DeadEye();
         deadEye.setPosition(172f, 115f);
     }
@@ -25,7 +33,7 @@ public final class BossRoom extends Room {
     @Override
     public void act(float delta) {
         super.act(delta);
-        if (Game.deathScreen.isShowing()) {
+        if (Game.deathScreen.isShowing() || Game.winScreen.isShowing()) {
             song.stop();
         }
     }

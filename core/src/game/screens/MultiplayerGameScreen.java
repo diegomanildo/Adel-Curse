@@ -56,6 +56,15 @@ public final class MultiplayerGameScreen extends AbstractGameScreen implements N
     }
 
     @Override
+    public void changeSizeEntity(int entityId, float width, float height) {
+        getEntities().forEach(e -> {
+            if (e.getId() == entityId) {
+                e.setSize(width, height);
+            }
+        });
+    }
+
+    @Override
     protected void moveCamera(Direction direction) {
         super.moveCamera(direction);
         client.roomChanged(direction);

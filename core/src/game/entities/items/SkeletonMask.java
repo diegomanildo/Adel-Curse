@@ -3,6 +3,8 @@ package game.entities.items;
 import utilities.Utils;
 
 public class SkeletonMask extends Item {
+    private static final int SECONDS = 10;
+
     private static class TimerThread extends Thread {
         private final SkeletonMask item;
 
@@ -13,13 +15,13 @@ public class SkeletonMask extends Item {
         @Override
         public void run() {
             super.run();
-            Utils.sleep(10000);
+            Utils.sleep(SECONDS * 1000);
             item.getOwner().removeItem(item);
             item.getOwner().setBulletTexturePath(item.getPreviousBulletTexturePath());
         }
     }
 
-    private TimerThread timerThread = new TimerThread(this);
+    private final TimerThread timerThread = new TimerThread(this);
     private String previousBulletTexturePath;
 
     public SkeletonMask() {
