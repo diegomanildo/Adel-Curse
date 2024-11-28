@@ -17,17 +17,13 @@ public final class MultiplayerGameScreen extends AbstractGameScreen implements N
 
     public static Client client;
 
-    public static boolean isSendingData() {
-        return client != null && client.isSendingData();
-    }
-
     public MultiplayerGameScreen() {
         super();
         level = new Level1();
         stage.addActor(level);
 
         for (int i = 0; i < PLAYERS; i++) {
-            Adel player = new Adel(i);
+            Adel player = new Adel(i+1);
             player.setPosition(level.getInitX() - player.getWidth() / 2f, level.getInitY() - player.getHeight() / 2f);
             player.setId(-(i + 1));
             stage.addActor(player);

@@ -1,5 +1,6 @@
 package game.net;
 
+import game.net.utilities.Thread;
 import game.utilities.Direction;
 
 import java.io.IOException;
@@ -7,7 +8,7 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 
-public class Server extends java.lang.Thread {
+public class Server extends Thread {
     public static final int OWNER = 0;
     public static final String SP_C = "!"; // Special character
     public static final int PORT = 22121;
@@ -51,43 +52,66 @@ public class Server extends java.lang.Thread {
         String[] parts = message.split(SP_C);
 
         switch (parts[0]) {
-            case Messages.CONNECT:
+            case Messages.CONNECT: {
                 boolean goodConnected = connectClient(packet);
                 if (goodConnected && clientsConnected == MAX_CLIENTS) {
                     sendMessageToAll(Messages.START_GAME);
-                    try {
-                        sleep(100);
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
-                    }
+                    internalSleep(100);
                     sendMessage(Messages.CREATE_LEVEL, OWNER);
                 }
                 break;
-            case Messages.DISCONNECT:
+            }
+            case Messages.DISCONNECT: {
                 int index = Integer.parseInt(parts[1]);
                 removeClient(index);
                 break;
-            case Messages.RESTART_GAME:
-                restartGame(parts);
+            }
+            case Messages.RESTART_GAME: {
+                int clientId = Integer.parseInt(parts[1]);
+                sendMessageToAllExpect(clientId, Messages.RESTART_GAME);
+                internalSleep(100);
+                sendMessage(Messages.CREATE_LEVEL, OWNER);
                 break;
-            case Messages.CREATE_ENTITY:
-                createEntity(parts);
-                break;
-            case Messages.INIT_LEVEL:
+            }
+            case Messages.INIT_LEVEL: {
                 sendMessageToAllExpect(OWNER, Messages.INIT_LEVEL + SP_C + parts[1]);
                 break;
-            case Messages.HP:
-                updateHp(parts);
+            }
+            case Messages.CREATE_ENTITY: {
+                internalSleep(200);
+                int clientId = Integer.parseInt(parts[1]);
+                sendMessageToAllExpect(clientId, Messages.CREATE_ENTITY + SP_C + parts[2]);
                 break;
-            case Messages.POSITION:
-                updateEntityPosition(parts);
+            }
+            case Messages.HP: {
+                int clientId = Integer.parseInt(parts[1]);
+                int entityId = Integer.parseInt(parts[2]);
+                int hp = Integer.parseInt(parts[3]);
+                sendMessageToAllExpect(clientId, Messages.HP + SP_C + entityId + SP_C + hp);
                 break;
-            case Messages.SHOOT:
-                createShoot(parts);
+            }
+            case Messages.POSITION: {
+                int clientId = Integer.parseInt(parts[1]);
+                int entityId = Integer.parseInt(parts[2]);
+                float x = Float.parseFloat(parts[3]);
+                float y = Float.parseFloat(parts[4]);
+                Direction direction = Direction.parseDirection(parts[5]);
+                sendMessageToAllExpect(clientId, Messages.POSITION + SP_C + entityId + SP_C + x + SP_C + y + SP_C + direction);
                 break;
-            case Messages.ROOM_CHANGED:
-                changeRoom(parts);
+            }
+            case Messages.SHOOT: {
+                int clientId = Integer.parseInt(parts[1]);
+                int entityId = Integer.parseInt(parts[2]);
+                Direction direction = Direction.parseDirection(parts[3]);
+                sendMessageToAllExpect(clientId, Messages.SHOOT + SP_C + entityId + SP_C + direction);
                 break;
+            }
+            case Messages.ROOM_CHANGED: {
+                int clientId = Integer.parseInt(parts[1]);
+                Direction direction = Direction.parseDirection(parts[2]);
+                sendMessageToAllExpect(clientId, Messages.ROOM_CHANGED + SP_C + direction);
+                break;
+            }
             default:
                 throw new RuntimeException("Message not recognized: " + parts[0]);
         }
@@ -99,7 +123,9 @@ public class Server extends java.lang.Thread {
         }
 
         sendMessage(Messages.CONNECT + SP_C + clientsConnected, packet.getAddress(), packet.getPort());
-        addClient(packet);
+        console("Client " + clientsConnected + " connected");
+        clients[clientsConnected] = new ClientData(packet.getAddress(), packet.getPort(), clients.length);
+        clientsConnected++;
         return true;
     }
 
@@ -110,12 +136,6 @@ public class Server extends java.lang.Thread {
             }
         }
         return false;
-    }
-
-    private void addClient(DatagramPacket packet) {
-        console("Client " + clientsConnected + " connected");
-        clients[clientsConnected] = new ClientData(packet.getAddress(), packet.getPort(), clients.length);
-        clientsConnected++;
     }
 
     private void removeClient(int index) {
@@ -135,45 +155,6 @@ public class Server extends java.lang.Thread {
         if (wereMaxClients && clientsConnected != MAX_CLIENTS) {
             clearClients();
         }
-    }
-
-    private void restartGame(String[] parts) {
-        int clientId = Integer.parseInt(parts[1]);
-        sendMessageToAllExpect(clientId, Messages.RESTART_GAME);
-    }
-
-    private void createEntity(String[] parts) {
-        int clientId = Integer.parseInt(parts[1]);
-        sendMessageToAllExpect(clientId, Messages.CREATE_ENTITY + SP_C + parts[2]);
-    }
-
-    private void updateEntityPosition(String[] parts) {
-        int clientId = Integer.parseInt(parts[1]);
-        int entityId = Integer.parseInt(parts[2]);
-        float x = Float.parseFloat(parts[3]);
-        float y = Float.parseFloat(parts[4]);
-        Direction direction = Direction.parseDirection(parts[5]);
-        sendMessageToAllExpect(clientId, Messages.POSITION + SP_C + entityId + SP_C + x + SP_C + y + SP_C + direction);
-    }
-
-    private void createShoot(String[] parts) {
-        int clientId = Integer.parseInt(parts[1]);
-        int entityId = Integer.parseInt(parts[2]);
-        Direction direction = Direction.parseDirection(parts[3]);
-        sendMessageToAllExpect(clientId, Messages.SHOOT + SP_C + entityId + SP_C + direction);
-    }
-
-    private void changeRoom(String[] parts) {
-        int clientId = Integer.parseInt(parts[1]);
-        Direction direction = Direction.parseDirection(parts[2]);
-        sendMessageToAllExpect(clientId, Messages.ROOM_CHANGED + SP_C + direction);
-    }
-
-    private void updateHp(String[] parts) {
-        int clientId = Integer.parseInt(parts[1]);
-        int entityId = Integer.parseInt(parts[2]);
-        int hp = Integer.parseInt(parts[3]);
-        sendMessageToAllExpect(clientId, Messages.HP + SP_C + entityId + SP_C + hp);
     }
 
     public void sendMessage(String msg, int index) {

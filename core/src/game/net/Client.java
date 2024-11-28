@@ -4,6 +4,7 @@ import game.Game;
 import game.entities.GameEntity;
 import game.map.MapConverter;
 import game.map.RoomMap;
+import game.net.utilities.Thread;
 import game.utilities.Direction;
 import utilities.Render;
 
@@ -60,51 +61,62 @@ public class Client extends Thread {
         String[] parts = message.split(SP_C);
 
         switch (parts[0]) {
-            case Messages.CONNECT:
+            case Messages.CONNECT: {
                 GameData.clientNumber = Integer.parseInt(parts[1]);
                 ip = packet.getAddress();
                 break;
-            case Messages.DISCONNECT:
+            }
+            case Messages.DISCONNECT: {
                 break;
-            case Messages.CREATE_LEVEL:
-                sendMessage(Messages.INIT_LEVEL + SP_C + MapConverter.convertToString(RoomMap.map));
-                break;
-            case Messages.INIT_LEVEL:
-                isSendingData = true;
-                GameData.networkListener.initializeLevel(MapConverter.convertToMap(parts[1]));
-                break;
-            case Messages.CREATE_ENTITY:
-                isSendingData = true;
-                GameData.networkListener.createEntity(GameEntity.parseEntity(parts[1]));
-                break;
-            case Messages.POSITION:
-                isSendingData = true;
-                GameData.networkListener.moveEntity(Integer.parseInt(parts[1]), Float.parseFloat(parts[2]), Float.parseFloat(parts[3]), Direction.parseDirection(parts[4]));
-                break;
-            case Messages.SHOOT:
-                isSendingData = true;
-                GameData.networkListener.createShoot(Integer.parseInt(parts[1]), Direction.parseDirection(parts[2]));
-                break;
-            case Messages.HP:
-                isSendingData = true;
-                GameData.networkListener.updateHp(Integer.parseInt(parts[1]), Integer.parseInt(parts[2]));
-                break;
-            case Messages.ROOM_CHANGED:
-                isSendingData = true;
-                GameData.networkListener.changeRoom(Direction.parseDirection(parts[1]));
-                break;
-            case Messages.START_GAME:
+            }
+            case Messages.START_GAME: {
                 Render.startGame = true;
                 break;
-            case Messages.RESTART_GAME:
+            }
+            case Messages.RESTART_GAME: {
                 isSendingData = true;
                 Game.restart();
                 break;
-            case Messages.END_GAME:
+            }
+            case Messages.END_GAME: {
                 isSendingData = true;
-                sendMessage(Messages.DISCONNECT + SP_C + GameData.clientNumber);
                 GameData.networkListener.endGame();
                 break;
+            }
+            case Messages.CREATE_LEVEL: {
+                sendMessage(Messages.INIT_LEVEL + SP_C + MapConverter.convertToString(RoomMap.map));
+                break;
+            }
+            case Messages.INIT_LEVEL: {
+                isSendingData = true;
+                GameData.networkListener.initializeLevel(MapConverter.convertToMap(parts[1]));
+                break;
+            }
+            case Messages.ROOM_CHANGED: {
+                isSendingData = true;
+                GameData.networkListener.changeRoom(Direction.parseDirection(parts[1]));
+                break;
+            }
+            case Messages.POSITION: {
+                isSendingData = true;
+                GameData.networkListener.moveEntity(Integer.parseInt(parts[1]), Float.parseFloat(parts[2]), Float.parseFloat(parts[3]), Direction.parseDirection(parts[4]));
+                break;
+            }
+            case Messages.SHOOT: {
+                isSendingData = true;
+                GameData.networkListener.createShoot(Integer.parseInt(parts[1]), Direction.parseDirection(parts[2]));
+                break;
+            }
+            case Messages.CREATE_ENTITY: {
+                isSendingData = true;
+                GameData.networkListener.createEntity(GameEntity.parseEntity(parts[1]));
+                break;
+            }
+            case Messages.HP: {
+                isSendingData = true;
+                GameData.networkListener.updateHp(Integer.parseInt(parts[1]), Integer.parseInt(parts[2]));
+                break;
+            }
             default:
                 throw new RuntimeException("Message not recognized: " + parts[0]);
         }
@@ -120,18 +132,6 @@ public class Client extends Thread {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-    }
-
-    public void end() {
-        if (!isConnected()) {
-            throw new RuntimeException("The client is not connected to the NET");
-        }
-        sendMessage(Messages.DISCONNECT + SP_C + GameData.clientNumber);
-        end = true;
-    }
-
-    public boolean isConnected() {
-        return GameData.clientNumber != GameData.NOT_CONNECTED;
     }
 
     public void updateEntityPosition(int entityId, float x, float y, Direction direction) {
@@ -154,41 +154,23 @@ public class Client extends Thread {
         sendMessage(Messages.HP + SP_C + GameData.clientNumber + SP_C + id + SP_C + hp);
     }
 
-    public boolean isSendingData() {
-        return isSendingData;
-    }
-
     public void restart() {
         sendMessage(Messages.RESTART_GAME + SP_C + GameData.clientNumber);
     }
 
-    /*
-    private String getEncrypted(Object obj) {
-        try {
-            ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
-            ObjectOutputStream objStream = new ObjectOutputStream(byteStream);
-            objStream.writeObject(obj);
-            objStream.flush();
-
-            byte[] gameBytes = byteStream.toByteArray();
-
-            return Base64.getEncoder().encodeToString(gameBytes);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+    public boolean isConnected() {
+        return GameData.clientNumber != GameData.NOT_CONNECTED;
     }
 
-    @SuppressWarnings("unchecked")
-    private <T> T decrypt(String text) {
-        try {
-            byte[] gameBytes = Base64.getDecoder().decode(text);
-
-            ByteArrayInputStream byteStream = new ByteArrayInputStream(gameBytes);
-            ObjectInputStream objStream = new ObjectInputStream(byteStream);
-            return (T) objStream.readObject();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+    public boolean isSendingData() {
+        return isSendingData;
     }
-    */
+
+    public void end() {
+        if (!isConnected()) {
+            throw new RuntimeException("The client is not connected to the NET");
+        }
+        sendMessage(Messages.DISCONNECT + SP_C + GameData.clientNumber);
+        end = true;
+    }
 }

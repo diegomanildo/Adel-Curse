@@ -1,6 +1,5 @@
 package game.rooms;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import game.Game;
 import game.entities.GameEntity;
@@ -47,11 +46,10 @@ public class Room extends Group {
         if (MultiplayerGameScreen.client != null && GameData.clientNumber == Server.OWNER) {
             MultiplayerGameScreen.client.createEntity(e);
         }
-        Gdx.app.postRunnable(() -> {
-            entities.add(e);
-            getStage().addActor(e);
-            Game.game.getEntities().add(e);
-        });
+
+        entities.add(e);
+        getStage().addActor(e);
+        Game.game.getEntities().add(e);
     }
 
     @Override
