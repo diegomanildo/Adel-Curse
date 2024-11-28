@@ -1,5 +1,6 @@
 package game.net;
 
+import game.Game;
 import game.entities.GameEntity;
 import game.map.MapConverter;
 import game.map.RoomMap;
@@ -17,7 +18,7 @@ public class Client extends Thread {
     private InetAddress ip;
     private DatagramSocket socket;
     private boolean end;
-    private boolean connected;
+    private boolean isSendingData;
 
     public Client() {
         initAll();
@@ -37,16 +38,17 @@ public class Client extends Thread {
         super.run();
         initAll();
 
-        while (!end) {
+        while (!end && !socket.isClosed()) {
             DatagramPacket packet = new DatagramPacket(new byte[1024], 1024);
-            if (!connected) {
+            if (!isConnected()) {
                 sendMessage(Messages.CONNECT);
             }
             try {
                 socket.receive(packet);
                 processMessage(packet);
             } catch (Exception e) {
-                throw new RuntimeException("\nClient " + GameData.clientNumber + ": " + e);
+                e.printStackTrace();
+                throw new RuntimeException("\nClient " + GameData.clientNumber + ": " + e.getMessage());
             }
         }
 
@@ -60,43 +62,54 @@ public class Client extends Thread {
         switch (parts[0]) {
             case Messages.CONNECT:
                 GameData.clientNumber = Integer.parseInt(parts[1]);
-                connected = true;
                 ip = packet.getAddress();
                 break;
             case Messages.DISCONNECT:
-                GameData.clientNumber = -1;
-                connected = false;
                 break;
             case Messages.CREATE_LEVEL:
                 sendMessage(Messages.INIT_LEVEL + SP_C + MapConverter.convertToString(RoomMap.map));
                 break;
             case Messages.INIT_LEVEL:
+                isSendingData = true;
                 GameData.networkListener.initializeLevel(MapConverter.convertToMap(parts[1]));
                 break;
             case Messages.CREATE_ENTITY:
+                isSendingData = true;
                 GameData.networkListener.createEntity(GameEntity.parseEntity(parts[1]));
                 break;
             case Messages.POSITION:
+                isSendingData = true;
                 GameData.networkListener.moveEntity(Integer.parseInt(parts[1]), Float.parseFloat(parts[2]), Float.parseFloat(parts[3]), Direction.parseDirection(parts[4]));
                 break;
             case Messages.SHOOT:
+                isSendingData = true;
                 GameData.networkListener.createShoot(Integer.parseInt(parts[1]), Direction.parseDirection(parts[2]));
                 break;
             case Messages.HP:
+                isSendingData = true;
                 GameData.networkListener.updateHp(Integer.parseInt(parts[1]), Integer.parseInt(parts[2]));
                 break;
             case Messages.ROOM_CHANGED:
+                isSendingData = true;
                 GameData.networkListener.changeRoom(Direction.parseDirection(parts[1]));
                 break;
             case Messages.START_GAME:
                 Render.startGame = true;
                 break;
+            case Messages.RESTART_GAME:
+                isSendingData = true;
+                Game.restart();
+                break;
             case Messages.END_GAME:
+                isSendingData = true;
+                sendMessage(Messages.DISCONNECT + SP_C + GameData.clientNumber);
                 GameData.networkListener.endGame();
                 break;
             default:
                 throw new RuntimeException("Message not recognized: " + parts[0]);
         }
+
+        isSendingData = false;
     }
 
     private void sendMessage(String message) {
@@ -110,9 +123,11 @@ public class Client extends Thread {
     }
 
     public void end() {
+        if (!isConnected()) {
+            throw new RuntimeException("The client is not connected to the NET");
+        }
         sendMessage(Messages.DISCONNECT + SP_C + GameData.clientNumber);
         end = true;
-        connected = false;
     }
 
     public boolean isConnected() {
@@ -135,8 +150,16 @@ public class Client extends Thread {
         sendMessage(Messages.CREATE_ENTITY + SP_C + GameData.clientNumber + SP_C + e.toString());
     }
 
-    public void updateHp(int hp) {
-        sendMessage(Messages.HP + SP_C + GameData.clientNumber + SP_C + hp);
+    public void updateHp(int id, int hp) {
+        sendMessage(Messages.HP + SP_C + GameData.clientNumber + SP_C + id + SP_C + hp);
+    }
+
+    public boolean isSendingData() {
+        return isSendingData;
+    }
+
+    public void restart() {
+        sendMessage(Messages.RESTART_GAME + SP_C + GameData.clientNumber);
     }
 
     /*

@@ -79,7 +79,12 @@ public abstract class GameAnimation extends Actor {
             frameNumber %= columns;
         }
 
-        TextureRegion currentFrame = frames[index + frameNumber];
+        TextureRegion currentFrame;
+        try {
+            currentFrame = frames[index + frameNumber];
+        } catch (RuntimeException e) {
+            throw new RuntimeException("Class: " + getClass() + " " + e.getMessage(), e);
+        }
 
         batch.draw(currentFrame, getX(), getY(), getWidth(), getHeight());
     }

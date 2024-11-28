@@ -221,8 +221,8 @@ public abstract class Character extends GameEntity implements Statistics {
         if (isDeath()) {
             onDeath();
         }
-        if (MultiplayerGameScreen.client != null) {
-            MultiplayerGameScreen.client.updateHp(hp);
+        if (MultiplayerGameScreen.client != null && !MultiplayerGameScreen.client.isSendingData()) {
+            MultiplayerGameScreen.client.updateHp(getId(), hp);
         }
     }
 

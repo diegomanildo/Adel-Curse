@@ -67,6 +67,9 @@ public class Server extends java.lang.Thread {
                 int index = Integer.parseInt(parts[1]);
                 removeClient(index);
                 break;
+            case Messages.RESTART_GAME:
+                restartGame(parts);
+                break;
             case Messages.CREATE_ENTITY:
                 createEntity(parts);
                 break;
@@ -120,6 +123,8 @@ public class Server extends java.lang.Thread {
             return;
         }
 
+        boolean wereMaxClients = clientsConnected == MAX_CLIENTS;
+
         sendMessage(Messages.DISCONNECT, clients[index].getIp(), clients[index].getPort());
         console("Client " + index + " disconnected");
         clients[index] = null;
@@ -127,9 +132,14 @@ public class Server extends java.lang.Thread {
         System.arraycopy(clients, index + 1, clients, index, clientsConnected - index);
         clients[clientsConnected] = null;
 
-        if (clientsConnected + 1 >= MAX_CLIENTS && clientsConnected < MAX_CLIENTS) {
-            sendMessageToAllExpect(index, Messages.END_GAME);
+        if (wereMaxClients && clientsConnected != MAX_CLIENTS) {
+            clearClients();
         }
+    }
+
+    private void restartGame(String[] parts) {
+        int clientId = Integer.parseInt(parts[1]);
+        sendMessageToAllExpect(clientId, Messages.RESTART_GAME);
     }
 
     private void createEntity(String[] parts) {

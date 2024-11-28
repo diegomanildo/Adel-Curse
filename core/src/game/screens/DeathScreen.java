@@ -5,7 +5,6 @@ import com.badlogic.gdx.utils.Array;
 import game.Game;
 import game.entities.GameEntity;
 import game.entities.characters.playables.Playable;
-import utilities.Render;
 import utilities.TextButton;
 
 public class DeathScreen extends ImageSubScreen {
@@ -19,7 +18,7 @@ public class DeathScreen extends ImageSubScreen {
         Array<TextButton> buttons = new Array<>();
 
         buttons.addAll(
-                new TextButton("Reintentar", Render::setScreenToGame), //playButton
+                new TextButton("Reintentar", Game::restart), //playButton
                 new TextButton("Volver al menu", Game::exit)//backButton
         );
 

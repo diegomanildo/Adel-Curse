@@ -1,5 +1,6 @@
 package game.rooms;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import game.Game;
 import game.entities.GameEntity;
@@ -45,11 +46,12 @@ public class Room extends Group {
     public void createEntity(GameEntity e) {
         if (MultiplayerGameScreen.client != null && GameData.clientNumber == Server.OWNER) {
             MultiplayerGameScreen.client.createEntity(e);
-        } else {
+        }
+        Gdx.app.postRunnable(() -> {
             entities.add(e);
             getStage().addActor(e);
             Game.game.getEntities().add(e);
-        }
+        });
     }
 
     @Override
@@ -126,11 +128,6 @@ public class Room extends Group {
         if (!doors.contains(door)) {
             doors.add(door);
         }
-    }
-
-    @Override
-    public void show() {
-        super.show();
     }
 
     @Override

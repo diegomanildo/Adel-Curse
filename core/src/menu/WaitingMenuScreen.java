@@ -33,13 +33,14 @@ public class WaitingMenuScreen extends BasicOptionsScreen {
 
         if (MultiplayerGameScreen.client.isConnected()) {
             label.setText("Esperando a otro jugador...");
+
+            if (Render.startGame) {
+                Render.startGame = false;
+                backgroundSong.fadeOut(FADE_TIME);
+                Render.setScreenToGame(MultiplayerGameScreen.class);
+            }
         } else {
             label.setText("El cliente no esta conectado a un servidor. (Posiblemente no esta en linea el servidor)");
-        }
-
-        if (Render.startGame) {
-            backgroundSong.fadeOut(FADE_TIME);
-            Render.setScreenToGame(MultiplayerGameScreen.class);
         }
     }
 

@@ -61,7 +61,7 @@ public class Render {
 
     public static void setScreenToGame(Class<? extends AbstractGameScreen> gameClass) {
         Class<? extends AbstractGameScreen> gClass = gameClass != null ? gameClass : getGameClass();
-        setScreen(new Game(gClass));
+        Gdx.app.postRunnable(() -> setScreen(new Game(gClass)));
     }
 
     public static void setScreenToGame() {

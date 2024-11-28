@@ -17,6 +17,10 @@ public final class MultiplayerGameScreen extends AbstractGameScreen implements N
 
     public static Client client;
 
+    public static boolean isSendingData() {
+        return client != null && client.isSendingData();
+    }
+
     public MultiplayerGameScreen() {
         super();
         level = new Level1();

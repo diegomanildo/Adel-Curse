@@ -67,16 +67,30 @@ public final class Game extends Screen {
         } else if (Gdx.input.isKeyJustPressed(Input.Keys.F1)) {
             game.getPlayer().setVelocity(game.getPlayer().getVelocity() * 2f);
             game.getPlayer().setDamage(50);
+        } else if (Gdx.input.isKeyJustPressed(Input.Keys.F2)) {
+            game.getPlayer().damage(1);
         }
+    }
+
+    public static void restart() {
+        if (game instanceof MultiplayerGameScreen && !MultiplayerGameScreen.client.isSendingData()) {
+            MultiplayerGameScreen.client.restart();
+        }
+        Render.setScreenToGame();
     }
 
     public static void exit() {
         Render.sr.setProjectionMatrix(oldShapeRendererMatrix);
         changeSong();
-        if (MultiplayerGameScreen.client != null) {
-            MultiplayerGameScreen.client.end();
-        }
-        Gdx.app.postRunnable(() -> Render.setScreen(new MainMenuScreen()));
+        Gdx.app.postRunnable(() -> {
+            if (MultiplayerGameScreen.client != null) {
+                MultiplayerGameScreen.client.end();
+                GameData.clientNumber = -1;
+                GameData.networkListener = null;
+                MultiplayerGameScreen.client = null;
+            }
+            Render.setScreen(new MainMenuScreen());
+        });
     }
 
     public static void changeSong() {
