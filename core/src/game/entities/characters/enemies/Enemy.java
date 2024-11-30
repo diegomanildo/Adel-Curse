@@ -1,11 +1,13 @@
 package game.entities.characters.enemies;
 
+import com.badlogic.gdx.Gdx;
 import game.Game;
 import game.entities.characters.Character;
 import game.entities.characters.playables.Playable;
 import game.net.GameData;
 import game.net.Server;
 import game.utilities.Direction;
+import game.utilities.Hitbox;
 
 public abstract class Enemy extends Character {
     private static final float SAFE_DISTANCE = 100f;
@@ -15,13 +17,13 @@ public abstract class Enemy extends Character {
         setVelocity(getVelocity() / 2f);
     }
 
+    public Enemy(Stats stats, String texturePath, String bulletTexturePath) {
+        super(stats, texturePath, bulletTexturePath);
+    }
+
     @Override
     protected boolean online_canSendToServer() {
         return super.online_canSendToServer() && GameData.clientNumber == Server.OWNER;
-    }
-
-    public Enemy(Stats stats, String texturePath, String bulletTexturePath) {
-        super(stats, texturePath, bulletTexturePath);
     }
 
     public void target(float playerX, float playerY, float enemyX, float enemyY){
@@ -120,22 +122,69 @@ public abstract class Enemy extends Character {
         float dx = playerX - enemyX;
         float dy = playerY - enemyY;
 
+        Direction oppositeDirection;
+
         if (dx > 0 && dy > 0) {
-            return Direction.DOWN_LEFT;
+            oppositeDirection = Direction.DOWN_LEFT;
         } else if (dx > 0 && dy < 0) {
-            return Direction.UP_LEFT;
+            oppositeDirection = Direction.UP_LEFT;
         } else if (dx < 0 && dy > 0) {
-            return Direction.DOWN_RIGHT;
+            oppositeDirection = Direction.DOWN_RIGHT;
         } else if (dx < 0 && dy < 0) {
-            return Direction.UP_RIGHT;
+            oppositeDirection = Direction.UP_RIGHT;
         } else if (dx > 0) {
-            return Direction.LEFT;
+            oppositeDirection = Direction.LEFT;
         } else if (dx < 0) {
-            return Direction.RIGHT;
+            oppositeDirection = Direction.RIGHT;
         } else if (dy > 0) {
-            return Direction.DOWN;
+            oppositeDirection = Direction.DOWN;
         } else {
-            return Direction.UP;
+            oppositeDirection = Direction.UP;
         }
+
+        return canMove(oppositeDirection) ? oppositeDirection : Direction.NONE;
+    }
+
+    private boolean canMove(Direction direction) {
+        Hitbox levelHitbox = Game.game.getLevel().getHitbox();
+
+        float nextX = getX();
+        float nextY = getY();
+        float speed = getVelocity() * Gdx.graphics.getDeltaTime();
+
+        switch (direction) {
+            case UP:
+                nextY += speed;
+                break;
+            case DOWN:
+                nextY -= speed;
+                break;
+            case LEFT:
+                nextX -= speed;
+                break;
+            case RIGHT:
+                nextX += speed;
+                break;
+            case UP_LEFT:
+                nextX -= speed;
+                nextY += speed;
+                break;
+            case UP_RIGHT:
+                nextX += speed;
+                nextY += speed;
+                break;
+            case DOWN_LEFT:
+                nextX -= speed;
+                nextY -= speed;
+                break;
+            case DOWN_RIGHT:
+                nextX += speed;
+                nextY -= speed;
+                break;
+            default:
+                return true;
+        }
+
+        return levelHitbox.contains(nextX, nextY, getWidth(), getHeight());
     }
 }

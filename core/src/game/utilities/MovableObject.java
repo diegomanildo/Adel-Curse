@@ -57,7 +57,7 @@ public abstract class MovableObject extends GameAnimation {
         setPosition(x, y);
     }
 
-    private int getMoveIndex(Direction direction) {
+    protected int getMoveIndex(Direction direction) {
         switch (direction) {
             case NONE:
             case DOWN:
