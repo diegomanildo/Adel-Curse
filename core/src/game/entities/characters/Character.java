@@ -155,20 +155,21 @@ public abstract class Character extends GameEntity implements Statistics {
 
     private void updateBullets() {
         for (int i = 0; i < bullets.size(); i++) {
-            bullets.get(i).update(Gdx.graphics.getDeltaTime());
+            Bullet bullet = bullets.get(i);
+            bullet.update(Gdx.graphics.getDeltaTime());
             boolean collides;
 
             if (this instanceof Playable) {
-                collides = bullets.get(i).collidesWithEnemy(getDamage());
+                collides = bullet.collidesWithEnemy(getDamage());
             } else if (this instanceof Enemy) {
-                collides = bullets.get(i).collidesWithPlayer(getDamage());
+                collides = bullet.collidesWithPlayer(getDamage());
             } else {
                 throw new RuntimeException("Invalid instance of Character: " + this.getClass().getSimpleName());
             }
 
-            if (bullets.get(i).outOfBounds(Level.camera) || collides) {
-                bullets.get(i).impact();
-                bullets.remove(i);
+            if (bullet.outOfBounds(Level.camera) || collides) {
+                bullet.impact();
+                bullets.remove(bullet);
                 Log.debug("Bullet remove, bullets in screen: " + bullets.size());
             }
         }

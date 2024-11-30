@@ -12,7 +12,7 @@ public final class Bullet extends GameEntity {
     private final Character owner;
     private boolean impacted;
     private float impactTime;
-    private final float impactDuration;
+    private static final float IMPACT_DURATION = 1f;
 
     private final Direction direction;
 
@@ -21,7 +21,6 @@ public final class Bullet extends GameEntity {
         this.owner = owner;
         this.impacted = false;
         this.impactTime = 0f;
-        this.impactDuration = 0.5f;
         this.direction = direction;
         setHitbox(10f, 10f);
     }
@@ -37,7 +36,7 @@ public final class Bullet extends GameEntity {
     public void draw(Batch batch, float parentAlpha) {
         if (impacted) {
             impactTime += Gdx.graphics.getDeltaTime();
-            if (impactTime >= impactDuration) {
+            if (impactTime >= IMPACT_DURATION) {
                 this.remove();
             } else {
                 super.draw(batch, parentAlpha);
