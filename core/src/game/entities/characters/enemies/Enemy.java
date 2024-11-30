@@ -25,36 +25,36 @@ public abstract class Enemy extends Character {
     }
 
     public void target(float playerX, float playerY, float enemyX, float enemyY){
-        if(intoRangeX(playerY, enemyY)){
-            if(leftOrRight(playerX, enemyX)) {
+        if (intoRangeX(playerY, enemyY)) {
+            if (leftOrRight(playerX, enemyX)) {
                 shoot(Direction.RIGHT);
-            } else{
+            } else {
                 shoot(Direction.LEFT);
             }
         }
-        if(intoRangeY(playerX, enemyX)){
-            if(upOrDown(playerY, enemyY)){
+        if (intoRangeY(playerX, enemyX)) {
+            if (upOrDown(playerY, enemyY)) {
                 shoot(Direction.UP);
-            }else{
+            } else {
                 shoot(Direction.DOWN);
             }
         }
     }
 
-    public boolean intoRangeY(float playerX, float enemyX){
-        return enemyX > (playerX - 1.5f) && enemyX < (playerX + 1.5f); //true si esta en el rango de disparo X
+    public boolean intoRangeY(float playerX, float enemyX) {
+        return enemyX > (playerX - 1.5f) && enemyX < (playerX + 1.5f); // true si esta en el rango de disparo X
     }
 
-    public boolean intoRangeX(float playerY, float enemyY){
-        return enemyY > (playerY - 1.5f) && enemyY < (playerY + 1.5f); //true si esta en el rango de disparo Y
+    public boolean intoRangeX(float playerY, float enemyY) {
+        return enemyY > (playerY - 1.5f) && enemyY < (playerY + 1.5f); // true si esta en el rango de disparo Y
     }
 
-    public boolean leftOrRight(float playerX, float enemyX){
-        return enemyX < playerX; //devuelve true si dispara a la derecha
+    public boolean leftOrRight(float playerX, float enemyX) {
+        return enemyX < playerX; // devuelve true si dispara a la derecha
     }
 
-    public boolean upOrDown(float playerY, float enemyY){
-        return enemyY < playerY; //devuelve true si dispara a arriba
+    public boolean upOrDown(float playerY, float enemyY) {
+        return enemyY < playerY; // devuelve true si dispara a arriba
     }
 
     @Override

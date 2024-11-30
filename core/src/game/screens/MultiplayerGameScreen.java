@@ -23,7 +23,7 @@ public final class MultiplayerGameScreen extends AbstractGameScreen implements N
         stage.addActor(level);
 
         for (int i = 0; i < PLAYERS; i++) {
-            Adel player = new Adel(i+1);
+            Adel player = new Adel(i);
             player.setPosition(level.getInitX() - player.getWidth() / 2f, level.getInitY() - player.getHeight() / 2f);
             player.setId(-(i + 1));
             stage.addActor(player);

@@ -1,5 +1,6 @@
 package game.rooms;
 
+import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import game.Game;
 import game.entities.GameEntity;
@@ -8,6 +9,7 @@ import game.map.RoomKinds;
 import game.net.GameData;
 import game.net.Server;
 import game.screens.MultiplayerGameScreen;
+import game.screens.OnePlayerGameScreen;
 import game.utilities.Direction;
 import game.utilities.Entities;
 import game.utilities.Hitbox;
@@ -23,6 +25,13 @@ public class Room extends Group {
     protected static final Door UP = new Door(Direction.UP, new Hitbox(174f, 190f, 20f, 30f));
     protected static final Door DOWN = new Door(Direction.DOWN, new Hitbox(174f, 20f, 20f, 30f));
 
+    protected static final Door[] DOORS = new Door[] {
+            LEFT,
+            RIGHT,
+            UP,
+            DOWN
+    };
+
     private final TiledMap map;
     private RoomKinds roomKind;
     protected final Entities entities;
@@ -33,6 +42,8 @@ public class Room extends Group {
         this.roomKind = roomKind;
         this.entities = new Entities();
         this.doors = new ArrayList<>();
+
+        hideDoors();
     }
 
     private Room(Room other) {
@@ -40,6 +51,29 @@ public class Room extends Group {
         this.roomKind = other.roomKind;
         this.entities = other.entities;
         this.doors = other.doors;
+
+        hideDoors();
+        showDoors();
+    }
+
+    public void hideDoors() {
+        for (MapLayer layer : map.getLayers()) {
+            if (layer.getName().contains("door")) {
+                layer.setVisible(false);
+            }
+        }
+    }
+
+    public void showDoors() {
+        for (Door door : doors) {
+            String name = "door_" + door.getDirection().name().toLowerCase();
+            MapLayer layer = map.getLayers().get(name);
+            if (layer != null) {
+                layer.setVisible(true);
+            } else {
+                throw new RuntimeException("Invalid door layer: " + name);
+            }
+        }
     }
 
     public void createEntity(GameEntity e) {
@@ -47,9 +81,11 @@ public class Room extends Group {
             MultiplayerGameScreen.client.createEntity(e);
         }
 
-        entities.add(e);
-        getStage().addActor(e);
-        Game.game.getEntities().add(e);
+        if (Game.game instanceof OnePlayerGameScreen || GameData.clientNumber == Server.OWNER || (MultiplayerGameScreen.client != null && MultiplayerGameScreen.client.isSendingData())) {
+            entities.add(e);
+            getStage().addActor(e);
+            Game.game.getEntities().add(e);
+        }
     }
 
     @Override
@@ -120,6 +156,8 @@ public class Room extends Group {
             addDoor(DOWN);
             downRoom.addDoor(UP);
         }
+
+        showDoors();
     }
 
     private void addDoor(Door door) {

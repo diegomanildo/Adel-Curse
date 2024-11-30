@@ -2,10 +2,10 @@ package game.utilities;
 
 public enum Direction {
     NONE,
-    DOWN,
-    UP,
-    RIGHT,
     LEFT,
+    RIGHT,
+    UP,
+    DOWN,
     UP_RIGHT,
     UP_LEFT,
     DOWN_RIGHT,
