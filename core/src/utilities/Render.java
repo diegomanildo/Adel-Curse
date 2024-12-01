@@ -25,6 +25,19 @@ public class Render {
 
     private static boolean debug = false;
 
+//    static {
+//        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Gohu.ttf"));
+//        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+//        parameter.size = 16;
+//        BitmapFont font = generator.generateFont(parameter);
+//        generator.dispose();
+//
+//        skin.add("default-font", font, BitmapFont.class);
+//
+//        Label.LabelStyle labelStyle = skin.get(Label.LabelStyle.class);
+//        labelStyle.font = font;
+//    }
+
     public static boolean isDebugging() {
         for (String arg : ManagementFactory.getRuntimeMXBean().getInputArguments()) {
             if (arg.contains("-agentlib:jdwp")) {
