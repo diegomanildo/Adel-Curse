@@ -2,6 +2,7 @@ package game.rooms;
 
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.utils.Array;
 import game.Game;
 import game.entities.GameEntity;
 import game.map.Door;
@@ -71,24 +72,40 @@ public class Room extends Group {
     }
 
     public void hideDoors() {
+        Array<MapLayer> doorsToHide = new Array<>();
+
         for (MapLayer layer : map.getLayers()) {
             if (layer.getName().contains("door")) {
-                layer.setVisible(false);
+                doorsToHide.add(layer); // Agregar la capa a la lista temporal
             }
         }
+
+        // Modificar las capas después de la iteración
+        for (MapLayer layer : doorsToHide) {
+            layer.setVisible(false);
+        }
+
         isShowingDoors = false;
     }
 
     public void showDoors() {
+        Array<MapLayer> layersToShow = new Array<>();
+
         for (Door door : doors) {
             String name = "door_" + door.getDirection().name().toLowerCase();
             MapLayer layer = map.getLayers().get(name);
             if (layer != null) {
-                layer.setVisible(true);
+                layersToShow.add(layer);
             } else {
                 throw new RuntimeException("Invalid door layer: " + name);
             }
         }
+
+        // Ahora modifica las capas fuera del bucle
+        for (MapLayer layer : layersToShow) {
+            layer.setVisible(true);
+        }
+
         isShowingDoors = true;
     }
 

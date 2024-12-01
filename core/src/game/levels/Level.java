@@ -55,7 +55,7 @@ public abstract class Level extends Group {
                 "\n" +
                 "Al despertar, Adel no se encontraba en el cielo, ni en un tranquilo descanso eterno. En su lugar, estaba en un desierto de oscuridad y fuego: el inframundo. Montañas de piedra negra se levantaban sobre un rio de lava que serpenteaba en la distancia. Extrañas criaturas susurraban en las sombras, y el aire estaba cargado de miedo y desesperanza.\n" +
                 "\n" +
-                "De repente, una figura imponente se acerco a él. Un ser encapuchado, con alas desgarradas y ojos llameantes, le hablo con una voz grave: \"Adel, has sido enviado aqui porque tu alma no ha sido juzgada. No fuiste ni malvado ni virtuoso. Tu destino esta en tus manos. Para alcanzar el cielo, deberas superar los desafios de este reino oscuro. Si fracasas, te quedaras aqui por toda la eternidad.\"\n" +
+                "De repente, una figura imponente se acerco a el. Un ser encapuchado, con alas desgarradas y ojos llameantes, le hablo con una voz grave: \"Adel, has sido enviado aqui porque tu alma no ha sido juzgada. No fuiste ni malvado ni virtuoso. Tu destino esta en tus manos. Para alcanzar el cielo, deberas superar los desafios de este reino oscuro. Si fracasas, te quedaras aqui por toda la eternidad.\"\n" +
                 "\n" +
                 "Sin otra opcion, Adel acepto el desafio. Comenzo su travesia a traves de las tierras infernales, enfrentandose a grotescas bestias que surgian del suelo ardiente");
     }
