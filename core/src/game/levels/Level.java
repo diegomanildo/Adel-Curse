@@ -158,4 +158,8 @@ public abstract class Level extends Group {
 
         return map.getCurrent().getDoors();
     }
+
+    public boolean canMove() {
+        return map.getCurrent().canMove();
+    }
 }

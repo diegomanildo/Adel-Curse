@@ -36,12 +36,15 @@ public class Room extends Group {
     private RoomKinds roomKind;
     protected final Entities entities;
     private final ArrayList<Door> doors;
+    private boolean visited;
+    private boolean isShowingDoors;
 
     protected Room(String mapFile, RoomKinds roomKind) {
         this.map = Render.assetManager.get(FilePaths.ROOMS + mapFile);
         this.roomKind = roomKind;
         this.entities = new Entities();
         this.doors = new ArrayList<>();
+        this.visited = false;
 
         hideDoors();
     }
@@ -51,9 +54,20 @@ public class Room extends Group {
         this.roomKind = other.roomKind;
         this.entities = other.entities;
         this.doors = other.doors;
+        this.visited = other.visited;
 
         hideDoors();
         showDoors();
+    }
+
+    @Override
+    public void act(float delta) {
+        super.act(delta);
+        if (!canMove()) {
+            hideDoors();
+        } else {
+            showDoors();
+        }
     }
 
     public void hideDoors() {
@@ -62,6 +76,7 @@ public class Room extends Group {
                 layer.setVisible(false);
             }
         }
+        isShowingDoors = false;
     }
 
     public void showDoors() {
@@ -73,6 +88,17 @@ public class Room extends Group {
             } else {
                 throw new RuntimeException("Invalid door layer: " + name);
             }
+        }
+        isShowingDoors = true;
+    }
+
+    @Override
+    public void show() {
+        super.show();
+        if (Game.game.getEntities().getEnemies().isEmpty() && !isShowingDoors) {
+            showDoors();
+        } else if (isShowingDoors) {
+            hideDoors();
         }
     }
 
@@ -136,6 +162,14 @@ public class Room extends Group {
         return entities;
     }
 
+    public boolean isVisited() {
+        return visited;
+    }
+
+    public void setVisited(boolean visited) {
+        this.visited = visited;
+    }
+
     public void createDoors(Room leftRoom, Room rightRoom, Room upRoom, Room downRoom) {
         if (leftRoom != null) {
             addDoor(LEFT);
@@ -158,6 +192,14 @@ public class Room extends Group {
         }
 
         showDoors();
+    }
+
+    public boolean isShowingDoors() {
+        return isShowingDoors;
+    }
+
+    public boolean canMove() {
+        return Game.game.getEntities().getEnemies().isEmpty();
     }
 
     private void addDoor(Door door) {

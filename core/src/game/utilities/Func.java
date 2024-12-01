@@ -2,5 +2,5 @@ package game.utilities;
 
 @FunctionalInterface
 public interface Func {
-    public void run(Direction direction);
+    void run(Direction direction);
 }

@@ -12,9 +12,9 @@ public final class Bullet extends GameEntity {
     private final Character owner;
     private boolean impacted;
     private float impactTime;
-    private static final float IMPACT_DURATION = 1f;
 
     private final Direction direction;
+    private Runnable onImpactEnds;
 
     public Bullet(Character owner, String texturePath, Direction direction, float frameDuration) {
         super(texturePath, 2, 5, frameDuration);
@@ -25,18 +25,19 @@ public final class Bullet extends GameEntity {
         setHitbox(10f, 10f);
     }
 
-    public void impact() {
+    public void impact(Runnable onImpactEnds) {
+        this.onImpactEnds = onImpactEnds;
         impacted = true;
         impactTime = 0f;
         setAnimation(4);
-        setFrameDuration(getFrameDuration() - getFrameDuration() / 10f);
     }
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
         if (impacted) {
             impactTime += Gdx.graphics.getDeltaTime();
-            if (impactTime >= IMPACT_DURATION) {
+            if (impactTime >= getFrameDuration()) {
+                onImpactEnds.run();
                 this.remove();
             } else {
                 super.draw(batch, parentAlpha);
@@ -49,22 +50,26 @@ public final class Bullet extends GameEntity {
     // Update bullet position
     public void update(float deltaTime) {
         super.act(deltaTime);
+        if (impacted) {
+            return;
+        }
+
         float x = getX();
         float y = getY();
-        float velocity = getVelocity();
+        float velocity = getVelocity() * deltaTime;
 
         switch (direction) {
             case DOWN:
-                y -= velocity * deltaTime;
+                y -= velocity;
                 break;
             case UP:
-                y += velocity * deltaTime;
+                y += velocity;
                 break;
             case RIGHT:
-                x += velocity * deltaTime;
+                x += velocity;
                 break;
             case LEFT:
-                x -= velocity * deltaTime;
+                x -= velocity;
                 break;
             default:
                 throw new RuntimeException("The direction " + direction + " is not valid");
@@ -82,7 +87,7 @@ public final class Bullet extends GameEntity {
     // Check if the parent is not the same entity and if collides with the bullet
     public boolean collidesWithEnemy(int damageReceived) {
         for (Enemy e : Game.game.getEntities().getEnemies()) {
-            if (e.collidesWith(this) && e != owner) {
+            if (e.collidesWith(this) && e != owner && !impacted) {
                 e.damage(damageReceived);
                 return true;
             }
@@ -93,7 +98,7 @@ public final class Bullet extends GameEntity {
 
     public boolean collidesWithPlayer(int damageReceived) {
         for (Character c : Game.game.getEntities().getPlayers()) {
-            if (c.collidesWith(this) && c != owner) {
+            if (c.collidesWith(this) && c != owner && !impacted) {
                 c.damage(damageReceived);
                 return true;
             }

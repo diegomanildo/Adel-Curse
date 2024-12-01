@@ -10,13 +10,12 @@ import game.net.Server;
 import game.screens.MultiplayerGameScreen;
 import game.utilities.Direction;
 import game.utilities.EntityClassList;
-
-import java.util.Random;
+import utilities.Utils;
 
 public abstract class EnemyRoom extends Room {
     private static final float MIN_DISTANCE = 30f;
+
     private final EntityClassList entitiesClasses;
-    private static final Random random = new Random();
     private final int quantityOfEntities;
     private boolean spawnEntities = true;
     private boolean spawnLeft = false;
@@ -37,10 +36,15 @@ public abstract class EnemyRoom extends Room {
     @Override
     public void show() {
         super.show();
-        if (spawnEntities) {
+
+        if (!isVisited() && spawnEntities) {
             generateEntities(quantityOfEntities);
         }
-        createItems();
+
+        if (spawnEntities) {
+            createItems();
+        }
+
         Game.game.onDoorsChanged = direction -> {
             Playable player = Game.game.getPlayer();
             switch (direction) {
@@ -88,22 +92,17 @@ public abstract class EnemyRoom extends Room {
         float x, y;
 
         do {
-            x = random.nextFloat() * getWidth();
-            y = random.nextFloat() * getHeight();
+            x = Utils.r.nextFloat() * getWidth();
+            y = Utils.r.nextFloat() * getHeight();
         } while (distance(playerX, playerY, x, y) < MIN_DISTANCE);
 
-        GameEntity e = getRandomEntityAt(x, y);
+        GameEntity e = entitiesClasses.getRandomEntity();
+        e.setPosition(x, y);
         createEntity(e);
     }
 
     private static float distance(float x1, float y1, float x2, float y2) {
         return (float) Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
-    }
-
-    private GameEntity getRandomEntityAt(float x, float y) {
-        GameEntity entity = entitiesClasses.getRandomEntity();
-        entity.setPosition(x, y);
-        return entity;
     }
 
     private void createItems() {

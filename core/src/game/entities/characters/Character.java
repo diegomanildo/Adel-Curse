@@ -13,7 +13,10 @@ import game.levels.Level;
 import game.screens.MultiplayerGameScreen;
 import game.utilities.Direction;
 import game.utilities.Hitbox;
-import utilities.*;
+import utilities.Actor;
+import utilities.FilePaths;
+import utilities.Label;
+import utilities.Timer;
 import utilities.audio.Sound;
 
 import java.util.ArrayList;
@@ -167,10 +170,10 @@ public abstract class Character extends GameEntity implements Statistics {
                 throw new RuntimeException("Invalid instance of Character: " + this.getClass().getSimpleName());
             }
 
-            if (bullet.outOfBounds(Level.camera) || collides) {
-                bullet.impact();
+            if (bullet.outOfBounds(Level.camera)) {
                 bullets.remove(bullet);
-                Log.debug("Bullet remove, bullets in screen: " + bullets.size());
+            } else if (collides) {
+                bullet.impact(() -> bullets.remove(bullet));
             }
         }
     }
@@ -178,14 +181,24 @@ public abstract class Character extends GameEntity implements Statistics {
     @Override
     public void draw(Batch batch, float parentAlpha) {
         // First draw down bullets
-        bullets.stream().filter(b -> b.getDirection() != Direction.DOWN).forEach(b -> b.draw(batch, parentAlpha));
+        for (int i = 0; i < bullets.size(); i++) {
+            Bullet b = bullets.get(i);
+            if (b != null && b.getDirection() != Direction.DOWN) {
+                b.draw(batch, parentAlpha);
+            }
+        }
 
         super.draw(batch, parentAlpha);
         hpLabel.setPosition(getX(), getY() + getHeight());
         hpLabel.draw(batch, parentAlpha);
 
         // Then others
-        bullets.stream().filter(b -> b.getDirection() == Direction.DOWN).forEach(b -> b.draw(batch, parentAlpha));
+        for (int i = 0; i < bullets.size(); i++) {
+            Bullet b = bullets.get(i);
+            if (b != null && b.getDirection() == Direction.DOWN) {
+                b.draw(batch, parentAlpha);
+            }
+        }
     }
 
     @Override
