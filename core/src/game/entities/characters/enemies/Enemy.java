@@ -22,6 +22,11 @@ public abstract class Enemy extends Character {
     }
 
     @Override
+    protected String getShootSoundPath() {
+        return "game/enemyShoot.mp3";
+    }
+
+    @Override
     protected boolean online_canSendToServer() {
         return super.online_canSendToServer() && GameData.clientNumber == Server.OWNER;
     }

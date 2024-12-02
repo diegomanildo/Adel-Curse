@@ -59,7 +59,9 @@ public class AssetManager extends com.badlogic.gdx.assets.AssetManager {
         load(FilePaths.AUDIO + "game/music/undead.mp3", Music.class);
         load(FilePaths.AUDIO + "game/music/undeadIntro.mp3", Music.class);
         load(FilePaths.AUDIO + "game/death.mp3", Music.class);
-        load(FilePaths.AUDIO + "game/shoot.mp3", Music.class);
+        load(FilePaths.AUDIO + "game/playerShoot.mp3", Music.class);
+        load(FilePaths.AUDIO + "game/enemyShoot.mp3", Music.class);
+        load(FilePaths.AUDIO + "game/bossShoot.mp3", Music.class);
         load(FilePaths.AUDIO + "clickSound.mp3", Music.class);
         load(FilePaths.AUDIO + "hoverSound.mp3", Music.class);
         load(FilePaths.AUDIO + "menuMusic.mp3", Music.class);

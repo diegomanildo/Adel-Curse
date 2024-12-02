@@ -41,7 +41,7 @@ public abstract class Character extends GameEntity implements Statistics {
         this.bullets = new ArrayList<>();
         this.bulletTexturePath = bulletTexturePath;
         this.deathSound = new Sound("Sfx", "game/death.mp3");
-        this.shootSound = new Sound("Sfx", "game/shoot.mp3");
+        this.shootSound = new Sound("Sfx", getShootSoundPath());
 
         this.shootTime = new Timer();
         this.firstShoot = false;
@@ -57,6 +57,8 @@ public abstract class Character extends GameEntity implements Statistics {
     public Character(Stats stats, String texturePath, String bulletTexturePath) {
         this(stats, texturePath, bulletTexturePath, 2, 8);
     }
+
+    protected abstract String getShootSoundPath();
 
     @Override
     public void setSize(float width, float height) {
@@ -151,9 +153,7 @@ public abstract class Character extends GameEntity implements Statistics {
             MultiplayerGameScreen.client.createShoot(getId(), bulletDirection);
         }
 
-        if (this instanceof Playable) {
-            shootSound.play();
-        }
+        shootSound.play();
     }
 
     private void updateBullets() {

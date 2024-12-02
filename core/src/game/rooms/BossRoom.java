@@ -2,7 +2,7 @@ package game.rooms;
 
 import com.badlogic.gdx.utils.Array;
 import game.Game;
-import game.entities.characters.enemies.DeadEye;
+import game.entities.characters.enemies.bosses.DeadEye;
 import game.map.RoomKinds;
 import utilities.audio.Song;
 
