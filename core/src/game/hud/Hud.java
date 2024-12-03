@@ -10,15 +10,17 @@ import utilities.SubScreen;
 public class Hud extends SubScreen {
     private final Playable player;
     private final Label hpLabel;
+    private final Label armorLabel;
     private final Label timerLabel;
     private final Label damageLabel;
 
     public Hud() {
         super();
-        this.player = Game.game.getPlayer();
-        this.hpLabel = new Label();
-        this.timerLabel = new Label();
-        this.damageLabel = new Label();
+        player = Game.game.getPlayer();
+        hpLabel = new Label();
+        armorLabel = new Label();
+        timerLabel = new Label();
+        damageLabel = new Label();
         ItemListShower itemListShower = new ItemListShower(player.getItems());
         HpBar hpBar = new HpBar(player);
         MiniMap miniMap = new MiniMap(Game.game.getLevel().getMap(), 25f);
@@ -36,6 +38,8 @@ public class Hud extends SubScreen {
         table.row();
         table.add(damageLabel).center().left();
         table.row();
+        table.add(armorLabel).center().left();
+        table.row();
         table.add(timerLabel).center().top().expandX();
         table.add(miniMap).right().top();
         table.row();
@@ -49,6 +53,7 @@ public class Hud extends SubScreen {
         super.render(delta);
         hpLabel.setText(player.getHp() + "/" + player.getMaxHp() + " HP");
         damageLabel.setText("Damage: " + player.getDamage());
+        armorLabel.setText("Armor: " + player.getArmor());
 
         long hours = (long) Game.game.getTimer().getHours();
         long minutes = (long) Game.game.getTimer().getMinutes();

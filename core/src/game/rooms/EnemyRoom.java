@@ -8,7 +8,6 @@ import game.map.Door;
 import game.net.GameData;
 import game.net.Server;
 import game.screens.MultiplayerGameScreen;
-import game.utilities.Direction;
 import game.utilities.EntityClassList;
 import utilities.Utils;
 
@@ -18,14 +17,6 @@ public abstract class EnemyRoom extends Room {
     private final EntityClassList entitiesClasses;
     private final int quantityOfEntities;
     private boolean spawnEntities = true;
-    private boolean spawnLeft = false;
-    private boolean spawnRight = false;
-    private boolean spawnUp = false;
-    private boolean spawnDown = false;
-    private Item itemLeft;
-    private Item itemRight;
-    private Item itemUp;
-    private Item itemDown;
 
     protected EnemyRoom(String mapFile, EntityClassList entitiesClasses, int quantityOfEntities) {
         super(mapFile);
@@ -47,29 +38,9 @@ public abstract class EnemyRoom extends Room {
 
         Game.game.onDoorsChanged = direction -> {
             Playable player = Game.game.getPlayer();
-            switch (direction) {
-                case LEFT: {
-                    player.addItem(itemLeft);
-                    removeActor(itemLeft);
-                    break;
-                }
-                case RIGHT: {
-                    player.addItem(itemRight);
-                    removeActor(itemRight);
-                    break;
-                }
-                case UP: {
-                    player.addItem(itemUp);
-                    removeActor(itemUp);
-                    break;
-                }
-                case DOWN: {
-                    player.addItem(itemDown);
-                    removeActor(itemDown);
-                    break;
-                }
-                default:
-                    throw new RuntimeException("Direction " + direction + " isn´t a valid direction");
+            for (Door door : getDoors()) {
+                player.addItem(door.getItem());
+                removeActor(door.getItem());
             }
         };
     }
@@ -106,58 +77,27 @@ public abstract class EnemyRoom extends Room {
     }
 
     private void createItems() {
-        Door[] doors = getDoors();
-        for (Door door : doors) {
-            Direction direction = door.getDirection();
-            switch (direction) {
-                case LEFT: {
-                    if (!spawnLeft) {
-                        itemLeft = Item.ITEMS.getRandomItem();
-                        itemLeft.setPosition(LEFT.getHitbox().x + 5, LEFT.getHitbox().y);
-                        itemLeft.setSize(20f, 20f);
-                        spawnLeft = true;
-                    }
-                    if (itemLeft != null) {
-                        createEntity(itemLeft);
-                    }
+        for (Door door : getDoors()) {
+            Item item = Item.ITEMS.getRandomItem();
+            item.setSize(20f, 20f);
+
+            switch (door.getDirection()) {
+                case LEFT:
+                    item.setPosition(LEFT.getHitbox().x + 5, LEFT.getHitbox().y);
                     break;
-                }
-                case RIGHT: {
-                    if (!spawnRight) {
-                        itemRight = Item.ITEMS.getRandomItem();
-                        itemRight.setPosition(RIGHT.getHitbox().x + 13, RIGHT.getHitbox().y + 1);
-                        itemRight.setSize(20f, 20f);
-                        spawnRight = true;
-                    }
-                    if (itemRight != null) {
-                        createEntity(itemRight);
-                    }
+                case RIGHT:
+                    item.setPosition(RIGHT.getHitbox().x + 13, RIGHT.getHitbox().y + 1);
                     break;
-                }
-                case UP: {
-                    if (!spawnUp) {
-                        itemUp = Item.ITEMS.getRandomItem();
-                        itemUp.setPosition(UP.getHitbox().x, UP.getHitbox().y + 7);
-                        itemUp.setSize(20f, 20f);
-                        spawnUp = true;
-                    }
-                    if (itemUp != null) {
-                        createEntity(itemUp);
-                    }
+                case UP:
+                    item.setPosition(UP.getHitbox().x, UP.getHitbox().y + 7);
                     break;
-                }
                 case DOWN:
-                    if (!spawnDown) {
-                        itemDown = Item.ITEMS.getRandomItem();
-                        itemDown.setPosition(DOWN.getHitbox().x, DOWN.getHitbox().y + 3);
-                        itemDown.setSize(20f, 20f);
-                        spawnDown = true;
-                    }
-                    if (itemDown != null) {
-                        createEntity(itemDown);
-                    }
+                    item.setPosition(DOWN.getHitbox().x, DOWN.getHitbox().y + 3);
                     break;
             }
+
+            createEntity(item);
+            door.setItem(item);
         }
     }
 

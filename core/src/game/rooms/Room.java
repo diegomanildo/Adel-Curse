@@ -46,8 +46,6 @@ public class Room extends Group {
         this.entities = new Entities();
         this.doors = new ArrayList<>();
         this.visited = false;
-
-        hideDoors();
     }
 
     private Room(Room other) {
@@ -56,9 +54,7 @@ public class Room extends Group {
         this.entities = other.entities;
         this.doors = other.doors;
         this.visited = other.visited;
-
-        hideDoors();
-        showDoors();
+        this.isShowingDoors = other.isShowingDoors;
     }
 
     @Override
