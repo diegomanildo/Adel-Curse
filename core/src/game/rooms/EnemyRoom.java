@@ -2,7 +2,6 @@ package game.rooms;
 
 import game.Game;
 import game.entities.GameEntity;
-import game.entities.characters.playables.Playable;
 import game.entities.items.Item;
 import game.map.Door;
 import game.net.GameData;
@@ -27,22 +26,30 @@ public abstract class EnemyRoom extends Room {
     @Override
     public void show() {
         super.show();
-
-        if (!isVisited() && spawnEntities) {
+        if (spawnEntities && !isVisited()) {
             generateEntities(quantityOfEntities);
-        }
-
-        if (spawnEntities) {
             createItems();
         }
 
+        showItems();
+
         Game.game.onDoorsChanged = direction -> {
-            Playable player = Game.game.getPlayer();
             for (Door door : getDoors()) {
-                player.addItem(door.getItem());
-                removeActor(door.getItem());
+                if (door.hasItem() && door.getDirection().equals(direction)) {
+                    Item item = door.getItem();
+                    Game.game.getPlayer().addItem(item);
+                    removeActor(item);
+                }
             }
         };
+    }
+
+    private void showItems() {
+        for (Door door : getDoors()) {
+            if (door.hasItem()) {
+                createEntity(door.getItem());
+            }
+        }
     }
 
     private void generateEntities(int quantity) {
@@ -67,8 +74,7 @@ public abstract class EnemyRoom extends Room {
             y = Utils.r.nextFloat() * getHeight();
         } while (distance(playerX, playerY, x, y) < MIN_DISTANCE);
 
-        GameEntity e = entitiesClasses.getRandomEntity();
-        e.setPosition(x, y);
+        GameEntity e = getRandomEntityAt(x, y);
         createEntity(e);
     }
 
@@ -76,28 +82,38 @@ public abstract class EnemyRoom extends Room {
         return (float) Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
     }
 
+    private GameEntity getRandomEntityAt(float x, float y) {
+        GameEntity entity = entitiesClasses.getRandomEntity();
+        entity.setPosition(x, y);
+        return entity;
+    }
+
     private void createItems() {
         for (Door door : getDoors()) {
-            Item item = Item.ITEMS.getRandomItem();
-            item.setSize(20f, 20f);
+            if (!door.hasItem()) {
+                Item item = Item.ITEMS.getRandomItem();
+                item.setSize(20f, 20f);
 
-            switch (door.getDirection()) {
-                case LEFT:
-                    item.setPosition(LEFT.getHitbox().x + 5, LEFT.getHitbox().y);
-                    break;
-                case RIGHT:
-                    item.setPosition(RIGHT.getHitbox().x + 13, RIGHT.getHitbox().y + 1);
-                    break;
-                case UP:
-                    item.setPosition(UP.getHitbox().x, UP.getHitbox().y + 7);
-                    break;
-                case DOWN:
-                    item.setPosition(DOWN.getHitbox().x, DOWN.getHitbox().y + 3);
-                    break;
+                switch (door.getDirection()) {
+                    case LEFT:
+                        item.setPosition(left.getHitbox().x + 5, left.getHitbox().y);
+                        break;
+                    case RIGHT:
+                        item.setPosition(right.getHitbox().x + 13, right.getHitbox().y + 1);
+                        break;
+                    case UP:
+                        item.setPosition(up.getHitbox().x, up.getHitbox().y + 7);
+                        break;
+                    case DOWN:
+                        item.setPosition(down.getHitbox().x, down.getHitbox().y + 3);
+                        break;
+                    default:
+                        throw new RuntimeException("Invalid direction: " + door.getDirection());
+                }
+
+                door.setItem(item);
+                createEntity(item);
             }
-
-            createEntity(item);
-            door.setItem(item);
         }
     }
 

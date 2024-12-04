@@ -70,6 +70,7 @@ public class ChatBox extends Label {
         if (displayedText.length() < text.length()) {
             int charsToShow = (int) ((elapsedTime / transitionTime) * text.length());
 
+            charsToShow = Math.min(charsToShow, text.length());
             displayedText = text.substring(0, charsToShow);
             super.setText(displayedText);
             elapsedTime += delta;

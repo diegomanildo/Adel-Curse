@@ -7,7 +7,6 @@ import game.rooms.Room;
 import utilities.Group;
 import utilities.Utils;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,9 +64,7 @@ public class RoomMap extends Group {
 
             room.createDoors(leftRoom, rightRoom, upRoom, downRoom);
             map[row][column] = room;
-        } catch(InvocationTargetException e) {
-            throw new RuntimeException(e);
-        } catch(Exception e) {
+        } catch (Exception e) {
             throw new RuntimeException("Room class \"" + roomClass.getName() + "\" is not valid (" + e.getClass() + ")");
         }
 

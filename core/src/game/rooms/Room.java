@@ -21,17 +21,10 @@ import utilities.Render;
 import java.util.ArrayList;
 
 public class Room extends Group {
-    protected static final Door LEFT = new Door(Direction.LEFT, new Hitbox(20f, 110f, 38f, 20f));
-    protected static final Door RIGHT = new Door(Direction.RIGHT, new Hitbox(310f, 110f, 38f, 20f));
-    protected static final Door UP = new Door(Direction.UP, new Hitbox(174f, 190f, 20f, 30f));
-    protected static final Door DOWN = new Door(Direction.DOWN, new Hitbox(174f, 20f, 20f, 30f));
-
-    protected static final Door[] DOORS = new Door[] {
-            LEFT,
-            RIGHT,
-            UP,
-            DOWN
-    };
+    protected final Door left = new Door(Direction.LEFT, new Hitbox(20f, 110f, 38f, 20f));
+    protected final Door right = new Door(Direction.RIGHT, new Hitbox(310f, 110f, 38f, 20f));
+    protected final Door up = new Door(Direction.UP, new Hitbox(174f, 190f, 20f, 30f));
+    protected final Door down = new Door(Direction.DOWN, new Hitbox(174f, 20f, 20f, 30f));
 
     private final TiledMap map;
     private RoomKinds roomKind;
@@ -72,11 +65,10 @@ public class Room extends Group {
 
         for (MapLayer layer : map.getLayers()) {
             if (layer.getName().contains("door")) {
-                doorsToHide.add(layer); // Agregar la capa a la lista temporal
+                doorsToHide.add(layer);
             }
         }
 
-        // Modificar las capas después de la iteración
         for (MapLayer layer : doorsToHide) {
             layer.setVisible(false);
         }
@@ -122,7 +114,9 @@ public class Room extends Group {
 
         if (Game.game instanceof OnePlayerGameScreen || GameData.clientNumber == Server.OWNER || (MultiplayerGameScreen.client != null && MultiplayerGameScreen.client.isSendingData())) {
             entities.add(e);
-            getStage().addActor(e);
+            if (getStage() != null) {
+                getStage().addActor(e);
+            }
             Game.game.getEntities().add(e);
         }
     }
@@ -185,23 +179,23 @@ public class Room extends Group {
 
     public void createDoors(Room leftRoom, Room rightRoom, Room upRoom, Room downRoom) {
         if (leftRoom != null) {
-            addDoor(LEFT);
-            leftRoom.addDoor(RIGHT);
+            addDoor(left);
+            leftRoom.addDoor(right);
         }
 
         if (rightRoom != null) {
-            addDoor(RIGHT);
-            rightRoom.addDoor(LEFT);
+            addDoor(right);
+            rightRoom.addDoor(left);
         }
 
         if (upRoom != null) {
-            addDoor(UP);
-            upRoom.addDoor(DOWN);
+            addDoor(up);
+            upRoom.addDoor(down);
         }
 
         if (downRoom != null) {
-            addDoor(DOWN);
-            downRoom.addDoor(UP);
+            addDoor(down);
+            downRoom.addDoor(up);
         }
 
         showDoors();
