@@ -42,6 +42,7 @@ public class GameMap extends RoomMap {
 
         addActor(current);
         current.show();
+        current.setVisited(true);
 
         return current;
     }

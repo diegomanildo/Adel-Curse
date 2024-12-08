@@ -3,12 +3,12 @@ package game.screens;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Array;
 import game.Game;
-import utilities.Render;
+import game.entities.GameEntity;
 import utilities.TextButton;
 
 public class WinScreen extends ImageSubScreen {
     public WinScreen() {
-        super("backgrounds/deathScreen.png");
+        super("backgrounds/winScreen.png");
         setShow(false);
 
         Table table = new Table();
@@ -17,7 +17,7 @@ public class WinScreen extends ImageSubScreen {
         Array<TextButton> buttons = new Array<>();
 
         buttons.addAll(
-                new TextButton("Reintentar", Render::setScreenToGame), //playButton
+                new TextButton("Reintentar", Game::restart), //playButton
                 new TextButton("Volver al menu", Game::exit)//backButton
         );
 
@@ -27,5 +27,17 @@ public class WinScreen extends ImageSubScreen {
         });
 
         stage.addActor(table);
+    }
+
+    @Override
+    public void setShow(boolean show) {
+        super.setShow(show);
+        if (show) {
+            Game.game.getEntities().forEach(GameEntity::pause);
+            Game.game.getTimer().pause();
+        } else {
+            Game.game.getEntities().forEach(GameEntity::resume);
+            Game.game.getTimer().resume();
+        }
     }
 }

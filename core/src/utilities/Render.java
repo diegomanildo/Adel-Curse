@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.ScreenUtils;
 import game.Game;
+import game.managers.AssetManager;
 import game.screens.AbstractGameScreen;
 import game.screens.MultiplayerGameScreen;
 import game.screens.OnePlayerGameScreen;
@@ -17,11 +18,25 @@ public class Render {
     public static Skin skin = new Skin(Gdx.files.internal("uiskin.json"));
     public static Juego app;
     public static ShapeRenderer sr = new ShapeRenderer();
+    public static AssetManager assetManager = new AssetManager();
 
     public static int fps = 60;
     public static boolean startGame = false;
 
     private static boolean debug = false;
+
+//    static {
+//        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Gohu.ttf"));
+//        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+//        parameter.size = 16;
+//        BitmapFont font = generator.generateFont(parameter);
+//        generator.dispose();
+//
+//        skin.add("default-font", font, BitmapFont.class);
+//
+//        Label.LabelStyle labelStyle = skin.get(Label.LabelStyle.class);
+//        labelStyle.font = font;
+//    }
 
     public static boolean isDebugging() {
         for (String arg : ManagementFactory.getRuntimeMXBean().getInputArguments()) {
@@ -59,7 +74,7 @@ public class Render {
 
     public static void setScreenToGame(Class<? extends AbstractGameScreen> gameClass) {
         Class<? extends AbstractGameScreen> gClass = gameClass != null ? gameClass : getGameClass();
-        setScreen(new Game(gClass));
+        Gdx.app.postRunnable(() -> setScreen(new Game(gClass)));
     }
 
     public static void setScreenToGame() {

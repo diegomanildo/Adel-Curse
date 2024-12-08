@@ -19,17 +19,6 @@ public class Entities extends ArrayList<GameEntity> {
         return enemies;
     }
 
-    @SuppressWarnings("unchecked")
-    public <T extends GameEntity> T getEntity(int id) {
-        for (GameEntity e : this) {
-            if (e.getId() == id) {
-                return (T) e;
-            }
-        }
-
-        return null;
-    }
-
     public Array<Playable> getPlayers() {
         Array<Playable> players = new Array<>();
         for (GameEntity entity : this) {

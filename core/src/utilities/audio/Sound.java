@@ -21,7 +21,7 @@ public final class Sound extends Audio {
 
     @Override
     public void play() {
-        sound.play();
+        Gdx.app.postRunnable(sound::play);
     }
 
     @Override

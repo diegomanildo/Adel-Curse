@@ -1,7 +1,5 @@
 package game.entities.items;
 
-import utilities.Log;
-
 public class Shell extends Item {
     private static final int ARMOR = 2;
 
@@ -12,6 +10,5 @@ public class Shell extends Item {
     @Override
     protected void applyEffect() {
         owner.addArmor(ARMOR);
-        Log.log(String.valueOf(owner.getArmor()));
     }
 }

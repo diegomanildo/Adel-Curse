@@ -18,7 +18,7 @@ public final class MainMenuScreen extends BasicMainMenuScreen {
         Array<TextButton> buttons = new Array<>();
         buttons.addAll(
                 new TextButton("1 Jugador", () -> Render.setScreen(new Game(OnePlayerGameScreen.class))),
-                new TextButton("Multijugador", () -> Render.setScreen(new WaitingMenuScreen())),
+                new TextButton("Multijugador", () -> Render.setScreen(new WaitingMenuScreen(new MainMenuScreen()))),
                 new TextButton("Controles", () -> Render.setScreen(new ControlsScreen(new MainMenuScreen()))),
                 new TextButton("Configuracion", () -> Render.setScreen(new SettingsScreen(new MainMenuScreen()))),
                 new TextButton("Salir", () -> Gdx.app.exit())

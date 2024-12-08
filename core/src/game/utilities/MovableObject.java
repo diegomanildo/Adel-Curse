@@ -13,7 +13,6 @@ public abstract class MovableObject extends GameAnimation {
     // Move character with a direction chosen
     public void move(Direction direction) {
         this.direction = direction;
-        int moveIndex;
         float x = getX();
         float y = getY();
         float velocity = getVelocity() * Gdx.graphics.getDeltaTime();
@@ -21,41 +20,32 @@ public abstract class MovableObject extends GameAnimation {
 
         switch (direction) {
             case NONE:
-                moveIndex = 0;
                 break;
             case DOWN:
-                moveIndex = 0;
                 y -= velocity;
                 break;
             case UP:
-                moveIndex = 1;
                 y += velocity;
                 break;
             case RIGHT:
-                moveIndex = 2;
                 x += velocity;
                 break;
             case LEFT:
-                moveIndex = 3;
                 x -= velocity;
                 break;
             case DOWN_RIGHT:
-                moveIndex = 0;
                 x += diagonalVelocity;
                 y -= diagonalVelocity;
                 break;
             case DOWN_LEFT:
-                moveIndex = 0;
                 x -= diagonalVelocity;
                 y -= diagonalVelocity;
                 break;
             case UP_RIGHT:
-                moveIndex = 1;
                 x += diagonalVelocity;
                 y += diagonalVelocity;
                 break;
             case UP_LEFT:
-                moveIndex = 1;
                 x -= diagonalVelocity;
                 y += diagonalVelocity;
                 break;
@@ -63,8 +53,28 @@ public abstract class MovableObject extends GameAnimation {
                 throw new RuntimeException("The direction " + direction + " is not valid");
         }
 
-        setAnimation(moveIndex);
+        setAnimation(getMoveIndex(direction));
         setPosition(x, y);
+    }
+
+    protected int getMoveIndex(Direction direction) {
+        switch (direction) {
+            case NONE:
+            case DOWN:
+            case DOWN_RIGHT:
+            case DOWN_LEFT:
+                return 0;
+            case UP:
+            case UP_RIGHT:
+            case UP_LEFT:
+                return 1;
+            case RIGHT:
+                return 2;
+            case LEFT:
+                return 3;
+            default:
+                throw new RuntimeException("The direction " + direction + " is not valid");
+        }
     }
 
     public float getVelocity() {
@@ -77,5 +87,10 @@ public abstract class MovableObject extends GameAnimation {
 
     public Direction getDirection() {
         return direction;
+    }
+
+    public void setDirection(Direction direction) {
+        this.direction = direction;
+        setAnimation(getMoveIndex(direction));
     }
 }

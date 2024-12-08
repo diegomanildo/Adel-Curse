@@ -16,9 +16,13 @@ public abstract class GameEntity extends MovableObject {
     public void move(Direction direction) {
         super.move(direction);
 
-        if (MultiplayerGameScreen.client != null) {
-            MultiplayerGameScreen.client.updateEntityPosition(getId(), getX(), getY());
+        if (MultiplayerGameScreen.client != null && online_canSendToServer()) {
+            MultiplayerGameScreen.client.updateEntityPosition(getId(), getX(), getY(), getDirection());
         }
+    }
+
+    protected boolean online_canSendToServer() {
+        return true;
     }
 
     public int getId() {
@@ -34,10 +38,39 @@ public abstract class GameEntity extends MovableObject {
     }
 
     public void setId(int id) {
-        if (id < 0 || id > ids) {
-            this.id = id;
-        } else {
-            throw new RuntimeException("Id " + id + " is not valid");
+        this.id = id;
+    }
+
+    public static final String SP_C = "¿";
+
+    @Override
+    public String toString() {
+        return getClass().getName() + SP_C + getX() + SP_C + getY() + SP_C + getId();
+    }
+
+    public static GameEntity parseEntity(String character) {
+        String[] parts = character.split(SP_C);
+        GameEntity g;
+
+        try {
+            Class<?> clazz = Class.forName(parts[0]);
+            Object ent = clazz.getDeclaredConstructor().newInstance();
+            if (ent instanceof GameEntity) {
+                g = (GameEntity) ent;
+            } else {
+                throw new RuntimeException("Unexpected class: " + clazz);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
+
+        float x = Float.parseFloat(parts[1]);
+        float y = Float.parseFloat(parts[2]);
+
+        int id = Integer.parseInt(parts[3]);
+
+        g.setPosition(x, y);
+        g.setId(id);
+        return g;
     }
 }

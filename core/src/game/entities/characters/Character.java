@@ -13,7 +13,10 @@ import game.levels.Level;
 import game.screens.MultiplayerGameScreen;
 import game.utilities.Direction;
 import game.utilities.Hitbox;
-import utilities.*;
+import utilities.Actor;
+import utilities.FilePaths;
+import utilities.Label;
+import utilities.Timer;
 import utilities.audio.Sound;
 
 import java.util.ArrayList;
@@ -38,7 +41,7 @@ public abstract class Character extends GameEntity implements Statistics {
         this.bullets = new ArrayList<>();
         this.bulletTexturePath = bulletTexturePath;
         this.deathSound = new Sound("Sfx", "game/death.mp3");
-        this.shootSound = new Sound("Sfx", "game/shoot.mp3");
+        this.shootSound = new Sound("Sfx", getShootSoundPath());
 
         this.shootTime = new Timer();
         this.firstShoot = false;
@@ -53,6 +56,16 @@ public abstract class Character extends GameEntity implements Statistics {
 
     public Character(Stats stats, String texturePath, String bulletTexturePath) {
         this(stats, texturePath, bulletTexturePath, 2, 8);
+    }
+
+    protected abstract String getShootSoundPath();
+
+    @Override
+    public void setSize(float width, float height) {
+        super.setSize(width, height);
+        if (MultiplayerGameScreen.client != null && !MultiplayerGameScreen.client.isSendingData()) {
+            MultiplayerGameScreen.client.updateEntitySize(getId(), width, height);
+        }
     }
 
     @Override
@@ -83,11 +96,30 @@ public abstract class Character extends GameEntity implements Statistics {
     protected abstract void update(float delta);
 
     // Creates a bullet and then shoots it
-    public void shoot(Direction bulletDirection) {
+    public void shoot(Direction bulletDirection, boolean threwByServer) {
         shootTime.start();
 
-        int moveIndex;
+        int bulletIndex = getBulletIndex(bulletDirection);
 
+        setAnimation(bulletIndex);
+
+        if (threwByServer || shootTime.getSeconds() > 0.5f || !firstShoot) {
+            createBullet(bulletIndex - 4, bulletDirection, threwByServer);
+
+            if (!firstShoot) {
+                firstShoot = true;
+            } else {
+                shootTime.reset();
+            }
+        }
+    }
+
+    public void shoot(Direction bulletDirection) {
+        shoot(bulletDirection, false);
+    }
+
+    private int getBulletIndex(Direction bulletDirection) {
+        int moveIndex;
         switch (bulletDirection) {
             case DOWN:
                 moveIndex = 4;
@@ -104,26 +136,11 @@ public abstract class Character extends GameEntity implements Statistics {
             default:
                 throw new RuntimeException("The direction " + bulletDirection + " is not valid");
         }
-
-        setAnimation(moveIndex);
-
-        if (shootTime.getSeconds() > 0.5f || !firstShoot) {
-            createShoot(moveIndex - 4, bulletDirection);
-
-            if (!firstShoot) {
-                firstShoot = true;
-            } else {
-                shootTime.reset();
-            }
-        }
-
-        if (MultiplayerGameScreen.client != null) {
-            MultiplayerGameScreen.client.createShoot(getId(), bulletDirection);
-        }
+        return moveIndex;
     }
 
     // Creates a shoot
-    private void createShoot(int animationIndex, Direction bulletDirection) {
+    private void createBullet(int animationIndex, Direction bulletDirection, boolean threwByServer) {
         Bullet b = new Bullet(this, FilePaths.CHARACTERS + bulletTexturePath, bulletDirection, 0.2f);
         b.setAnimation(animationIndex);
         float bulletSize = getHeight() / 2f;
@@ -132,28 +149,31 @@ public abstract class Character extends GameEntity implements Statistics {
         b.setVelocity(getVelocity() * 2f);
         bullets.add(b);
 
-        if (this instanceof Playable) {
-            shootSound.play();
+        if (!threwByServer && MultiplayerGameScreen.client != null) {
+            MultiplayerGameScreen.client.createShoot(getId(), bulletDirection);
         }
+
+        shootSound.play();
     }
 
     private void updateBullets() {
         for (int i = 0; i < bullets.size(); i++) {
-            bullets.get(i).update(Gdx.graphics.getDeltaTime());
+            Bullet bullet = bullets.get(i);
+            bullet.update(Gdx.graphics.getDeltaTime());
             boolean collides;
 
             if (this instanceof Playable) {
-                collides = bullets.get(i).collidesWithEnemy(getDamage());
+                collides = bullet.collidesWithEnemy(getDamage());
             } else if (this instanceof Enemy) {
-                collides = bullets.get(i).collidesWithPlayer(getDamage());
+                collides = bullet.collidesWithPlayer(getDamage());
             } else {
                 throw new RuntimeException("Invalid instance of Character: " + this.getClass().getSimpleName());
             }
 
-            if (bullets.get(i).outOfBounds(Level.camera) || collides) {
-                bullets.get(i).impact();
-                bullets.remove(i);
-                Log.debug("Bullet remove, bullets in screen: " + bullets.size());
+            if (bullet.outOfBounds(Level.camera)) {
+                bullets.remove(bullet);
+            } else if (collides) {
+                bullet.impact(() -> bullets.remove(bullet));
             }
         }
     }
@@ -161,14 +181,24 @@ public abstract class Character extends GameEntity implements Statistics {
     @Override
     public void draw(Batch batch, float parentAlpha) {
         // First draw down bullets
-        bullets.stream().filter(b -> b.getDirection() != Direction.DOWN).forEach(b -> b.draw(batch, parentAlpha));
+        for (int i = 0; i < bullets.size(); i++) {
+            Bullet b = bullets.get(i);
+            if (b != null && b.getDirection() != Direction.DOWN) {
+                b.draw(batch, parentAlpha);
+            }
+        }
 
         super.draw(batch, parentAlpha);
         hpLabel.setPosition(getX(), getY() + getHeight());
         hpLabel.draw(batch, parentAlpha);
 
         // Then others
-        bullets.stream().filter(b -> b.getDirection() == Direction.DOWN).forEach(b -> b.draw(batch, parentAlpha));
+        for (int i = 0; i < bullets.size(); i++) {
+            Bullet b = bullets.get(i);
+            if (b != null && b.getDirection() == Direction.DOWN) {
+                b.draw(batch, parentAlpha);
+            }
+        }
     }
 
     @Override
@@ -213,6 +243,9 @@ public abstract class Character extends GameEntity implements Statistics {
         if (isDeath()) {
             onDeath();
         }
+        if (MultiplayerGameScreen.client != null && !MultiplayerGameScreen.client.isSendingData()) {
+            MultiplayerGameScreen.client.updateHp(getId(), hp);
+        }
     }
 
     @Override
@@ -223,6 +256,9 @@ public abstract class Character extends GameEntity implements Statistics {
     @Override
     public void setMaxHp(int maxHp) {
         stats.maxHp = maxHp;
+        if (MultiplayerGameScreen.client != null && !MultiplayerGameScreen.client.isSendingData()) {
+            MultiplayerGameScreen.client.updateMaxHp(getId(), maxHp);
+        }
     }
 
     @Override
@@ -233,6 +269,9 @@ public abstract class Character extends GameEntity implements Statistics {
     @Override
     public void setDamage(int damage) {
         stats.damage = damage;
+        if (MultiplayerGameScreen.client != null && !MultiplayerGameScreen.client.isSendingData()) {
+            MultiplayerGameScreen.client.updateDamage(getId(), damage);
+        }
     }
 
     @Override
@@ -243,6 +282,9 @@ public abstract class Character extends GameEntity implements Statistics {
     @Override
     public void setArmor(int armor) {
         stats.armor = armor;
+        if (MultiplayerGameScreen.client != null && !MultiplayerGameScreen.client.isSendingData()) {
+            MultiplayerGameScreen.client.updateArmor(getId(), armor);
+        }
     }
 
     protected void onDeath() {

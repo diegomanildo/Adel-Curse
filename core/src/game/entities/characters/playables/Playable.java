@@ -23,6 +23,11 @@ public abstract class Playable extends Character {
     }
 
     @Override
+    protected String getShootSoundPath() {
+        return "game/playerShoot.mp3";
+    }
+
+    @Override
     public void update(float delta) {
         moveCharacter();
         shoot();

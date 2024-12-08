@@ -68,4 +68,12 @@ public final class Hitbox {
                 y < other.y + other.height &&
                 y + height > other.y;
     }
+
+    public boolean contains(float x, float y, float width, float height) {
+        float right = x + width;
+        float top = y + height;
+
+        return x >= getLeft() && right <= getRight() &&
+                y >= getBottom() && top <= getTop();
+    }
 }
