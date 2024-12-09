@@ -33,6 +33,7 @@ public final class LoadingScreen extends Screen {
             Render.setScreen(new MainMenuScreen());
         }
 
+        // MUESTRA EL PORCENTAJE DE CARGA DE LA PANTALLA
         progressBar.setValue(Render.assetManager.getProgress());
     }
 }

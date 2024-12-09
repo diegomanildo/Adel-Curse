@@ -41,6 +41,7 @@ public class Room extends Group {
         this.visited = false;
     }
 
+    // COPY CONSTRUCTOR
     private Room(Room other) {
         this.map = other.map;
         this.roomKind = other.roomKind;
@@ -48,6 +49,10 @@ public class Room extends Group {
         this.doors = other.doors;
         this.visited = other.visited;
         this.isShowingDoors = other.isShowingDoors;
+    }
+
+    protected Room(String mapFile) {
+        this(mapFile, RoomKinds.OTHER);
     }
 
     @Override
@@ -89,7 +94,6 @@ public class Room extends Group {
             }
         }
 
-        // Ahora modifica las capas fuera del bucle
         for (MapLayer layer : layersToShow) {
             layer.setVisible(true);
         }
@@ -133,10 +137,6 @@ public class Room extends Group {
 
     public static Room copy(Room room) {
         return new Room(room);
-    }
-
-    protected Room(String mapFile) {
-        this(mapFile, RoomKinds.OTHER);
     }
 
     public Door[] getDoors() {

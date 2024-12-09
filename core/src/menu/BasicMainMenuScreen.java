@@ -7,11 +7,7 @@ import utilities.Screen;
 import utilities.audio.Song;
 
 public abstract class BasicMainMenuScreen extends Screen {
-    public static Song backgroundSong;
-
-    static {
-        backgroundSong = new Song("Music", "songs/tryingToScape.mp3");
-    }
+    public static Song backgroundSong = new Song("Music", "songs/tryingToScape.mp3");
 
     public BasicMainMenuScreen() {
         super();

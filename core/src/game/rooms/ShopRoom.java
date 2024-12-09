@@ -40,9 +40,7 @@ public final class ShopRoom extends Room {
     public void act(float delta) {
         super.act(delta);
 
-        Array<Playable> players = Game.game.getEntities().getPlayers();
-
-        for (Playable player : players) {
+        for (Playable player : Game.game.getEntities().getPlayers()) {
             if (player.collidesWith(shopKeeper.getBounds())) {
                 Game.chat.createTiny(INTERACT_KEY, "Press " + Controls.getCharacter(GameAction.INTERACT));
 

@@ -10,6 +10,7 @@ import utilities.Label;
 import utilities.Render;
 import utilities.Screen;
 
+// CLASE PARA ESPERAR Y CONECTAR A LOS DOS JUGADORES
 public class WaitingMenuScreen extends BasicOptionsScreen {
     private final Label label;
 
@@ -53,7 +54,9 @@ public class WaitingMenuScreen extends BasicOptionsScreen {
     protected void handleInput() {
         super.handleInput();
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
-            MultiplayerGameScreen.client.end();
+            if(MultiplayerGameScreen.client.isConnected()){
+                MultiplayerGameScreen.client.end();
+            }
             Render.setScreen(new MainMenuScreen());
         }
     }

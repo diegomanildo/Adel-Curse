@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Color;
 
 import java.util.ArrayList;
 
+// CLASE PANTALLA, RENDERIZA EL STAGE Y MUESTRA LAS SUB-PANTALLAS
 public abstract class Screen extends SubScreen {
     private final ArrayList<SubScreen> subScreens;
 
