@@ -8,7 +8,6 @@ import game.rooms.StoneRoom;
 public class MapHelper {
     private static final String SPLIT_CHAR1 = ",";
     private static final String SPLIT_CHAR2 = "\n";
-    private static final String SPLIT_CHAR3 = "__";
 
     private static String flat(String[][] stringMap) {
         StringBuilder builder = new StringBuilder();
