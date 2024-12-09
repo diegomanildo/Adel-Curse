@@ -15,4 +15,12 @@ public class StoneRoom extends EnemyRoom {
     public StoneRoom() {
         super("stone/map_" + (RoomMap.isInitRoom ? 1 : (Utils.r.nextInt(STYLES) + 1)) + ".tmx", ENEMIES, 3);
     }
+
+    public int getStyleNumber() {
+        return Utils.findFirstNumber(getMapFile());
+    }
+
+    public void setStyleNumber(int style) {
+        setMapFile("stone/map_" + style + ".tmx");
+    }
 }

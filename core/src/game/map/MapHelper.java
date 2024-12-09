@@ -8,6 +8,7 @@ import game.rooms.StoneRoom;
 public class MapHelper {
     private static final String SPLIT_CHAR1 = ",";
     private static final String SPLIT_CHAR2 = "\n";
+    private static final String SPLIT_CHAR3 = "__";
 
     private static String flat(String[][] stringMap) {
         StringBuilder builder = new StringBuilder();
@@ -49,14 +50,12 @@ public class MapHelper {
 
                 if (room == null) {
                     traducedCharacter = " ";
-                } else if (room.getKind() == RoomKinds.CURRENT) {
-                    traducedCharacter = "C";
                 } else if (room.getKind() == RoomKinds.BOSS) {
                     traducedCharacter = "B";
                 } else if (room.getKind() == RoomKinds.SHOP) {
                     traducedCharacter = "S";
-                } else if (room.getKind() == RoomKinds.OTHER) {
-                    traducedCharacter = "E"; // Enemy Room
+                } else if (room.getKind() == RoomKinds.OTHER || room.getKind() == RoomKinds.CURRENT) {
+                    traducedCharacter = "E" + SPLIT_CHAR3 + ((StoneRoom)room).getStyleNumber(); // Enemy Room
                 } else {
                     throw new RuntimeException("Unexpected room " + room.getClass().getSimpleName());
                 }
@@ -78,24 +77,20 @@ public class MapHelper {
 
         for (int row = 0; row < rows; row++) {
             for (int column = 0; column < stringMap[row].length; column++) {
-                String character = stringMap[row][column];
+                char character = stringMap[row][column].charAt(0);
                 Class<? extends Room> roomClass;
 
                 switch (character) {
-                    case " ":
+                    case ' ':
                         roomClass = null;
                         break;
-                    case "C":
-                        roomClass = StoneRoom.class;
-                        RoomMap.isInitRoom = true;
-                        break;
-                    case "B":
+                    case 'B':
                         roomClass = BossRoom.class;
                         break;
-                    case "S":
+                    case 'S':
                         roomClass = ShopRoom.class;
                         break;
-                    case "E":
+                    case 'E':
                         roomClass = StoneRoom.class;
                         break;
                     default:
@@ -105,8 +100,11 @@ public class MapHelper {
                 try {
                     roomsMap[row][column] = roomClass == null ? null : roomClass.newInstance();
 
-                    if (RoomMap.isInitRoom) {
-                        RoomMap.isInitRoom = false;
+                    if (roomClass != null && roomClass.equals(StoneRoom.class)) {
+                        String[] parts = stringMap[row][column].split(SPLIT_CHAR3);
+                        int styleNumber = Integer.parseInt(parts[1]);
+
+                        ((StoneRoom)roomsMap[row][column]).setStyleNumber(styleNumber);
                     }
                 } catch (Exception e) {
                     throw new RuntimeException(e);

@@ -26,7 +26,8 @@ public class Room extends Group {
     protected final Door up = new Door(Direction.UP, new Hitbox(174f, 190f, 20f, 30f));
     protected final Door down = new Door(Direction.DOWN, new Hitbox(174f, 20f, 20f, 30f));
 
-    private final TiledMap map;
+    private String mapFile;
+    private TiledMap map;
     private RoomKinds roomKind;
     protected final Entities entities;
     private final ArrayList<Door> doors;
@@ -34,6 +35,7 @@ public class Room extends Group {
     private boolean isShowingDoors;
 
     protected Room(String mapFile, RoomKinds roomKind) {
+        this.mapFile = mapFile;
         this.map = Render.assetManager.get(FilePaths.ROOMS + mapFile);
         this.roomKind = roomKind;
         this.entities = new Entities();
@@ -44,6 +46,7 @@ public class Room extends Group {
 
     // COPY CONSTRUCTOR
     private Room(Room other) {
+        this.mapFile = other.mapFile;
         this.map = other.map;
         this.roomKind = other.roomKind;
         this.entities = other.entities;
@@ -163,6 +166,15 @@ public class Room extends Group {
 
     public Entities getEntities() {
         return entities;
+    }
+
+    public String getMapFile() {
+        return mapFile;
+    }
+
+    public void setMapFile(String mapFile) {
+        this.mapFile = mapFile;
+        this.map = Render.assetManager.get(FilePaths.ROOMS + mapFile);
     }
 
     public boolean isVisited() {
