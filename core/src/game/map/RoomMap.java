@@ -18,7 +18,7 @@ public class RoomMap extends Group {
     private final int columns;
     private final RoomsArray roomTypes;
 
-    public final Vector2 initRoom; // Initial room position
+    public Vector2 initRoom; // Initial room position
     private final List<Vector2> openPositions = new ArrayList<>();
 
     public RoomMap(int quantity, int rows, int columns, RoomsArray roomTypes) {
@@ -28,23 +28,29 @@ public class RoomMap extends Group {
 
         map = new Room[rows][columns];
 
-        // Generate the initial room at the middle
-        int initialRow = rows / 2;
-        int initialColumn = columns / 2;
-        createRoomAt(initialRow, initialColumn, roomTypes.getInitialRoom(), true);
-        initRoom = new Vector2(initialRow, initialColumn);
-
-        generateMap(quantity - 1); // Subtract 1 because the initial room is already created
-        placeBossRoom();
-        placeShopRoom();
+        generateMap(quantity);
     }
 
     private void generateMap(int quantity) {
+        // Generate the initial room at the middle
+        int initialRow = rows / 2;
+        int initialColumn = columns / 2;
+        initRoom = new Vector2(initialRow, initialColumn);
+
+        createRoomAt(initialRow, initialColumn, roomTypes.getInitialRoom(), true);
+
+        quantity--;
+
         while (quantity > 0 && !openPositions.isEmpty()) {
             Vector2 position = openPositions.remove(Utils.r.nextInt(openPositions.size()));
             createRoomAt((int) position.x, (int) position.y);
             quantity--;
         }
+
+        placeBossRoom();
+        placeShopRoom();
+
+        MapHelper.createDoorsForMap(map);
     }
 
     private void createRoomAt(int row, int column, Class<? extends Room> roomClass, boolean initRoom) {
@@ -60,12 +66,6 @@ public class RoomMap extends Group {
                 ((EnemyRoom) room).setSpawnEntities(false);
             }
 
-            Room leftRoom = (column > 0) ? map[row][column - 1] : null;
-            Room rightRoom = (column < columns - 1) ? map[row][column + 1] : null;
-            Room downRoom = (row > 0) ? map[row - 1][column] : null;
-            Room upRoom = (row < rows - 1) ? map[row + 1][column] : null;
-
-            room.createDoors(leftRoom, rightRoom, upRoom, downRoom);
             map[row][column] = room;
         } catch (Exception e) {
             throw new RuntimeException(e);

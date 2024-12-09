@@ -94,19 +94,18 @@ public class AbstractGameScreen extends SubScreen {
     private void checkDoors() {
         level.getHitbox();
         for (Door door : level.getDoors()) {
-            if (!getPlayer().getBounds().collidesWith(door.getHitbox())) {
-                Game.chat.removeChat(door.getDirection().name());
-                continue;
-            }
+            if (getPlayer().getBounds().collidesWith(door.getHitbox())) {
+                Game.chat.createTiny(door.getDirection().name(), "Press " + Controls.getCharacter(GameAction.INTERACT));
 
-            Game.chat.createTiny(door.getDirection().name(), "Press " + Controls.getCharacter(GameAction.INTERACT));
+                if (!level.getCamera().isMoving() && Controls.isJustPressed(GameAction.INTERACT) && level.canMove()) {
+                    if (onDoorsChanged != null) {
+                        onDoorsChanged.run(door.getDirection());
+                    }
 
-            if (!level.getCamera().isMoving() && Controls.isJustPressed(GameAction.INTERACT) && level.canMove()) {
-                if (onDoorsChanged != null) {
-                    onDoorsChanged.run(door.getDirection());
+                    moveCamera(door.getDirection());
                 }
-
-                moveCamera(door.getDirection());
+            } else {
+                Game.chat.removeChat(door.getDirection().name());
             }
         }
     }

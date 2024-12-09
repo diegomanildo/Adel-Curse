@@ -2,7 +2,7 @@ package game.net;
 
 import game.Game;
 import game.entities.GameEntity;
-import game.map.MapConverter;
+import game.map.MapHelper;
 import game.map.RoomMap;
 import game.net.utilities.Thread;
 import game.utilities.Direction;
@@ -82,10 +82,10 @@ public class Client extends Thread {
                 }
                 break;
             case Messages.CREATE_LEVEL:
-                sendMessage(Messages.INIT_LEVEL + SP_C + MapConverter.convertToString(RoomMap.map));
+                sendMessage(Messages.INIT_LEVEL + SP_C + MapHelper.convertToString(RoomMap.map));
                 break;
             case Messages.INIT_LEVEL:
-                GameData.networkListener.initializeLevel(MapConverter.convertToMap(parts[1]));
+                GameData.networkListener.initializeLevel(MapHelper.convertToMap(parts[1]));
                 break;
             case Messages.ROOM_CHANGED:
                 GameData.networkListener.changeRoom(Direction.parseDirection(parts[1]));

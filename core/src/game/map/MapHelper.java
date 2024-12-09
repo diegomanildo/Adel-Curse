@@ -5,7 +5,7 @@ import game.rooms.Room;
 import game.rooms.ShopRoom;
 import game.rooms.StoneRoom;
 
-public class MapConverter {
+public class MapHelper {
     private static final String SPLIT_CHAR1 = ",";
     private static final String SPLIT_CHAR2 = "\n";
     private static final String SPLIT_CHAR3 = "__";
@@ -115,7 +115,28 @@ public class MapConverter {
             }
         }
 
+        createDoorsForMap(roomsMap);
+
         return roomsMap;
+    }
+
+    public static void createDoorsForMap(Room[][] map) {
+        int rows = map.length;
+        int columns = map[0].length;
+
+        for (int row = 0; row < rows; row++) {
+            for (int column = 0; column < columns; column++) {
+                Room currentRoom = map[row][column];
+                if (currentRoom == null) continue;
+
+                Room leftRoom = (column > 0) ? map[row][column - 1] : null;
+                Room rightRoom = (column < columns - 1) ? map[row][column + 1] : null;
+                Room upRoom = (row > 0) ? map[row + 1][column] : null;
+                Room downRoom = (row < rows - 1) ? map[row - 1][column] : null;
+
+                currentRoom.createDoors(leftRoom, rightRoom, upRoom, downRoom);
+            }
+        }
     }
 
     private static int maxLength(String[][] stringMap) {
