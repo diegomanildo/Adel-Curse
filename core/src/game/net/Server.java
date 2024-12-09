@@ -13,6 +13,7 @@ public class Server extends Thread {
     public static final String SP_C = "!"; // Special character
     public static final int PORT = 22121;
     public static final int MAX_CLIENTS = 2;
+    public static final float TIMEOUT_TIME = 3;
 
     private final DatagramSocket socket;
     private boolean end;
@@ -174,7 +175,8 @@ public class Server extends Thread {
 
         boolean wereMaxClients = clientsConnected == MAX_CLIENTS;
 
-        sendMessage(Messages.DISCONNECT, clients[index].getIp(), clients[index].getPort());
+        sendMessageToAll(Messages.END_GAME);
+        sendMessage(Messages.DISCONNECT, index);
         console("Client " + index + " disconnected");
         clients[index] = null;
         clientsConnected--;

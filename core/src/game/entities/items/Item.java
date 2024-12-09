@@ -28,6 +28,11 @@ public abstract class Item extends GameEntity {
         this.owner = null;
         this.quality = quality;
         this.description = description;
+    }
+
+    @Override
+    public void show() {
+        super.show();
         setSize(SIZE, SIZE);
     }
 

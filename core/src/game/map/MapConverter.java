@@ -50,11 +50,13 @@ public class MapConverter {
 
                 if (room == null) {
                     traducedCharacter = " ";
-                } else if (room instanceof BossRoom) {
+                } else if (room.getKind() == RoomKinds.CURRENT) {
+                    traducedCharacter = "C";
+                } else if (room.getKind() == RoomKinds.BOSS) {
                     traducedCharacter = "B";
-                } else if (room instanceof ShopRoom) {
+                } else if (room.getKind() == RoomKinds.SHOP) {
                     traducedCharacter = "S";
-                } else if (room instanceof StoneRoom) {
+                } else if (room.getKind() == RoomKinds.OTHER) {
                     traducedCharacter = "E"; // Enemy Room
                 } else {
                     throw new RuntimeException("Unexpected room " + room.getClass().getSimpleName());
@@ -84,6 +86,10 @@ public class MapConverter {
                     case " ":
                         roomClass = null;
                         break;
+                    case "C":
+                        roomClass = StoneRoom.class;
+                        RoomMap.isInitRoom = true;
+                        break;
                     case "B":
                         roomClass = BossRoom.class;
                         break;
@@ -99,6 +105,10 @@ public class MapConverter {
 
                 try {
                     roomsMap[row][column] = roomClass == null ? null : roomClass.newInstance();
+
+                    if (RoomMap.isInitRoom) {
+                        RoomMap.isInitRoom = false;
+                    }
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }

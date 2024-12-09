@@ -13,6 +13,14 @@ public abstract class GameEntity extends MovableObject {
     }
 
     @Override
+    public void setSize(float width, float height) {
+        super.setSize(width, height);
+        if (MultiplayerGameScreen.client != null && !MultiplayerGameScreen.client.isSendingData()) {
+            MultiplayerGameScreen.client.updateEntitySize(getId(), width, height);
+        }
+    }
+
+    @Override
     public void move(Direction direction) {
         super.move(direction);
 

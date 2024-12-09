@@ -1,5 +1,6 @@
 package game.hud;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import game.Game;
@@ -10,20 +11,25 @@ import utilities.SubScreen;
 public class Hud extends SubScreen {
     private final Playable player;
     private final Label hpLabel;
-    private final Label armorLabel;
     private final Label timerLabel;
+    private final Label armorLabel;
     private final Label damageLabel;
 
     public Hud() {
         super();
         player = Game.game.getPlayer();
+
         hpLabel = new Label();
-        armorLabel = new Label();
         timerLabel = new Label();
+
+        armorLabel = new Label();
+        armorLabel.setColor(new Color(0xadd8e6));
         damageLabel = new Label();
+        damageLabel.setColor(Color.YELLOW);
+
         ItemListShower itemListShower = new ItemListShower(player.getItems());
         HpBar hpBar = new HpBar(player);
-        MiniMap miniMap = new MiniMap(Game.game.getLevel().getMap(), 25f);
+        MiniMap miniMap = new MiniMap(Game.game.getLevel().getMap(), 30f);
 
         Table table = new Table();
         table.pad(10f);
@@ -35,13 +41,13 @@ public class Hud extends SubScreen {
         stack.add(hpLabel);
 
         table.add(stack).left().top().width(hpBar.getWidth()).height(hpBar.getHeight());
+        table.add(timerLabel).center().top().expandX();
+        table.add(miniMap).right().top();
         table.row();
         table.add(damageLabel).center().left();
         table.row();
         table.add(armorLabel).center().left();
         table.row();
-        table.add(timerLabel).center().top().expandX();
-        table.add(miniMap).right().top();
         table.row();
         table.add(itemListShower).colspan(3).right().top().pad(30f).expandX();
 

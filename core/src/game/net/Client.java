@@ -41,9 +41,11 @@ public class Client extends Thread {
 
         while (!end && !socket.isClosed()) {
             DatagramPacket packet = new DatagramPacket(new byte[1024], 1024);
+
             if (!isConnected()) {
                 sendMessage(Messages.CONNECT);
             }
+
             try {
                 socket.receive(packet);
                 processMessage(packet);
@@ -75,7 +77,9 @@ public class Client extends Thread {
                 Game.restart();
                 break;
             case Messages.END_GAME:
-                GameData.networkListener.endGame();
+                if (GameData.networkListener != null) {
+                    GameData.networkListener.endGame();
+                }
                 break;
             case Messages.CREATE_LEVEL:
                 sendMessage(Messages.INIT_LEVEL + SP_C + MapConverter.convertToString(RoomMap.map));
