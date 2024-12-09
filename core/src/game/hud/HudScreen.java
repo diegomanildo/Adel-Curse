@@ -8,14 +8,14 @@ import game.entities.characters.playables.Playable;
 import utilities.Label;
 import utilities.SubScreen;
 
-public class Hud extends SubScreen {
+public class HudScreen extends SubScreen {
     private final Playable player;
     private final Label hpLabel;
     private final Label timerLabel;
     private final Label armorLabel;
     private final Label damageLabel;
 
-    public Hud() {
+    public HudScreen() {
         super();
         player = Game.game.getPlayer();
 

@@ -17,6 +17,12 @@ public class GameMap extends RoomMap {
         playerInitPosition = new Vector2(getCurrent().getWidth() / 2f, getCurrent().getHeight() / 2f);
     }
 
+    @Override
+    public void show() {
+        super.show();
+        getCurrent().show();
+    }
+
     // Changes the room and returns the new current room
     public Room changeRoom(Direction direction) {
         getCurrent().remove();

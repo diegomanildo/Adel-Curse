@@ -63,6 +63,7 @@ public class Room extends Group {
     public void show() {
         super.show();
         hideDoors();
+        showDoors();
     }
 
     @Override

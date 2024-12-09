@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Matrix4;
 import game.entities.items.Mushroom;
-import game.hud.Hud;
+import game.hud.HudScreen;
 import game.net.GameData;
 import game.screens.*;
 import menu.BasicMainMenuScreen;
@@ -15,7 +15,7 @@ import utilities.Screen;
 public final class Game extends Screen {
     public static AbstractGameScreen game;
     public static ChatScreen chat;
-    public static Hud hud;
+    public static HudScreen hudScreen;
     public static PauseScreen pauseScreen;
     public static ShopScreen shopScreen;
     public static DeathScreen deathScreen;
@@ -35,7 +35,7 @@ public final class Game extends Screen {
         }
 
         chat = new ChatScreen();
-        hud = new Hud();
+        hudScreen = new HudScreen();
         pauseScreen = new PauseScreen();
         shopScreen = new ShopScreen();
         deathScreen = new DeathScreen();
@@ -43,7 +43,7 @@ public final class Game extends Screen {
 
         addSubScreen(Game.game);
         addSubScreen(chat);
-        addSubScreen(hud);
+        addSubScreen(hudScreen);
         addSubScreen(shopScreen);
         addSubScreen(pauseScreen);
         addSubScreen(deathScreen);
