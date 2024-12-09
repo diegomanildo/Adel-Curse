@@ -12,6 +12,8 @@ import java.util.List;
 
 public class RoomMap extends Group {
     public static Room[][] map;
+    public static boolean isInitRoom;
+
     private final int rows;
     private final int columns;
     private final RoomsArray roomTypes;
@@ -51,6 +53,7 @@ public class RoomMap extends Group {
         }
 
         try {
+            isInitRoom = initRoom;
             Room room = roomClass.getDeclaredConstructor().newInstance();
 
             if (initRoom && room instanceof EnemyRoom) {
@@ -65,7 +68,7 @@ public class RoomMap extends Group {
             room.createDoors(leftRoom, rightRoom, upRoom, downRoom);
             map[row][column] = room;
         } catch (Exception e) {
-            throw new RuntimeException("Room class \"" + roomClass.getName() + "\" is not valid (" + e.getClass() + ")");
+            throw new RuntimeException(e);
         }
 
         addAdjacentPositions(row, column);

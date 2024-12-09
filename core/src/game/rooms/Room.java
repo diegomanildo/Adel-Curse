@@ -39,6 +39,7 @@ public class Room extends Group {
         this.entities = new Entities();
         this.doors = new ArrayList<>();
         this.visited = false;
+        this.isShowingDoors = false;
     }
 
     // COPY CONSTRUCTOR
@@ -56,26 +57,31 @@ public class Room extends Group {
     }
 
     @Override
+    public void show() {
+        super.show();
+        hideDoors();
+    }
+
+    @Override
     public void act(float delta) {
         super.act(delta);
         if (!canMove()) {
-            hideDoors();
+            if (isShowingDoors) {
+                hideDoors();
+            }
         } else {
-            showDoors();
+            if (!isShowingDoors) {
+                hideDoors();
+                showDoors();
+            }
         }
     }
 
     public void hideDoors() {
-        Array<MapLayer> doorsToHide = new Array<>();
-
         for (MapLayer layer : map.getLayers()) {
             if (layer.getName().contains("door")) {
-                doorsToHide.add(layer);
+                layer.setVisible(false);
             }
-        }
-
-        for (MapLayer layer : doorsToHide) {
-            layer.setVisible(false);
         }
 
         isShowingDoors = false;
@@ -99,16 +105,6 @@ public class Room extends Group {
         }
 
         isShowingDoors = true;
-    }
-
-    @Override
-    public void show() {
-        super.show();
-        if (Game.game.getEntities().getEnemies().isEmpty() && !isShowingDoors) {
-            showDoors();
-        } else if (isShowingDoors) {
-            hideDoors();
-        }
     }
 
     public void createEntity(GameEntity e) {

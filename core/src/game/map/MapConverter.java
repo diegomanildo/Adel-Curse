@@ -3,7 +3,7 @@ package game.map;
 import game.rooms.BossRoom;
 import game.rooms.Room;
 import game.rooms.ShopRoom;
-import game.rooms.StoneRoom1;
+import game.rooms.StoneRoom;
 
 public class MapConverter {
     private static final String SPLIT_CHAR1 = ",";
@@ -54,7 +54,7 @@ public class MapConverter {
                     traducedCharacter = "B";
                 } else if (room instanceof ShopRoom) {
                     traducedCharacter = "S";
-                } else if (room instanceof StoneRoom1) {
+                } else if (room instanceof StoneRoom) {
                     traducedCharacter = "E"; // Enemy Room
                 } else {
                     throw new RuntimeException("Unexpected room " + room.getClass().getSimpleName());
@@ -91,7 +91,7 @@ public class MapConverter {
                         roomClass = ShopRoom.class;
                         break;
                     case "E":
-                        roomClass = StoneRoom1.class;
+                        roomClass = StoneRoom.class;
                         break;
                     default:
                         throw new RuntimeException("Unexpected character: \"" + character + "\"");
