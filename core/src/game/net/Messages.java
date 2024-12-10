@@ -3,6 +3,7 @@ package game.net;
 public class Messages {
     public static final String CONNECT = "connect";
     public static final String DISCONNECT = "disconnect";
+    public static final String STILL_CONNECTED = "still_connected";
 
     public static final String START_GAME = "start_game";
     public static final String RESTART_GAME = "restart_game";

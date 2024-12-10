@@ -4,7 +4,6 @@ import game.entities.GameEntity;
 import game.entities.characters.playables.Playable;
 import game.utilities.ItemList;
 import utilities.FilePaths;
-import utilities.Log;
 
 public abstract class Item extends GameEntity {
     public static final float SIZE = 32f;
@@ -39,7 +38,6 @@ public abstract class Item extends GameEntity {
     public void addToOwner() {
         owner.addItem(this);
         applyEffect();
-        Log.log("Description: " + description);
     }
 
     public void removeFromOwner() {

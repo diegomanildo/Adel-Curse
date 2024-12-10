@@ -92,7 +92,6 @@ public abstract class EnemyRoom extends Room {
         for (Door door : getDoors()) {
             if (!door.hasItem()) {
                 Item item = Item.ITEMS.getRandomItem();
-                item.setSize(20f, 20f);
 
                 switch (door.getDirection()) {
                     case LEFT:

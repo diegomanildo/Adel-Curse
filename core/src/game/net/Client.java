@@ -44,6 +44,8 @@ public class Client extends Thread {
 
             if (!isConnected()) {
                 sendMessage(Messages.CONNECT);
+            } else {
+                sendMessage(Messages.STILL_CONNECTED + SP_C + GameData.clientNumber);
             }
 
             try {
@@ -69,6 +71,7 @@ public class Client extends Thread {
                 ip = packet.getAddress();
                 break;
             case Messages.DISCONNECT:
+                end = true;
                 break;
             case Messages.START_GAME:
                 Render.startGame = true;
@@ -85,34 +88,54 @@ public class Client extends Thread {
                 sendMessage(Messages.INIT_LEVEL + SP_C + MapHelper.convertToString(RoomMap.map));
                 break;
             case Messages.INIT_LEVEL:
-                GameData.networkListener.initializeLevel(MapHelper.convertToMap(parts[1]));
+                if (GameData.networkListener != null) {
+                    GameData.networkListener.initializeLevel(MapHelper.convertToMap(parts[1]));
+                }
                 break;
             case Messages.ROOM_CHANGED:
-                GameData.networkListener.changeRoom(Direction.parseDirection(parts[1]));
+                if (GameData.networkListener != null) {
+                    GameData.networkListener.changeRoom(Direction.parseDirection(parts[1]));
+                }
                 break;
             case Messages.POSITION:
-                GameData.networkListener.moveEntity(Integer.parseInt(parts[1]), Float.parseFloat(parts[2]), Float.parseFloat(parts[3]), Direction.parseDirection(parts[4]));
+                if (GameData.networkListener != null) {
+                    GameData.networkListener.moveEntity(Integer.parseInt(parts[1]), Float.parseFloat(parts[2]), Float.parseFloat(parts[3]), Direction.parseDirection(parts[4]));
+                }
                 break;
             case Messages.SIZE:
-                GameData.networkListener.changeSizeEntity(Integer.parseInt(parts[1]), Float.parseFloat(parts[2]), Float.parseFloat(parts[3]));
+                if (GameData.networkListener != null) {
+                    GameData.networkListener.changeSizeEntity(Integer.parseInt(parts[1]), Float.parseFloat(parts[2]), Float.parseFloat(parts[3]));
+                }
                 break;
             case Messages.SHOOT:
-                GameData.networkListener.createShoot(Integer.parseInt(parts[1]), Direction.parseDirection(parts[2]));
+                if (GameData.networkListener != null) {
+                    GameData.networkListener.createShoot(Integer.parseInt(parts[1]), Direction.parseDirection(parts[2]));
+                }
                 break;
             case Messages.CREATE_ENTITY:
-                GameData.networkListener.createEntity(GameEntity.parseEntity(parts[1]));
+                if (GameData.networkListener != null) {
+                    GameData.networkListener.createEntity(GameEntity.parseEntity(parts[1]));
+                }
                 break;
             case Messages.HP:
-                GameData.networkListener.updateHp(Integer.parseInt(parts[1]), Integer.parseInt(parts[2]));
+                if (GameData.networkListener != null) {
+                    GameData.networkListener.updateHp(Integer.parseInt(parts[1]), Integer.parseInt(parts[2]));
+                }
                 break;
             case Messages.MAX_HP:
-                GameData.networkListener.updateMaxHp(Integer.parseInt(parts[1]), Integer.parseInt(parts[2]));
+                if (GameData.networkListener != null) {
+                    GameData.networkListener.updateMaxHp(Integer.parseInt(parts[1]), Integer.parseInt(parts[2]));
+                }
                 break;
             case Messages.DAMAGE:
-                GameData.networkListener.updateDamage(Integer.parseInt(parts[1]), Integer.parseInt(parts[2]));
+                if (GameData.networkListener != null) {
+                    GameData.networkListener.updateDamage(Integer.parseInt(parts[1]), Integer.parseInt(parts[2]));
+                }
                 break;
             case Messages.ARMOR:
-                GameData.networkListener.updateArmor(Integer.parseInt(parts[1]), Integer.parseInt(parts[2]));
+                if (GameData.networkListener != null) {
+                    GameData.networkListener.updateArmor(Integer.parseInt(parts[1]), Integer.parseInt(parts[2]));
+                }
                 break;
             default:
                 throw new RuntimeException("Message not recognized: " + parts[0]);

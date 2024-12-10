@@ -2,11 +2,14 @@ package game.net;
 
 import game.net.utilities.Thread;
 import game.utilities.Direction;
+import utilities.Timer;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 public class Server extends Thread {
     public static final int OWNER = 0;
@@ -19,6 +22,7 @@ public class Server extends Thread {
     private boolean end;
     private final ClientData[] clients = new ClientData[MAX_CLIENTS];
     private int clientsConnected;
+    private final Timer[] timers = new Timer[clients.length];
 
     public Server() {
         try {
@@ -29,7 +33,8 @@ public class Server extends Thread {
     }
 
     private void console(Object obj) {
-        System.out.println("[SERVER] " + obj);
+        String time = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"));
+        System.out.println("[" + time + "] [SERVER] " + obj);
     }
 
     @Override
@@ -42,6 +47,7 @@ public class Server extends Thread {
             try {
                 socket.receive(packet);
                 processMessage(packet);
+                checkTimeouts();
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -65,6 +71,16 @@ public class Server extends Thread {
             case Messages.DISCONNECT: {
                 int index = Integer.parseInt(parts[1]);
                 removeClient(index);
+                break;
+            }
+            case Messages.STILL_CONNECTED: {
+                int clientId = Integer.parseInt(parts[1]);
+                try {
+                    timers[clientId].reset();
+                    timers[clientId].start();
+                } catch (Exception e) {
+                    throw new RuntimeException("Client: " + clientId + "\n" + e);
+                }
                 break;
             }
             case Messages.RESTART_GAME: {
@@ -153,8 +169,10 @@ public class Server extends Thread {
         }
 
         sendMessage(Messages.CONNECT + SP_C + clientsConnected, packet.getAddress(), packet.getPort());
-        console("Client " + clientsConnected + " connected");
-        clients[clientsConnected] = new ClientData(packet.getAddress(), packet.getPort(), clients.length);
+        clients[clientsConnected] = new ClientData(packet.getAddress(), packet.getPort(), clientsConnected);
+        timers[clientsConnected] = new Timer();
+        timers[clientsConnected].start();
+        console("Client " + clients[clientsConnected].getId() + " connected");
         clientsConnected++;
         return true;
     }
@@ -177,11 +195,12 @@ public class Server extends Thread {
 
         sendMessageToAll(Messages.END_GAME);
         sendMessage(Messages.DISCONNECT, index);
-        console("Client " + index + " disconnected");
+        console("Client " + clients[index].getId() + " disconnected");
         clients[index] = null;
         clientsConnected--;
         System.arraycopy(clients, index + 1, clients, index, clientsConnected - index);
         clients[clientsConnected] = null;
+        timers[clientsConnected] = null;
 
         if (wereMaxClients && clientsConnected != MAX_CLIENTS) {
             clearClients();
@@ -220,6 +239,15 @@ public class Server extends Thread {
     public void clearClients() {
         for (int i = 0; i < clientsConnected; i++) {
             removeClient(i);
+        }
+    }
+
+    private void checkTimeouts() {
+        for (int i = 0; i < timers.length; i++) {
+            if (timers[i] != null && timers[i].getSeconds() >= TIMEOUT_TIME) {
+                console("Client " + clients[i].getId() + " timeouted because it was absent by " + TIMEOUT_TIME + "s");
+                removeClient(i);
+            }
         }
     }
 

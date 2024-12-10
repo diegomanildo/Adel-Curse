@@ -1,7 +1,5 @@
 package game.entities.items;
 
-import utilities.Log;
-
 public class RandomCard extends Item {
     public RandomCard() {
         super(ItemQuality.Rare, "???", "randomCard.png", 2, 1);
@@ -17,7 +15,5 @@ public class RandomCard extends Item {
 
         randomItem.changeOwnerTo(owner);
         randomItem.applyEffect();
-
-        Log.debug("Random item: " + randomItem.getClass().getSimpleName());
     }
 }
