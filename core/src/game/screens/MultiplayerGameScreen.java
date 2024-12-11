@@ -65,6 +65,15 @@ public final class MultiplayerGameScreen extends AbstractGameScreen implements N
     }
 
     @Override
+    public void changeFrames(int entityId, String texturePath, int columns, int rows, float frameDuration) {
+        getEntities().forEach(e -> {
+            if (e.getId() == entityId) {
+                e.setFrames(texturePath, columns, rows, frameDuration);
+            }
+        });
+    }
+
+    @Override
     public void changeSizeEntity(int entityId, float width, float height) {
         getEntities().forEach(e -> {
             if (e.getId() == entityId) {

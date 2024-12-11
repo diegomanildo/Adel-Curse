@@ -122,6 +122,11 @@ public class Client extends Thread {
 //                    GameData.networkListener.removeEntity(Integer.parseInt(parts[1]));
 //                }
 //                break;
+            case Messages.CHANGE_FRAMES:
+                if (GameData.networkListener != null) {
+                    GameData.networkListener.changeFrames(Integer.parseInt(parts[1]), parts[2], Integer.parseInt(parts[3]), Integer.parseInt(parts[4]), Float.parseFloat(parts[5]));
+                }
+                break;
             case Messages.HP:
                 if (GameData.networkListener != null) {
                     GameData.networkListener.updateHp(Integer.parseInt(parts[1]), Integer.parseInt(parts[2]));
@@ -186,6 +191,10 @@ public class Client extends Thread {
 //    public void removeEntity(int entityId) {
 //        sendMessage(Messages.REMOVE_ENTITY + SP_C + GameData.clientNumber + SP_C + entityId);
 //    }
+
+    public void changeFrames(int entityId, String texturePath, int columns, int rows, float frameDuration) {
+        sendMessage(Messages.CHANGE_FRAMES + SP_C + GameData.clientNumber + SP_C + entityId + SP_C + texturePath + SP_C + columns + SP_C + rows + SP_C + frameDuration);
+    }
 
     public void updateHp(int entityId, int hp) {
         sendMessage(Messages.HP + SP_C + GameData.clientNumber + SP_C + entityId + SP_C + hp);

@@ -11,7 +11,6 @@ import game.entities.characters.enemies.Enemy;
 import game.entities.characters.playables.Playable;
 import game.levels.Level;
 import game.screens.MultiplayerGameScreen;
-import game.screens.OnePlayerGameScreen;
 import game.utilities.Direction;
 import game.utilities.Hitbox;
 import utilities.Actor;
@@ -34,7 +33,7 @@ public abstract class Character extends GameEntity implements Statistics {
     private final Timer shootTime;
     private boolean firstShoot;
 
-    private final Label hpLabel;
+    protected final Label hpLabel;
 
     public Character(Stats stats, String texturePath, String bulletTexturePath, int columns, int rows) {
         super(FilePaths.CHARACTERS + texturePath, columns, rows, 0.4f);
@@ -230,18 +229,16 @@ public abstract class Character extends GameEntity implements Statistics {
 
     @Override
     public void setHp(int hp) {
-        if (Game.game instanceof OnePlayerGameScreen) {
-            stats.hp = hp;
-        } else {
-            stats.hp = hp;
-        }
+        stats.hp = hp;
 
         if (getHp() > getMaxHp()) {
             setMaxHp(getHp());
         }
+
         if (isDeath()) {
             onDeath();
         }
+
         if (MultiplayerGameScreen.client != null && !MultiplayerGameScreen.client.isSendingData()) {
             MultiplayerGameScreen.client.updateHp(getId(), hp);
         }

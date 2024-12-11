@@ -8,6 +8,7 @@ public interface NetworkActionsListener {
     void createEntity(GameEntity entity);
     void moveEntity(int entityId, float x, float y, Direction direction);
     void removeEntity(int entityId);
+    void changeFrames(int entityId, String texturePath, int columns, int rows, float frameDuration);
     void changeSizeEntity(int entityId, float width, float height);
     void changeRoom(Direction direction);
     void createShoot(int entityId, Direction direction);

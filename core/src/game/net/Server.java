@@ -136,6 +136,16 @@ public class Server extends Thread {
 //                int entityId = Integer.parseInt(parts[2]);
 //                sendMessageToAllExpect(clientId, Messages.REMOVE_ENTITY + SP_C + entityId);
 //            }
+            case Messages.CHANGE_FRAMES: {
+                int clientId = Integer.parseInt(parts[1]);
+                int entityId = Integer.parseInt(parts[2]);
+                String texturePath = parts[3];
+                int column = Integer.parseInt(parts[4]);
+                int rows = Integer.parseInt(parts[5]);
+                float frameDuration = Float.parseFloat(parts[6]);
+                sendMessageToAllExpect(clientId, Messages.CHANGE_FRAMES + SP_C + entityId + SP_C + texturePath + SP_C + column + SP_C + rows + SP_C + frameDuration);
+                break;
+            }
             case Messages.HP: {
                 int clientId = Integer.parseInt(parts[1]);
                 int entityId = Integer.parseInt(parts[2]);

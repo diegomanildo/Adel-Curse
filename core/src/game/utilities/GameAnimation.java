@@ -4,6 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import game.entities.GameEntity;
+import game.screens.MultiplayerGameScreen;
 import utilities.Actor;
 import utilities.Render;
 
@@ -25,6 +27,11 @@ public abstract class GameAnimation extends Actor {
     }
 
     public void setFrames(String texturePath, int columns, int rows, float frameDuration) {
+        if (MultiplayerGameScreen.client != null && !MultiplayerGameScreen.client.isSendingData() && this instanceof GameEntity) {
+            GameEntity e = (GameEntity)this;
+            MultiplayerGameScreen.client.changeFrames(e.getId(), texturePath, columns, rows, frameDuration);
+        }
+
         this.stateTime = 0f;
         this.index = 0;
         this.frameDuration = frameDuration;
