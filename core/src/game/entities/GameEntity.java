@@ -1,4 +1,5 @@
 package game.entities;
+
 import game.screens.MultiplayerGameScreen;
 import game.utilities.Direction;
 import game.utilities.MovableObject;
@@ -50,6 +51,14 @@ public abstract class GameEntity extends MovableObject {
     }
 
     public static final String SP_C = "¿";
+
+    @Override
+    public boolean remove() {
+//        if (MultiplayerGameScreen.client != null && GameData.clientNumber == Server.OWNER) {
+//            MultiplayerGameScreen.client.removeEntity(getId());
+//        }
+        return super.remove();
+    }
 
     @Override
     public String toString() {

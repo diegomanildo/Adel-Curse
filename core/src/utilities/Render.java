@@ -6,12 +6,10 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.ScreenUtils;
 import game.Game;
-import game.managers.AssetManager;
 import game.screens.AbstractGameScreen;
 import game.screens.MultiplayerGameScreen;
 import game.screens.OnePlayerGameScreen;
-
-import java.lang.management.ManagementFactory;
+import game.utilities.AssetManager;
 
 public class Render {
     public static Size screenSize = new Size(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -25,27 +23,8 @@ public class Render {
 
     private static boolean debug = false;
 
-//    static {
-//        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Gohu.ttf"));
-//        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-//        parameter.size = 16;
-//        BitmapFont font = generator.generateFont(parameter);
-//        generator.dispose();
-//
-//        skin.add("default-font", font, BitmapFont.class);
-//
-//        Label.LabelStyle labelStyle = skin.get(Label.LabelStyle.class);
-//        labelStyle.font = font;
-//    }
-
     public static boolean isDebugging() {
-        for (String arg : ManagementFactory.getRuntimeMXBean().getInputArguments()) {
-            if (arg.contains("-agentlib:jdwp")) {
-                return true;
-            }
-        }
-
-        return debug;
+        return Utils.isDebugging() || debug;
     }
 
     public static void setDebug(boolean debug) {

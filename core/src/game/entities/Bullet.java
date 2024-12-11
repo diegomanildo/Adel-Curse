@@ -5,6 +5,9 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import game.Game;
 import game.entities.characters.Character;
 import game.entities.characters.enemies.Enemy;
+import game.net.GameData;
+import game.net.Server;
+import game.screens.MultiplayerGameScreen;
 import game.utilities.Camera2D;
 import game.utilities.Direction;
 
@@ -88,7 +91,9 @@ public final class Bullet extends GameEntity {
     public boolean collidesWithEnemy(int damageReceived) {
         for (Enemy e : Game.game.getEntities().getEnemies()) {
             if (e.collidesWith(this) && e != owner && !impacted) {
-                e.damage(damageReceived);
+                if (MultiplayerGameScreen.client != null && GameData.clientNumber == Server.OWNER) {
+                    e.damage(damageReceived);
+                }
                 return true;
             }
         }
@@ -99,7 +104,9 @@ public final class Bullet extends GameEntity {
     public boolean collidesWithPlayer(int damageReceived) {
         for (Character c : Game.game.getEntities().getPlayers()) {
             if (c.collidesWith(this) && c != owner && !impacted) {
-                c.damage(damageReceived);
+                if (MultiplayerGameScreen.client != null && GameData.clientNumber == Server.OWNER) {
+                    c.damage(damageReceived);
+                }
                 return true;
             }
         }

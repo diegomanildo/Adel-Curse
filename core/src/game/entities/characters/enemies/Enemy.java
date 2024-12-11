@@ -31,7 +31,7 @@ public abstract class Enemy extends Character {
         return super.online_canSendToServer() && GameData.clientNumber == Server.OWNER;
     }
 
-    public void target(float playerX, float playerY, float enemyX, float enemyY){
+    private void target(float playerX, float playerY, float enemyX, float enemyY){
         if (intoRangeX(playerY, enemyY)) {
             if (leftOrRight(playerX, enemyX)) {
                 shoot(Direction.RIGHT);
@@ -79,7 +79,7 @@ public abstract class Enemy extends Character {
 
         float distanceToPlayer = calculateDistance(playerX, playerY, enemyX, enemyY);
 
-        target(playerX, playerY, enemyX, enemyY);
+//        target(playerX, playerY, enemyX, enemyY);
 
         Direction direction;
 

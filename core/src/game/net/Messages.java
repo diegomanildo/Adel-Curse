@@ -17,6 +17,7 @@ public class Messages {
     public static final String SIZE = "size";
     public static final String SHOOT = "shoot";
     public static final String CREATE_ENTITY = "create_entity";
+//    public static final String REMOVE_ENTITY = "remove_entity";
     public static final String HP = "hp";
     public static final String MAX_HP = "max_hp";
     public static final String DAMAGE = "damage";

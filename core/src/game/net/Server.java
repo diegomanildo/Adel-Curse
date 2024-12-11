@@ -3,6 +3,7 @@ package game.net;
 import game.net.utilities.Thread;
 import game.utilities.Direction;
 import utilities.Timer;
+import utilities.Utils;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -47,7 +48,9 @@ public class Server extends Thread {
             try {
                 socket.receive(packet);
                 processMessage(packet);
-                checkTimeouts();
+                if (!Utils.isDebugging()) {
+                    checkTimeouts();
+                }
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -75,11 +78,9 @@ public class Server extends Thread {
             }
             case Messages.STILL_CONNECTED: {
                 int clientId = Integer.parseInt(parts[1]);
-                try {
+                if (timers[clientId] != null) {
                     timers[clientId].reset();
                     timers[clientId].start();
-                } catch (Exception e) {
-                    throw new RuntimeException("Client: " + clientId + "\n" + e);
                 }
                 break;
             }
@@ -125,11 +126,16 @@ public class Server extends Thread {
                 break;
             }
             case Messages.CREATE_ENTITY: {
-                internalSleep(200);
+                internalSleep(50); // Sleep for wait until entities appear
                 int clientId = Integer.parseInt(parts[1]);
                 sendMessageToAllExpect(clientId, Messages.CREATE_ENTITY + SP_C + parts[2]);
                 break;
             }
+//            case Messages.REMOVE_ENTITY: {
+//                int clientId = Integer.parseInt(parts[1]);
+//                int entityId = Integer.parseInt(parts[2]);
+//                sendMessageToAllExpect(clientId, Messages.REMOVE_ENTITY + SP_C + entityId);
+//            }
             case Messages.HP: {
                 int clientId = Integer.parseInt(parts[1]);
                 int entityId = Integer.parseInt(parts[2]);

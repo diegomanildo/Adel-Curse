@@ -11,6 +11,7 @@ import game.entities.characters.enemies.Enemy;
 import game.entities.characters.playables.Playable;
 import game.levels.Level;
 import game.screens.MultiplayerGameScreen;
+import game.screens.OnePlayerGameScreen;
 import game.utilities.Direction;
 import game.utilities.Hitbox;
 import utilities.Actor;
@@ -162,6 +163,7 @@ public abstract class Character extends GameEntity implements Statistics {
                 throw new RuntimeException("Invalid instance of Character: " + this.getClass().getSimpleName());
             }
 
+
             if (bullet.outOfBounds(Level.camera)) {
                 bullets.remove(bullet);
             } else if (collides) {
@@ -228,7 +230,12 @@ public abstract class Character extends GameEntity implements Statistics {
 
     @Override
     public void setHp(int hp) {
-        stats.hp = hp;
+        if (Game.game instanceof OnePlayerGameScreen) {
+            stats.hp = hp;
+        } else {
+            stats.hp = hp;
+        }
+
         if (getHp() > getMaxHp()) {
             setMaxHp(getHp());
         }

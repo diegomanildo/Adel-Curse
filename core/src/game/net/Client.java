@@ -117,6 +117,11 @@ public class Client extends Thread {
                     GameData.networkListener.createEntity(GameEntity.parseEntity(parts[1]));
                 }
                 break;
+//            case Messages.REMOVE_ENTITY:
+//                if (GameData.networkListener != null) {
+//                    GameData.networkListener.removeEntity(Integer.parseInt(parts[1]));
+//                }
+//                break;
             case Messages.HP:
                 if (GameData.networkListener != null) {
                     GameData.networkListener.updateHp(Integer.parseInt(parts[1]), Integer.parseInt(parts[2]));
@@ -178,20 +183,24 @@ public class Client extends Thread {
         sendMessage(Messages.CREATE_ENTITY + SP_C + GameData.clientNumber + SP_C + e);
     }
 
-    public void updateHp(int id, int hp) {
-        sendMessage(Messages.HP + SP_C + GameData.clientNumber + SP_C + id + SP_C + hp);
+//    public void removeEntity(int entityId) {
+//        sendMessage(Messages.REMOVE_ENTITY + SP_C + GameData.clientNumber + SP_C + entityId);
+//    }
+
+    public void updateHp(int entityId, int hp) {
+        sendMessage(Messages.HP + SP_C + GameData.clientNumber + SP_C + entityId + SP_C + hp);
     }
 
-    public void updateMaxHp(int id, int maxHp) {
-        sendMessage(Messages.MAX_HP + SP_C + GameData.clientNumber + SP_C + id + SP_C + maxHp);
+    public void updateMaxHp(int entityId, int maxHp) {
+        sendMessage(Messages.MAX_HP + SP_C + GameData.clientNumber + SP_C + entityId + SP_C + maxHp);
     }
 
-    public void updateDamage(int id, int damage) {
-        sendMessage(Messages.DAMAGE + SP_C + GameData.clientNumber + SP_C + id + SP_C + damage);
+    public void updateDamage(int entityId, int damage) {
+        sendMessage(Messages.DAMAGE + SP_C + GameData.clientNumber + SP_C + entityId + SP_C + damage);
     }
 
-    public void updateArmor(int id, int armor) {
-        sendMessage(Messages.ARMOR + SP_C + GameData.clientNumber + SP_C + id + SP_C + armor);
+    public void updateArmor(int entityId, int armor) {
+        sendMessage(Messages.ARMOR + SP_C + GameData.clientNumber + SP_C + entityId + SP_C + armor);
     }
 
     public boolean isConnected() {

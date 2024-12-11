@@ -56,6 +56,15 @@ public final class MultiplayerGameScreen extends AbstractGameScreen implements N
     }
 
     @Override
+    public void removeEntity(int entityId) {
+        getEntities().forEach(e -> {
+            if (e.getId() == entityId) {
+                e.remove();
+            }
+        });
+    }
+
+    @Override
     public void changeSizeEntity(int entityId, float width, float height) {
         getEntities().forEach(e -> {
             if (e.getId() == entityId) {
