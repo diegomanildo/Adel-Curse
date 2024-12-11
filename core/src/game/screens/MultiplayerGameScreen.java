@@ -2,6 +2,7 @@ package game.screens;
 
 import game.Game;
 import game.entities.GameEntity;
+import game.entities.characters.Character;
 import game.entities.characters.playables.Adel;
 import game.levels.Level1;
 import game.map.RoomMap;
@@ -11,6 +12,8 @@ import game.net.NetworkActionsListener;
 import game.net.Server;
 import game.rooms.Room;
 import game.utilities.Direction;
+
+import java.util.function.Consumer;
 
 public final class MultiplayerGameScreen extends AbstractGameScreen implements NetworkActionsListener {
     public static final int PLAYERS = Server.MAX_CLIENTS;
@@ -40,6 +43,24 @@ public final class MultiplayerGameScreen extends AbstractGameScreen implements N
         }
     }
 
+    // Helper method
+    private void executeAtEntity(int entityId, Consumer<? super GameEntity> action) {
+        getEntities().forEach(entity -> {
+            if (entity.getId() == entityId) {
+                action.accept(entity);
+            }
+        });
+    }
+
+    // Helper method
+    private void executeAtCharacter(int entityId, Consumer<? super Character> action) {
+        getEntities().getCharacters().forEach(entity -> {
+            if (entity.getId() == entityId) {
+                action.accept(entity);
+            }
+        });
+    }
+
     @Override
     public void createEntity(GameEntity entity) {
         level.getMap().getCurrent().createEntity(entity);
@@ -47,39 +68,25 @@ public final class MultiplayerGameScreen extends AbstractGameScreen implements N
 
     @Override
     public void moveEntity(int entityId, float x, float y, Direction direction) {
-        getEntities().forEach(e -> {
-            if (e.getId() == entityId) {
-                e.setPosition(x, y);
-                e.setDirection(direction);
-            }
-        });
-    }
-
-    @Override
-    public void removeEntity(int entityId) {
-        getEntities().forEach(e -> {
-            if (e.getId() == entityId) {
-                e.remove();
-            }
+        executeAtEntity(entityId, e -> {
+            e.setPosition(x, y);
+            e.setDirection(direction);
         });
     }
 
     @Override
     public void changeFrames(int entityId, String texturePath, int columns, int rows, float frameDuration) {
-        getEntities().forEach(e -> {
-            if (e.getId() == entityId) {
-                e.setFrames(texturePath, columns, rows, frameDuration);
-            }
-        });
+        executeAtEntity(entityId, c -> c.setFrames(texturePath, columns, rows, frameDuration));
+    }
+
+    @Override
+    public void changeTexture(int entityId, String texturePath) {
+        executeAtCharacter(entityId, c -> c.setBulletTexturePath(texturePath));
     }
 
     @Override
     public void changeSizeEntity(int entityId, float width, float height) {
-        getEntities().forEach(e -> {
-            if (e.getId() == entityId) {
-                e.setSize(width, height);
-            }
-        });
+        executeAtEntity(entityId, e -> e.setSize(width, height));
     }
 
     @Override
@@ -90,11 +97,7 @@ public final class MultiplayerGameScreen extends AbstractGameScreen implements N
 
     @Override
     public void createShoot(int entityId, Direction direction) {
-        getEntities().getCharacters().forEach(c -> {
-            if (c.getId() == entityId) {
-                c.shoot(direction, true);
-            }
-        });
+        executeAtCharacter(entityId, c -> c.shoot(direction, true));
     }
 
     @Override
@@ -109,38 +112,22 @@ public final class MultiplayerGameScreen extends AbstractGameScreen implements N
 
     @Override
     public void updateHp(int entityId, int hp) {
-        getEntities().getCharacters().forEach(c -> {
-            if (c.getId() == entityId) {
-                c.setHp(hp);
-            }
-        });
+        executeAtCharacter(entityId, c -> c.setHp(hp));
     }
 
     @Override
     public void updateMaxHp(int entityId, int maxHp) {
-        getEntities().getCharacters().forEach(c -> {
-            if (c.getId() == entityId) {
-                c.setMaxHp(maxHp);
-            }
-        });
+        executeAtCharacter(entityId, c -> c.setMaxHp(maxHp));
     }
 
     @Override
     public void updateDamage(int entityId, int damage) {
-        getEntities().getCharacters().forEach(c -> {
-            if (c.getId() == entityId) {
-                c.setDamage(damage);
-            }
-        });
+        executeAtCharacter(entityId, c -> c.setDamage(damage));
     }
 
     @Override
     public void updateArmor(int entityId, int armor) {
-        getEntities().getCharacters().forEach(c -> {
-            if (c.getId() == entityId) {
-                c.setArmor(armor);
-            }
-        });
+        executeAtCharacter(entityId, c -> c.setArmor(armor));
     }
 
     @Override

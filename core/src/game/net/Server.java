@@ -131,11 +131,6 @@ public class Server extends Thread {
                 sendMessageToAllExpect(clientId, Messages.CREATE_ENTITY + SP_C + parts[2]);
                 break;
             }
-//            case Messages.REMOVE_ENTITY: {
-//                int clientId = Integer.parseInt(parts[1]);
-//                int entityId = Integer.parseInt(parts[2]);
-//                sendMessageToAllExpect(clientId, Messages.REMOVE_ENTITY + SP_C + entityId);
-//            }
             case Messages.CHANGE_FRAMES: {
                 int clientId = Integer.parseInt(parts[1]);
                 int entityId = Integer.parseInt(parts[2]);
@@ -144,6 +139,13 @@ public class Server extends Thread {
                 int rows = Integer.parseInt(parts[5]);
                 float frameDuration = Float.parseFloat(parts[6]);
                 sendMessageToAllExpect(clientId, Messages.CHANGE_FRAMES + SP_C + entityId + SP_C + texturePath + SP_C + column + SP_C + rows + SP_C + frameDuration);
+                break;
+            }
+            case Messages.CHANGE_TEXTURE: {
+                int clientId = Integer.parseInt(parts[1]);
+                int entityId = Integer.parseInt(parts[2]);
+                String texturePath = parts[3];
+                sendMessageToAllExpect(clientId, Messages.CHANGE_TEXTURE + SP_C + entityId + SP_C + texturePath);
                 break;
             }
             case Messages.HP: {

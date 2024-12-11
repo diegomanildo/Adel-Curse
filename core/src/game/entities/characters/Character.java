@@ -218,8 +218,16 @@ public abstract class Character extends GameEntity implements Statistics {
         return bulletTexturePath;
     }
 
-    public void setBulletTexturePath(String bulletTexturePath) {
+    public void setBulletTexturePath(String bulletTexturePath, boolean sendToServer) {
         this.bulletTexturePath = bulletTexturePath;
+
+        if (sendToServer) {
+            MultiplayerGameScreen.client.changeTexturePath(getId(), bulletTexturePath);
+        }
+    }
+
+    public void setBulletTexturePath(String bulletTexturePath) {
+        setBulletTexturePath(bulletTexturePath, false);
     }
 
     @Override

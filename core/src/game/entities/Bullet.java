@@ -8,6 +8,7 @@ import game.entities.characters.enemies.Enemy;
 import game.net.GameData;
 import game.net.Server;
 import game.screens.MultiplayerGameScreen;
+import game.screens.OnePlayerGameScreen;
 import game.utilities.Camera2D;
 import game.utilities.Direction;
 
@@ -87,11 +88,15 @@ public final class Bullet extends GameEntity {
                 || getY() < camera.getBottom() - getHeight()  || getY() > camera.getTop());
     }
 
+    private boolean canReceiveDamage() {
+        return Game.game instanceof OnePlayerGameScreen || (MultiplayerGameScreen.client != null && GameData.clientNumber == Server.OWNER);
+    }
+
     // Check if the parent is not the same entity and if collides with the bullet
     public boolean collidesWithEnemy(int damageReceived) {
         for (Enemy e : Game.game.getEntities().getEnemies()) {
             if (e.collidesWith(this) && e != owner && !impacted) {
-                if (MultiplayerGameScreen.client != null && GameData.clientNumber == Server.OWNER) {
+                if (canReceiveDamage()) {
                     e.damage(damageReceived);
                 }
                 return true;
@@ -104,7 +109,7 @@ public final class Bullet extends GameEntity {
     public boolean collidesWithPlayer(int damageReceived) {
         for (Character c : Game.game.getEntities().getPlayers()) {
             if (c.collidesWith(this) && c != owner && !impacted) {
-                if (MultiplayerGameScreen.client != null && GameData.clientNumber == Server.OWNER) {
+                if (canReceiveDamage()) {
                     c.damage(damageReceived);
                 }
                 return true;

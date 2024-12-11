@@ -117,14 +117,14 @@ public class Client extends Thread {
                     GameData.networkListener.createEntity(GameEntity.parseEntity(parts[1]));
                 }
                 break;
-//            case Messages.REMOVE_ENTITY:
-//                if (GameData.networkListener != null) {
-//                    GameData.networkListener.removeEntity(Integer.parseInt(parts[1]));
-//                }
-//                break;
             case Messages.CHANGE_FRAMES:
                 if (GameData.networkListener != null) {
                     GameData.networkListener.changeFrames(Integer.parseInt(parts[1]), parts[2], Integer.parseInt(parts[3]), Integer.parseInt(parts[4]), Float.parseFloat(parts[5]));
+                }
+                break;
+            case Messages.CHANGE_TEXTURE:
+                if (GameData.networkListener != null) {
+                    GameData.networkListener.changeTexture(Integer.parseInt(parts[1]), parts[2]);
                 }
                 break;
             case Messages.HP:
@@ -188,12 +188,12 @@ public class Client extends Thread {
         sendMessage(Messages.CREATE_ENTITY + SP_C + GameData.clientNumber + SP_C + e);
     }
 
-//    public void removeEntity(int entityId) {
-//        sendMessage(Messages.REMOVE_ENTITY + SP_C + GameData.clientNumber + SP_C + entityId);
-//    }
-
     public void changeFrames(int entityId, String texturePath, int columns, int rows, float frameDuration) {
         sendMessage(Messages.CHANGE_FRAMES + SP_C + GameData.clientNumber + SP_C + entityId + SP_C + texturePath + SP_C + columns + SP_C + rows + SP_C + frameDuration);
+    }
+
+    public void changeTexturePath(int entityId, String texturePath) {
+        sendMessage(Messages.CHANGE_TEXTURE + SP_C + GameData.clientNumber + SP_C + entityId + SP_C + texturePath);
     }
 
     public void updateHp(int entityId, int hp) {

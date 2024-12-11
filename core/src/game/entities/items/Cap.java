@@ -7,7 +7,7 @@ public class Cap extends Item {
 
     @Override
     protected void applyEffect() {
-        owner.setBulletTexturePath("adel/blackBullet.png");
+        owner.setBulletTexturePath("adel/blackBullet.png", true);
         owner.addDamage(1);
     }
 }

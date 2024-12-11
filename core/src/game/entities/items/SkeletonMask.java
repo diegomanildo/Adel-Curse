@@ -16,8 +16,7 @@ public class SkeletonMask extends Item {
         public void run() {
             super.run();
             Utils.sleep(SECONDS * 1000);
-            item.getOwner().removeItem(item);
-            item.getOwner().setBulletTexturePath(item.getPreviousBulletTexturePath());
+            item.removeFromOwner();
         }
     }
 
@@ -31,14 +30,14 @@ public class SkeletonMask extends Item {
     @Override
     protected void applyEffect() {
         previousBulletTexturePath = owner.getBulletTexturePath();
-        owner.setBulletTexturePath("skeleton/bullet.png");
+        owner.setBulletTexturePath("skeleton/bullet.png", true);
         timerThread.start();
     }
 
     @Override
     public void removeFromOwner() {
         super.removeFromOwner();
-        owner.setBulletTexturePath("adel/bullet.png");
+        owner.setBulletTexturePath(previousBulletTexturePath, true);
     }
 
     public String getPreviousBulletTexturePath() {
