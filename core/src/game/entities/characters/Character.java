@@ -165,8 +165,10 @@ public abstract class Character extends GameEntity implements Statistics {
 
             if (bullet.outOfBounds(Level.camera)) {
                 bullets.remove(bullet);
-            } else if (collides) {
-                bullet.impact(() -> bullets.remove(bullet));
+            } else if (collides || bullet.collidesWithWall()) {
+                if (!bullet.impacted()) {
+                    bullet.impact(() -> bullets.remove(bullet));
+                }
             }
         }
     }
@@ -221,7 +223,7 @@ public abstract class Character extends GameEntity implements Statistics {
     public void setBulletTexturePath(String bulletTexturePath, boolean sendToServer) {
         this.bulletTexturePath = bulletTexturePath;
 
-        if (sendToServer) {
+        if (MultiplayerGameScreen.client != null && sendToServer) {
             MultiplayerGameScreen.client.changeTexturePath(getId(), bulletTexturePath);
         }
     }

@@ -11,6 +11,7 @@ import game.screens.MultiplayerGameScreen;
 import game.screens.OnePlayerGameScreen;
 import game.utilities.Camera2D;
 import game.utilities.Direction;
+import game.utilities.Hitbox;
 
 public final class Bullet extends GameEntity {
     private final Character owner;
@@ -88,6 +89,15 @@ public final class Bullet extends GameEntity {
                 || getY() < camera.getBottom() - getHeight()  || getY() > camera.getTop());
     }
 
+    public boolean collidesWithWall() {
+        Hitbox roomHitbox = Game.game.getLevel().getHitbox();
+
+        return (getX() + getWidth() < roomHitbox.x ||
+                getX() > roomHitbox.x + roomHitbox.width ||
+                getY() + getHeight() < roomHitbox.y ||
+                getY() > roomHitbox.y + roomHitbox.height);
+    }
+
     private boolean canReceiveDamage() {
         return Game.game instanceof OnePlayerGameScreen || (MultiplayerGameScreen.client != null && GameData.clientNumber == Server.OWNER);
     }
@@ -122,5 +132,9 @@ public final class Bullet extends GameEntity {
     @Override
     public Direction getDirection() {
         return direction;
+    }
+
+    public boolean impacted() {
+        return impacted;
     }
 }
