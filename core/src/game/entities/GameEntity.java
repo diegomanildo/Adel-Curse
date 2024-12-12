@@ -30,6 +30,15 @@ public abstract class GameEntity extends MovableObject {
         }
     }
 
+    @Override
+    public void setVelocity(float velocity) {
+        super.setVelocity(velocity);
+
+        if (MultiplayerGameScreen.client != null && !MultiplayerGameScreen.client.isSendingData()) {
+            MultiplayerGameScreen.client.updateEntityVelocity(getId(), velocity);
+        }
+    }
+
     protected boolean online_canSendToServer() {
         return true;
     }
@@ -51,14 +60,6 @@ public abstract class GameEntity extends MovableObject {
     }
 
     public static final String SP_C = "¿";
-
-    @Override
-    public boolean remove() {
-//        if (MultiplayerGameScreen.client != null && GameData.clientNumber == Server.OWNER) {
-//            MultiplayerGameScreen.client.removeEntity(getId());
-//        }
-        return super.remove();
-    }
 
     @Override
     public String toString() {

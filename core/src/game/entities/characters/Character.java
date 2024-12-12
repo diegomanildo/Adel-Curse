@@ -61,18 +61,6 @@ public abstract class Character extends GameEntity implements Statistics {
     protected abstract String getShootSoundPath();
 
     @Override
-    public void pause() {
-        super.pause();
-        bullets.forEach(GameEntity::pause);
-    }
-
-    @Override
-    public void resume() {
-        super.resume();
-        bullets.forEach(GameEntity::resume);
-    }
-
-    @Override
     public void act(float delta) {
         super.act(delta);
         if (!isStopped()) {
@@ -138,7 +126,7 @@ public abstract class Character extends GameEntity implements Statistics {
         float bulletSize = getHeight() / 2f;
         b.setSize(bulletSize, bulletSize);
         b.setPosition(getX() + b.getWidth() / 2f, getY() + b.getHeight() / 2f);
-        b.setVelocity(80f * 2f);
+        b.setVelocity(getVelocity() * 2f);
         bullets.add(b);
 
         if (!threwByServer && MultiplayerGameScreen.client != null) {

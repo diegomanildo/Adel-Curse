@@ -127,6 +127,11 @@ public class Client extends Thread {
                     GameData.networkListener.changeTexture(Integer.parseInt(parts[1]), parts[2]);
                 }
                 break;
+            case Messages.VELOCITY:
+                if (GameData.networkListener != null) {
+                    GameData.networkListener.updateVelocity(Integer.parseInt(parts[1]), Float.parseFloat(parts[2]));
+                }
+                break;
             case Messages.HP:
                 if (GameData.networkListener != null) {
                     GameData.networkListener.updateHp(Integer.parseInt(parts[1]), Integer.parseInt(parts[2]));
@@ -194,6 +199,10 @@ public class Client extends Thread {
 
     public void changeTexturePath(int entityId, String texturePath) {
         sendMessage(Messages.CHANGE_TEXTURE + SP_C + GameData.clientNumber + SP_C + entityId + SP_C + texturePath);
+    }
+
+    public void updateEntityVelocity(int entityId, float velocity) {
+        sendMessage(Messages.VELOCITY + SP_C + GameData.clientNumber + SP_C + entityId + SP_C + velocity);
     }
 
     public void updateHp(int entityId, int hp) {

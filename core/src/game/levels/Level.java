@@ -18,6 +18,8 @@ import utilities.Render;
 import utilities.Screen;
 import utilities.audio.Song;
 
+import java.util.ArrayList;
+
 public abstract class Level extends Group {
     private static final String START_TEXT_KEY = "StartText";
 
@@ -146,7 +148,7 @@ public abstract class Level extends Group {
         return HITBOX;
     }
 
-    public Door[] getDoors() {
+    public ArrayList<Door> getDoors() {
         if (Render.isDebugging()) {
             Matrix4 mat = Render.sr.getProjectionMatrix();
             Render.sr.setProjectionMatrix(camera.combined);

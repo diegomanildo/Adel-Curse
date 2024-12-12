@@ -121,26 +121,21 @@ public class Room extends Group {
             if (getStage() != null) {
                 getStage().addActor(e);
             }
-            Game.game.getEntities().add(e);
         }
     }
 
     @Override
     public boolean remove() {
-        boolean b = super.remove();
-        entities.forEach(e -> {
-            e.remove();
-            Game.game.getEntities().remove(e);
-        });
-        return b;
+        entities.forEach(GameEntity::remove);
+        return super.remove();
     }
 
     public static Room copy(Room room) {
         return new Room(room);
     }
 
-    public Door[] getDoors() {
-        return doors.toArray(new Door[0]);
+    public ArrayList<Door> getDoors() {
+        return doors;
     }
 
     @Override
@@ -189,22 +184,18 @@ public class Room extends Group {
     public void createDoors(Room leftRoom, Room rightRoom, Room upRoom, Room downRoom) {
         if (leftRoom != null) {
             addDoor(left);
-            leftRoom.addDoor(right);
         }
 
         if (rightRoom != null) {
             addDoor(right);
-            rightRoom.addDoor(left);
         }
 
         if (upRoom != null) {
             addDoor(up);
-            upRoom.addDoor(down);
         }
 
         if (downRoom != null) {
             addDoor(down);
-            downRoom.addDoor(up);
         }
 
         showDoors();

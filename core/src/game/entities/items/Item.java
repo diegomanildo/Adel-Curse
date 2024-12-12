@@ -6,7 +6,6 @@ import game.utilities.ItemList;
 import utilities.FilePaths;
 
 public abstract class Item extends GameEntity {
-    public static final float SIZE = 32f;
     public static final ItemList ITEMS = new ItemList(
             Candy.class,
             Cap.class,
@@ -27,12 +26,6 @@ public abstract class Item extends GameEntity {
         this.owner = null;
         this.quality = quality;
         this.description = description;
-    }
-
-    @Override
-    public void show() {
-        super.show();
-        setSize(SIZE, SIZE);
     }
 
     public void addToOwner() {

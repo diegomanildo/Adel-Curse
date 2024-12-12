@@ -10,6 +10,8 @@ import game.screens.MultiplayerGameScreen;
 import game.utilities.EntityClassList;
 import utilities.Utils;
 
+import java.util.ArrayList;
+
 public abstract class EnemyRoom extends Room {
     private static final float MIN_DISTANCE = 30f;
 
@@ -47,7 +49,8 @@ public abstract class EnemyRoom extends Room {
     private void showItems() {
         for (Door door : getDoors()) {
             if (door.hasItem()) {
-                createEntity(door.getItem());
+                Item item = door.getItem();
+                createEntity(item);
             }
         }
     }
@@ -89,31 +92,45 @@ public abstract class EnemyRoom extends Room {
     }
 
     private void createItems() {
+        ArrayList<Item> items = new ArrayList<>();
+
         for (Door door : getDoors()) {
             if (!door.hasItem()) {
-                Item item = Item.ITEMS.getRandomItem();
+                Item item;
+                do {
+                    item = Item.ITEMS.getRandomItem();
+                } while (items.contains(item));
+
+                items.add(item);
+
+                item.setSize(20f, 20f);
+                item.setPosition(door.getHitbox().x, door.getHitbox().y);
+                item.setRotation(door.getRotation());
 
                 switch (door.getDirection()) {
                     case LEFT:
-                        item.setPosition(left.getHitbox().x + 5, left.getHitbox().y);
+                        item.setPosition(left.getHitbox().x + item.getWidth() + 5f, left.getHitbox().y);
                         break;
                     case RIGHT:
-                        item.setPosition(right.getHitbox().x + 13, right.getHitbox().y + 1);
+                        item.setPosition(right.getHitbox().x + 13, right.getHitbox().y + item.getHeight());
                         break;
                     case UP:
-                        item.setPosition(up.getHitbox().x, up.getHitbox().y + 7);
+                        item.setPosition(up.getHitbox().x, up.getHitbox().y + 5f);
                         break;
                     case DOWN:
-                        item.setPosition(down.getHitbox().x, down.getHitbox().y + 3);
+                        item.setPosition(down.getHitbox().x + item.getHeight(), down.getHitbox().y + item.getWidth() + 5f);
                         break;
                     default:
                         throw new RuntimeException("Invalid direction: " + door.getDirection());
                 }
 
                 door.setItem(item);
-                createEntity(item);
             }
         }
+    }
+
+    public boolean getSpawnEntities() {
+        return spawnEntities;
     }
 
     public void setSpawnEntities(boolean spawnEntities) {

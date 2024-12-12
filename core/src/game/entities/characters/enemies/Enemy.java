@@ -79,7 +79,7 @@ public abstract class Enemy extends Character {
 
         float distanceToPlayer = calculateDistance(playerX, playerY, enemyX, enemyY);
 
-//        target(playerX, playerY, enemyX, enemyY);
+        target(playerX, playerY, enemyX, enemyY);
 
         Direction direction;
 

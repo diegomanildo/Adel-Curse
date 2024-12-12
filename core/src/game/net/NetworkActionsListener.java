@@ -14,6 +14,7 @@ public interface NetworkActionsListener {
     void createShoot(int entityId, Direction direction);
     void endGame();
     void initializeLevel(Room[][] rooms);
+    void updateVelocity(int entityId, float velocity);
     void updateHp(int entityId, int hp);
     void updateMaxHp(int entityId, int maxHp);
     void updateDamage(int entityId, int damage);

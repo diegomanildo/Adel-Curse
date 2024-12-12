@@ -12,10 +12,11 @@ import game.screens.OnePlayerGameScreen;
 import game.utilities.Camera2D;
 import game.utilities.Direction;
 import game.utilities.Hitbox;
+import game.utilities.MovableObject;
 
 import java.util.ArrayList;
 
-public final class Bullet extends GameEntity {
+public final class Bullet extends MovableObject {
     private final Character owner;
     private final ArrayList<Bullet> bullets;
     private boolean impacted;

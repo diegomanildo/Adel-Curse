@@ -7,6 +7,8 @@ import java.util.ArrayList;
 
 public class ItemListShower extends Group {
     private static final int MAX_ITEMS_PER_ROW = 5;
+    public static final float ITEM_SIZE = 32f;
+
     private final ArrayList<Item> items;
 
     public ItemListShower(ArrayList<Item> items) {
@@ -24,6 +26,8 @@ public class ItemListShower extends Group {
         for (Item item : items) {
             if (item != null) {
                 item.setStop(true);
+                item.setSize(ITEM_SIZE, ITEM_SIZE);
+                item.setRotation(0f);
                 addActor(item);
             }
         }

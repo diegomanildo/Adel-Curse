@@ -148,6 +148,13 @@ public class Server extends Thread {
                 sendMessageToAllExpect(clientId, Messages.CHANGE_TEXTURE + SP_C + entityId + SP_C + texturePath);
                 break;
             }
+            case Messages.VELOCITY: {
+                int clientId = Integer.parseInt(parts[1]);
+                int entityId = Integer.parseInt(parts[2]);
+                float velocity = Float.parseFloat(parts[3]);
+                sendMessageToAllExpect(clientId, Messages.VELOCITY + SP_C + entityId + SP_C + velocity);
+                break;
+            }
             case Messages.HP: {
                 int clientId = Integer.parseInt(parts[1]);
                 int entityId = Integer.parseInt(parts[2]);

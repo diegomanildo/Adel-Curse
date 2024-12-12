@@ -87,13 +87,19 @@ public abstract class GameAnimation extends Actor {
         }
 
         TextureRegion currentFrame;
+
         try {
-            currentFrame = frames[index + frameNumber];
+            int i = index + frameNumber;
+            if (i < frames.length) {
+                currentFrame = frames[i];
+            } else {
+                currentFrame = frames[frames.length - 1];
+            }
         } catch (RuntimeException e) {
             throw new RuntimeException("Class: " + getClass() + " " + e.getMessage(), e);
         }
 
-        batch.draw(currentFrame, getX(), getY(), getWidth(), getHeight());
+        batch.draw(currentFrame, getX(), getY(), getOriginX(), getOriginY(), getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
     }
 
     public boolean isStopped() {

@@ -19,6 +19,7 @@ public class Messages {
     public static final String CREATE_ENTITY = "create_entity";
     public static final String CHANGE_FRAMES = "change_frames";
     public static final String CHANGE_TEXTURE = "change_texture";
+    public static final String VELOCITY = "velocity";
     public static final String HP = "hp";
     public static final String MAX_HP = "max_hp";
     public static final String DAMAGE = "damage";
