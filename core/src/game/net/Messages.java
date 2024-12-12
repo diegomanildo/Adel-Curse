@@ -23,5 +23,4 @@ public class Messages {
     public static final String MAX_HP = "max_hp";
     public static final String DAMAGE = "damage";
     public static final String ARMOR = "armor";
-
 }

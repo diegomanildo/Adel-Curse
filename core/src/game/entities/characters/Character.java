@@ -133,12 +133,12 @@ public abstract class Character extends GameEntity implements Statistics {
 
     // Creates a shoot
     private void createBullet(int animationIndex, Direction bulletDirection, boolean threwByServer) {
-        Bullet b = new Bullet(this, FilePaths.CHARACTERS + bulletTexturePath, bulletDirection, 0.2f);
+        Bullet b = new Bullet(this, bullets, FilePaths.CHARACTERS + bulletTexturePath, bulletDirection, 0.2f);
         b.setAnimation(animationIndex);
         float bulletSize = getHeight() / 2f;
         b.setSize(bulletSize, bulletSize);
         b.setPosition(getX() + b.getWidth() / 2f, getY() + b.getHeight() / 2f);
-        b.setVelocity(getVelocity() * 2f);
+        b.setVelocity(80f * 2f);
         bullets.add(b);
 
         if (!threwByServer && MultiplayerGameScreen.client != null) {
@@ -162,12 +162,11 @@ public abstract class Character extends GameEntity implements Statistics {
                 throw new RuntimeException("Invalid instance of Character: " + this.getClass().getSimpleName());
             }
 
-
             if (bullet.outOfBounds(Level.camera)) {
                 bullets.remove(bullet);
             } else if (collides || bullet.collidesWithWall()) {
                 if (!bullet.impacted()) {
-                    bullet.impact(() -> bullets.remove(bullet));
+                    bullet.impact();
                 }
             }
         }
@@ -214,6 +213,10 @@ public abstract class Character extends GameEntity implements Statistics {
         } else if (getY() + getHeight() > roomHitbox.getTop()) {
             setPosition(getX(), roomHitbox.getTop() - getHeight());
         }
+    }
+
+    public ArrayList<Bullet> getBullets() {
+        return bullets;
     }
 
     public String getBulletTexturePath() {

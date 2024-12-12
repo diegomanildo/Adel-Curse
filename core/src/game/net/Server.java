@@ -126,7 +126,7 @@ public class Server extends Thread {
                 break;
             }
             case Messages.CREATE_ENTITY: {
-                internalSleep(50); // Sleep for wait until entities appear
+                internalSleep(25); // Sleep for wait until entities appear
                 int clientId = Integer.parseInt(parts[1]);
                 sendMessageToAllExpect(clientId, Messages.CREATE_ENTITY + SP_C + parts[2]);
                 break;

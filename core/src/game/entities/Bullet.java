@@ -13,25 +13,27 @@ import game.utilities.Camera2D;
 import game.utilities.Direction;
 import game.utilities.Hitbox;
 
+import java.util.ArrayList;
+
 public final class Bullet extends GameEntity {
     private final Character owner;
+    private final ArrayList<Bullet> bullets;
     private boolean impacted;
     private float impactTime;
 
     private final Direction direction;
-    private Runnable onImpactEnds;
 
-    public Bullet(Character owner, String texturePath, Direction direction, float frameDuration) {
+    public Bullet(Character owner, ArrayList<Bullet> bullets, String texturePath, Direction direction, float frameDuration) {
         super(texturePath, 2, 5, frameDuration);
         this.owner = owner;
+        this.bullets = bullets;
         this.impacted = false;
         this.impactTime = 0f;
         this.direction = direction;
         setHitbox(10f, 10f);
     }
 
-    public void impact(Runnable onImpactEnds) {
-        this.onImpactEnds = onImpactEnds;
+    public void impact() {
         impacted = true;
         impactTime = 0f;
         setAnimation(4);
@@ -42,7 +44,7 @@ public final class Bullet extends GameEntity {
         if (impacted) {
             impactTime += Gdx.graphics.getDeltaTime();
             if (impactTime >= getFrameDuration()) {
-                onImpactEnds.run();
+                bullets.remove(this);
                 this.remove();
             } else {
                 super.draw(batch, parentAlpha);

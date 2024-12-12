@@ -3,6 +3,7 @@ package game.screens;
 import game.Game;
 import game.entities.GameEntity;
 import game.entities.characters.Character;
+import game.entities.characters.enemies.Skeleton;
 import game.entities.characters.playables.Adel;
 import game.levels.Level1;
 import game.map.RoomMap;
@@ -31,6 +32,8 @@ public final class MultiplayerGameScreen extends AbstractGameScreen implements N
             player.setId(-(i + 1));
             stage.addActor(player);
         }
+
+        stage.addActor(new Skeleton());
 
         GameData.networkListener = this;
     }

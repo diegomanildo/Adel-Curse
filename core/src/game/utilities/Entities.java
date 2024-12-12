@@ -1,6 +1,7 @@
 package game.utilities;
 
 import com.badlogic.gdx.utils.Array;
+import game.entities.Bullet;
 import game.entities.GameEntity;
 import game.entities.characters.Character;
 import game.entities.characters.enemies.Enemy;
@@ -37,5 +38,15 @@ public class Entities extends ArrayList<GameEntity> {
             }
         }
         return characters;
+    }
+
+    public ArrayList<Bullet> getBullets() {
+        ArrayList<Bullet> bullets = new ArrayList<>();
+        for (GameEntity entity : this) {
+            if (entity instanceof Bullet) {
+                bullets.add((Bullet) entity);
+            }
+        }
+        return bullets;
     }
 }
