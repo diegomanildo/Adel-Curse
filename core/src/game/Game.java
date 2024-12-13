@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Matrix4;
 import game.hud.HudScreen;
+import game.items.Item;
 import game.net.GameData;
 import game.screens.*;
 import menu.BasicMainMenuScreen;
@@ -70,6 +71,8 @@ public final class Game extends Screen {
         } else if (Gdx.input.isKeyJustPressed(Input.Keys.F1)) {
             game.getPlayer().setVelocity(game.getPlayer().getVelocity() * 2f);
             game.getPlayer().setDamage(50);
+        } else if (Gdx.input.isKeyJustPressed(Input.Keys.F2)) {
+            itemPickedScreen.start(Item.ITEMS.getRandomItem());
         }
     }
 

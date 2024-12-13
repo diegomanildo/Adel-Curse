@@ -10,6 +10,7 @@ public abstract class Item extends GameEntity {
     public static final ItemList ITEMS = new ItemList(
             Candy.class,
             Cap.class,
+            Crucifix.class,
             Diamond.class,
             Mushroom.class,
             RandomCard.class,

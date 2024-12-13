@@ -25,7 +25,7 @@ public class SkeletonMask extends Item {
     private String previousBulletTexturePath;
 
     public SkeletonMask() {
-        super(ItemQuality.Common, "", "skeletonMask.png", 2, 1);
+        super(ItemQuality.Common, "Skeleton bullets", "skeletonMask.png", 2, 1);
     }
 
     @Override

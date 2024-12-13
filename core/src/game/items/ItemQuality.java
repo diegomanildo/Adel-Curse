@@ -4,7 +4,7 @@ public enum ItemQuality {
     Common(50),
     Rare(24),
     Epic(12),
-    Legendary(6);
+    Legendary(2);
 
     private final int percentage;
 
