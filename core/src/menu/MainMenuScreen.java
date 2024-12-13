@@ -3,7 +3,6 @@ package menu;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Array;
-import game.Game;
 import game.screens.OnePlayerGameScreen;
 import menu.config.ControlsScreen;
 import menu.config.SettingsScreen;
@@ -17,7 +16,7 @@ public final class MainMenuScreen extends BasicMainMenuScreen {
         table.setFillParent(true);
         Array<TextButton> buttons = new Array<>();
         buttons.addAll(
-                new TextButton("1 Jugador", () -> Render.setScreen(new Game(OnePlayerGameScreen.class))),
+                new TextButton("1 Jugador", () -> Render.setScreenToGame(OnePlayerGameScreen.class)),
                 new TextButton("Multijugador", () -> Render.setScreen(new WaitingMenuScreen(new MainMenuScreen()))),
                 new TextButton("Controles", () -> Render.setScreen(new ControlsScreen(new MainMenuScreen()))),
                 new TextButton("Configuracion", () -> Render.setScreen(new SettingsScreen(new MainMenuScreen()))),

@@ -197,7 +197,7 @@ public abstract class Enemy extends Character {
     @Override
     protected void onDeath() {
         Coin coin = new Coin();
-        coin.setSize(20f, 20f);
+        coin.setSize(13f, 13f);
         coin.setPosition(getX(), getY());
         Game.game.getLevel().getMap().getCurrent().createEntity(coin);
         super.onDeath();

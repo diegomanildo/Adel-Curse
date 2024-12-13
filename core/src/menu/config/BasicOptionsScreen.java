@@ -32,7 +32,7 @@ public abstract class BasicOptionsScreen extends BasicMainMenuScreen {
         }
     }
 
-    private void back() {
+    protected void back() {
         Render.setScreen(backScreen);
     }
 

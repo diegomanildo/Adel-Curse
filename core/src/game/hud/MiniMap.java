@@ -22,14 +22,14 @@ public class MiniMap extends Group {
     private final GameMap gameMap;
     private final float cellSize;
     private final Icon adelIcon;
-    private final Icon shopIcon;
+    private final Icon coinIcon;
     private final Icon skullIcon;
 
     public MiniMap(GameMap gameMap, float cellSize) {
         this.gameMap = gameMap;
         this.cellSize = cellSize;
         this.adelIcon = new Icon("adel.png");
-        this.shopIcon = new Icon("shop.png");
+        this.coinIcon = new Icon("coin.png");
         this.skullIcon = new Icon("skull.png");
     }
 
@@ -106,7 +106,7 @@ public class MiniMap extends Group {
                             batch.draw(skullIcon, x + PADDING / 2f, y + PADDING / 2f, cellSize, cellSize);
                             break;
                         case SHOP:
-                            batch.draw(shopIcon, x + PADDING / 2f, y + PADDING / 2f, cellSize, cellSize);
+                            batch.draw(coinIcon, x + PADDING / 2f, y + PADDING / 2f, cellSize, cellSize);
                             break;
                         case CURRENT:
                             batch.draw(adelIcon, x + PADDING / 2f, y + PADDING / 2f, cellSize, cellSize);

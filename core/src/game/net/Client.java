@@ -17,7 +17,7 @@ public class Client extends Thread {
     public static final String SP_C = Server.SP_C; // Special character
 
     private InetAddress ip;
-    private DatagramSocket socket;
+    public DatagramSocket socket;
     private boolean end;
     private boolean isSendingData;
 
@@ -56,8 +56,6 @@ public class Client extends Thread {
                 throw new RuntimeException("\nClient " + GameData.clientNumber + ": " + e.getMessage());
             }
         }
-
-        socket.close();
     }
 
     private void processMessage(DatagramPacket packet) {
@@ -230,10 +228,9 @@ public class Client extends Thread {
     }
 
     public void end() {
-        if (!isConnected()) {
-            throw new RuntimeException("The client is not connected to the NET");
+        if (isConnected()) {
+            sendMessage(Messages.DISCONNECT + SP_C + GameData.clientNumber);
         }
-        sendMessage(Messages.DISCONNECT + SP_C + GameData.clientNumber);
         end = true;
     }
 }

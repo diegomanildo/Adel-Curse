@@ -61,15 +61,9 @@ public abstract class GameAnimation extends Actor {
     }
 
     public void setAnimation(int index) {
-        if (index < 0) {
-            throw new NegativeArraySizeException("Index " + index + " must be greater than 0");
+        if (index >= 0 && index < frames.length) {
+            this.index = index * columns;
         }
-
-        if (index >= frames.length) {
-            throw new ArrayIndexOutOfBoundsException("Index " + index + " is out of bounds, frames.length is " + frames.length);
-        }
-
-        this.index = index * columns;
     }
 
     @Override

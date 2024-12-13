@@ -42,7 +42,7 @@ public class Store extends WidgetGroup {
 
             items.add(item);
 
-            Image coin = new Image("icons/shop.png");
+            Image coin = new Image("icons/coin.png");
             TextButton itemButton = new TextButton(item);
             Item finalItem = item;
             item.setSize(finalItem.getWidth() * SIZE_MULTIPLIER, finalItem.getHeight() * SIZE_MULTIPLIER);

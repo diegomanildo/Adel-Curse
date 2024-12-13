@@ -7,6 +7,7 @@ import game.entities.characters.Character;
 import game.entities.characters.playables.Adel;
 import game.entities.characters.playables.Playable;
 import game.levels.Level;
+import game.levels.Level1;
 import game.map.Door;
 import game.net.GameData;
 import game.utilities.*;
@@ -21,13 +22,26 @@ public class AbstractGameScreen extends SubScreen {
     protected static final float TRANSITION_TIME = FADE_TIME / 3f;
 
     private final Timer timer;
+    private final Array<Playable> players;
     private int coins;
     protected Level level;
     public Func onDoorsChanged;
 
-    public AbstractGameScreen() {
+    protected AbstractGameScreen(int quantityPlayers) {
         super();
+        players = new Array<>();
         timer = new Timer();
+        level = new Level1();
+
+        stage.addActor(level);
+
+        for (int i = 0; i < quantityPlayers; i++) {
+            Adel player = new Adel(i);
+            player.setPosition(level.getInitX() - player.getWidth() / 2f, level.getInitY() - player.getHeight() / 2f);
+            player.setId(-(i + 1));
+            stage.addActor(player);
+            players.add(player);
+        }
     }
 
     @Override
@@ -190,15 +204,16 @@ public class AbstractGameScreen extends SubScreen {
     }
 
     public void revivePlayer(int entityId) {
-        executeAtCharacter(entityId, c -> {
-            if (c.isDeath()) {
-                c.setPosition(level.getInitX() - c.getWidth() / 2f, level.getInitY() - c.getHeight() / 2f);
-                stage.addActor(c);
-                c.addHp(c.getMaxHp() / 2); // Revive with half of the life
+        for (Playable player : players) {
+            if (player.getId() == entityId && player.isDeath()) {
+                player.setPosition(level.getInitX() - player.getWidth() / 2f, level.getInitY() - player.getHeight() / 2f);
+                stage.addActor(player);
+                player.addHp(player.getMaxHp() / 2); // Revive with half of the life
+                break;
             } else {
                 throw new RuntimeException("Player with id " + entityId + " is not death");
             }
-        });
+        }
     }
 
     public Playable getPlayer() {
