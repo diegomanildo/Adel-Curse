@@ -1,5 +1,6 @@
 package game.items;
 
+import com.badlogic.gdx.graphics.Color;
 import utilities.FilePaths;
 
 public class Diamond extends Item {
@@ -13,5 +14,10 @@ public class Diamond extends Item {
     protected void applyEffect() {
         owner.setFrames(FilePaths.IMAGES + "characters/adel/adelDiamond.png", owner.getColumns(), owner.getRows(), owner.getFrameDuration());
         owner.addArmor(3);
+    }
+
+    @Override
+    public Color getItemColor() {
+        return new Color(0xadd8e6);
     }
 }

@@ -1,5 +1,6 @@
 package game.items;
 
+import com.badlogic.gdx.graphics.Color;
 import game.entities.GameEntity;
 import game.entities.characters.playables.Playable;
 import game.utilities.ItemList;
@@ -38,6 +39,8 @@ public abstract class Item extends GameEntity {
     }
 
     protected abstract void applyEffect();
+
+    public abstract Color getItemColor();
 
     public String getDescription() {
         return description;

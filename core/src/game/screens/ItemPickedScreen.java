@@ -38,7 +38,9 @@ public class ItemPickedScreen extends SubScreen {
         animationCompleted = false;
         started = true;
         titleLabel.setText(item.getName());
+        titleLabel.setColor(item.getItemColor());
         descriptionLabel.setText(item.getDescription());
+        descriptionLabel.setColor(item.getItemColor());
 
         titleLabel.pack();
         descriptionLabel.pack();

@@ -1,5 +1,6 @@
 package game.items;
 
+import com.badlogic.gdx.graphics.Color;
 import utilities.Utils;
 
 public class SkeletonMask extends Item {
@@ -32,6 +33,11 @@ public class SkeletonMask extends Item {
         previousBulletTexturePath = owner.getBulletTexturePath();
         owner.setBulletTexturePath("skeleton/bullet.png", true);
         timerThread.start();
+    }
+
+    @Override
+    public Color getItemColor() {
+        return Color.LIGHT_GRAY;
     }
 
     @Override

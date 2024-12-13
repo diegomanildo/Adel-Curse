@@ -1,5 +1,7 @@
 package game.items;
 
+import com.badlogic.gdx.graphics.Color;
+
 public class Candy extends Item {
     private static final int HP = 1;
 
@@ -10,5 +12,10 @@ public class Candy extends Item {
     @Override
     protected void applyEffect() {
         owner.addHp(HP);
+    }
+
+    @Override
+    public Color getItemColor() {
+        return Color.ORANGE;
     }
 }
