@@ -20,6 +20,7 @@ public class AbstractGameScreen extends SubScreen {
     protected static final float TRANSITION_TIME = FADE_TIME / 3f;
 
     private final Timer timer;
+    private int coins;
     protected Level level;
     public Func onDoorsChanged;
 
@@ -208,6 +209,14 @@ public class AbstractGameScreen extends SubScreen {
 
     public Timer getTimer() {
         return timer;
+    }
+
+    public int getCoins() {
+        return coins;
+    }
+
+    public void addCoins(int quantity) {
+        coins += quantity;
     }
 
     @Override

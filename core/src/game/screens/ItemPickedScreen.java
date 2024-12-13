@@ -30,6 +30,7 @@ public class ItemPickedScreen extends SubScreen {
     public ItemPickedScreen() {
         setShow(false);
         titleLabel = new Label();
+        titleLabel.setFontScale(1.5f);
         descriptionLabel = new Label();
         elapsedTime = 0f;
         started = false;
@@ -63,7 +64,7 @@ public class ItemPickedScreen extends SubScreen {
         titleLabel.setText(currentItem.getName());
         titleLabel.setColor(currentItem.getItemColor());
         descriptionLabel.setText(currentItem.getDescription());
-        descriptionLabel.setColor(currentItem.getItemColor());
+//        descriptionLabel.setColor(currentItem.getItemColor());
 
         titleLabel.pack();
         descriptionLabel.pack();
