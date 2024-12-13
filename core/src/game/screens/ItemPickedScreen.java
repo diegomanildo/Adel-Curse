@@ -12,37 +12,43 @@ public class ItemPickedScreen extends SubScreen {
     public static final float WIDTH = 400f;
     public static final float HEIGHT = 100f;
 
-    private final Label label;
+    private final Label titleLabel;
+    private final Label descriptionLabel;
     private final ShapeRenderer shapeRenderer;
     private float elapsedTime;
     private boolean animationCompleted;
     private boolean started;
 
     public ItemPickedScreen() {
-        label = new Label();
+        setShow(false);
+        titleLabel = new Label();
+        descriptionLabel = new Label();
         shapeRenderer = new ShapeRenderer();
         elapsedTime = 0f;
         animationCompleted = false;
         started = false;
 
-        stage.addActor(label);
-
-        setShow(false);
+        stage.addActor(titleLabel);
+        stage.addActor(descriptionLabel);
     }
 
     public void start(Item item) {
+        setShow(true);
         elapsedTime = 0;
         animationCompleted = false;
         started = true;
-        label.setText(item.getDescription());
-        setShow(true);
+        titleLabel.setText(item.getName());
+        descriptionLabel.setText(item.getDescription());
+
+        titleLabel.pack();
+        descriptionLabel.pack();
 
         Timer.schedule(new Timer.Task() {
             @Override
             public void run() {
+                setShow(false);
                 animationCompleted = true;
                 started = false;
-                setShow(false);
             }
         }, 4f);
     }
@@ -56,21 +62,24 @@ public class ItemPickedScreen extends SubScreen {
             float stopDuration = 1f;
             float screenWidth = Gdx.graphics.getWidth();
             float screenHeight = Gdx.graphics.getHeight();
-            float yPosition = (screenHeight - HEIGHT) / 2f;
+            float yPosition = screenHeight - HEIGHT - 100f;
 
             float xPosition = getXPosition(totalDuration, stopDuration, screenWidth);
 
+            // Render the background rectangle
             shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
             shapeRenderer.setColor(Color.BLACK);
             shapeRenderer.rect(xPosition, yPosition, WIDTH, HEIGHT);
             shapeRenderer.end();
 
+            // Render the border
             shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
             shapeRenderer.setColor(Color.WHITE);
             shapeRenderer.rect(xPosition, yPosition, WIDTH, HEIGHT);
             shapeRenderer.end();
 
-            label.setPosition(xPosition + (WIDTH - label.getWidth()) / 2f, yPosition + (HEIGHT - label.getHeight()) / 2f);
+            titleLabel.setPosition(xPosition + (WIDTH - titleLabel.getPrefWidth()) / 2f, yPosition + HEIGHT - titleLabel.getPrefHeight() - 10f);
+            descriptionLabel.setPosition(xPosition + (WIDTH - descriptionLabel.getPrefWidth()) / 2f, yPosition + (HEIGHT - descriptionLabel.getPrefHeight()) / 2f);
         }
         super.render(delta);
     }
