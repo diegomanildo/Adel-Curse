@@ -1,7 +1,5 @@
 package menu;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import game.net.Client;
 import game.screens.MultiplayerGameScreen;
@@ -32,7 +30,7 @@ public class WaitingMenuScreen extends BasicOptionsScreen {
     public void render(float delta) {
         super.render(delta);
 
-        if (MultiplayerGameScreen.client.isConnected()) {
+        if (MultiplayerGameScreen.client != null && MultiplayerGameScreen.client.isConnected()) {
             label.setText("Esperando a otro jugador...");
 
             if (Render.startGame) {
@@ -51,13 +49,11 @@ public class WaitingMenuScreen extends BasicOptionsScreen {
     }
 
     @Override
-    protected void handleInput() {
-        super.handleInput();
-        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
-            if(MultiplayerGameScreen.client.isConnected()){
-                MultiplayerGameScreen.client.end();
-            }
-            Render.setScreen(new MainMenuScreen());
+    protected void back() {
+        if (MultiplayerGameScreen.client != null) {
+            MultiplayerGameScreen.client.end();
+            MultiplayerGameScreen.client = null;
         }
+        super.back();
     }
 }

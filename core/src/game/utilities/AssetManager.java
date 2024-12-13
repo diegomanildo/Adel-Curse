@@ -33,7 +33,7 @@ public class AssetManager extends com.badlogic.gdx.assets.AssetManager {
         load(FilePaths.IMAGES + "characters/skeleton/skeleton.png", Texture.class);
 
         load(FilePaths.IMAGES + "icons/adel.png", Texture.class);
-        load(FilePaths.IMAGES + "icons/shop.png", Texture.class);
+        load(FilePaths.IMAGES + "icons/coin.png", Texture.class);
         load(FilePaths.IMAGES + "icons/skull.png", Texture.class);
 
         load(FilePaths.IMAGES + "items/candy/candy.png", Texture.class);

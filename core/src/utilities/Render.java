@@ -12,6 +12,7 @@ import game.screens.OnePlayerGameScreen;
 import game.utilities.AssetManager;
 
 public class Render {
+    private static Class<? extends AbstractGameScreen> lastGameClass;
     public static Size screenSize = new Size(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
     public static Skin skin = new Skin(Gdx.files.internal("uiskin.json"));
     public static Juego app;
@@ -40,18 +41,19 @@ public class Render {
     }
 
     public static Class<? extends AbstractGameScreen> getGameClass() {
-        Class<?> clazz = Game.game.getClass();
-
-        if (clazz.equals(OnePlayerGameScreen.class)) {
+        if (lastGameClass.equals(OnePlayerGameScreen.class)) {
             return OnePlayerGameScreen.class;
-        } else if (clazz.equals(MultiplayerGameScreen.class)) {
+        } else if (lastGameClass.equals(MultiplayerGameScreen.class)) {
             return MultiplayerGameScreen.class;
         } else {
-            throw new RuntimeException("Class " + clazz.getSimpleName() + " not implemented");
+            throw new RuntimeException("Class " + lastGameClass.getSimpleName() + " not implemented");
         }
     }
 
     public static void setScreenToGame(Class<? extends AbstractGameScreen> gameClass) {
+        if (gameClass != null) {
+            lastGameClass = gameClass;
+        }
         Class<? extends AbstractGameScreen> gClass = gameClass != null ? gameClass : getGameClass();
         Gdx.app.postRunnable(() -> setScreen(new Game(gClass)));
     }
