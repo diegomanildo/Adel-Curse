@@ -34,8 +34,6 @@ public abstract class EnemyRoom extends Room {
             createItems();
         }
 
-        showItems();
-
         Game.game.onDoorsChanged = direction -> {
             for (Door door : getDoors()) {
                 if (door.hasItem() && door.getDirection().equals(direction)) {
@@ -47,11 +45,31 @@ public abstract class EnemyRoom extends Room {
         };
     }
 
+    @Override
+    public void hideDoors() {
+        super.hideDoors();
+        hideItems();
+    }
+
+    @Override
+    public void showDoors() {
+        super.showDoors();
+        showItems();
+    }
+
     private void showItems() {
         for (Door door : getDoors()) {
             if (door.hasItem()) {
                 Item item = door.getItem();
                 createEntity(item);
+            }
+        }
+    }
+
+    private void hideItems() {
+        for (Door door : getDoors()) {
+            if (door.hasItem()) {
+                door.getItem().remove();
             }
         }
     }
