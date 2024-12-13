@@ -1,6 +1,6 @@
 package game.hud;
 
-import game.entities.items.Item;
+import game.items.Item;
 import utilities.Group;
 
 import java.util.ArrayList;

@@ -1,10 +1,10 @@
-package game.entities.items;
+package game.items;
 
 public class Shell extends Item {
-    private static final int ARMOR = 2;
+    private static final int ARMOR = 1;
 
     public Shell() {
-        super(ItemQuality.Rare, "+" + ARMOR + " armor", "shell.png", 2, 1);
+        super(ItemQuality.Common, "+" + ARMOR + " armor", "shell.png", 2, 1);
     }
 
     @Override

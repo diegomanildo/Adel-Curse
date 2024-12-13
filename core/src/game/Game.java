@@ -15,6 +15,7 @@ public final class Game extends Screen {
     public static AbstractGameScreen game;
     public static ChatScreen chat;
     public static HudScreen hudScreen;
+    public static ItemPickedScreen itemPickedScreen;
     public static PauseScreen pauseScreen;
     public static ShopScreen shopScreen;
     public static DeathScreen deathScreen;
@@ -35,6 +36,7 @@ public final class Game extends Screen {
 
         chat = new ChatScreen();
         hudScreen = new HudScreen();
+        itemPickedScreen = new ItemPickedScreen();
         pauseScreen = new PauseScreen();
         shopScreen = new ShopScreen();
         deathScreen = new DeathScreen();
@@ -43,6 +45,7 @@ public final class Game extends Screen {
         addSubScreen(Game.game);
         addSubScreen(chat);
         addSubScreen(hudScreen);
+        addSubScreen(itemPickedScreen);
         addSubScreen(shopScreen);
         addSubScreen(pauseScreen);
         addSubScreen(deathScreen);

@@ -2,12 +2,13 @@ package game.rooms;
 
 import game.Game;
 import game.entities.GameEntity;
-import game.entities.items.Item;
+import game.items.Item;
 import game.map.Door;
 import game.net.GameData;
 import game.net.Server;
 import game.screens.MultiplayerGameScreen;
 import game.utilities.EntityClassList;
+import game.utilities.Hitbox;
 import utilities.Utils;
 
 import java.util.ArrayList;
@@ -71,10 +72,11 @@ public abstract class EnemyRoom extends Room {
         float playerY = Game.game.getPlayer().getY();
 
         float x, y;
+        Hitbox levelHitbox = Game.game.getLevel().getHitbox();
 
         do {
-            x = Utils.r.nextFloat() * getWidth();
-            y = Utils.r.nextFloat() * getHeight();
+            x = Utils.r.nextFloat(levelHitbox.getLeft(), levelHitbox.getRight());
+            y = Utils.r.nextFloat(levelHitbox.getBottom(), levelHitbox.getTop());
         } while (distance(playerX, playerY, x, y) < MIN_DISTANCE);
 
         GameEntity e = getRandomEntityAt(x, y);

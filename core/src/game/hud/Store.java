@@ -7,7 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup;
 import com.badlogic.gdx.utils.Array;
 import game.Game;
-import game.entities.items.Item;
+import game.items.Item;
 import utilities.Image;
 import utilities.Label;
 import utilities.Render;

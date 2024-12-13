@@ -1,7 +1,8 @@
 package game.utilities;
 
 import com.badlogic.gdx.utils.Array;
-import game.entities.items.Item;
+import game.items.Item;
+import utilities.Utils;
 
 public final class ItemList extends Array<Class<? extends Item>> {
     @SafeVarargs
@@ -11,7 +12,13 @@ public final class ItemList extends Array<Class<? extends Item>> {
 
     public Item getRandomItem() {
         try {
-            return super.random().getDeclaredConstructor().newInstance();
+            Item item;
+
+            do {
+                item = super.random().getDeclaredConstructor().newInstance();
+            } while (Utils.r.nextInt(0, 100) <= item.getQuality().getPercentage());
+
+            return item;
         } catch(Exception e) {
             throw new RuntimeException("Item is not valid (" + e.getClass() + ")");
         }

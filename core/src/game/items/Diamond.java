@@ -1,10 +1,12 @@
-package game.entities.items;
+package game.items;
 
 import utilities.FilePaths;
 
 public class Diamond extends Item {
+    private static final int ARMOR = 3;
+
     public Diamond() {
-        super(ItemQuality.Epic, "+armor", "diamond.png", 2, 1);
+        super(ItemQuality.Rare, "+" + ARMOR + " armor", "diamond.png", 2, 1);
     }
 
     @Override

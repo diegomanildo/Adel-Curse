@@ -51,7 +51,11 @@ public final class Sound extends Audio {
 
     @Override
     public void setVolume(float volume) {
-        sound.setVolume(volume);
+        try {
+            sound.setVolume(volume);
+        } catch (Exception ignored) {
+
+        }
     }
 
     @Override

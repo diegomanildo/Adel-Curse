@@ -1,4 +1,4 @@
-package game.entities.items;
+package game.items;
 
 public class RandomCard extends Item {
     public RandomCard() {

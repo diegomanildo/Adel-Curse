@@ -1,4 +1,4 @@
-package game.entities.items;
+package game.items;
 
 import utilities.Utils;
 

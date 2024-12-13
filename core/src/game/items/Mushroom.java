@@ -1,11 +1,11 @@
-package game.entities.items;
+package game.items;
 
 public class Mushroom extends Item {
     private static final float SIZE_MULTIPLIER = 1.1f;
     private static final float MAX_SIZE = 40;
 
     public Mushroom() {
-        super(ItemQuality.Rare, "+Bullet size", "mushroom.png", 2, 1);
+        super(ItemQuality.Epic, "+Bullet size", "mushroom.png", 2, 1);
     }
 
     @Override

@@ -1,11 +1,10 @@
 package game.rooms;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.utils.Array;
 import game.Game;
 import game.entities.ShopKeeper;
 import game.entities.characters.playables.Playable;
-import game.entities.items.Item;
+import game.items.Item;
 import game.map.RoomKinds;
 import game.utilities.Controls;
 import game.utilities.GameAction;

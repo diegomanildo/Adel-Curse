@@ -2,7 +2,7 @@ package game.entities.characters.playables;
 
 import game.Game;
 import game.entities.characters.Character;
-import game.entities.items.Item;
+import game.items.Item;
 import game.net.GameData;
 import game.screens.OnePlayerGameScreen;
 import game.utilities.Controls;
@@ -108,6 +108,7 @@ public abstract class Playable extends Character {
         if (i.getOwner() == null) {
             i.changeOwnerTo(this);
             i.addToOwner();
+            Game.itemPickedScreen.start(i);
         }
         items.add(i);
     }

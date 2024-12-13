@@ -1,6 +1,6 @@
 package game.map;
 
-import game.entities.items.Item;
+import game.items.Item;
 import game.utilities.Direction;
 import game.utilities.Hitbox;
 
