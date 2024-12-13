@@ -5,6 +5,7 @@ import game.entities.GameEntity;
 import game.entities.characters.playables.Playable;
 import game.utilities.ItemList;
 import utilities.FilePaths;
+import utilities.Utils;
 
 public abstract class Item extends GameEntity {
     public static final ItemList ITEMS = new ItemList(
@@ -62,18 +63,7 @@ public abstract class Item extends GameEntity {
     @Override
     public String getName() {
         String s = getClass().getSimpleName();
-        StringBuilder ret = new StringBuilder();
-        ret.append(s.charAt(0));
-
-        for (int i = 1; i < s.length(); i++) {
-            if (Character.isUpperCase(s.charAt(i))) {
-                ret.append(' ');
-            }
-
-            ret.append(Character.toLowerCase(s.charAt(i)));
-        }
-
-        return ret.toString();
+        return Utils.toCommonText(s);
     }
 
     @Override

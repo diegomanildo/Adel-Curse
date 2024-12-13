@@ -37,4 +37,35 @@ public final class Utils {
 
         return number.length() > 0 ? Integer.parseInt(number.toString()) : -1;
     }
+
+    public static String toCommonText(String text) {
+        StringBuilder ret = new StringBuilder();
+        ret.append(text.charAt(0));
+
+        for (int i = 1; i < text.length(); i++) {
+            if (Character.isUpperCase(text.charAt(i))) {
+                ret.append(' ');
+            }
+
+            ret.append(Character.toLowerCase(text.charAt(i)));
+        }
+
+        return ret.toString();
+    }
+
+    public static String toCamelCase(String text) {
+        String[] words = text.split("[\\s_-]+");
+
+        StringBuilder camelCase = new StringBuilder(words[0].toLowerCase());
+
+        for (int i = 1; i < words.length; i++) {
+            String word = words[i];
+            if (!word.isEmpty()) {
+                camelCase.append(word.substring(0, 1).toUpperCase());
+                camelCase.append(word.substring(1).toLowerCase());
+            }
+        }
+
+        return camelCase.toString();
+    }
 }

@@ -1,10 +1,13 @@
 package menu.config;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Array;
 import utilities.*;
 import utilities.audio.Channels;
+import utilities.audio.Song;
 
 public final class SettingsScreen extends BasicOptionsScreen {
     private final SelectBox<String> resolutionSelectBox;
@@ -80,6 +83,8 @@ public final class SettingsScreen extends BasicOptionsScreen {
                 "240"
         );
 
+        SelectBox<String> songSelectBox = getStringSelectBox();
+
         globalVolumeEditor = new VolumeEditor(Channels.GLOBAL_CHANNEL, "Volumen Global");
         musicVolumeEditor = new VolumeEditor("Music", "Volumen Musica");
         sfxVolumeEditor = new VolumeEditor("Sfx", "Volumen sfx");
@@ -100,6 +105,8 @@ public final class SettingsScreen extends BasicOptionsScreen {
         table.add(new Label("Fps:")).left();
         table.add(fpsSelectBox).padBottom(10f).row();
         table.add(fullscreenCheckBox).colspan(2).left().padBottom(10f).row();
+        table.add(new Label("Song selector")).padTop(20f).padBottom(20f).left().row();
+        table.add(songSelectBox).left().row();
 
         table.add(new Label("Volumen")).padTop(20f).padBottom(20f).left().row();
         globalVolumeEditor.addToTable(table);
@@ -108,6 +115,30 @@ public final class SettingsScreen extends BasicOptionsScreen {
         table.add(applyBtn).center().width(200f).height(45f).padBottom(10f).colspan(2).center().padTop(20f);
 
         stage.addActor(table);
+    }
+
+    private SelectBox<String> getStringSelectBox() {
+        String[] songNames = {
+                "Trying to scape",
+                "Spider Funk",
+                "Lost Souls",
+                "Piano Man",
+                "Death to Eva",
+        };
+
+        SelectBox<String> songSelectBox = new SelectBox<>();
+        songSelectBox.setItems(songNames);
+        songSelectBox.setSelected(songNames[0]);
+
+        songSelectBox.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                backgroundSong.stop();
+                backgroundSong = new Song("Music", "songs/" + Utils.toCamelCase(songSelectBox.getSelected()) + ".mp3");
+                backgroundSong.play(true);
+            }
+        });
+        return songSelectBox;
     }
 
     @Override

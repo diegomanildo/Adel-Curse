@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import game.Game;
 import game.entities.characters.Character;
 import game.entities.characters.playables.Playable;
+import game.items.Coin;
 import game.net.GameData;
 import game.net.Server;
 import game.utilities.Direction;
@@ -191,5 +192,14 @@ public abstract class Enemy extends Character {
         }
 
         return levelHitbox.contains(nextX, nextY, getWidth(), getHeight());
+    }
+
+    @Override
+    protected void onDeath() {
+        Coin coin = new Coin();
+        coin.setSize(20f, 20f);
+        coin.setPosition(getX(), getY());
+        Game.game.getLevel().getMap().getCurrent().createEntity(coin);
+        super.onDeath();
     }
 }

@@ -1,11 +1,9 @@
 package game.hud;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import game.Game;
 import game.entities.characters.playables.Playable;
-import utilities.Image;
 import utilities.Label;
 import utilities.SubScreen;
 
@@ -13,9 +11,6 @@ public class HudScreen extends SubScreen {
     private final Playable player;
     private final Label hpLabel;
     private final Label timerLabel;
-    private final Label armorLabel;
-    private final Label damageLabel;
-    private final Label coinsLabel;
 
     public HudScreen() {
         super();
@@ -24,13 +19,7 @@ public class HudScreen extends SubScreen {
         hpLabel = new Label();
         timerLabel = new Label();
 
-        damageLabel = new Label();
-        damageLabel.setColor(Color.YELLOW);
-        armorLabel = new Label();
-        armorLabel.setColor(new Color(0xadd8e6));
-        coinsLabel = new Label();
-        coinsLabel.setColor(Color.ORANGE);
-
+        StatsShower statsShower = new StatsShower(player);
         ItemListShower itemListShower = new ItemListShower(player.getItems());
         HpBar hpBar = new HpBar(player);
         MiniMap miniMap = new MiniMap(Game.game.getLevel().getMap(), 30f);
@@ -52,13 +41,7 @@ public class HudScreen extends SubScreen {
         table1.add(hpStack).left().top().width(hpBar.getWidth()).height(hpBar.getHeight());
         table1.add(miniMap).right().top().expandX();
         table1.row();
-        table1.add(damageLabel).center().left();
-        table1.row();
-        table1.add(armorLabel).center().left();
-        table1.row();
-        table1.add(getCoinsTable()).left();
-        table1.row();
-        table1.row();
+        table1.add(statsShower).center().left();
         table1.add(itemListShower).colspan(3).right().top().pad(30f).expandX();
 
         table2.add(timerLabel).center().top().expandX().expandY();
@@ -67,21 +50,10 @@ public class HudScreen extends SubScreen {
         stage.addActor(table2);
     }
 
-    private Table getCoinsTable() {
-        Image coin = new Image("icons/shop.png");
-        Table coinsTable = new Table();
-        coinsTable.add(coinsLabel).left().padRight(10f);
-        coinsTable.add(coin).left();
-        return coinsTable;
-    }
-
     @Override
     public void render(float delta) {
         super.render(delta);
         hpLabel.setText(player.getHp() + "/" + player.getMaxHp() + " HP");
-        damageLabel.setText("Damage: " + player.getDamage());
-        armorLabel.setText("Armor: " + player.getArmor());
-        coinsLabel.setText(": " + Game.game.getCoins());
 
         long hours = (long) Game.game.getTimer().getHours();
         long minutes = (long) Game.game.getTimer().getMinutes();

@@ -15,6 +15,7 @@ import utilities.SubScreen;
 import utilities.Timer;
 
 import java.util.ArrayList;
+import java.util.function.Consumer;
 
 public class AbstractGameScreen extends SubScreen {
     protected static final float TRANSITION_TIME = FADE_TIME / 3f;
@@ -41,6 +42,24 @@ public class AbstractGameScreen extends SubScreen {
 
         correctPositions();
         checkDoors();
+    }
+
+    // Helper method
+    protected void executeAtEntity(int entityId, Consumer<? super GameEntity> action) {
+        getEntities().forEach(entity -> {
+            if (entity.getId() == entityId) {
+                action.accept(entity);
+            }
+        });
+    }
+
+    // Helper method
+    protected void executeAtCharacter(int entityId, Consumer<? super Character> action) {
+        getEntities().getCharacters().forEach(entity -> {
+            if (entity.getId() == entityId) {
+                action.accept(entity);
+            }
+        });
     }
 
     private void correctPositions() {
@@ -168,6 +187,18 @@ public class AbstractGameScreen extends SubScreen {
             default:
                 throw new RuntimeException("Invalid direction: " + direction);
         }
+    }
+
+    public void revivePlayer(int entityId) {
+        executeAtCharacter(entityId, c -> {
+            if (c.isDeath()) {
+                c.setPosition(level.getInitX() - c.getWidth() / 2f, level.getInitY() - c.getHeight() / 2f);
+                stage.addActor(c);
+                c.addHp(c.getMaxHp() / 2); // Revive with half of the life
+            } else {
+                throw new RuntimeException("Player with id " + entityId + " is not death");
+            }
+        });
     }
 
     public Playable getPlayer() {

@@ -67,6 +67,13 @@ public final class Game extends Screen {
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
             pauseScreen.setShow(true);
+        } else if (Gdx.input.isKeyJustPressed(Input.Keys.F1)) {
+            game.getPlayer().setVelocity(game.getPlayer().getVelocity() * 2f);
+            game.getPlayer().addDamage(50);
+        } else if (Gdx.input.isKeyJustPressed(Input.Keys.F2)) {
+            game.getPlayer().damage(Integer.MAX_VALUE);
+        } else if (Gdx.input.isKeyJustPressed(Input.Keys.F3)) {
+            game.revivePlayer(game.getPlayer().getId());
         }
     }
 

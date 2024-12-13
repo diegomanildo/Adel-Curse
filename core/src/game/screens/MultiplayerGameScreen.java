@@ -2,7 +2,6 @@ package game.screens;
 
 import game.Game;
 import game.entities.GameEntity;
-import game.entities.characters.Character;
 import game.entities.characters.playables.Adel;
 import game.levels.Level1;
 import game.map.RoomMap;
@@ -12,8 +11,6 @@ import game.net.NetworkActionsListener;
 import game.net.Server;
 import game.rooms.Room;
 import game.utilities.Direction;
-
-import java.util.function.Consumer;
 
 public final class MultiplayerGameScreen extends AbstractGameScreen implements NetworkActionsListener {
     public static final int PLAYERS = Server.MAX_CLIENTS;
@@ -41,24 +38,6 @@ public final class MultiplayerGameScreen extends AbstractGameScreen implements N
         if (!client.isConnected()) {
             Game.deathScreen.playerDead();
         }
-    }
-
-    // Helper method
-    private void executeAtEntity(int entityId, Consumer<? super GameEntity> action) {
-        getEntities().forEach(entity -> {
-            if (entity.getId() == entityId) {
-                action.accept(entity);
-            }
-        });
-    }
-
-    // Helper method
-    private void executeAtCharacter(int entityId, Consumer<? super Character> action) {
-        getEntities().getCharacters().forEach(entity -> {
-            if (entity.getId() == entityId) {
-                action.accept(entity);
-            }
-        });
     }
 
     @Override
