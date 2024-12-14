@@ -5,18 +5,13 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import game.net.Client;
 import game.screens.MultiplayerGameScreen;
 
+import java.util.Arrays;
+
 public class DesktopLauncher {
 	private static Juego juego;
 
 	public static void main(String[] args) {
-		boolean isServer = false;
-
-		for (int i = 0; i < args.length; i++) {
-			if (args[i].contains("server")) {
-				isServer = true;
-				break;
-			}
-		}
+		boolean isServer = Arrays.stream(args).anyMatch(arg -> arg.toLowerCase().contains("server"));
 
 		juego = new Juego(isServer);
         if (!isServer) {
