@@ -1,5 +1,6 @@
 package game.net;
 
+import com.ac.ServerChatScreen;
 import game.net.utilities.Thread;
 import game.utilities.Direction;
 import utilities.Timer;
@@ -15,35 +16,52 @@ import java.time.format.DateTimeFormatter;
 public class Server extends Thread {
     public static final int OWNER = 0;
     public static final String SP_C = "!"; // Special character
-    public static final int PORT = 22121;
     public static final int MAX_CLIENTS = 2;
     public static final float TIMEOUT_TIME = 3;
 
+    private final int port;
+    private final ServerChatScreen chat;
     private final DatagramSocket socket;
     private boolean end;
     private final ClientData[] clients = new ClientData[MAX_CLIENTS];
     private int clientsConnected;
     private final Timer[] timers = new Timer[clients.length];
 
-    public Server() {
+    public Server(ServerChatScreen chat) {
+        this.chat = chat;
+        port = Utils.r.nextInt(1024, 49151);
         try {
-            socket = new DatagramSocket(PORT);
+            socket = new DatagramSocket(port);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
-    private void console(Object obj) {
+    private void console(String tag, Object obj) {
         String time = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"));
-        System.out.println("[" + time + "] [SERVER] " + obj);
+        String message = "[" + time + "] [" + tag + "] [SERVER] " + obj;
+        System.out.println(message);
+        chat.addMessage(message);
+    }
+
+    private void consoleInfo(Object obj) {
+        console("INFO", obj);
+    }
+
+    private void consoleWarning(Object obj) {
+        console("WARNING", obj);
+    }
+
+    private void consoleError(Object obj) {
+        console("ERROR", obj);
     }
 
     @Override
     public void run() {
         super.run();
-        console("Started on port " + PORT);
+        consoleInfo("Started on port " + port);
 
-        while (!end) {
+        while (!end && !socket.isClosed()) {
             DatagramPacket packet = new DatagramPacket(new byte[1024], 1024);
             try {
                 socket.receive(packet);
@@ -184,7 +202,7 @@ public class Server extends Thread {
                 break;
             }
             default:
-                throw new RuntimeException("Message not recognized: " + parts[0]);
+                consoleError("Message not recognized: " + message);
         }
     }
 
@@ -197,7 +215,7 @@ public class Server extends Thread {
         clients[clientsConnected] = new ClientData(packet.getAddress(), packet.getPort(), clientsConnected);
         timers[clientsConnected] = new Timer();
         timers[clientsConnected].start();
-        console("Client " + clients[clientsConnected].getId() + " connected");
+        consoleInfo("Client " + clients[clientsConnected].getId() + " connected");
         clientsConnected++;
         return true;
     }
@@ -220,7 +238,7 @@ public class Server extends Thread {
 
         sendMessageToAll(Messages.END_GAME);
         sendMessage(Messages.DISCONNECT, index);
-        console("Client " + clients[index].getId() + " disconnected");
+        consoleWarning("Client " + clients[index].getId() + " disconnected");
         clients[index] = null;
         clientsConnected--;
         System.arraycopy(clients, index + 1, clients, index, clientsConnected - index);
@@ -270,7 +288,7 @@ public class Server extends Thread {
     private void checkTimeouts() {
         for (int i = 0; i < timers.length; i++) {
             if (timers[i] != null && timers[i].getSeconds() >= TIMEOUT_TIME) {
-                console("Client " + clients[i].getId() + " timeouted because it was absent by " + TIMEOUT_TIME + "s");
+                consoleInfo("Client " + clients[i].getId() + " timeouted because it was absent by " + TIMEOUT_TIME + "s");
                 removeClient(i);
             }
         }
@@ -278,8 +296,8 @@ public class Server extends Thread {
 
     public void end() {
         clearClients();
+        consoleInfo("Closed");
         end = true;
         socket.close();
-        console("Closed");
     }
 }

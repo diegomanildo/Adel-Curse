@@ -26,7 +26,7 @@ public abstract class Screen extends SubScreen {
 
     @Override
     public void render(float delta) {
-        Render.clear(new Color(0x6c141301));
+        Render.clear(new Color(0));
         super.render(delta);
         subScreens.forEach(s -> {
             if (s.isShowing()) {
