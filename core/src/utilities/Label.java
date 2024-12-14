@@ -8,4 +8,8 @@ public class Label extends com.badlogic.gdx.scenes.scene2d.ui.Label {
     public Label() {
         this("");
     }
+
+    public Label(String message, LabelStyle labelStyle) {
+        super(message, labelStyle);
+    }
 }

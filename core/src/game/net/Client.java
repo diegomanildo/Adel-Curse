@@ -13,7 +13,7 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 
 public class Client extends Thread {
-    public static final int PORT = 22121;
+    public static final int PORT = Server.PORT;
     public static final String SP_C = Server.SP_C; // Special character
 
     private InetAddress ip;

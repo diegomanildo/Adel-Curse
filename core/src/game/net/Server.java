@@ -14,12 +14,12 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 public class Server extends Thread {
+    public static final int PORT = 22121;
     public static final int OWNER = 0;
     public static final String SP_C = "!"; // Special character
     public static final int MAX_CLIENTS = 2;
     public static final float TIMEOUT_TIME = 3;
 
-    private final int port;
     private final ServerChatScreen chat;
     private final DatagramSocket socket;
     private boolean end;
@@ -29,9 +29,8 @@ public class Server extends Thread {
 
     public Server(ServerChatScreen chat) {
         this.chat = chat;
-        port = Utils.r.nextInt(1024, 49151);
         try {
-            socket = new DatagramSocket(port);
+            socket = new DatagramSocket(PORT);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -59,7 +58,7 @@ public class Server extends Thread {
     @Override
     public void run() {
         super.run();
-        consoleInfo("Started on port " + port);
+        consoleInfo("Started on port " + PORT);
 
         while (!end && !socket.isClosed()) {
             DatagramPacket packet = new DatagramPacket(new byte[1024], 1024);
@@ -238,7 +237,7 @@ public class Server extends Thread {
 
         sendMessageToAll(Messages.END_GAME);
         sendMessage(Messages.DISCONNECT, index);
-        consoleWarning("Client " + clients[index].getId() + " disconnected");
+        consoleInfo("Client " + clients[index].getId() + " disconnected");
         clients[index] = null;
         clientsConnected--;
         System.arraycopy(clients, index + 1, clients, index, clientsConnected - index);
@@ -288,7 +287,7 @@ public class Server extends Thread {
     private void checkTimeouts() {
         for (int i = 0; i < timers.length; i++) {
             if (timers[i] != null && timers[i].getSeconds() >= TIMEOUT_TIME) {
-                consoleInfo("Client " + clients[i].getId() + " timeouted because it was absent by " + TIMEOUT_TIME + "s");
+                consoleWarning("Client " + clients[i].getId() + " was timed out for being absent for " + TIMEOUT_TIME + " seconds");
                 removeClient(i);
             }
         }

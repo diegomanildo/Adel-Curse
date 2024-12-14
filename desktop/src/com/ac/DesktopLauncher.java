@@ -16,12 +16,6 @@ public class DesktopLauncher {
 		juego = new Juego(isServer);
         if (!isServer) {
             initGame();
-            if (MultiplayerGameScreen.client != null) {
-                MultiplayerGameScreen.client.socket.close();
-            } else {
-                MultiplayerGameScreen.client = new Client();
-                MultiplayerGameScreen.client.socket.close();
-            }
         } else {
             initServer();
         }
@@ -35,13 +29,19 @@ public class DesktopLauncher {
 		config.setWindowedMode(1280, 720);
 
 		new Lwjgl3Application(juego, config);
+
+		if (MultiplayerGameScreen.client != null) {
+			MultiplayerGameScreen.client.socket.close();
+		} else {
+			MultiplayerGameScreen.client = new Client();
+			MultiplayerGameScreen.client.socket.close();
+		}
 	}
 
 	private static void initServer() {
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 		config.setTitle("Adel's Curse Server");
-		config.setResizable(true);
-		config.setWindowedMode(600, 800);
+		config.setWindowedMode(600, 600);
 
 		new Lwjgl3Application(juego, config);
 	}
