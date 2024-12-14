@@ -1,10 +1,14 @@
 package com.ac;
 
-import game.net.Server;
-
 public class ServerLauncher {
 	public static void main(String[] args) {
-		Server sv = new Server();
-		sv.start();
+		String[] newArgs = new String[args.length + 1];
+		for (int i = 0; i < args.length; i++) {
+			newArgs[i] = args[i];
+		}
+
+		newArgs[args.length] = "server";
+
+		DesktopLauncher.main(newArgs);
 	}
 }

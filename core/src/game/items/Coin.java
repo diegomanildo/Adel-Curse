@@ -8,7 +8,7 @@ import utilities.FilePaths;
 
 public class Coin extends GameEntity {
     public Coin() {
-        super(FilePaths.ICONS + "shop.png", 1, 1, 0.4f);
+        super(FilePaths.ICONS + "coin.png", 1, 1, 0.4f);
     }
 
     @Override
