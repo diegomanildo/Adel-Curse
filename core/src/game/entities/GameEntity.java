@@ -68,18 +68,18 @@ public abstract class GameEntity extends MovableObject {
 
     public static GameEntity parseEntity(String character) {
         String[] parts = character.split(SP_C);
-        GameEntity g;
+        GameEntity e;
 
         try {
             Class<?> clazz = Class.forName(parts[0]);
             Object ent = clazz.getDeclaredConstructor().newInstance();
             if (ent instanceof GameEntity) {
-                g = (GameEntity) ent;
+                e = (GameEntity) ent;
             } else {
                 throw new RuntimeException("Unexpected class: " + clazz);
             }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        } catch (Exception exception) {
+            throw new RuntimeException(exception);
         }
 
         float x = Float.parseFloat(parts[1]);
@@ -87,8 +87,9 @@ public abstract class GameEntity extends MovableObject {
 
         int id = Integer.parseInt(parts[3]);
 
-        g.setPosition(x, y);
-        g.setId(id);
-        return g;
+        e.setPosition(x, y);
+        e.setId(id);
+
+        return e;
     }
 }

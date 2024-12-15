@@ -238,6 +238,7 @@ public abstract class Character extends GameEntity implements Statistics {
 
         if (isDeath()) {
             onDeath();
+            stats.hp = 0;
         }
 
         if (MultiplayerGameScreen.client != null && !MultiplayerGameScreen.client.isSendingData()) {
@@ -285,7 +286,6 @@ public abstract class Character extends GameEntity implements Statistics {
     }
 
     protected void onDeath() {
-        stats.hp = 0;
         deathSound.play();
         remove();
         Game.game.getEntities().remove(this);

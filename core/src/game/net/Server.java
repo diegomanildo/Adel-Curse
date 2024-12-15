@@ -1,6 +1,6 @@
 package game.net;
 
-import com.ac.ServerChatScreen;
+import com.ac.ServerConsoleScreen;
 import game.net.utilities.Thread;
 import game.utilities.Direction;
 import utilities.Timer;
@@ -18,16 +18,15 @@ public class Server extends Thread {
     public static final int OWNER = 0;
     public static final String SP_C = "!"; // Special character
     public static final int MAX_CLIENTS = 2;
-    public static final float TIMEOUT_TIME = 3;
+    public static final float TIMEOUT_TIME = 4;
 
-    private final ServerChatScreen chat;
+    private final ServerConsoleScreen chat;
     private final DatagramSocket socket;
     private boolean end;
     private final ClientData[] clients = new ClientData[MAX_CLIENTS];
     private int clientsConnected;
-    private final Timer[] timers = new Timer[clients.length];
 
-    public Server(ServerChatScreen chat) {
+    public Server(ServerConsoleScreen chat) {
         this.chat = chat;
         try {
             socket = new DatagramSocket(PORT);
@@ -77,131 +76,147 @@ public class Server extends Thread {
     private void processMessage(DatagramPacket packet) {
         String message = new String(packet.getData()).trim();
         String[] parts = message.split(SP_C);
-
-        switch (parts[0]) {
-            case Messages.CONNECT: {
-                boolean goodConnected = connectClient(packet);
-                if (goodConnected && clientsConnected == MAX_CLIENTS) {
-                    sendMessageToAll(Messages.START_GAME);
+        try {
+            switch (parts[0]) {
+                case Messages.CONNECT: {
+                    boolean goodConnected = connectClient(packet);
+                    if (goodConnected && clientsConnected == MAX_CLIENTS) {
+                        sendMessageToAll(Messages.START_GAME);
+                        internalSleep(100);
+                        sendMessage(Messages.CREATE_LEVEL, OWNER);
+                    }
+                    break;
+                }
+                case Messages.DISCONNECT: {
+                    int index = Integer.parseInt(parts[1]);
+                    removeClient(index);
+                    break;
+                }
+                case Messages.STILL_CONNECTED: {
+                    int clientId = Integer.parseInt(parts[1]);
+                    if (clients[clientId] != null) {
+                        Timer timer = clients[clientId].getTimer();
+                        timer.reset();
+                        timer.start();
+                    }
+                    break;
+                }
+                case Messages.RESTART_GAME: {
+                    int clientId = Integer.parseInt(parts[1]);
+                    sendMessageToAllExpect(clientId, Messages.RESTART_GAME);
                     internalSleep(100);
                     sendMessage(Messages.CREATE_LEVEL, OWNER);
+                    break;
                 }
-                break;
-            }
-            case Messages.DISCONNECT: {
-                int index = Integer.parseInt(parts[1]);
-                removeClient(index);
-                break;
-            }
-            case Messages.STILL_CONNECTED: {
-                int clientId = Integer.parseInt(parts[1]);
-                if (timers[clientId] != null) {
-                    timers[clientId].reset();
-                    timers[clientId].start();
+                case Messages.INIT_LEVEL: {
+                    sendMessageToAllExpect(OWNER, Messages.INIT_LEVEL + SP_C + parts[1]);
+                    break;
                 }
-                break;
+                case Messages.ROOM_CHANGED: {
+                    int clientId = Integer.parseInt(parts[1]);
+                    Direction direction = Direction.parseDirection(parts[2]);
+                    sendMessageToAllExpect(clientId, Messages.ROOM_CHANGED + SP_C + direction);
+                    break;
+                }
+                case Messages.POSITION: {
+                    int clientId = Integer.parseInt(parts[1]);
+                    int entityId = Integer.parseInt(parts[2]);
+                    float x = Float.parseFloat(parts[3]);
+                    float y = Float.parseFloat(parts[4]);
+                    Direction direction = Direction.parseDirection(parts[5]);
+                    sendMessageToAllExpect(clientId, Messages.POSITION + SP_C + entityId + SP_C + x + SP_C + y + SP_C + direction);
+                    break;
+                }
+                case Messages.SIZE: {
+                    int clientId = Integer.parseInt(parts[1]);
+                    int entityId = Integer.parseInt(parts[2]);
+                    float width = Float.parseFloat(parts[3]);
+                    float height = Float.parseFloat(parts[4]);
+                    sendMessageToAllExpect(clientId, Messages.SIZE + SP_C + entityId + SP_C + width + SP_C + height);
+                    break;
+                }
+                case Messages.SHOOT: {
+                    int clientId = Integer.parseInt(parts[1]);
+                    int entityId = Integer.parseInt(parts[2]);
+                    Direction direction = Direction.parseDirection(parts[3]);
+                    sendMessageToAllExpect(clientId, Messages.SHOOT + SP_C + entityId + SP_C + direction);
+                    break;
+                }
+                case Messages.CREATE_ENTITY: {
+                    internalSleep(25); // Sleep for wait until entities appear
+                    int clientId = Integer.parseInt(parts[1]);
+                    sendMessageToAllExpect(clientId, Messages.CREATE_ENTITY + SP_C + parts[2]);
+                    break;
+                }
+                case Messages.REMOVE_ENTITY: {
+                    int clientId = Integer.parseInt(parts[1]);
+                    int entityId = Integer.parseInt(parts[2]);
+                    sendMessageToAllExpect(clientId, Messages.REMOVE_ENTITY + SP_C + entityId);
+                    break;
+                }
+                case Messages.REVIVE_PLAYER: {
+                    int clientId = Integer.parseInt(parts[1]);
+                    int entityId = Integer.parseInt(parts[2]);
+                    sendMessageToAllExpect(clientId, Messages.REVIVE_PLAYER + SP_C + entityId);
+                    break;
+                }
+                case Messages.CHANGE_FRAMES: {
+                    int clientId = Integer.parseInt(parts[1]);
+                    int entityId = Integer.parseInt(parts[2]);
+                    String texturePath = parts[3];
+                    int column = Integer.parseInt(parts[4]);
+                    int rows = Integer.parseInt(parts[5]);
+                    float frameDuration = Float.parseFloat(parts[6]);
+                    sendMessageToAllExpect(clientId, Messages.CHANGE_FRAMES + SP_C + entityId + SP_C + texturePath + SP_C + column + SP_C + rows + SP_C + frameDuration);
+                    break;
+                }
+                case Messages.CHANGE_TEXTURE: {
+                    int clientId = Integer.parseInt(parts[1]);
+                    int entityId = Integer.parseInt(parts[2]);
+                    String texturePath = parts[3];
+                    sendMessageToAllExpect(clientId, Messages.CHANGE_TEXTURE + SP_C + entityId + SP_C + texturePath);
+                    break;
+                }
+                case Messages.VELOCITY: {
+                    int clientId = Integer.parseInt(parts[1]);
+                    int entityId = Integer.parseInt(parts[2]);
+                    float velocity = Float.parseFloat(parts[3]);
+                    sendMessageToAllExpect(clientId, Messages.VELOCITY + SP_C + entityId + SP_C + velocity);
+                    break;
+                }
+                case Messages.HP: {
+                    int clientId = Integer.parseInt(parts[1]);
+                    int entityId = Integer.parseInt(parts[2]);
+                    int hp = Integer.parseInt(parts[3]);
+                    sendMessageToAllExpect(clientId, Messages.HP + SP_C + entityId + SP_C + hp);
+                    break;
+                }
+                case Messages.MAX_HP: {
+                    int clientId = Integer.parseInt(parts[1]);
+                    int entityId = Integer.parseInt(parts[2]);
+                    int maxHp = Integer.parseInt(parts[3]);
+                    sendMessageToAllExpect(clientId, Messages.MAX_HP + SP_C + entityId + SP_C + maxHp);
+                    break;
+                }
+                case Messages.DAMAGE: {
+                    int clientId = Integer.parseInt(parts[1]);
+                    int entityId = Integer.parseInt(parts[2]);
+                    int damage = Integer.parseInt(parts[3]);
+                    sendMessageToAllExpect(clientId, Messages.DAMAGE + SP_C + entityId + SP_C + damage);
+                    break;
+                }
+                case Messages.ARMOR: {
+                    int clientId = Integer.parseInt(parts[1]);
+                    int entityId = Integer.parseInt(parts[2]);
+                    int armor = Integer.parseInt(parts[3]);
+                    sendMessageToAllExpect(clientId, Messages.ARMOR + SP_C + entityId + SP_C + armor);
+                    break;
+                }
+                default:
+                    consoleError("Message not recognized: " + message);
             }
-            case Messages.RESTART_GAME: {
-                int clientId = Integer.parseInt(parts[1]);
-                sendMessageToAllExpect(clientId, Messages.RESTART_GAME);
-                internalSleep(100);
-                sendMessage(Messages.CREATE_LEVEL, OWNER);
-                break;
-            }
-            case Messages.INIT_LEVEL: {
-                sendMessageToAllExpect(OWNER, Messages.INIT_LEVEL + SP_C + parts[1]);
-                break;
-            }
-            case Messages.ROOM_CHANGED: {
-                int clientId = Integer.parseInt(parts[1]);
-                Direction direction = Direction.parseDirection(parts[2]);
-                sendMessageToAllExpect(clientId, Messages.ROOM_CHANGED + SP_C + direction);
-                break;
-            }
-            case Messages.POSITION: {
-                int clientId = Integer.parseInt(parts[1]);
-                int entityId = Integer.parseInt(parts[2]);
-                float x = Float.parseFloat(parts[3]);
-                float y = Float.parseFloat(parts[4]);
-                Direction direction = Direction.parseDirection(parts[5]);
-                sendMessageToAllExpect(clientId, Messages.POSITION + SP_C + entityId + SP_C + x + SP_C + y + SP_C + direction);
-                break;
-            }
-            case Messages.SIZE: {
-                int clientId = Integer.parseInt(parts[1]);
-                int entityId = Integer.parseInt(parts[2]);
-                float width = Float.parseFloat(parts[3]);
-                float height = Float.parseFloat(parts[4]);
-                sendMessageToAllExpect(clientId, Messages.SIZE + SP_C + entityId + SP_C + width + SP_C + height);
-                break;
-            }
-            case Messages.SHOOT: {
-                int clientId = Integer.parseInt(parts[1]);
-                int entityId = Integer.parseInt(parts[2]);
-                Direction direction = Direction.parseDirection(parts[3]);
-                sendMessageToAllExpect(clientId, Messages.SHOOT + SP_C + entityId + SP_C + direction);
-                break;
-            }
-            case Messages.CREATE_ENTITY: {
-                internalSleep(25); // Sleep for wait until entities appear
-                int clientId = Integer.parseInt(parts[1]);
-                sendMessageToAllExpect(clientId, Messages.CREATE_ENTITY + SP_C + parts[2]);
-                break;
-            }
-            case Messages.CHANGE_FRAMES: {
-                int clientId = Integer.parseInt(parts[1]);
-                int entityId = Integer.parseInt(parts[2]);
-                String texturePath = parts[3];
-                int column = Integer.parseInt(parts[4]);
-                int rows = Integer.parseInt(parts[5]);
-                float frameDuration = Float.parseFloat(parts[6]);
-                sendMessageToAllExpect(clientId, Messages.CHANGE_FRAMES + SP_C + entityId + SP_C + texturePath + SP_C + column + SP_C + rows + SP_C + frameDuration);
-                break;
-            }
-            case Messages.CHANGE_TEXTURE: {
-                int clientId = Integer.parseInt(parts[1]);
-                int entityId = Integer.parseInt(parts[2]);
-                String texturePath = parts[3];
-                sendMessageToAllExpect(clientId, Messages.CHANGE_TEXTURE + SP_C + entityId + SP_C + texturePath);
-                break;
-            }
-            case Messages.VELOCITY: {
-                int clientId = Integer.parseInt(parts[1]);
-                int entityId = Integer.parseInt(parts[2]);
-                float velocity = Float.parseFloat(parts[3]);
-                sendMessageToAllExpect(clientId, Messages.VELOCITY + SP_C + entityId + SP_C + velocity);
-                break;
-            }
-            case Messages.HP: {
-                int clientId = Integer.parseInt(parts[1]);
-                int entityId = Integer.parseInt(parts[2]);
-                int hp = Integer.parseInt(parts[3]);
-                sendMessageToAllExpect(clientId, Messages.HP + SP_C + entityId + SP_C + hp);
-                break;
-            }
-            case Messages.MAX_HP: {
-                int clientId = Integer.parseInt(parts[1]);
-                int entityId = Integer.parseInt(parts[2]);
-                int maxHp = Integer.parseInt(parts[3]);
-                sendMessageToAllExpect(clientId, Messages.MAX_HP + SP_C + entityId + SP_C + maxHp);
-                break;
-            }
-            case Messages.DAMAGE: {
-                int clientId = Integer.parseInt(parts[1]);
-                int entityId = Integer.parseInt(parts[2]);
-                int damage = Integer.parseInt(parts[3]);
-                sendMessageToAllExpect(clientId, Messages.DAMAGE + SP_C + entityId + SP_C + damage);
-                break;
-            }
-            case Messages.ARMOR: {
-                int clientId = Integer.parseInt(parts[1]);
-                int entityId = Integer.parseInt(parts[2]);
-                int armor = Integer.parseInt(parts[3]);
-                sendMessageToAllExpect(clientId, Messages.ARMOR + SP_C + entityId + SP_C + armor);
-                break;
-            }
-            default:
-                consoleError("Message not recognized: " + message);
+        } catch (Exception e) {
+            consoleError("Message \"" + message + "\" has an error: " + e);
         }
     }
 
@@ -212,8 +227,7 @@ public class Server extends Thread {
 
         sendMessage(Messages.CONNECT + SP_C + clientsConnected, packet.getAddress(), packet.getPort());
         clients[clientsConnected] = new ClientData(packet.getAddress(), packet.getPort(), clientsConnected);
-        timers[clientsConnected] = new Timer();
-        timers[clientsConnected].start();
+        clients[clientsConnected].getTimer().start();
         consoleInfo("Client " + clients[clientsConnected].getId() + " connected");
         clientsConnected++;
         return true;
@@ -242,7 +256,6 @@ public class Server extends Thread {
         clientsConnected--;
         System.arraycopy(clients, index + 1, clients, index, clientsConnected - index);
         clients[clientsConnected] = null;
-        timers[clientsConnected] = null;
 
         if (wereMaxClients && clientsConnected != MAX_CLIENTS) {
             clearClients();
@@ -285,8 +298,8 @@ public class Server extends Thread {
     }
 
     private void checkTimeouts() {
-        for (int i = 0; i < timers.length; i++) {
-            if (timers[i] != null && timers[i].getSeconds() >= TIMEOUT_TIME) {
+        for (int i = 0; i < clients.length; i++) {
+            if (clients[i] != null && clients[i].getTimer().getSeconds() >= TIMEOUT_TIME) {
                 consoleWarning("Client " + clients[i].getId() + " was timed out for being absent for " + TIMEOUT_TIME + " seconds");
                 removeClient(i);
             }

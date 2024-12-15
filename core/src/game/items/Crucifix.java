@@ -17,7 +17,7 @@ public class Crucifix extends Item {
     }
 
     private boolean atLeastOneDeath() {
-        for (Playable player : Game.game.getPlayers()) {
+        for (Playable player : Game.game.allPlayers) {
             if (player.isDeath()) {
                 return true;
             }
@@ -30,7 +30,7 @@ public class Crucifix extends Item {
         Playable player;
 
         do {
-            player = Game.game.getPlayers().random();
+            player = Game.game.allPlayers.random();
         } while (!player.isDeath());
 
         Game.game.revivePlayer(player.getId());

@@ -4,6 +4,8 @@ import com.badlogic.gdx.graphics.Color;
 import utilities.ShapeRenderer;
 
 public final class Hitbox {
+    private static final String SPLIT_CHAR = "¨¨";
+
     public float x;
     public float y;
     public float width;
@@ -35,7 +37,16 @@ public final class Hitbox {
 
     @Override
     public String toString() {
-        return "[x=" + x + ", y=" + y + ", width=" + width + ", height=" + height + "]";
+        return x + SPLIT_CHAR + y + SPLIT_CHAR + width + SPLIT_CHAR + height;
+    }
+
+    public static Hitbox parseHitbox(String s) {
+        String[] parts = s.split(SPLIT_CHAR);
+        float x = Float.parseFloat(parts[0]);
+        float y = Float.parseFloat(parts[1]);
+        float w = Float.parseFloat(parts[2]);
+        float h = Float.parseFloat(parts[3]);
+        return new Hitbox(x, y, w, h);
     }
 
     public void drawShape(ShapeRenderer sr) {

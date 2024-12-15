@@ -117,10 +117,25 @@ public class Room extends Group {
         }
 
         if (Game.game instanceof OnePlayerGameScreen || GameData.clientNumber == Server.OWNER || (MultiplayerGameScreen.client != null && MultiplayerGameScreen.client.isSendingData())) {
-            entities.add(e);
-            if (getStage() != null) {
-                getStage().addActor(e);
-            }
+            showEntity(e);
+        }
+    }
+
+    public void showEntity(GameEntity e) {
+        entities.add(e);
+        if (getStage() != null) {
+            getStage().addActor(e);
+        }
+    }
+
+    public void removeEntity(GameEntity e, boolean isSendingServer) {
+        if (MultiplayerGameScreen.client != null && !isSendingServer) {
+            MultiplayerGameScreen.client.removeEntity(e.getId());
+        }
+
+        entities.remove(e);
+        if (getStage() != null) {
+            e.remove();
         }
     }
 

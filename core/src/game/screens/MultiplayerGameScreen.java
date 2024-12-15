@@ -31,6 +31,9 @@ public final class MultiplayerGameScreen extends AbstractGameScreen implements N
 
     @Override
     public void createEntity(GameEntity entity) {
+        if (entity.getId() < 0) { // Is a player
+            stage.addActor(entity);
+        }
         level.getMap().getCurrent().createEntity(entity);
     }
 
@@ -40,6 +43,11 @@ public final class MultiplayerGameScreen extends AbstractGameScreen implements N
             e.setPosition(x, y);
             e.setDirection(direction);
         });
+    }
+
+    @Override
+    public void removeEntity(int entityId) {
+        executeAtEntity(entityId, e -> level.getMap().getCurrent().removeEntity(e, true));
     }
 
     @Override

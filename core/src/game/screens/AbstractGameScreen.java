@@ -22,14 +22,14 @@ public class AbstractGameScreen extends SubScreen {
     protected static final float TRANSITION_TIME = FADE_TIME / 3f;
 
     private final Timer timer;
-    private final Array<Playable> players;
+    public final Array<Playable> allPlayers;
     private int coins;
     protected Level level;
     public Func onDoorsChanged;
 
     protected AbstractGameScreen(int quantityPlayers) {
         super();
-        players = new Array<>();
+        allPlayers = new Array<>();
         timer = new Timer();
         level = new Level1();
 
@@ -40,7 +40,7 @@ public class AbstractGameScreen extends SubScreen {
             player.setPosition(level.getInitX() - player.getWidth() / 2f, level.getInitY() - player.getHeight() / 2f);
             player.setId(-(i + 1));
             stage.addActor(player);
-            players.add(player);
+            allPlayers.add(player);
         }
     }
 
@@ -204,23 +204,28 @@ public class AbstractGameScreen extends SubScreen {
     }
 
     public void revivePlayer(int entityId) {
-        for (Playable player : players) {
-            if (player.getId() == entityId && player.isDeath()) {
-                player.setPosition(level.getInitX() - player.getWidth() / 2f, level.getInitY() - player.getHeight() / 2f);
-                stage.addActor(player);
-                player.addHp(player.getMaxHp() / 2); // Revive with half of the life
-                break;
-            } else {
+        for (Playable player : allPlayers) {
+            if (player.getId() != entityId) {
+                continue;
+            }
+
+            if (!player.isDeath()) {
                 throw new RuntimeException("Player with id " + entityId + " is not death");
             }
+
+            player.setPosition(level.getInitX() - player.getWidth() / 2f, level.getInitY() - player.getHeight() / 2f);
+            stage.addActor(player);
+
+            if (MultiplayerGameScreen.client != null && !MultiplayerGameScreen.client.isSendingData()) {
+                MultiplayerGameScreen.client.revivePlayer(entityId);
+            }
+
+            player.addHp(player.getMaxHp() / 2); // Revive with half of the life
+            break;
         }
     }
 
     public Playable getPlayer() {
-        if (getPlayers().isEmpty()) {
-            return new Adel();
-        }
-
         if (this instanceof OnePlayerGameScreen) {
             return getPlayers().get(0);
         } else {

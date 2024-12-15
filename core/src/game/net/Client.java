@@ -115,6 +115,16 @@ public class Client extends Thread {
                     GameData.networkListener.createEntity(GameEntity.parseEntity(parts[1]));
                 }
                 break;
+            case Messages.REMOVE_ENTITY:
+                if (GameData.networkListener != null) {
+                    GameData.networkListener.removeEntity(Integer.parseInt(parts[1]));
+                }
+                break;
+            case Messages.REVIVE_PLAYER:
+                if (GameData.networkListener != null) {
+                    GameData.networkListener.revivePlayer(Integer.parseInt(parts[1]));
+                }
+                break;
             case Messages.CHANGE_FRAMES:
                 if (GameData.networkListener != null) {
                     GameData.networkListener.changeFrames(Integer.parseInt(parts[1]), parts[2], Integer.parseInt(parts[3]), Integer.parseInt(parts[4]), Float.parseFloat(parts[5]));
@@ -189,6 +199,14 @@ public class Client extends Thread {
 
     public void createEntity(GameEntity e) {
         sendMessage(Messages.CREATE_ENTITY + SP_C + GameData.clientNumber + SP_C + e);
+    }
+
+    public void removeEntity(int entityId) {
+        sendMessage(Messages.REMOVE_ENTITY + SP_C + GameData.clientNumber + SP_C + entityId);
+    }
+
+    public void revivePlayer(int entityId) {
+        sendMessage(Messages.REVIVE_PLAYER + SP_C + GameData.clientNumber + SP_C + entityId);
     }
 
     public void changeFrames(int entityId, String texturePath, int columns, int rows, float frameDuration) {

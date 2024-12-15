@@ -30,16 +30,18 @@ public abstract class EnemyRoom extends Room {
     public void show() {
         super.show();
         if (spawnEntities && !isVisited()) {
-            generateEntities(quantityOfEntities);
+//            generateEntities(quantityOfEntities);
             createItems();
         }
+
+        showItems();
 
         Game.game.onDoorsChanged = direction -> {
             for (Door door : getDoors()) {
                 if (door.hasItem() && door.getDirection().equals(direction)) {
                     Item item = door.getItem();
                     Game.game.getPlayer().addItem(item);
-                    removeActor(item);
+                    removeEntity(item, false);
                 }
             }
         };
@@ -61,7 +63,7 @@ public abstract class EnemyRoom extends Room {
         for (Door door : getDoors()) {
             if (door.hasItem()) {
                 Item item = door.getItem();
-                createEntity(item);
+                showEntity(item);
             }
         }
     }
@@ -69,7 +71,7 @@ public abstract class EnemyRoom extends Room {
     private void hideItems() {
         for (Door door : getDoors()) {
             if (door.hasItem()) {
-                door.getItem().remove();
+                removeEntity(door.getItem(), false);
             }
         }
     }

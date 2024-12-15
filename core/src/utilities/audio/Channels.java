@@ -1,5 +1,6 @@
 package utilities.audio;
 
+import java.util.ConcurrentModificationException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -29,14 +30,18 @@ public final class Channels {
     }
 
     public static void updateVolume() {
-        audioChannels.forEach((channelName, audios) -> {
-            float volume = getChannelVolume(channelName) * volumeChannels.get(GLOBAL_CHANNEL);
-            if (audios != null) {
-                for (Audio audio : audios) {
-                    audio.setVolume(volume);
+        try {
+            audioChannels.forEach((channelName, audios) -> {
+                float volume = getChannelVolume(channelName) * volumeChannels.get(GLOBAL_CHANNEL);
+                if (audios != null) {
+                    for (Audio audio : audios) {
+                        audio.setVolume(volume);
+                    }
                 }
-            }
-        });
+            });
+        } catch (ConcurrentModificationException ignored) {
+
+        }
     }
 
     public static float getChannelVolume(String channel) {

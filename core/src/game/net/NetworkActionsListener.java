@@ -7,6 +7,8 @@ import game.utilities.Direction;
 public interface NetworkActionsListener {
     void createEntity(GameEntity entity);
     void moveEntity(int entityId, float x, float y, Direction direction);
+    void removeEntity(int entityId);
+    void revivePlayer(int entityId);
     void changeFrames(int entityId, String texturePath, int columns, int rows, float frameDuration);
     void changeTexture(int entityId, String texturePath);
     void changeSizeEntity(int entityId, float width, float height);

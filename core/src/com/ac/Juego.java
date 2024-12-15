@@ -8,7 +8,7 @@ import utilities.Settings;
 
 public final class Juego extends Game {
 	private final boolean isServerScreen;
-	private ServerChatScreen serverChatScreen;
+	private ServerConsoleScreen serverConsoleScreen;
 	public Server server;
 
 	public Juego(boolean isServerScreen) {
@@ -18,10 +18,10 @@ public final class Juego extends Game {
 	@Override
 	public void create() {
         if (isServerScreen) {
-            serverChatScreen = new ServerChatScreen();
-            server = new Server(serverChatScreen);
+            serverConsoleScreen = new ServerConsoleScreen();
+            server = new Server(serverConsoleScreen);
             server.start();
-            setScreen(serverChatScreen);
+            setScreen(serverConsoleScreen);
         } else {
             Settings.applySettings(Settings.getSettings());
             Render.app = this;

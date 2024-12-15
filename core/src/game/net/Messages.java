@@ -17,6 +17,8 @@ public class Messages {
     public static final String SIZE = "size";
     public static final String SHOOT = "shoot";
     public static final String CREATE_ENTITY = "create_entity";
+    public static final String REMOVE_ENTITY = "remove_entity";
+    public static final String REVIVE_PLAYER = "revive_player";
     public static final String CHANGE_FRAMES = "change_frames";
     public static final String CHANGE_TEXTURE = "change_texture";
     public static final String VELOCITY = "velocity";

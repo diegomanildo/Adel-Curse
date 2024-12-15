@@ -12,16 +12,16 @@ import com.badlogic.gdx.utils.Align;
 import utilities.Label;
 import utilities.Screen;
 
-public class ServerChatScreen extends Screen {
+public class ServerConsoleScreen extends Screen {
     private final Table table;
     private final ScrollPane scrollPane;
 
-    public ServerChatScreen() {
+    public ServerConsoleScreen() {
         Table container = new Table();
         container.setFillParent(true);
         container.setBackground(createSolidColorDrawable(new Color(0x141414ff)));
 
-        Label titleLabel = new Label("Server Chat");
+        Label titleLabel = new Label("Server Console");
         titleLabel.setFontScale(1.5f);
         titleLabel.setAlignment(Align.center);
         container.add(titleLabel).growX().pad(10f);

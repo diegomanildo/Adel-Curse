@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Matrix4;
 import game.hud.HudScreen;
+import game.items.Crucifix;
 import game.net.GameData;
 import game.screens.*;
 import menu.BasicMainMenuScreen;
@@ -71,9 +72,9 @@ public final class Game extends Screen {
             game.getPlayer().setVelocity(game.getPlayer().getVelocity() * 2f);
             game.getPlayer().addDamage(50);
         } else if (Gdx.input.isKeyJustPressed(Input.Keys.F2)) {
-            game.getPlayer().damage(Integer.MAX_VALUE);
-        } else if (Gdx.input.isKeyJustPressed(Input.Keys.F3)) {
-            game.revivePlayer(game.getPlayer().getId());
+            game.allPlayers.get(GameData.clientNumber).damage(Integer.MAX_VALUE);
+        } else if (Gdx.input.isKeyJustPressed(Input.Keys.F3) && Game.game instanceof MultiplayerGameScreen) {
+            game.allPlayers.get(GameData.clientNumber).addItem(new Crucifix());
         }
     }
 
