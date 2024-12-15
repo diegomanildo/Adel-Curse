@@ -2,17 +2,13 @@ package game.screens;
 
 import game.Game;
 import game.entities.GameEntity;
-import game.map.Door;
 import game.map.RoomMap;
 import game.net.Client;
 import game.net.GameData;
 import game.net.NetworkActionsListener;
 import game.net.Server;
-import game.rooms.EnemyRoom;
 import game.rooms.Room;
 import game.utilities.Direction;
-
-import java.util.ArrayList;
 
 public final class MultiplayerGameScreen extends AbstractGameScreen implements NetworkActionsListener {
     public static final int PLAYERS = Server.MAX_CLIENTS;
@@ -120,15 +116,6 @@ public final class MultiplayerGameScreen extends AbstractGameScreen implements N
     @Override
     public void changeRoom(Direction direction) {
         super.moveCamera(direction);
-    }
-
-    @Override
-    public void createItems(int roomId, ArrayList<Door> doors) {
-        executeAtRoom(roomId, room -> {
-            if (room instanceof EnemyRoom) {
-                ((EnemyRoom)room).createItems(doors);
-            }
-        });
     }
 
     // Override for not pause/resume the game

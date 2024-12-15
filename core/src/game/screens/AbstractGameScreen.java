@@ -9,10 +9,8 @@ import game.entities.characters.playables.Playable;
 import game.levels.Level;
 import game.levels.Level1;
 import game.map.Door;
-import game.map.RoomMap;
 import game.net.GameData;
 import game.net.Server;
-import game.rooms.Room;
 import game.utilities.*;
 import utilities.Actor;
 import utilities.SubScreen;
@@ -83,17 +81,6 @@ public class AbstractGameScreen extends SubScreen {
                 action.accept(entity);
             }
         });
-    }
-
-    // Helper method
-    protected void executeAtRoom(int roomId, Consumer<? super Room> action) {
-        for (int i = 0; i < RoomMap.map.length; i++) {
-            for (int j = 0; j < RoomMap.map[i].length; j++) {
-                if (RoomMap.map[i][j] != null && RoomMap.map[i][j].getId() == roomId) {
-                    action.accept(RoomMap.map[i][j]);
-                }
-            }
-        }
     }
 
     private void correctPositions() {

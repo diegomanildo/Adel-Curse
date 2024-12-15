@@ -17,13 +17,13 @@ public final class Juego extends Game {
 
 	@Override
 	public void create() {
-        Render.app = this;
         if (isServerScreen) {
             ServerConsoleScreen serverConsoleScreen = new ServerConsoleScreen();
             server = new Server(serverConsoleScreen);
             server.start();
-            Render.app.setScreen(new LoadingScreen(serverConsoleScreen));
+            setScreen(serverConsoleScreen);
         } else {
+            Render.app = this;
             Settings.applySettings(Settings.getSettings());
             Render.app.setScreen(new LoadingScreen(new MainMenuScreen()));
         }

@@ -1,7 +1,6 @@
 package game.net;
 
 import com.ac.ServerConsoleScreen;
-import game.map.Door;
 import game.net.utilities.Thread;
 import game.utilities.Direction;
 import utilities.Timer;
@@ -13,10 +12,9 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 
 public class Server extends Thread {
-    public static final int PORT = 22121;
+    public static final int PORT = 23325;
     public static final int HOST = 0;
     public static final String SP_C = "!"; // Special character
     public static final int MAX_CLIENTS = 2;
@@ -118,13 +116,6 @@ public class Server extends Thread {
                     int clientId = Integer.parseInt(parts[1]);
                     Direction direction = Direction.parseDirection(parts[2]);
                     sendMessageToAllExcept(clientId, Messages.ROOM_CHANGED + SP_C + direction);
-                    break;
-                }
-                case Messages.CREATE_ITEMS: {
-                    int clientId = Integer.parseInt(parts[1]);
-                    int roomId = Integer.parseInt(parts[2]);
-                    ArrayList<Door> doors = Door.toDoors(parts[3]);
-                    sendMessageToAllExcept(clientId, Messages.CREATE_ITEMS + SP_C + roomId + SP_C + Door.toString(doors));
                     break;
                 }
                 case Messages.POSITION: {

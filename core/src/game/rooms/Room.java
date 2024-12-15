@@ -26,14 +26,11 @@ public class Room extends Group {
     protected final Door up = new Door(Direction.UP, new Hitbox(174f, 190f, 20f, 30f));
     protected final Door down = new Door(Direction.DOWN, new Hitbox(174f, 20f, 20f, 30f));
 
-    private static int ids;
-
-    private final int id = ids++;
     private String mapFile;
     private TiledMap map;
     private RoomKinds roomKind;
     protected final Entities entities;
-    private ArrayList<Door> doors;
+    private final ArrayList<Door> doors;
     private boolean visited;
     private boolean isShowingDoors;
 
@@ -156,10 +153,6 @@ public class Room extends Group {
         return doors;
     }
 
-    public void setDoors(ArrayList<Door> doors) {
-        this.doors = doors;
-    }
-
     @Override
     public float getWidth() {
         return map.getProperties().get("width", Integer.class) * map.getProperties().get("tilewidth", Integer.class);
@@ -168,10 +161,6 @@ public class Room extends Group {
     @Override
     public float getHeight() {
         return map.getProperties().get("height", Integer.class) * map.getProperties().get("tileheight", Integer.class);
-    }
-
-    public int getId() {
-        return id;
     }
 
     public TiledMap getMap() {

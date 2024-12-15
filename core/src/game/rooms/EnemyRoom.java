@@ -7,6 +7,7 @@ import game.map.Door;
 import game.net.GameData;
 import game.net.Server;
 import game.screens.MultiplayerGameScreen;
+import game.screens.OnePlayerGameScreen;
 import game.utilities.EntityClassList;
 import game.utilities.Hitbox;
 import utilities.Utils;
@@ -63,7 +64,7 @@ public abstract class EnemyRoom extends Room {
         for (Door door : getDoors()) {
             if (door.hasItem()) {
                 Item item = door.getItem();
-                showEntity(item);
+                createEntity(item);
             }
         }
     }
@@ -114,48 +115,43 @@ public abstract class EnemyRoom extends Room {
     }
 
     private void createItems() {
-        ArrayList<Item> items = new ArrayList<>();
+        if (Game.game instanceof OnePlayerGameScreen || (MultiplayerGameScreen.client != null && GameData.clientNumber == Server.HOST)) {
+            ArrayList<Item> items = new ArrayList<>();
 
-        for (Door door : getDoors()) {
-            if (!door.hasItem()) {
-                Item item;
-                do {
-                    item = Item.ITEMS.getRandomItem();
-                } while (items.contains(item));
+            for (Door door : getDoors()) {
+                if (!door.hasItem()) {
+                    Item item;
+                    do {
+                        item = Item.ITEMS.getRandomItem();
+                    } while (items.contains(item));
 
-                items.add(item);
+                    items.add(item);
 
-                item.setSize(20f, 20f);
-                item.setPosition(door.getHitbox().x, door.getHitbox().y);
-                item.setRotation(door.getRotation());
+                    item.setSize(20f, 20f);
+                    item.setPosition(door.getHitbox().x, door.getHitbox().y);
+                    item.setRotation(door.getRotation());
 
-                switch (door.getDirection()) {
-                    case LEFT:
-                        item.setPosition(left.getHitbox().x + item.getWidth() + 5f, left.getHitbox().y);
-                        break;
-                    case RIGHT:
-                        item.setPosition(right.getHitbox().x + 13, right.getHitbox().y + item.getHeight());
-                        break;
-                    case UP:
-                        item.setPosition(up.getHitbox().x, up.getHitbox().y + 5f);
-                        break;
-                    case DOWN:
-                        item.setPosition(down.getHitbox().x + item.getHeight(), down.getHitbox().y + item.getWidth() + 5f);
-                        break;
-                    default:
-                        throw new RuntimeException("Invalid direction: " + door.getDirection());
+                    switch (door.getDirection()) {
+                        case LEFT:
+                            item.setPosition(left.getHitbox().x + item.getWidth() + 5f, left.getHitbox().y);
+                            break;
+                        case RIGHT:
+                            item.setPosition(right.getHitbox().x + 13, right.getHitbox().y + item.getHeight());
+                            break;
+                        case UP:
+                            item.setPosition(up.getHitbox().x, up.getHitbox().y + 5f);
+                            break;
+                        case DOWN:
+                            item.setPosition(down.getHitbox().x + item.getHeight(), down.getHitbox().y + item.getWidth() + 5f);
+                            break;
+                        default:
+                            throw new RuntimeException("Invalid direction: " + door.getDirection());
+                    }
+
+                    door.setItem(item);
                 }
-
-                door.setItem(item);
             }
         }
-        if (MultiplayerGameScreen.client != null && GameData.clientNumber == Server.HOST) {
-            MultiplayerGameScreen.client.createItems(getId(), getDoors());
-        }
-    }
-
-    public void createItems(ArrayList<Door> doors) {
-        setDoors(doors);
     }
 
     public boolean getSpawnEntities() {
