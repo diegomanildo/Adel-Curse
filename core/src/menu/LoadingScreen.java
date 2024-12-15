@@ -1,14 +1,18 @@
 package menu;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import game.utilities.AssetManager;
 import utilities.*;
 
 public final class LoadingScreen extends Screen {
     private final ProgressBar progressBar;
+    private final Screen nextScreen;
 
-    public LoadingScreen() {
+    public LoadingScreen(Screen nextScreen) {
         super();
+        this.nextScreen = nextScreen;
 
+        Render.assetManager = new AssetManager();
         progressBar = new ProgressBar(0f, 1f, 0.01f, false);
         Image background = new Image(FilePaths.BACKGROUNDS + "bgScreen.png");
         background.setSize(Render.screenSize.width, Render.screenSize.height);
@@ -30,7 +34,7 @@ public final class LoadingScreen extends Screen {
         super.render(delta);
 
         if (Render.assetManager.update()) {
-            Render.setScreen(new MainMenuScreen());
+            Render.setScreen(nextScreen);
         }
 
         // MUESTRA EL PORCENTAJE DE CARGA DE LA PANTALLA

@@ -43,9 +43,7 @@ public abstract class GameAnimation extends Actor {
     }
 
     private static TextureRegion[] getFrames(String texturePath, int columns, int rows) {
-        Texture texture;
-
-        texture = Render.assetManager.get(texturePath);
+        Texture texture = Render.assetManager.get(texturePath);
 
         TextureRegion[][] tmp = TextureRegion.split(texture, texture.getWidth() / columns, texture.getHeight() / rows);
         TextureRegion[] frames = new TextureRegion[columns * rows];

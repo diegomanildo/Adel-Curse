@@ -1,6 +1,7 @@
 package game.net;
 
 import com.ac.ServerConsoleScreen;
+import game.map.Door;
 import game.net.utilities.Thread;
 import game.utilities.Direction;
 import utilities.Timer;
@@ -12,6 +13,7 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 
 public class Server extends Thread {
     public static final int PORT = 22121;
@@ -118,6 +120,13 @@ public class Server extends Thread {
                     sendMessageToAllExpect(clientId, Messages.ROOM_CHANGED + SP_C + direction);
                     break;
                 }
+                case Messages.CREATE_ITEMS: {
+                    int clientId = Integer.parseInt(parts[1]);
+                    int roomId = Integer.parseInt(parts[2]);
+                    ArrayList<Door> doors = Door.toDoors(parts[3]);
+                    sendMessageToAllExpect(clientId, Messages.CREATE_ITEMS + SP_C + roomId + SP_C + Door.toString(doors));
+                    break;
+                }
                 case Messages.POSITION: {
                     int clientId = Integer.parseInt(parts[1]);
                     int entityId = Integer.parseInt(parts[2]);
@@ -217,6 +226,7 @@ public class Server extends Thread {
             }
         } catch (Exception e) {
             consoleError("Message \"" + message + "\" has an error: " + e);
+            e.printStackTrace();
         }
     }
 

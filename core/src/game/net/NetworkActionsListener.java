@@ -1,8 +1,11 @@
 package game.net;
 
 import game.entities.GameEntity;
+import game.map.Door;
 import game.rooms.Room;
 import game.utilities.Direction;
+
+import java.util.ArrayList;
 
 public interface NetworkActionsListener {
     void createEntity(GameEntity entity);
@@ -13,6 +16,7 @@ public interface NetworkActionsListener {
     void changeTexture(int entityId, String texturePath);
     void changeSizeEntity(int entityId, float width, float height);
     void changeRoom(Direction direction);
+    void createItems(int roomId, ArrayList<Door> doors);
     void createShoot(int entityId, Direction direction);
     void endGame();
     void initializeLevel(Room[][] rooms);

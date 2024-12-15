@@ -149,6 +149,13 @@ public abstract class EnemyRoom extends Room {
                 door.setItem(item);
             }
         }
+        if (MultiplayerGameScreen.client != null && GameData.clientNumber == Server.OWNER) {
+            MultiplayerGameScreen.client.createItems(getId(), getDoors());
+        }
+    }
+
+    public void createItems(ArrayList<Door> doors) {
+        setDoors(doors);
     }
 
     public boolean getSpawnEntities() {

@@ -17,7 +17,7 @@ public class Render {
     public static Skin skin = new Skin(Gdx.files.internal("uiskin.json"));
     public static Juego app;
     public static ShapeRenderer sr = new ShapeRenderer();
-    public static AssetManager assetManager = new AssetManager();
+    public static AssetManager assetManager;
 
     public static int fps = 60;
     public static boolean startGame = false;

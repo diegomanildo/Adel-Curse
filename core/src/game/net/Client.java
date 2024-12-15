@@ -2,6 +2,7 @@ package game.net;
 
 import game.Game;
 import game.entities.GameEntity;
+import game.map.Door;
 import game.map.MapHelper;
 import game.map.RoomMap;
 import game.net.utilities.Thread;
@@ -11,6 +12,7 @@ import utilities.Render;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.util.ArrayList;
 
 public class Client extends Thread {
     public static final int PORT = Server.PORT;
@@ -93,6 +95,11 @@ public class Client extends Thread {
             case Messages.ROOM_CHANGED:
                 if (GameData.networkListener != null) {
                     GameData.networkListener.changeRoom(Direction.parseDirection(parts[1]));
+                }
+                break;
+            case Messages.CREATE_ITEMS:
+                if (GameData.networkListener != null) {
+                    GameData.networkListener.createItems(Integer.parseInt(parts[1]), Door.toDoors(parts[2]));
                 }
                 break;
             case Messages.POSITION:
@@ -183,6 +190,10 @@ public class Client extends Thread {
 
     public void roomChanged(Direction direction) {
         sendMessage(Messages.ROOM_CHANGED + SP_C + GameData.clientNumber + SP_C + direction);
+    }
+
+    public void createItems(int roomId, ArrayList<Door> doors) {
+        sendMessage(Messages.CREATE_ITEMS + SP_C + GameData.clientNumber + SP_C + roomId + SP_C + Door.toString(doors));
     }
 
     public void updateEntityPosition(int entityId, float x, float y, Direction direction) {
