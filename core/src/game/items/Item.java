@@ -3,6 +3,7 @@ package game.items;
 import com.badlogic.gdx.graphics.Color;
 import game.entities.GameEntity;
 import game.entities.characters.playables.Playable;
+import game.utilities.Direction;
 import game.utilities.ItemList;
 import utilities.FilePaths;
 import utilities.Utils;
@@ -23,6 +24,7 @@ public abstract class Item extends GameEntity {
     protected Playable owner;
     private final ItemQuality quality;
     private final String description;
+    private Direction direction;
 
     protected Item(ItemQuality quality, String description, String textureName, int columns, int rows) {
         super(FilePaths.ITEMS + textureName, columns, rows, 0.4f);
@@ -58,6 +60,16 @@ public abstract class Item extends GameEntity {
 
     public Playable getOwner() {
         return owner;
+    }
+
+    @Override
+    public Direction getDirection() {
+        return direction;
+    }
+
+    @Override
+    public void setDirection(Direction direction) {
+        this.direction = direction;
     }
 
     @Override

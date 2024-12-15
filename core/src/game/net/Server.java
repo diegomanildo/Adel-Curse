@@ -135,6 +135,11 @@ public class Server extends Thread {
                     sendMessageToAllExcept(clientId, Messages.SIZE + SP_C + entityId + SP_C + width + SP_C + height);
                     break;
                 }
+                case Messages.ITEM: {
+                    int clientId = Integer.parseInt(parts[1]);
+                    sendMessageToAllExcept(clientId, Messages.ITEM + SP_C + parts[2] + SP_C + parts[3]);
+                    break;
+                }
                 case Messages.SHOOT: {
                     int clientId = Integer.parseInt(parts[1]);
                     int entityId = Integer.parseInt(parts[2]);

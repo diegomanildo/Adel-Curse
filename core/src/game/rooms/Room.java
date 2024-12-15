@@ -5,6 +5,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.utils.Array;
 import game.Game;
 import game.entities.GameEntity;
+import game.items.Item;
 import game.map.Door;
 import game.map.RoomKinds;
 import game.net.GameData;
@@ -136,6 +137,23 @@ public class Room extends Group {
         entities.remove(e);
         if (getStage() != null) {
             e.remove();
+        }
+    }
+
+    public void createItem(Item item, Direction direction) {
+        if (MultiplayerGameScreen.client != null) {
+            if (MultiplayerGameScreen.client.isSendingData()) {
+                for (Door door : doors) {
+                    if (door.getDirection() == direction) {
+                        door.setItem(item);
+                        return;
+                    }
+                }
+
+                throw new RuntimeException("Direction not valid: " + direction);
+            } else {
+                MultiplayerGameScreen.client.createItem(item, direction);
+            }
         }
     }
 

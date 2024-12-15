@@ -2,6 +2,7 @@ package game.screens;
 
 import game.Game;
 import game.entities.GameEntity;
+import game.items.Item;
 import game.map.RoomMap;
 import game.net.Client;
 import game.net.GameData;
@@ -65,6 +66,13 @@ public final class MultiplayerGameScreen extends AbstractGameScreen implements N
     @Override
     public void changeSizeEntity(int entityId, float width, float height) {
         executeAtEntity(entityId, e -> e.setSize(width, height));
+    }
+
+    @Override
+    public void createItem(Item item, Direction direction) {
+        if (level.getMap().getCurrent() != null) {
+            level.getMap().getCurrent().createItem(item, direction);
+        }
     }
 
     @Override

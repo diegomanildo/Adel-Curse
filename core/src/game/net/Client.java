@@ -2,6 +2,7 @@ package game.net;
 
 import game.Game;
 import game.entities.GameEntity;
+import game.items.Item;
 import game.map.MapHelper;
 import game.map.RoomMap;
 import game.net.utilities.Thread;
@@ -105,6 +106,11 @@ public class Client extends Thread {
                     GameData.networkListener.changeSizeEntity(Integer.parseInt(parts[1]), Float.parseFloat(parts[2]), Float.parseFloat(parts[3]));
                 }
                 break;
+            case Messages.ITEM:
+                if (GameData.networkListener != null) {
+                    GameData.networkListener.createItem((Item)GameEntity.parseEntity(parts[1]), Direction.parseDirection(parts[2]));
+                }
+                break;
             case Messages.SHOOT:
                 if (GameData.networkListener != null) {
                     GameData.networkListener.createShoot(Integer.parseInt(parts[1]), Direction.parseDirection(parts[2]));
@@ -191,6 +197,10 @@ public class Client extends Thread {
 
     public void updateEntitySize(int entityId, float width, float height) {
         sendMessage(Messages.SIZE + SP_C + GameData.clientNumber + SP_C + entityId + SP_C + width + SP_C + height);
+    }
+
+    public void createItem(Item item, Direction direction) {
+        sendMessage(Messages.ITEM + SP_C + GameData.clientNumber + SP_C + item + SP_C + direction);
     }
 
     public void createShoot(int entityId, Direction direction) {
