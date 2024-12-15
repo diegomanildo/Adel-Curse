@@ -1,12 +1,10 @@
 package game.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.utils.Timer;
 import game.items.Item;
+import utilities.Image;
 import utilities.Label;
-import utilities.Render;
-import utilities.ShapeRenderer;
 import utilities.SubScreen;
 
 import java.util.LinkedList;
@@ -19,9 +17,9 @@ public class ItemPickedScreen extends SubScreen {
     public static final float TOTAL_DURATION = 3f;
     public static final float STOP_DURATION = 1f;
 
-
     private final Label titleLabel;
     private final Label descriptionLabel;
+    private final Image backgroundImage;
     private float elapsedTime;
     private boolean started;
 
@@ -37,6 +35,8 @@ public class ItemPickedScreen extends SubScreen {
 
         itemQueue = new LinkedList<>();
 
+        backgroundImage = new Image("backgrounds/chatbox.png");
+        stage.addActor(backgroundImage);
         stage.addActor(titleLabel);
         stage.addActor(descriptionLabel);
     }
@@ -64,7 +64,6 @@ public class ItemPickedScreen extends SubScreen {
         titleLabel.setText(currentItem.getName());
         titleLabel.setColor(currentItem.getItemColor());
         descriptionLabel.setText(currentItem.getDescription());
-//        descriptionLabel.setColor(currentItem.getItemColor());
 
         titleLabel.pack();
         descriptionLabel.pack();
@@ -87,20 +86,9 @@ public class ItemPickedScreen extends SubScreen {
             float screenWidth = Gdx.graphics.getWidth();
             float screenHeight = Gdx.graphics.getHeight();
             float yPosition = screenHeight - HEIGHT - 100f;
-
             float xPosition = getXPosition(screenWidth);
 
-            // Render the background rectangle
-            Render.sr.begin(ShapeRenderer.ShapeType.Filled);
-            Render.sr.setColor(Color.BLACK);
-            Render.sr.rect(xPosition, yPosition, WIDTH, HEIGHT);
-            Render.sr.end();
-
-            // Render the border
-            Render.sr.begin(ShapeRenderer.ShapeType.Line);
-            Render.sr.setColor(Color.WHITE);
-            Render.sr.rect(xPosition, yPosition, WIDTH, HEIGHT);
-            Render.sr.end();
+            backgroundImage.setBounds(xPosition, yPosition, WIDTH, HEIGHT);
 
             titleLabel.setPosition(xPosition + (WIDTH - titleLabel.getPrefWidth()) / 2f, yPosition + HEIGHT - titleLabel.getPrefHeight() - 10f);
             descriptionLabel.setPosition(xPosition + (WIDTH - descriptionLabel.getPrefWidth()) / 2f, yPosition + (HEIGHT - descriptionLabel.getPrefHeight()) / 2f);

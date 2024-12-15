@@ -11,8 +11,9 @@ public class AssetManager extends com.badlogic.gdx.assets.AssetManager {
         setLoader(TiledMap.class, new TmxMapLoader());
 
         load(FilePaths.IMAGES + "backgrounds/backgroundsAux.png", Texture.class);
-        load(FilePaths.IMAGES + "backgrounds/deathScreen.png", Texture.class);
         load(FilePaths.IMAGES + "backgrounds/bgScreen.png", Texture.class);
+        load(FilePaths.IMAGES + "backgrounds/chatbox.png", Texture.class);
+        load(FilePaths.IMAGES + "backgrounds/deathScreen.png", Texture.class);
         load(FilePaths.IMAGES + "backgrounds/winScreen.png", Texture.class);
 
         load(FilePaths.IMAGES + "characters/adel/adel0.png", Texture.class);

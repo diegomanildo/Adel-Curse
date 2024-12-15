@@ -1,28 +1,30 @@
 package game.utilities;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import game.screens.ChatScreen;
+import utilities.Image;
 import utilities.Label;
-import utilities.Render;
-import utilities.ShapeRenderer;
 import utilities.audio.Sound;
 
 public class ChatBox extends Label {
-    public String text;
+    private static final float EXTENSION = 70f;
+
+    private final Image image;
     private final Sound typing;
-    private float transitionTime;
-    private boolean inTransition;
+    public String text;
     private String displayedText;
+    private float transitionTime;
     private float elapsedTime;
+    private boolean inTransition;
 
     public ChatBox(String text) {
         super();
         this.text = text;
-        typing = new Sound("Sfx", "typing.mp3");
-        inTransition = false;
-        displayedText = "";
-        elapsedTime = 0f;
+        this.displayedText = "";
+        this.image = new Image("backgrounds/chatbox.png");
+        this.typing = new Sound("Sfx", "typing.mp3");
+        this.inTransition = false;
+        this.elapsedTime = 0f;
     }
 
     public ChatBox() {
@@ -31,20 +33,25 @@ public class ChatBox extends Label {
 
     @Override
     public void setText(CharSequence newText) {
-        this.text = (String) newText;
+        this.text = newText.toString();
+        this.displayedText = "";
+        super.setText("");
     }
 
     public void complete() {
         elapsedTime = transitionTime;
-        update(Gdx.graphics.getDeltaTime());
+        displayedText = text;
+        super.setText(displayedText);
+        endTransition();
     }
 
     public void startTransition(float transitionTime, boolean reproduceSound) {
-        elapsedTime = 0f;
-        displayedText = "";
-        inTransition = true;
         this.transitionTime = transitionTime;
-        if (reproduceSound) {
+        this.elapsedTime = 0f;
+        this.displayedText = "";
+        this.inTransition = true;
+
+        if (reproduceSound && !typing.isPlaying()) {
             typing.play(true);
         }
     }
@@ -54,8 +61,10 @@ public class ChatBox extends Label {
     }
 
     private void endTransition() {
-        inTransition = false;
-        typing.stop();
+        if (inTransition) {
+            inTransition = false;
+            typing.stop();
+        }
     }
 
     @Override
@@ -67,42 +76,30 @@ public class ChatBox extends Label {
     }
 
     private void update(float delta) {
-        if (displayedText.length() < text.length()) {
-            int charsToShow = (int) ((elapsedTime / transitionTime) * text.length());
+        elapsedTime += delta;
 
-            charsToShow = Math.min(charsToShow, text.length());
-            displayedText = text.substring(0, charsToShow);
-            super.setText(displayedText);
-            elapsedTime += delta;
-        }
+        int charsToShow = (int) ((elapsedTime / transitionTime) * text.length());
+        charsToShow = Math.min(charsToShow, text.length());
 
-        if (equals(displayedText, text)) {
+        displayedText = text.substring(0, charsToShow);
+        super.setText(displayedText);
+
+        if (displayedText.equals(text)) {
             endTransition();
         }
     }
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
-        batch.end();
+        if (this instanceof ChatScreen.BigChatBox) {
+            image.setPosition(getX() - EXTENSION, getY() - EXTENSION);
+            image.setSize(getWidth() + EXTENSION * 2, getHeight() + EXTENSION * 2);
+        } else {
+            image.setPosition(getX(), getY());
+            image.setSize(getWidth(), getHeight());
+        }
 
-        Render.sr.begin(ShapeRenderer.ShapeType.Filled);
-
-        // Black background
-        Render.sr.setColor(Color.BLACK);
-        Render.sr.rect(getX(), getY(), getWidth(), getHeight());
-
-        Render.sr.end();
-
-        Render.sr.begin(ShapeRenderer.ShapeType.Line);
-
-        // White border
-        Render.sr.setColor(Color.WHITE);
-        Render.sr.rect(getX(), getY(), getWidth(), getHeight());
-
-        Render.sr.end();
-
-        batch.begin();
-
+        image.draw(batch, parentAlpha);
         super.draw(batch, parentAlpha);
     }
 
@@ -112,19 +109,5 @@ public class ChatBox extends Label {
 
     public boolean isShowing() {
         return getStage() != null;
-    }
-
-    private static boolean equals(String s1, String s2) {
-        if (s1.length() != s2.length()) {
-            return false;
-        }
-
-        for (int i = 0; i < s1.length(); i++) {
-            if (s1.charAt(i) != s2.charAt(i)) {
-                return false;
-            }
-        }
-
-        return true;
     }
 }

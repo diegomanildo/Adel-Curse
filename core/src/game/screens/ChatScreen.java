@@ -15,8 +15,8 @@ public class ChatScreen extends SubScreen {
     private static final float FULL_PADDING = 100f;
     private static final float TYPING_TIME = 0.025f;
 
-    private static abstract class CommonChatBox extends ChatBox {
-        private String key;
+    public static abstract class CommonChatBox extends ChatBox {
+        public String key;
 
         public CommonChatBox() {
             super();
@@ -34,7 +34,7 @@ public class ChatScreen extends SubScreen {
         }
     }
 
-    private class BigChatBox extends CommonChatBox {
+    public class BigChatBox extends CommonChatBox {
         @Override
         public void startTransition(float transitionTime, boolean reproduceSound) {
             super.startTransition(transitionTime, reproduceSound);
@@ -61,14 +61,14 @@ public class ChatScreen extends SubScreen {
         }
     }
 
-    private class FullChatBox extends BigChatBox {
+    public class FullChatBox extends BigChatBox {
         public FullChatBox() {
             super();
             setBounds(FULL_PADDING, FULL_PADDING, Render.screenSize.width - FULL_PADDING * 2f, Render.screenSize.height - FULL_PADDING * 2f);
         }
     }
 
-    private static class TinyChatBox extends CommonChatBox {
+    public static class TinyChatBox extends CommonChatBox {
         public TinyChatBox() {
             super();
             setAlignment(Align.center);
