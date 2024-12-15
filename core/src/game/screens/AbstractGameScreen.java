@@ -46,7 +46,7 @@ public class AbstractGameScreen extends SubScreen {
             allPlayers.add(player);
 
             // To fix a HUD bug
-            if (i != Server.OWNER) {
+            if (i != Server.HOST) {
                 player.damage(1);
                 player.addHp(1);
             }

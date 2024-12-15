@@ -84,7 +84,7 @@ public abstract class EnemyRoom extends Room {
     }
 
     private void generateEntity() {
-        if (Game.game instanceof MultiplayerGameScreen && (MultiplayerGameScreen.client == null || GameData.clientNumber != Server.OWNER)) {
+        if (Game.game instanceof MultiplayerGameScreen && (MultiplayerGameScreen.client == null || GameData.clientNumber != Server.HOST)) {
             return;
         }
 
@@ -149,7 +149,7 @@ public abstract class EnemyRoom extends Room {
                 door.setItem(item);
             }
         }
-        if (MultiplayerGameScreen.client != null && GameData.clientNumber == Server.OWNER) {
+        if (MultiplayerGameScreen.client != null && GameData.clientNumber == Server.HOST) {
             MultiplayerGameScreen.client.createItems(getId(), getDoors());
         }
     }

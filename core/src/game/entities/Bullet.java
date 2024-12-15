@@ -102,7 +102,7 @@ public final class Bullet extends MovableObject {
     }
 
     private boolean canReceiveDamage() {
-        return Game.game instanceof OnePlayerGameScreen || (MultiplayerGameScreen.client != null && GameData.clientNumber == Server.OWNER);
+        return Game.game instanceof OnePlayerGameScreen || (MultiplayerGameScreen.client != null && GameData.clientNumber == Server.HOST);
     }
 
     // Check if the parent is not the same entity and if collides with the bullet

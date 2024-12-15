@@ -115,11 +115,11 @@ public class Room extends Group {
     }
 
     public void createEntity(GameEntity e) {
-        if (MultiplayerGameScreen.client != null && GameData.clientNumber == Server.OWNER) {
+        if (MultiplayerGameScreen.client != null && GameData.clientNumber == Server.HOST) {
             MultiplayerGameScreen.client.createEntity(e);
         }
 
-        if (Game.game instanceof OnePlayerGameScreen || GameData.clientNumber == Server.OWNER || (MultiplayerGameScreen.client != null && MultiplayerGameScreen.client.isSendingData())) {
+        if (Game.game instanceof OnePlayerGameScreen || GameData.clientNumber == Server.HOST || (MultiplayerGameScreen.client != null && MultiplayerGameScreen.client.isSendingData())) {
             showEntity(e);
         }
     }

@@ -29,7 +29,7 @@ public abstract class Enemy extends Character {
 
     @Override
     protected boolean online_canSendToServer() {
-        return super.online_canSendToServer() && GameData.clientNumber == Server.OWNER;
+        return super.online_canSendToServer() && GameData.clientNumber == Server.HOST;
     }
 
     private void target(float playerX, float playerY, float enemyX, float enemyY){
