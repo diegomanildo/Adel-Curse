@@ -10,6 +10,7 @@ import game.levels.Level;
 import game.levels.Level1;
 import game.map.Door;
 import game.net.GameData;
+import game.net.Server;
 import game.utilities.*;
 import utilities.Actor;
 import utilities.SubScreen;
@@ -41,6 +42,11 @@ public class AbstractGameScreen extends SubScreen {
             player.setId(-(i + 1));
             stage.addActor(player);
             allPlayers.add(player);
+
+            if (i != Server.OWNER) {
+                player.damage(1);
+                player.addHp(1);
+            }
         }
     }
 
