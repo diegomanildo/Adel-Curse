@@ -28,7 +28,7 @@ public class Client extends Thread {
 
     private void initAll() {
         try {
-            ip = InetAddress.getByName("192.168.0.255");
+            ip = InetAddress.getByName("255.255.255.255");
             socket = new DatagramSocket();
         } catch (Exception e) {
             throw new RuntimeException(e);
