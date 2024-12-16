@@ -16,42 +16,40 @@ import utilities.TextButton;
 public class Store extends WidgetGroup {
     public static final float SIZE_MULTIPLIER = 3f;
     public static final int ITEMS_QUANTITY = 3;
+
     private final Array<Item> items;
 
     public Store(Runnable exit) {
+        items = new Array<>();
+
+        Image backgroundImage = new Image("backgrounds/chatbox.png");
+        backgroundImage.setFillParent(true);
+        addActor(backgroundImage);
 
         Table table = new Table();
         table.setFillParent(true);
         table.top();
+
         Label shopLabel = new Label("Shop");
         shopLabel.setFontScale(1.5f);
         table.add(shopLabel).center().expandX();
 
-        addActor(table);
         TextButton exitButton = new TextButton("X", exit);
         table.add(exitButton).right();
 
-        items = new Array<>();
+        generateItems(table);
 
+        addActor(table);
+    }
+
+    private void generateItems(Table table) {
         for (int i = 0; i < ITEMS_QUANTITY; i++) {
-            Item item;
+            Item item = getRandomUniqueItem();
 
-            do {
-                item = Item.ITEMS.getRandomItem();
-            } while (items.contains(item, false));
-
-            items.add(item);
+            item.setSize(item.getWidth() * SIZE_MULTIPLIER, item.getHeight() * SIZE_MULTIPLIER);
 
             Image coin = new Image("icons/coin.png");
-            TextButton itemButton = new TextButton(item);
-            Item finalItem = item;
-            item.setSize(finalItem.getWidth() * SIZE_MULTIPLIER, finalItem.getHeight() * SIZE_MULTIPLIER);
-            itemButton.addChangeListener(() -> {
-                finalItem.setSize(finalItem.getWidth() / SIZE_MULTIPLIER, finalItem.getHeight() / SIZE_MULTIPLIER);
-                finalItem.changeOwnerTo(Game.game.getPlayer());
-                finalItem.addToOwner();
-                itemButton.remove();
-            });
+            TextButton itemButton = createItemButton(item);
 
             table.row().padTop(10f);
             table.add(coin);
@@ -59,22 +57,34 @@ public class Store extends WidgetGroup {
         }
     }
 
+    private Item getRandomUniqueItem() {
+        Item item;
+        do {
+            item = Item.ITEMS.getRandomItem();
+        } while (items.contains(item, false));
+
+        items.add(item);
+        return item;
+    }
+
+    private TextButton createItemButton(Item item) {
+        TextButton itemButton = new TextButton("");
+        TextButton finalItemButton = itemButton;
+        itemButton = new TextButton(item.getName(), () -> {
+            item.changeOwnerTo(Game.game.getPlayer());
+            item.addToOwner();
+            items.removeValue(item, false);
+            finalItemButton.remove();
+        });
+        return itemButton;
+    }
+
     @Override
     public void draw(Batch batch, float parentAlpha) {
-        batch.end();
-
-        Render.sr.begin(ShapeRenderer.ShapeType.Filled);
-
-        Render.sr.setColor(Color.BLACK);
-        Render.sr.rect(getX(), getY(), getWidth(), getHeight());
-
-        Render.sr.set(ShapeRenderer.ShapeType.Line);
+        super.draw(batch, parentAlpha);
+        Render.sr.begin(ShapeRenderer.ShapeType.Line);
         Render.sr.setColor(Color.WHITE);
         Render.sr.rect(getX(), getY(), getWidth(), getHeight());
-
         Render.sr.end();
-
-        batch.begin();
-        super.draw(batch, parentAlpha);
     }
 }
