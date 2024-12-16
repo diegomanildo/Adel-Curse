@@ -82,7 +82,7 @@ public class Server extends Thread {
                     boolean goodConnected = connectClient(packet);
                     if (goodConnected && clientsConnected == MAX_CLIENTS) {
                         sendMessageToAll(Messages.START_GAME);
-                        internalSleep(100);
+                        internalSleep(1000);
                         sendMessage(Messages.CREATE_LEVEL, HOST);
                     }
                     break;
