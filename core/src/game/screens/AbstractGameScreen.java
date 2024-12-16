@@ -233,6 +233,10 @@ public class AbstractGameScreen extends SubScreen {
     }
 
     public Playable getPlayer() {
+        if (getPlayers().isEmpty()) {
+            return new Adel();
+        }
+
         if (this instanceof OnePlayerGameScreen) {
             return getPlayers().get(0);
         } else {
