@@ -31,7 +31,7 @@ public abstract class EnemyRoom extends Room {
     public void show() {
         super.show();
         if (spawnEntities && !isVisited()) {
-//            generateEntities(quantityOfEntities);
+            generateEntities(quantityOfEntities);
             createItems();
         }
 
