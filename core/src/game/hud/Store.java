@@ -71,10 +71,14 @@ public class Store extends WidgetGroup {
         TextButton itemButton = new TextButton("");
         TextButton finalItemButton = itemButton;
         itemButton = new TextButton(item.getName(), () -> {
-            item.changeOwnerTo(Game.game.getPlayer());
-            item.addToOwner();
-            items.removeValue(item, false);
-            finalItemButton.remove();
+
+            if (Game.game.getCoins() >= 1) {
+                Game.game.addCoins(-1);
+                item.changeOwnerTo(Game.game.getPlayer());
+                item.addToOwner();
+                items.removeValue(item, false);
+                finalItemButton.remove();
+            }
         });
         return itemButton;
     }
