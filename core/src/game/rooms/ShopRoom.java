@@ -16,7 +16,7 @@ public final class ShopRoom extends Room {
     private static final String SHOP_KEY = "Shop";
     private static final String INTERACT_KEY = "Interact";
 
-    public static Song shopSong = new Song("Music", "game/music/ShopIntro.mp3", "game/music/Shop.mp3");
+    public static Song shopSong = new Song("Music", "game/music/shopIntro.mp3", "game/music/shop.mp3");
     private final ArrayList<Item> items;
     private final ShopKeeper shopKeeper;
 
